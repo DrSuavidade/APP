@@ -1,7 +1,7 @@
 // screens/signup_name.dart
 import 'package:flutter/material.dart';
 
-class SignupNameScreen extends StatelessWidget {
+class SignupNamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

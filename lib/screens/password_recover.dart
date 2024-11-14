@@ -1,7 +1,7 @@
 // screens/password_recover.dart
 import 'package:flutter/material.dart';
 
-class PasswordRecoverScreen extends StatelessWidget {
+class PasswordRecoverPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
