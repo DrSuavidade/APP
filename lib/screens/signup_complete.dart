@@ -9,7 +9,7 @@ class SignupCompleteScreen extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           child: Text("Back to Login"),
-          onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
+          onPressed: () => Navigator.pushNamed(context, '/'),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blue,
             foregroundColor: Colors.white,

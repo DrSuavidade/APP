@@ -134,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                 // "Registrar" Button
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/signup_name');
+                    Navigator.pushNamed(context, '/signup_email');
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

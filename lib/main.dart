@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => LoginPage(),
-        '/signup_email': (context) => SignupEmailScreen(),
+        '/signup_email': (context) => SignupEmailPage(),
         '/signup_name': (context) => SignupNamePage(),
         '/signup_password': (context) => SignupPasswordScreen(),
         '/signup_complete': (context) => SignupCompleteScreen(),
