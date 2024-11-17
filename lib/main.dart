@@ -30,8 +30,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => LoginPage(),
-        '/signup_email': (context) => SignupEmailPage(),
-        '/signup_name': (context) => SignupNamePage(),
+        '/signup_email': (context) => SignupEmailScreen(),
+        '/signup_name': (context) => SignupNameScreen(),
         '/signup_password': (context) => SignupPasswordScreen(),
         '/signup_complete': (context) => SignupCompleteScreen(),
         '/home': (context) => HomeScreen(),
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         '/add_player_bd': (context) => AddPlayerBDScreen(),
         '/add_player_name': (context) => AddPlayerNameScreen(),
         '/privacidade': (context) => PrivacidadeScreen(),
-        '/password_recover': (context) => PasswordRecoverPage(),
+        '/password_recover': (context) => PasswordRecoverScreen(),
         '/password_recover_confirm': (context) => PasswordRecoverConfirmScreen(),
       },
     );

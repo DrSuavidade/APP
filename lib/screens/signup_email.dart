@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 
-class SignupEmailPage extends StatelessWidget {
+class SignupEmailScreen extends StatelessWidget {
   final _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: Text("Página REGISTRAR", style: TextStyle(color: Colors.grey)),
-        backgroundColor: Colors.black,
-        elevation: 0,
-      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32.0),
         child: Center(
