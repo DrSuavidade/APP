@@ -1,48 +1,101 @@
-// screens/perfil.dart
 import 'package:flutter/material.dart';
 
 class PerfilScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Profile")),
-      body: Center(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text("PERFIL", style: TextStyle(color: Colors.white)),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              child: Text("Edit Email"),
-              onPressed: () => Navigator.pushNamed(context, '/perfil_email'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-              ),
+          children: [
+            // Profile Picture and User Info
+            CircleAvatar(
+              radius: 40,
+              backgroundColor: Colors.grey[700],
+              child: Icon(Icons.person, color: Colors.white, size: 40),
             ),
-            ElevatedButton(
-              child: Text("Edit Password"),
-              onPressed: () => Navigator.pushNamed(context, '/perfil_password'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-              ),
+            SizedBox(height: 16),
+            Text(
+              "Arasilva\nNOME: Armando Silva\nEMAIL: armandosilva@gmail.com",
+              style: TextStyle(color: Colors.white),
+              textAlign: TextAlign.center,
             ),
-            ElevatedButton(
-              child: Text("Privacy Settings"),
-              onPressed: () => Navigator.pushNamed(context, '/privacidade'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-              ),
+            SizedBox(height: 8),
+            Text(
+              "SCOUTER\n5 avaliações",
+              style: TextStyle(color: Colors.green),
+              textAlign: TextAlign.center,
             ),
+            SizedBox(height: 32),
+            // Buttons Section
+            _buildCustomButton(context, "ALTERAR PASSWORD", () => Navigator.pushNamed(context, '/perfil_password')),
+            SizedBox(height: 10),
+            _buildCustomButton(context, "ALTERAR EMAIL", () => Navigator.pushNamed(context, '/perfil_email')),
+            SizedBox(height: 10),
+            _buildCustomButton(context, "POLÍTICAS DE PRIVACIDADE", () => Navigator.pushNamed(context, '/privacidade')),
+            Spacer(),
+            // Logout Button
             ElevatedButton(
-              child: Text("Logout"),
-              onPressed: () => Navigator.pushNamed(context, '/login'),
+              onPressed: () {
+                Navigator.pushNamed(context, '/'); // Navigate to login.dart
+              },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
+                backgroundColor: Colors.red,
+                padding: EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              ),
+              child: Text("TERMINAR SESSÃO", style: TextStyle(color: Colors.white, fontSize: 16)),
+            ),
+            SizedBox(height: 16),
+            // Delete Account Link
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/'); // Navigate to login.dart
+              },
+              child: Text(
+                "APAGAR CONTA?",
+                style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCustomButton(BuildContext context, String label, VoidCallback onPressed) {
+    return Container(
+      width: double.infinity,
+      height: 50,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey[800],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              label,
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+          ),
         ),
       ),
     );
