@@ -16,16 +16,19 @@ class HistoricoScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         elevation: 0,
         title: Row(
           children: [
-            IconButton(
+            Builder(
+            builder: (context) => IconButton(
               icon: Icon(Icons.menu, color: Colors.white),
               onPressed: () {
-                openHamburgerMenu(context);
+                Scaffold.of(context).openDrawer(); // Open the custom drawer
               },
             ),
+          ),
             Spacer(),
             Image.asset(
               'assets/images/Logofinal1.png',
@@ -34,6 +37,7 @@ class HistoricoScreen extends StatelessWidget {
           ],
         ),
       ),
+      drawer: HamburgerMenu(),
       body: Column(
         children: [
           // Search Bar
@@ -90,105 +94,119 @@ class HistoricoScreen extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          // Shadow Rectangle for Depth
-          Positioned(
-            bottom: 16, // Slightly below the actual navbar
-            left: 16,
-            right: 16,
-            child: Container(
-              height: 70,
-              decoration: BoxDecoration(
-                color:
-                    const Color.fromARGB(255, 36, 36, 36), // Dark shadow color
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-          ),
-          // Actual Bottom Navigation Bar
-          Container(
-            margin: EdgeInsets.fromLTRB(
-                16, 16, 16, 24), // Adjusted margin for the bottom
-            height: 64,
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 77, 77, 77),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  alignment: Alignment.bottomCenter,
+  children: [
+    // Shadow Rectangle for Depth
+    Positioned(
+      bottom: 16, // Slightly below the actual navbar
+      left: 16,
+      right: 16,
+      child: Container(
+        height: 70,
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 36, 36, 36), // Dark shadow color
+          borderRadius: BorderRadius.circular(16),
+        ),
+      ),
+    ),
+    // Actual Bottom Navigation Bar
+    Container(
+      margin: EdgeInsets.fromLTRB(16, 16, 16, 24), // Adjusted margin for the bottom
+      height: 64,
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 77, 77, 77),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // Calendar Button
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/calendar'); // Navigate to calendar
+              },
+              child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/calendar'); // Navigate to calendar
-                    },
-                    child: Container(
-                      height: double.infinity,
-                      width: 64,
-                      decoration: BoxDecoration(
-                        color: 0 == 2 // Highlight condition
-                            ? Colors.grey[600] // Selected button background
-                            : Colors.transparent, // Default button background
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Icon(
-                        Icons.calendar_today,
-                        color:
-                            0 == 2 ? Colors.white : Colors.grey, // Icon color
-                        size: 34,
-                      ),
+                  Container(
+                    height: double.infinity,
+                    width: 80, // Highlight width (wider for selected)
+                    decoration: BoxDecoration(
+                      color: 0 == 2 // Highlight condition
+                          ? Colors.grey[600] // Selected button background
+                          : Colors.transparent, // Default button background
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/home');
-                    },
-                    child: Container(
-                      height: double.infinity,
-                      width: 64,
-                      decoration: BoxDecoration(
-                        color: 1 == 2 // Highlight condition
-                            ? Colors.grey[600] // Selected button background
-                            : Colors.transparent, // Default button background
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Icon(
-                        Icons.sports_soccer,
-                        color:
-                            1 == 2 ? Colors.white : Colors.grey, // Icon color
-                        size: 34,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/calendar');
-                    },
-                    child: Container(
-                      height: double.infinity,
-                      width: 104,
-                      decoration: BoxDecoration(
-                        color: 2 == 2 // Highlight condition
-                            ? Colors.grey[600] // Selected button background
-                            : Colors.transparent, // Default button background
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Icon(
-                        Icons.history,
-                        color:
-                            2 == 2 ? Colors.white : Colors.grey, // Icon color
-                        size: 34,
-                      ),
-                    ),
+                  Icon(
+                    Icons.calendar_today,
+                    color: 0 == 2 ? Colors.white : Colors.grey, // Icon color
+                    size: 34,
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+            // Soccer Button
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    height: double.infinity,
+                    width: 80, // Highlight width (wider for selected)
+                    decoration: BoxDecoration(
+                      color: 1 == 2 // Highlight condition
+                          ? Colors.grey[600] // Selected button background
+                          : Colors.transparent, // Default button background
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  Icon(
+                    Icons.sports_soccer,
+                    color: 1 == 2 ? Colors.white : Colors.grey, // Icon color
+                    size: 34,
+                  ),
+                ],
+              ),
+            ),
+            // History Button
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/historico'); // Navigate to historico
+              },
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    height: double.infinity,
+                    width: 104, // Highlight width (wider for selected)
+                    decoration: BoxDecoration(
+                      color: 2 == 2 // Highlight condition
+                          ? Colors.grey[600] // Selected button background
+                          : Colors.transparent, // Default button background
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  Icon(
+                    Icons.history,
+                    color: 2 == 2 ? Colors.white : Colors.grey, // Icon color
+                    size: 34,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
+    ),
+  ],
+),
+
     );
   }
 

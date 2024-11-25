@@ -18,12 +18,14 @@ class AddPlayerBDScreen extends StatelessWidget {
         elevation: 0,
         title: Row(
           children: [
-            IconButton(
+            Builder(
+            builder: (context) => IconButton(
               icon: Icon(Icons.menu, color: Colors.white),
               onPressed: () {
-                openHamburgerMenu(context); // Use the reusable menu
+                Scaffold.of(context).openDrawer(); // Open the custom drawer
               },
             ),
+          ),
             Spacer(),
             Image.asset(
               'assets/images/Logofinal1.png',
@@ -32,6 +34,7 @@ class AddPlayerBDScreen extends StatelessWidget {
           ],
         ),
       ),
+      drawer: HamburgerMenu(),
       body: Column(
         children: [
           // Search Bar
