@@ -33,12 +33,17 @@ class HomeScreen extends StatelessWidget {
             // Future Games Section
             Text(
               "PRÓXIMAS PARTIDAS",
-              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             SizedBox(height: 10),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/add_player'); // Navigate to add_player.dart
+                Navigator.pushNamed(
+                    context, '/add_player'); // Navigate to add_player.dart
               },
               child: Container(
                 padding: EdgeInsets.all(16),
@@ -55,7 +60,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                     Text(
                       "A.F. VISEU   FC VAGUEENSE",
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Text(
                       "Estádio Municipal do Fontelo",
@@ -68,7 +76,8 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 10),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/add_player'); // Navigate to add_player.dart
+                Navigator.pushNamed(
+                    context, '/add_player'); // Navigate to add_player.dart
               },
               child: Container(
                 padding: EdgeInsets.all(16),
@@ -85,7 +94,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                     Text(
                       "A.F. VISEU   SL NELAS",
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Text(
                       "Estádio Municipal de Nelas",
@@ -97,7 +109,8 @@ class HomeScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/calendar'); // Navigate to calendar.dart
+                Navigator.pushNamed(
+                    context, '/calendar'); // Navigate to calendar.dart
               },
               child: Text(
                 "VER MAIS JOGOS",
@@ -109,7 +122,11 @@ class HomeScreen extends StatelessWidget {
             // Featured Players Section
             Text(
               "JOGADORES DESTACADOS",
-              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             SizedBox(height: 10),
             Expanded(
@@ -124,7 +141,8 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/add_game'); // Navigate to add_game.dart
+                Navigator.pushNamed(
+                    context, '/add_game'); // Navigate to add_game.dart
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey[900],
@@ -133,27 +151,113 @@ class HomeScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
-              child: Text("ADICIONAR JOGADOR", style: TextStyle(color: Colors.white)),
+              child: Text("ADICIONAR JOGADOR",
+                  style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey[900],
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey,
-        currentIndex: 1, // Middle button is active
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pushNamed(context, '/calendar'); // Left button -> calendar.dart
-          } else if (index == 2) {
-            Navigator.pushNamed(context, '/historico'); // Right button -> historico.dart
-          }
-        },
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.sports_soccer), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: ""),
+      // Enhanced BottomNavigationBar with Depth
+      bottomNavigationBar: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          // Shadow Rectangle for Depth
+          Positioned(
+            bottom: 16, // Slightly below the actual navbar
+            left: 16,
+            right: 16,
+            child: Container(
+              height: 70,
+              decoration: BoxDecoration(
+                color:
+                    const Color.fromARGB(255, 36, 36, 36), // Dark shadow color
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+          ),
+          // Actual Bottom Navigation Bar
+          Container(
+            margin: EdgeInsets.fromLTRB(
+                16, 16, 16, 24), // Adjusted margin for the bottom
+            height: 64,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 77, 77, 77),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, '/calendar'); // Navigate to calendar
+                    },
+                    child: Container(
+                      height: double.infinity,
+                      width: 64,
+                      decoration: BoxDecoration(
+                        color: 0 == 1 // Highlight condition
+                            ? Colors.grey[600] // Selected button background
+                            : Colors.transparent, // Default button background
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Icon(
+                        Icons.calendar_today,
+                        color:
+                            0 == 1 ? Colors.white : Colors.grey, // Icon color
+                        size: 34,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      // Do nothing since this is the active page
+                    },
+                    child: Container(
+                      height: double.infinity,
+                      width: 104,
+                      decoration: BoxDecoration(
+                        color: 1 == 1 // Highlight condition
+                            ? Colors.grey[600] // Selected button background
+                            : Colors.transparent, // Default button background
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Icon(
+                        Icons.sports_soccer,
+                        color:
+                            1 == 1 ? Colors.white : Colors.grey, // Icon color
+                        size: 34,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, '/historico'); // Navigate to historico
+                    },
+                    child: Container(
+                      height: double.infinity,
+                      width: 64,
+                      decoration: BoxDecoration(
+                        color: 2 == 1 // Highlight condition
+                            ? Colors.grey[600] // Selected button background
+                            : Colors.transparent, // Default button background
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Icon(
+                        Icons.history,
+                        color:
+                            2 == 1 ? Colors.white : Colors.grey, // Icon color
+                        size: 34,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -162,7 +266,8 @@ class HomeScreen extends StatelessWidget {
   Widget _playerCard(String name, int age, int stars, BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/relatorio'); // Navigate to relatorio.dart
+        Navigator.pushNamed(
+            context, '/relatorio'); // Navigate to relatorio.dart
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 10),
@@ -197,7 +302,8 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Text(
                   "$stars",
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 Icon(Icons.star, color: Colors.yellow),
               ],
