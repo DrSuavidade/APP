@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 class HamburgerMenu extends StatelessWidget {
@@ -18,7 +20,10 @@ class HamburgerMenu extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context); // Close the drawer
                   },
-                  child: Icon(Icons.menu, color: Colors.white, size: 28),
+                  child: Transform.rotate(
+                    angle: 1.5708, // 90 degrees in radians
+                    child: Icon(Icons.menu, color: Colors.white, size: 28),
+                  ),
                 ),
               ),
 
