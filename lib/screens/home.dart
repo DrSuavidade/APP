@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'hamburger_menu.dart';
 
 class HomeScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         automaticallyImplyLeading: false, // Removes the default back arrow
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
         elevation: 0,
+        toolbarHeight: 50,
         title: Row(
           children: [
             Builder(
@@ -32,25 +32,41 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       drawer: HamburgerMenu(), // Use the custom hamburger menu
-      body: Padding(
-        padding: EdgeInsets.only(right: 12, left: 12),
-        child: Column(
-          children: [
-            // Future Games Section
-            Text(
-              "PRÓXIMAS PARTIDAS",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 10,
-              ),
+      body: Stack(
+  children: [
+    // Background Image
+    Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/Padrao.png'), // Background image
+          fit: BoxFit.cover, // Cover the full screen
+        ),
+      ),
+    ),
+    // Main Content
+    Padding(
+      padding: EdgeInsets.only(right: 12),
+      child: Column(
+        children: [
+          SizedBox(height: 70),
+          // Future Games Section
+          Text(
+            "PRÓXIMAS PARTIDAS",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 10,
             ),
-            SizedBox(height: 3),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(
-                    context, '/add_player'); // Navigate to add_player.dart
-              },
+          ),
+          SizedBox(height: 3),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/add_player'); // Navigate to add_player.dart
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12), // Add left padding
               child: Container(
                 width: double.infinity,
                 height: 63, // Adjusted height to fit content better
@@ -60,8 +76,7 @@ class HomeScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Stack(
-                  alignment: Alignment
-                      .centerLeft, // For aligning text to the middle left
+                  alignment: Alignment.centerLeft, // For aligning text to the middle left
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,11 +122,9 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                     Align(
-                      alignment: Alignment
-                          .centerRight, // Align the text to the middle left
+                      alignment: Alignment.centerRight, // Align the text to the middle left
                       child: Padding(
-                        padding: EdgeInsets.only(
-                            right: 5), // Adjust spacing if necessary
+                        padding: EdgeInsets.only(right: 5), // Adjust spacing if necessary
                         child: Text(
                           "Estádio Municipal do Fontelo",
                           style: TextStyle(
@@ -126,12 +139,14 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 4),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(
-                    context, '/add_player'); // Navigate to add_player.dart
-              },
+          ),
+          SizedBox(height: 4),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/add_player'); // Navigate to add_player.dart
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12), // Add left padding
               child: Container(
                 width: double.infinity,
                 height: 63, // Adjusted height to fit content better
@@ -141,8 +156,7 @@ class HomeScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Stack(
-                  alignment: Alignment
-                      .centerLeft, // For aligning text to the middle left
+                  alignment: Alignment.centerLeft, // For aligning text to the middle left
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,11 +202,9 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                     Align(
-                      alignment: Alignment
-                          .centerRight, // Align the text to the middle left
+                      alignment: Alignment.centerRight, // Align the text to the middle left
                       child: Padding(
-                        padding: EdgeInsets.only(
-                            right: 5), // Adjust spacing if necessary
+                        padding: EdgeInsets.only(right: 5), // Adjust spacing if necessary
                         child: Text(
                           "Estádio Municipal de Nelas",
                           style: TextStyle(
@@ -207,61 +219,65 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                    context, '/calendar'); // Navigate to calendar.dart
-              },
-              child: Text(
-                "VER MAIS JOGOS",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-
-            // Featured Players Section
-            Text(
-              "JOGADORES DESTACADOS",
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/calendar'); // Navigate to calendar.dart
+            },
+            child: Text(
+              "VER MAIS JOGOS",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontSize: 9,
               ),
             ),
-            SizedBox(height: 10),
-            Expanded(
-              child: ListView(
-                children: [
-                  _playerCard("Marco Saraiva", 12, 5, context),
-                  _playerCard("Pedro Cesta", 25, 3, context),
-                  _playerCard("João Pereira", 21, 4, context),
-                ],
+          ),
+          SizedBox(height: 10),
+
+          // Featured Players Section
+          Text(
+            "JOGADORES DESTACADOS",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+            ),
+          ),
+          SizedBox(height: 10),
+          Expanded(
+            child: ListView(
+              padding:
+                  EdgeInsets.only(right: 30), // Only add padding to the right
+              children: [
+                _playerCard("Marco Saraiva", 12, 5, context),
+                _playerCard("Pedro Costa", 25, 3, context),
+                _playerCard("João Pereira", 21, 4, context),
+              ],
+            ),
+          ),
+
+          SizedBox(height: 4),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/add_game'); // Navigate to add_game.dart
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey[900],
+              padding: EdgeInsets.only(top: 2, bottom: 2, right: 20, left: 20),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
               ),
             ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                    context, '/add_game'); // Navigate to add_game.dart
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey[900],
-                padding: EdgeInsets.symmetric(vertical: 14.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-              child: Text("ADICIONAR JOGADOR",
-                  style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        ),
+            child: Text("ADICIONAR JOGADOR",
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 10)),
+          ),
+          SizedBox(height: 94),
+        ],
       ),
-      // Enhanced BottomNavigationBar with Depth
-      bottomNavigationBar: Stack(
+    ),
+    // Bottom Navigation Bar
+    Align(
+      alignment: Alignment.bottomCenter,
+      child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           // Shadow Rectangle for Depth
@@ -324,7 +340,7 @@ class HomeScreen extends StatelessWidget {
                   // Soccer Button
                   GestureDetector(
                     onTap: () {
-                      // Do nothing since this is the active page
+                      Navigator.pushNamed(context, '/home');
                     },
                     child: Stack(
                       alignment: Alignment.center,
@@ -384,6 +400,10 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
+    ),
+  ],
+),
+
     );
   }
 
@@ -394,30 +414,36 @@ class HomeScreen extends StatelessWidget {
             context, '/relatorio'); // Navigate to relatorio.dart
       },
       child: Container(
-        margin: EdgeInsets.only(bottom: 10),
-        padding: EdgeInsets.all(16),
+        margin: const EdgeInsets.only(bottom: 6), // Space between cards
+        padding:
+            const EdgeInsets.only(left: 50, right: 40, top: 15, bottom: 15),
+        width: double.infinity,
+        height: 60,
         decoration: BoxDecoration(
-          color: Colors.grey[800],
-          borderRadius: BorderRadius.circular(10),
+          color: Colors.grey[900],
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(10),
+            bottomRight: Radius.circular(10),
+          ),
         ),
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: Colors.grey,
-              child: Icon(Icons.person, color: Colors.white),
+              backgroundColor: const Color.fromARGB(255, 49, 49, 49),
+              child: const Icon(Icons.person, color: Colors.white),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "NOME: $name",
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white, fontSize: 9),
                   ),
                   Text(
                     "IDADE: $age",
-                    style: TextStyle(color: Colors.grey),
+                    style: const TextStyle(color: Colors.grey, fontSize: 8),
                   ),
                 ],
               ),
@@ -426,10 +452,13 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Text(
                   "$stars",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                  style: const TextStyle(color: Colors.white, fontSize: 18),
                 ),
-                Icon(Icons.star, color: Colors.yellow),
+                const Icon(
+                  Icons.star,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  size: 20,
+                ),
               ],
             ),
           ],
