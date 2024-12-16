@@ -3,9 +3,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
+
 require('dotenv').config();
 
-app.use('/api', require('./components/Routes/UserRoutes'));
+app.use(cors());
+app.use(express.json());
+
+app.use('/api/users', require('./components/Routes/UserRoutes'));
 app.use('/api', require('./components/Routes/TipoUtilizadorRoutes'));
 app.use('/api', require('./components/Routes/ClubeRoutes'));
 app.use('/api', require('./components/Routes/EquipaRoutes'));
@@ -15,8 +19,7 @@ app.use('/api', require('./components/Routes/RelatorioRoutes'));
 app.use('/api', require('./components/Routes/FavoritosRoutes'));
 
 
-app.use(cors());
-app.use(express.json());
+
 
 const PORT = process.env.PORT || 3000;
 

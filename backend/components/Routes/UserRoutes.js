@@ -5,20 +5,27 @@ const User = require('../Models/User');
 const router = express.Router();
 
 // Registrar Usuário
-router.post('/users/register', async (req, res) => {
-  const { nome, email, password, id_tipo } = req.body;
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ nome, email, password: hashedPassword, id_tipo });
-    await user.save();
-    res.status(201).json({ message: 'Usuário criado com sucesso!', user });
-  } catch (error) {
-    res.status(500).json({ error: 'Erro ao criar usuário' });
-  }
-});
+router.post('/register', async (req, res) => {
+    //console.log('Requisição recebida:', req.body); // Log do corpo da requisição
+    const { nome, email, password, id_tipo } = req.body;
+  
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      console.log('Senha criptografada:', hashedPassword);
+  
+      const user = new User({ nome, email, password: hashedPassword, id_tipo });
+      await user.save();
+  
+      console.log('Usuário salvo:', user);
+      res.status(201).json({ message: 'Usuário criado com sucesso!', user });
+    } catch (error) {
+      console.error('Erro ao criar usuário:', error);
+      res.status(500).json({ error: 'Erro ao criar usuário' });
+    }
+  });
 
 // Login do Usuário
-router.post('/users/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
