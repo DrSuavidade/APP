@@ -2,9 +2,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const app = express();
 require('dotenv').config();
 
-const app = express();
+app.use('/api', require('./components/Routes/UserRoutes'));
+app.use('/api', require('./components/Routes/TipoUtilizadorRoutes'));
+app.use('/api', require('./components/Routes/ClubeRoutes'));
+app.use('/api', require('./components/Routes/EquipaRoutes'));
+app.use('/api', require('./components/Routes/JogadoresRoutes'));
+app.use('/api', require('./components/Routes/EventosRoutes'));
+app.use('/api', require('./components/Routes/RelatorioRoutes'));
+app.use('/api', require('./components/Routes/FavoritosRoutes'));
+
+
 app.use(cors());
 app.use(express.json());
 
