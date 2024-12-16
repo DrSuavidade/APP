@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 
 class PerfilScreen extends StatelessWidget {
+  const PerfilScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +80,7 @@ class PerfilScreen extends StatelessWidget {
   }
 
   Widget _buildCustomButton(BuildContext context, String label, VoidCallback onPressed) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 50,
       child: ElevatedButton(

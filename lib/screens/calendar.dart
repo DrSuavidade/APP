@@ -10,6 +10,8 @@ class CalendarScreen extends StatelessWidget {
     // Add more games as needed
   ];
 
+  CalendarScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +42,7 @@ class CalendarScreen extends StatelessWidget {
       body: Column(
         children: [
           // Levels Filter
-          Container(
+          SizedBox(
             height: 40,
             child: ListView(
               scrollDirection: Axis.horizontal,

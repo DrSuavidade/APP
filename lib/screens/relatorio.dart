@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 
 class RelatorioScreen extends StatefulWidget {
+  const RelatorioScreen({super.key});
+
   @override
   _RelatorioPageState createState() => _RelatorioPageState();
 }
@@ -70,7 +72,7 @@ class _RelatorioPageState extends State<RelatorioScreen> {
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: const [
                             Text(
                               "NOME: Marco Saraiva",
                               style: TextStyle(
@@ -371,7 +373,7 @@ class _RelatorioPageState extends State<RelatorioScreen> {
   }
 
   Widget _buildDivider() {
-    return Container(
+    return SizedBox(
       width: double.infinity, // Make the divider span the full width
       child: Divider(
         color: Colors.white,

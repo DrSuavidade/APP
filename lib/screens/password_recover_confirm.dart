@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 
 class PasswordRecoverConfirmScreen extends StatelessWidget {
+  const PasswordRecoverConfirmScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

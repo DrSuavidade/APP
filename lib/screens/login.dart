@@ -2,7 +2,27 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:mongo_dart/mongo_dart.dart';
+
+void main() async {
+  // Substitua pela sua string de conexão
+  final db = Db('mongodb+srv://Admin:egNRjxkxZBa74nVl@cluster0.6tsv3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+
+  try {
+    await db.open();
+    print('Conexão estabelecida com sucesso!');
+  } catch (e) {
+    print('Erro ao conectar: $e');
+  } finally {
+    await db.close();
+  }
+}
+
+
+
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -140,7 +160,7 @@ class _LoginPageState extends State<LoginScreen> {
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Text(
                         "Não tens conta? ",
                         style: TextStyle(color: Colors.white),

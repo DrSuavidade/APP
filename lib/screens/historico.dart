@@ -13,6 +13,8 @@ class HistoricoScreen extends StatelessWidget {
     // Add more reports as needed
   ];
 
+  HistoricoScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

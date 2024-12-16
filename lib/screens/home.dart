@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'hamburger_menu.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,13 +17,13 @@ class HomeScreen extends StatelessWidget {
           children: [
             Builder(
               builder: (context) => IconButton(
-                icon: Icon(Icons.menu, color: Colors.white),
+                icon: const Icon(Icons.menu, color: Colors.white),
                 onPressed: () {
                   Scaffold.of(context).openDrawer(); // Open the custom drawer
                 },
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Image.asset(
               'assets/images/Logofinal1.png',
               height: 40,
@@ -29,14 +31,14 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      drawer: HamburgerMenu(), // Use the custom hamburger menu
+      drawer: const HamburgerMenu(), // Use the custom hamburger menu
       body: Stack(
   children: [
     // Background Image
     Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/Padrao.png'), // Background image
           fit: BoxFit.cover, // Cover the full screen
@@ -45,12 +47,12 @@ class HomeScreen extends StatelessWidget {
     ),
     // Main Content
     Padding(
-      padding: EdgeInsets.only(right: 12),
+      padding: const EdgeInsets.only(right: 12),
       child: Column(
         children: [
-          SizedBox(height: 70),
+          const SizedBox(height: 70),
           // Future Games Section
-          Text(
+          const Text(
             "PRÓXIMAS PARTIDAS",
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -58,7 +60,7 @@ class HomeScreen extends StatelessWidget {
               fontSize: 10,
             ),
           ),
-          SizedBox(height: 3),
+          const SizedBox(height: 3),
           GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, '/add_player'); // Navigate to add_player.dart
@@ -68,12 +70,12 @@ class HomeScreen extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 height: 63, // Adjusted height to fit content better
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(252, 140, 140, 140),
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: Stack(
+                child: const Stack(
                   alignment: Alignment.centerLeft, // For aligning text to the middle left
                   children: [
                     Column(
@@ -138,7 +140,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, '/add_player'); // Navigate to add_player.dart
@@ -148,12 +150,12 @@ class HomeScreen extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 height: 63, // Adjusted height to fit content better
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(252, 140, 140, 140),
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: Stack(
+                child: const Stack(
                   alignment: Alignment.centerLeft, // For aligning text to the middle left
                   children: [
                     Column(
@@ -222,7 +224,7 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, '/calendar'); // Navigate to calendar.dart
             },
-            child: Text(
+            child: const Text(
               "VER MAIS JOGOS",
               style: TextStyle(
                 color: Colors.white,
@@ -230,21 +232,21 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           // Featured Players Section
-          Text(
+          const Text(
             "JOGADORES DESTACADOS",
             style: TextStyle(
               color: Colors.white,
               fontSize: 14,
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Expanded(
             child: ListView(
               padding:
-                  EdgeInsets.only(right: 30), // Only add padding to the right
+                  const EdgeInsets.only(right: 30), // Only add padding to the right
               children: [
                 _playerCard("Marco Saraiva", 12, 5, context),
                 _playerCard("Pedro Costa", 25, 3, context),
@@ -253,22 +255,22 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(context, '/add_game'); // Navigate to add_game.dart
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.grey[900],
-              padding: EdgeInsets.only(top: 2, bottom: 2, right: 20, left: 20),
+              padding: const EdgeInsets.only(top: 2, bottom: 2, right: 20, left: 20),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
             ),
-            child: Text("ADICIONAR JOGADOR",
+            child: const Text("ADICIONAR JOGADOR",
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 10)),
           ),
-          SizedBox(height: 94),
+          const SizedBox(height: 94),
         ],
       ),
     ),
@@ -294,7 +296,7 @@ class HomeScreen extends StatelessWidget {
           ),
           // Actual Bottom Navigation Bar
           Container(
-            margin: EdgeInsets.fromLTRB(
+            margin: const EdgeInsets.fromLTRB(
                 16, 16, 16, 24), // Adjusted margin for the bottom
             height: 64,
             decoration: BoxDecoration(
@@ -326,7 +328,7 @@ class HomeScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.calendar_today,
                           color:
                               0 == 1 ? Colors.white : Colors.grey, // Icon color
@@ -354,7 +356,7 @@ class HomeScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.sports_soccer,
                           color:
                               1 == 1 ? Colors.white : Colors.grey, // Icon color
@@ -383,7 +385,7 @@ class HomeScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.history,
                           color:
                               2 == 1 ? Colors.white : Colors.grey, // Icon color
@@ -426,9 +428,9 @@ class HomeScreen extends StatelessWidget {
         ),
         child: Row(
           children: [
-            CircleAvatar(
-              backgroundColor: const Color.fromARGB(255, 49, 49, 49),
-              child: const Icon(Icons.person, color: Colors.white),
+            const CircleAvatar(
+              backgroundColor: Color.fromARGB(255, 49, 49, 49),
+              child: Icon(Icons.person, color: Colors.white),
             ),
             const SizedBox(width: 10),
             Expanded(
