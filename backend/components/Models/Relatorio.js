@@ -7,7 +7,7 @@ const RelatorioSchema = new mongoose.Schema({
   competitiva: { type: Number, required: true },
   inteligencia: { type: Number, required: true },
   altura: { type: Number, required: true },
-  morfoligia: { type: String, required: true },
+  morfologia: { type: String, required: true },
   comentario: { type: String },
   status: { type: String, required: true },
   id_user: { type: Number, required: true, ref: 'user' }, // Reference to User's custom ID

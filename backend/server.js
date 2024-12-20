@@ -9,16 +9,7 @@ require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/users', require('./components/Routes/UserRoutes'));
-app.use('/api/tipos', require('./components/Routes/TipoUtilizadorRoutes'));
-app.use('/api/clube', require('./components/Routes/ClubeRoutes'));
-app.use('/api/equipa', require('./components/Routes/EquipaRoutes'));
-app.use('/api/jogador', require('./components/Routes/JogadoresRoutes'));
-app.use('/api/evento', require('./components/Routes/EventosRoutes'));
-app.use('/api/relatorio', require('./components/Routes/RelatorioRoutes'));
-app.use('/api/favorito', require('./components/Routes/FavoritosRoutes'));
-
-
+app.use('/api', require('./components/Routes/UserRoutes'));
 
 
 const PORT = process.env.PORT || 3000;
