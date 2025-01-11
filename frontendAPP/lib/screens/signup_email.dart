@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 class SignupEmailScreen extends StatelessWidget {
   final _emailController = TextEditingController();
 
+  SignupEmailScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +40,7 @@ class SignupEmailScreen extends StatelessWidget {
                 // Progress Indicator
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     CircleAvatar(
                       radius: 6,
                       backgroundColor: Colors.white,
@@ -108,7 +110,7 @@ class SignupEmailScreen extends StatelessWidget {
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Text(
                         "Já tens uma conta? ",
                         style: TextStyle(color: Colors.white),

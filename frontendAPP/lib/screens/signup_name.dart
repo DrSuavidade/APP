@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 class SignupNameScreen extends StatelessWidget {
   final _nameController = TextEditingController();
 
+  SignupNameScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +40,7 @@ class SignupNameScreen extends StatelessWidget {
                 // Progress Indicator
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     CircleAvatar(
                       radius: 6,
                       backgroundColor: Colors.white, // First step complete
@@ -105,7 +107,7 @@ class SignupNameScreen extends StatelessWidget {
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Text(
                         "Já tens uma conta? ",
                         style: TextStyle(color: Colors.white),

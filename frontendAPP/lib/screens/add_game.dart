@@ -93,7 +93,7 @@ class AddGameScreen extends StatelessWidget {
           if (index == 1) Navigator.pushNamed(context, '/home');
           if (index == 2) Navigator.pushNamed(context, '/historico');
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: ""),
           BottomNavigationBarItem(icon: Icon(Icons.sports_soccer), label: ""),
           BottomNavigationBarItem(icon: Icon(Icons.history), label: ""),

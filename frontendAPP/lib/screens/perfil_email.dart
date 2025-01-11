@@ -6,6 +6,8 @@ class PerfilEmailScreen extends StatelessWidget {
   final _emailController = TextEditingController();
   final _confirmEmailController = TextEditingController();
 
+  PerfilEmailScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

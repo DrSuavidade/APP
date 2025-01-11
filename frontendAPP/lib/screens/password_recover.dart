@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 class PasswordRecoverScreen extends StatelessWidget {
   final _emailController = TextEditingController();
 
+  PasswordRecoverScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +85,7 @@ class PasswordRecoverScreen extends StatelessWidget {
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Text(
                         "Já tens uma conta? ",
                         style: TextStyle(color: Colors.white),

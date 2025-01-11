@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 
 class AddPlayerNameScreen extends StatefulWidget {
+  const AddPlayerNameScreen({super.key});
+
   @override
   _AddPlayerNamePageState createState() => _AddPlayerNamePageState();
 }

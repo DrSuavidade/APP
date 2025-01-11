@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 
 class PrivacidadeScreen extends StatelessWidget {
+  const PrivacidadeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

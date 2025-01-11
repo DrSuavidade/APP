@@ -6,6 +6,8 @@ class PerfilPasswordScreen extends StatelessWidget {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  PerfilPasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

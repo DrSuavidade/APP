@@ -6,6 +6,8 @@ class SignupPasswordScreen extends StatelessWidget {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  SignupPasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +41,7 @@ class SignupPasswordScreen extends StatelessWidget {
                 // Progress Indicator
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     CircleAvatar(
                       radius: 6,
                       backgroundColor: Colors.white, // First step complete
@@ -123,7 +125,7 @@ class SignupPasswordScreen extends StatelessWidget {
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Text(
                         "Já tens uma conta? ",
                         style: TextStyle(color: Colors.white),

@@ -9,6 +9,8 @@ class AddPlayerScreen extends StatelessWidget {
     {"name": "Mário Silva", "dob": "15/05/2010", "age": "14 anos"},
   ];
 
+  AddPlayerScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +104,7 @@ class AddPlayerScreen extends StatelessWidget {
           if (index == 0) Navigator.pushNamed(context, '/calendar');
           if (index == 2) Navigator.pushNamed(context, '/historico');
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: ""),
           BottomNavigationBarItem(icon: Icon(Icons.sports_soccer), label: ""),
           BottomNavigationBarItem(icon: Icon(Icons.history), label: ""),
