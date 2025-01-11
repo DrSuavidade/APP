@@ -18,52 +18,36 @@ import 'screens/add_player_name.dart';
 import 'screens/privacidade.dart';
 import 'screens/password_recover.dart';
 import 'screens/password_recover_confirm.dart';
-import 'package:mongo.dart/mongo_dart.dart';
 
-
-void main() async {
-    runApp(MyApp());
-  // Substitua pela sua string de conexão
-  final db = Db('mongodb+srv://Admin:egNRjxkxZBa74nVl@cluster0.6tsv3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
-
-  try {
-    await db.open();
-    print('Conexão estabelecida com sucesso!');
-  } catch (e) {
-    print('Erro ao conectar: $e');
-  } finally {
-    await db.close();
-  }
+void main() {
+  runApp(MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginScreen(),
+        '/': (context) => LoginScreen(),
         '/signup_email': (context) => SignupEmailScreen(),
         '/signup_name': (context) => SignupNameScreen(),
         '/signup_password': (context) => SignupPasswordScreen(),
-        '/signup_complete': (context) => const SignupCompleteScreen(),
-        '/home': (context) => const HomeScreen(),
-        '/perfil': (context) => const PerfilScreen(),
+        '/signup_complete': (context) => SignupCompleteScreen(),
+        '/home': (context) => HomeScreen(),
+        '/perfil': (context) => PerfilScreen(),
         '/perfil_email': (context) => PerfilEmailScreen(),
         '/perfil_password': (context) => PerfilPasswordScreen(),
-        '/relatorio': (context) => const RelatorioScreen(),
-        '/calendar': (context) =>  CalendarScreen(),
-        '/historico': (context) =>  HistoricoScreen(),
+        '/relatorio': (context) => RelatorioScreen(),
+        '/calendar': (context) => CalendarScreen(),
+        '/historico': (context) => HistoricoScreen(),
         '/add_game': (context) => AddGameScreen(),
-        '/add_player': (context) =>  AddPlayerScreen(),
-        '/add_player_bd': (context) =>  AddPlayerBDScreen(),
-        '/add_player_name': (context) => const AddPlayerNameScreen(),
-        '/privacidade': (context) => const PrivacidadeScreen(),
+        '/add_player': (context) => AddPlayerScreen(),
+        '/add_player_bd': (context) => AddPlayerBDScreen(),
+        '/add_player_name': (context) => AddPlayerNameScreen(),
+        '/privacidade': (context) => PrivacidadeScreen(),
         '/password_recover': (context) => PasswordRecoverScreen(),
-        '/password_recover_confirm': (context) => const PasswordRecoverConfirmScreen(),
+        '/password_recover_confirm': (context) => PasswordRecoverConfirmScreen(),
       },
     );
   }

@@ -1,28 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-
-import 'package:mongo_dart/mongo_dart.dart';
-
-void main() async {
-  // Substitua pela sua string de conexão
-  final db = Db('mongodb+srv://Admin:egNRjxkxZBa74nVl@cluster0.6tsv3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
-
-  try {
-    await db.open();
-    print('Conexão estabelecida com sucesso!');
-  } catch (e) {
-    print('Erro ao conectar: $e');
-  } finally {
-    await db.close();
-  }
-}
-
-
+import '../api/api_service.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -30,20 +11,66 @@ class LoginScreen extends StatefulWidget {
 class _LoginPageState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
   bool _isLoading = false;
 
-  void _login() {
-    setState(() {
-      _isLoading = true;
+  void _login() async {
+  setState(() {
+    _isLoading = true;
+  });
+
+  try {
+    // Call the login endpoint
+    final response = await api.loginUser({
+      'email': _emailController.text.trim(),
+      'password': _passwordController.text.trim(),
     });
-    // Placeholder for authentication logic
-    Future.delayed(Duration(seconds: 2), () {
+
+    // Check if the login was successful
+    if (response.containsKey('token')) {
       setState(() {
         _isLoading = false;
       });
-      Navigator.pushNamed(context, '/home'); // Navigate to home page on successful login
+
+      // Navigate to the home page on successful login
+      Navigator.pushNamed(context, '/home');
+      print('Login successful: ${response['token']}');
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+
+      // Show an error dialog if login failed
+      _showErrorDialog('Login Failed', response['error'] ?? 'Invalid credentials');
+    }
+  } catch (e) {
+    // Handle exceptions
+    setState(() {
+      _isLoading = false;
     });
+
+    _showErrorDialog('Login Failed', e.toString());
   }
+}
+
+void _showErrorDialog(String title, String message) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   @override
   void dispose() {
@@ -160,7 +187,7 @@ class _LoginPageState extends State<LoginScreen> {
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Text(
                         "Não tens conta? ",
                         style: TextStyle(color: Colors.white),
