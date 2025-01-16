@@ -81,6 +81,8 @@ class ApiService {
   Future<dynamic> addEvento(Map<String, dynamic> data) =>
       post('evento/add', data);
   Future<dynamic> listEventos() => get('evento/list');
+  Future<dynamic> listEventosByUser(int userId) =>
+    get('evento/list/$userId');
   Future<dynamic> editEvento(String id, Map<String, dynamic> data) =>
       put('evento/edit/$id', data);
   Future<void> deleteEvento(String id) => delete('evento/delete/$id');
@@ -97,6 +99,8 @@ class ApiService {
   Future<dynamic> addJogador(Map<String, dynamic> data) =>
       post('jogador/add', data);
   Future<dynamic> listJogadores() => get('jogador/list');
+  Future<dynamic> listJogadoresByUser(int userId) =>
+    get('jogador/list/$userId');
   Future<dynamic> editJogador(String id, Map<String, dynamic> data) =>
       put('jogador/edit/$id', data);
   Future<void> deleteJogador(String id) => delete('jogador/delete/$id');

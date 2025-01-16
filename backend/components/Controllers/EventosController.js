@@ -1,5 +1,6 @@
 const Eventos = require('../Models/Eventos');
 const Evento = require('../Models/Eventos');
+const Relatorio = require('../Models/Relatorio');
 
 const eventosController = {};
 
@@ -76,5 +77,29 @@ eventosController.deleteEvento = async (req, res) => {
     res.status(500).json({ error: 'Erro ao deletar evento' });
   }
 };
+
+// Fetch games related to a specific user
+eventosController.getGamesByUser = async (req, res) => {
+  const { id_user } = req.params;
+
+  try {
+    // Get all relatorios by id_user
+    const relatorios = await Relatorio.find({ id_user }).select('id_relatorios');
+    const relatorioIds = relatorios.map((relatorio) => relatorio.id_relatorios);
+
+    if (!relatorioIds.length) {
+      return res.status(404).json({ message: 'No games found for this user' });
+    }
+
+    // Get eventos by their id_relatorios
+    const eventos = await Evento.find({ id_relatorio: { $in: relatorioIds } });
+
+    res.status(200).json(eventos);
+  } catch (error) {
+    console.error('Error fetching games:', error);
+    res.status(500).json({ error: 'Failed to fetch games' });
+  }
+};
+
 
 module.exports = eventosController;

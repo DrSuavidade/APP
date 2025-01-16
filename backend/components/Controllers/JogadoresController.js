@@ -1,5 +1,6 @@
 const Jogadores = require('../Models/Jogadores');
 const Jogador = require('../Models/Jogadores');
+const Relatorio = require('../Models/Relatorio');
 
 const jogadoresController = {};
 
@@ -74,5 +75,29 @@ jogadoresController.deleteJogador = async (req, res) => {
     res.status(500).json({ error: 'Erro ao deletar jogador' });
   }
 };
+
+// Fetch players related to a specific user
+jogadoresController.getPlayersByUser = async (req, res) => {
+  const { id_user } = req.params;
+
+  try {
+    // Get all relatorios by id_user
+    const relatorios = await Relatorio.find({ id_user }).select('id_jogadores');
+    const jogadorIds = relatorios.map((relatorio) => relatorio.id_jogadores);
+
+    if (!jogadorIds.length) {
+      return res.status(404).json({ message: 'No players found for this user' });
+    }
+
+    // Get jogadores by their IDs
+    const jogadores = await Jogador.find({ id_jogadores: { $in: jogadorIds } });
+
+    res.status(200).json(jogadores);
+  } catch (error) {
+    console.error('Error fetching players:', error);
+    res.status(500).json({ error: 'Failed to fetch players' });
+  }
+};
+
 
 module.exports = jogadoresController;

@@ -34,7 +34,11 @@ class MyApp extends StatelessWidget {
         '/signup_name': (context) => SignupNameScreen(),
         '/signup_password': (context) => SignupPasswordScreen(),
         '/signup_complete': (context) => SignupCompleteScreen(),
-        '/home': (context) => HomeScreen(),
+        '/home': (context) {
+  final arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+  return HomeScreen(userId: arguments['userId']); // Pass userId (number) to HomeScreen
+},
+
         '/perfil': (context) => PerfilScreen(),
         '/perfil_email': (context) => PerfilEmailScreen(),
         '/perfil_password': (context) => PerfilPasswordScreen(),
@@ -47,7 +51,8 @@ class MyApp extends StatelessWidget {
         '/add_player_name': (context) => AddPlayerNameScreen(),
         '/privacidade': (context) => PrivacidadeScreen(),
         '/password_recover': (context) => PasswordRecoverScreen(),
-        '/password_recover_confirm': (context) => PasswordRecoverConfirmScreen(),
+        '/password_recover_confirm': (context) =>
+            PasswordRecoverConfirmScreen(),
       },
     );
   }

@@ -31,12 +31,14 @@ router.delete('/equipa/delete/:id_equipa', equipaController.deleteEquipa); // De
 // Eventos Routes
 router.post('/evento/add', eventosController.addEvento);
 router.get('/evento/list', eventosController.listEvento);
+router.get('/evento/list/:id_user', eventosController.getGamesByUser);
 router.put('/evento/edit/:id_eventos', eventosController.editEvento);
 router.delete('/evento/delete/:id_eventos', eventosController.deleteEvento);
 
 // Jogadores Routes
 router.post('/jogador/add', jogadoresController.addJogador);
 router.get('/jogador/list', jogadoresController.listJogador);
+router.get('/jogador/list/:id_user', jogadoresController.getPlayersByUser);
 router.put('/jogador/edit/:id_jogadores', jogadoresController.editJogador);
 router.delete('/jogador/delete/:id_jogadores', jogadoresController.deleteJogador);
 

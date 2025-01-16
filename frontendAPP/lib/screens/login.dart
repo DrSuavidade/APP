@@ -20,31 +20,36 @@ class _LoginPageState extends State<LoginScreen> {
   });
 
   try {
-    // Call the login endpoint
     final response = await api.loginUser({
       'email': _emailController.text.trim(),
       'password': _passwordController.text.trim(),
     });
 
-    // Check if the login was successful
-    if (response.containsKey('token')) {
+    if (response.containsKey('token') && response.containsKey('user') && response['user'] != null) {
+      final user = response['user'];
+      final userId = user['id_user']; // Extract id_user (number) from the response
+
       setState(() {
         _isLoading = false;
       });
 
-      // Navigate to the home page on successful login
-      Navigator.pushNamed(context, '/home');
-      print('Login successful: ${response['token']}');
+      // Pass id_user to the /home route
+      Navigator.pushNamed(
+        context,
+        '/home',
+        arguments: {'userId': userId}, // Pass id_user as arguments
+      );
     } else {
       setState(() {
         _isLoading = false;
       });
 
-      // Show an error dialog if login failed
-      _showErrorDialog('Login Failed', response['error'] ?? 'Invalid credentials');
+      _showErrorDialog(
+        'Login Failed',
+        response['error'] ?? 'Invalid credentials or missing user data',
+      );
     }
   } catch (e) {
-    // Handle exceptions
     setState(() {
       _isLoading = false;
     });
