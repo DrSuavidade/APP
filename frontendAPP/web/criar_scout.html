@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Jogadores</title>
+    <link rel="stylesheet" href="css/criar_scout.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="img/logo academico.png" alt="Logo">
+        </div>
+        <div class="menu">
+            <span>Plantel</span>
+            <span>Jogadores</span>
+            <span>Clubes</span>
+            <span>Scouters</span>
+            <span>Eventos</span>
+            <span>Relatórios</span>
+        </div>
+    </header>
+    <div class="main-container">
+        <div class="form-container">
+            <h2>Adicionar Utilizador</h2>
+            <form>
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" placeholder="Nome completo">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Email do utilizador">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label for="user-type">Tipo de Utilizador</label>
+                    <select id="user-type">
+                        <option value="admin">Administrador</option>
+                        <option value="editor">Editor</option>
+                        <option value="viewer">Visualizador</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Adicionar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="sidebar">
+            <h3>Histórico de Utilizadores</h3>
+            <div class="player-history">
+                <div class="player">
+                    <span class="name">João Silva</span>
+                    <span class="details">Administrador</span>
+                </div>
+                <div class="player">
+                    <span class="name">Pedro Costa</span>
+                    <span class="details">Editor</span>
+                </div>
+                <!-- Adicione mais utilizadores conforme necessário -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

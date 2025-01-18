@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Jogadores</title>
+    <link rel="stylesheet" href="css/criar_jogador.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="img/logo academico.png" alt="Logo">
+        </div>
+        <div class="menu">
+            <span>Plantel</span>
+            <span>Jogadores</span>
+            <span>Clubes</span>
+            <span>Scouters</span>
+            <span>Eventos</span>
+            <span>Relatórios</span>
+        </div>
+    </header>
+    <div class="main-container">
+        <div class="form-container">
+            <h2>Adicionar Jogador</h2>
+            <form>
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" placeholder="Nome completo">
+                </div>
+                <div class="form-group">
+                    <label for="link">Link</label>
+                    <input type="url" id="link" placeholder="Link da federação">
+                </div>
+                <div class="form-group">
+                    <label for="birthdate">Data de Nascimento</label>
+                    <input type="date" id="birthdate">
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gênero</label>
+                    <select id="gender">
+                        <option value="male">Masculino</option>
+                        <option value="female">Feminino</option>
+                        <option value="other">Outro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nationality">Nacionalidade</label>
+                    <select id="nationality">
+                        <option value="portuguese">Português</option>
+                        <option value="spanish">Espanhol</option>
+                        <option value="other">Outro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="club">Clube</label>
+                    <select id="club">
+                        <option value="club1">Clube 1</option>
+                        <option value="club2">Clube 2</option>
+                        <option value="club3">Clube 3</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="team">Equipa</label>
+                    <select id="team">
+                        <option value="team1">Equipa 1</option>
+                        <option value="team2">Equipa 2</option>
+                        <option value="team3">Equipa 3</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="education-data">Dados Encarregados de Educação</label>
+                    <input type="file" id="education-data" accept=".pdf,.doc,.docx">
+                </div>
+                <div class="form-group">
+                    <button type="submit">Adicionar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="sidebar">
+            <h3>Histórico de Jogadores</h3>
+            <div class="player-history">
+                <div class="player">
+                    <span class="name">João Silva</span>
+                    <span class="details">Equipa 1</span>
+                </div>
+                <div class="player">
+                    <span class="name">Pedro Costa</span>
+                    <span class="details">Equipa 2</span>
+                </div>
+                <!-- Adicione mais jogadores conforme necessário -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
