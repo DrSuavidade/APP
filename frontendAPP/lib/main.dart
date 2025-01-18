@@ -35,19 +35,41 @@ class MyApp extends StatelessWidget {
         '/signup_password': (context) => SignupPasswordScreen(),
         '/signup_complete': (context) => SignupCompleteScreen(),
         '/home': (context) {
-  final arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-  return HomeScreen(userId: arguments['userId']); // Pass userId (number) to HomeScreen
-},
-
+          final arguments = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          return HomeScreen(
+              userId:
+                  arguments['userId']); // Pass userId (number) to HomeScreen
+        },
         '/perfil': (context) => PerfilScreen(),
         '/perfil_email': (context) => PerfilEmailScreen(),
         '/perfil_password': (context) => PerfilPasswordScreen(),
         '/relatorio': (context) => RelatorioScreen(),
-        '/calendar': (context) => CalendarScreen(),
-        '/historico': (context) => HistoricoScreen(),
-        '/add_game': (context) => AddGameScreen(),
-        '/add_player': (context) => AddPlayerScreen(),
-        '/add_player_bd': (context) => AddPlayerBDScreen(),
+        '/calendar': (context) {
+          final arguments = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          return CalendarScreen(userId: arguments['userId']);
+        },
+        '/historico': (context) {
+          final arguments = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          return HistoricoScreen(userId: arguments['userId']);
+        },
+        '/add_game': (context) {
+          final arguments = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          return AddGameScreen(userId: arguments['userId']);
+        },
+        '/add_player': (context) {
+          final arguments = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          return AddPlayerScreen(userId: arguments['userId']);
+        },
+        '/add_player_bd': (context) {
+          final arguments = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          return AddPlayerBDScreen(userId: arguments['userId']);
+        },
         '/add_player_name': (context) => AddPlayerNameScreen(),
         '/privacidade': (context) => PrivacidadeScreen(),
         '/password_recover': (context) => PasswordRecoverScreen(),

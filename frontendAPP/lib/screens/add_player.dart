@@ -9,7 +9,9 @@ class AddPlayerScreen extends StatelessWidget {
     {"name": "Mário Silva", "dob": "15/05/2010", "age": "14 anos"},
   ];
 
-  AddPlayerScreen({super.key});
+  final int userId;
+
+  AddPlayerScreen({Key? key, required this.userId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class AddPlayerScreen extends StatelessWidget {
           ],
         ),
       ),
-      drawer: HamburgerMenu(),
+      drawer: HamburgerMenu(userId: userId),
       body: Column(
         children: [
           // Search Bar

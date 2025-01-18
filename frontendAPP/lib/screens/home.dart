@@ -28,8 +28,17 @@ class _HomeScreenState extends State<HomeScreen> {
       final gamesResponse = await api.listEventosByUser(widget.userId);
       final playersResponse = await api.listJogadoresByUser(widget.userId);
 
+      // Sort events by date and filter the two closest
+      List<dynamic> sortedGames = List<dynamic>.from(gamesResponse);
+      sortedGames.sort((a, b) {
+        DateTime dateA = DateTime.parse(a['data']);
+        DateTime dateB = DateTime.parse(b['data']);
+        return dateA.compareTo(dateB);
+      });
+
       setState(() {
-        userGames = List<dynamic>.from(gamesResponse);
+        userGames =
+            sortedGames.take(2).toList(); // Take only the two closest events
         userPlayers = List<dynamic>.from(playersResponse);
         isLoading = false;
       });
@@ -86,7 +95,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      drawer: const HamburgerMenu(), // Use the custom hamburger menu
+      drawer:
+          HamburgerMenu(userId: widget.userId), // Use the custom hamburger menu
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : Stack(
@@ -129,6 +139,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           context,
                         );
                       }).toList(),
+                      Center(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/calendar');
+                          },
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.white, // Text color
+                          ),
+                          child: const Text('Ver mais jogos'),
+                        ),
+                      ),
                       const SizedBox(height: 10),
                       const Text(
                         "JOGADORES DESTACADOS",
@@ -192,8 +213,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               // Calendar Button
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(context,
-                                      '/calendar'); // Navigate to calendar
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/calendar',
+                                    arguments: {
+                                      'userId': widget.userId
+                                    }, // Pass userId here
+                                  ); // Navigate to calendar
                                 },
                                 child: Stack(
                                   alignment: Alignment.center,
@@ -224,7 +250,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               // Soccer Button
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(context, '/home');
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/home',
+                                    arguments: {
+                                      'userId': widget.userId
+                                    }, // Pass userId here
+                                  );
                                 },
                                 child: Stack(
                                   alignment: Alignment.center,
@@ -255,8 +287,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               // History Button
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(context,
-                                      '/historico'); // Navigate to historico
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/historico',
+                                    arguments: {
+                                      'userId': widget.userId
+                                    }, // Pass userId here
+                                  ); // Navigate to historico
                                 },
                                 child: Stack(
                                   alignment: Alignment.center,

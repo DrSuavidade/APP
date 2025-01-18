@@ -11,6 +11,10 @@ class AddGameScreen extends StatelessWidget {
     {"home": "FC Alverca", "away": "FC Paços de Ferreira", "time": "16:00 PM", "date": "25/10/2024"},
   ];
 
+  final int userId;
+
+  AddGameScreen({Key? key, required this.userId}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +40,7 @@ class AddGameScreen extends StatelessWidget {
           ],
         ),
       ),
-      drawer: HamburgerMenu(),
+      drawer: HamburgerMenu(userId: userId),
       body: Column(
         children: [
           // Search Bar
