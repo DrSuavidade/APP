@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Cards</title>
+    <link rel="stylesheet" href="css/scouts.css">
+</head>
+<body>
+    
+    <div class="search-container">
+        <div class="search-bar">
+            <input type="text" placeholder="Escreva o nome do clube ou da equipa">
+            <button>Procurar</button>
+        </div>
+        <div class="actions">
+            <div class="checkbox">
+                <input type="checkbox" id="select-all">
+                <label for="select-all">Selecionar Todos</label>
+            </div>
+            <button>Adicionar</button>
+        </div>
+    </div>
+
+    
+        <!-- Cards de Relatórios -->
+        <div class="report-section">
+            <div class="report-card" onclick="alert('Relatório clicado: Marco Saraiva')">
+                <div class="icon">👤</div>
+                <h3>Marco Saraiva</h3>
+                <p>12 anos | 2012</p>
+                <p>AC Viseu Sub - 12</p>
+                <div class="badge3">3/4</div>
+                <div class="status"></div>
+            </div>
+        
+            <div class="report-card" onclick="alert('Relatório clicado: Pedro Ferreira')">
+                <div class="icon">👤</div>
+                <h3>Pedro Ferreira</h3>
+                <p>15 anos | 2009</p>
+                <p>AC Viseu Sub - 12</p>
+                <div class="badge2">2/4</div>
+                <div class="status"></div>
+            </div>
+        
+            <div class="report-card" onclick="alert('Relatório clicado: Ricardo Bosques')">
+                <div class="icon">👤</div>
+                <h3>Ricardo Bosques</h3>
+                <p>11 anos | 2013</p>
+                <p>AC Viseu Sub - 12</p>
+                <div class="badge3">3/4</div>
+                <div class="status"></div>
+            </div>
+        
+            <div class="report-card" onclick="alert('Relatório clicado: Jorge da Silva')">
+                <div class="icon">👤</div>
+                <h3>Jorge da Silva</h3>
+                <p>17 anos | 2007</p>
+                <p>AC Viseu Sub - 12</p>
+                <div class="badge4">4/4</div>
+                <div class="status"></div>
+            </div>
+        </div>
+
+<div class="main-content">
+        <div class="sidebar">
+            <div class="user-info">
+                <div class="user-header">
+                    <span class="user-name">Armando Silva</span>
+                    <span class="user-role">SCOUTER</span>
+                    <span class="user-nickname">Arsilva</span>
+                </div>
+                <div class="user-details">
+                    <span class="user-reviews">5 avaliações</span>
+                    <span class="user-email">armandosilva@gmail.com</span>
+                </div>
+                <hr>
+            </div>
+
+            <div class="evaluation-history">
+                <h3>HISTÓRICO DE AVALIAÇÕES</h3>
+                <div class="evaluation">
+                    <span class="name">Marco Saraiva</span>
+                    <span class="stars">☆☆☆☆☆</span>
+                    <span class="status"></span>
+                </div>
+                <div class="evaluation">
+                    <span class="name">Alexandre Figueiro</span>
+                    <span class="stars">☆☆☆☆☆</span>
+                    <span class="status"></span>
+                </div>
+                <div class="evaluation">
+                    <span class="name">Mario Hernani</span>
+                    <span class="stars">★★★★★</span>
+                    <span class="status"></span>
+                </div>
+                <div class="evaluation">
+                    <span class="name">Duarte Paulo</span>
+                    <span class="stars">☆☆☆☆☆</span>
+                    <span class="status"></span>
+                </div>
+                <div class="evaluation">
+                    <span class="name">Rodrigo Marques</span>
+                    <span class="stars">★☆☆☆☆</span>
+                    <span class="status"></span>
+                </div>
+            </div>
+
+            <div class="upcoming-matches">
+                <h3>PRÓXIMAS PARTIDAS</h3>
+                <div class="match">
+                    <div class="match-details">
+                        <span class="date">17/10/2024 12:00 AM</span>
+                        <span class="teams">• A.F VISEU<br>FC VAGUENSE</span>
+                        <span class="location">Estádio Municipal do Fontelo</span>
+                    </div>
+                </div>
+                <div class="match">
+                    <div class="match-details">
+                        <span class="date">25/10/2024 12:00 AM</span>
+                        <span class="teams">• A.F VISEU<br>SL NELAS</span>
+                        <span class="location">Estádio Municipal de Nelas</span>
+                    </div>
+                </div>
+                <button class="assign-event">ATRIBUIR EVENTO</button>
+            </div>
+            <div class="highlighted-players">
+                <h3>JOGADORES DESTACADOS</h3>
+                <div class="evaluation-history">
+                    <div class="evaluation">
+                        <span class="name">Marco Saraiva</span>
+                        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                        <span class="status">2012</span>
+                    </div>
+                    <div class="evaluation">
+                        <span class="name">Pedro Costa</span>
+                        <span class="stars">&#9733;&#9733;&#9733;</span>
+                        <span class="status">2000</span>
+                    </div>
+                    <div class="evaluation">
+                        <span class="name">João Pereira</span>
+                        <span class="stars">&#9733;&#9733;&#9733;&#9733;</span>
+                        <span class="status">2003</span>
+                    </div>
+                </div>
+                <button class="assign-event">ADICIONAR JOGADOR</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
