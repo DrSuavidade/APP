@@ -17,84 +17,84 @@ const relationship12Controller = require('../Controllers/Relationship_12Controll
 // User Routes
 router.post('/users/signup', userController.registar); // Use 'registar' instead of 'signup'
 router.post('/users/login', userController.login);
-router.put('/users/edit/:id_user', userController.editUser); // Update user
-router.delete('/users/delete/:id_user', userController.deleteUser); // Delete user
+router.put('/users/edit/:ID_USER', userController.editUser); // Update user
+router.delete('/users/delete/:ID_USER', userController.deleteUser); // Delete user
 
 // Clube Routes
 router.post('/clube/add', clubeController.addClube); // Add club
 router.get('/clube/list', clubeController.listClube); // List clubs
-router.put('/clube/edit/:id_clube', clubeController.editClube); // Edit club
-router.delete('/clube/delete/:id_clube', clubeController.deleteClube); // Delete club
+router.put('/clube/edit/:ID_CLUBE', clubeController.editClube); // Edit club
+router.delete('/clube/delete/:ID_CLUBE', clubeController.deleteClube); // Delete club
 
 // Equipa Routes
 router.post('/equipa/add', equipaController.addEquipa); // Add team
 router.get('/equipa/list', equipaController.listEquipa); // List teams
-router.put('/equipa/edit/:id_equipa', equipaController.editEquipa); // Edit team
-router.delete('/equipa/delete/:id_equipa', equipaController.deleteEquipa); // Delete team
+router.put('/equipa/edit/:ID_EQUIPA', equipaController.editEquipa); // Edit team
+router.delete('/equipa/delete/:ID_EQUIPA', equipaController.deleteEquipa); // Delete team
 
 // Eventos Routes
 router.post('/evento/add', eventosController.addEvento);
 router.get('/evento/list', eventosController.listEvento);
-router.get('/evento/list/:id_user', eventosController.getGamesByUser);
-router.put('/evento/edit/:id_eventos', eventosController.editEvento);
-router.delete('/evento/delete/:id_eventos', eventosController.deleteEvento);
+router.get('/evento/list/:ID_USER', eventosController.getGamesByUser);
+router.put('/evento/edit/:ID_EVENTOS', eventosController.editEvento);
+router.delete('/evento/delete/:ID_EVENTOS', eventosController.deleteEvento);
 
 // Jogadores Routes
 router.post('/jogador/add', jogadoresController.addJogador);
 router.get('/jogador/list', jogadoresController.listJogador);
-router.get('/jogador/list/:id_user', jogadoresController.getPlayersByUser);
-router.put('/jogador/edit/:id_jogadores', jogadoresController.editJogador);
-router.delete('/jogador/delete/:id_jogadores', jogadoresController.deleteJogador);
+router.get('/jogador/list/:ID_USER', jogadoresController.getPlayersByUser);
+router.put('/jogador/edit/:ID_JOGADORES', jogadoresController.editJogador);
+router.delete('/jogador/delete/:ID_JOGADORES', jogadoresController.deleteJogador);
 
 // Posicao Routes
 router.post('/posicao/add', posicaoController.addPosicao);
 router.get('/posicao/list', posicaoController.listPosicao);
-router.put('/posicao/edit/:id_posicao', posicaoController.editPosicao);
-router.delete('/posicao/delete/:id_posicao', posicaoController.deletePosicao);
+router.put('/posicao/edit/:ID_POSICAO', posicaoController.editPosicao);
+router.delete('/posicao/delete/:ID_POSICAO', posicaoController.deletePosicao);
 
 // Relatorios Routes
 router.post('/relatorio/add', relatoriosController.addRelatorio);
 router.get('/relatorio/list', relatoriosController.listRelatorio);
 router.get('/relatorio/get', relatoriosController.getRelatorioByPlayerAndUser);
-router.put('/relatorio/edit/app/:id_relatorios', relatoriosController.editAppRelatorio);
-router.put('/relatorio/edit/:id_relatorios', relatoriosController.editRelatorio);
-router.delete('/relatorio/delete/:id_relatorios', relatoriosController.deleteRelatorio);
+router.put('/relatorio/edit/app/:ID_RELATORIOS', relatoriosController.editAppRelatorio);
+router.put('/relatorio/edit/:ID_RELATORIOS', relatoriosController.editRelatorio);
+router.delete('/relatorio/delete/:ID_RELATORIOS', relatoriosController.deleteRelatorio);
 
 // Favoritos Routes
 router.post('/favorito/add', favoritosController.addFavorito);
 router.get('/favorito/list', favoritosController.listFavoritos);
-router.put('/favorito/edit/:id_favoritos', favoritosController.editFavorito);
-router.delete('/favorito/delete/:id_favoritos', favoritosController.deleteFavorito);
+router.put('/favorito/edit/:ID_CLUBE/:ID_USER', favoritosController.editFavorito);
+router.delete('/favorito/delete/:ID_CLUBE/:ID_USER', favoritosController.deleteFavorito);
 
 // TipoUtilizador Routes
 router.post('/tipo/add', tipoUtilizadorController.addTipoUtilizador);
 router.get('/tipo/list', tipoUtilizadorController.listTipoUtilizador);
-router.put('/tipo/edit/:id_tipo', tipoUtilizadorController.editTipoUtilizador);
-router.delete('/tipo/delete/:id_tipo', tipoUtilizadorController.deleteTipoUtilizador);
+router.put('/tipo/edit/:ID_TIPO', tipoUtilizadorController.editTipoUtilizador);
+router.delete('/tipo/delete/:ID_TIPO', tipoUtilizadorController.deleteTipoUtilizador);
 
 // EquipaSombra Routes
 router.post('/sombra/add', equipaSombraController.addEquipaSombra);
 router.get('/sombra/list', equipaSombraController.listEquipaSombra);
-router.put('/sombra/edit/:id_tipo', equipaSombraController.editEquipaSombra);
-router.delete('/sombra/delete/:id_tipo', equipaSombraController.deleteEquipaSombra);
+router.put('/sombra/edit/:ID_SOMBRA', equipaSombraController.editEquipaSombra);
+router.delete('/sombra/delete/:ID_SOMBRA', equipaSombraController.deleteEquipaSombra);
 
 // RelacaoSombra Routes
 router.post('/resombra/add', relacaoSombraController.addRelacaoSombra);
 router.get('/resombra/list', relacaoSombraController.listRelacaoSombra);
-router.put('/resombra/edit/:id_tipo', relacaoSombraController.editRelacaoSombra);
-router.delete('/resombra/delete/:id_tipo', relacaoSombraController.deleteRelacaoSombra);
+router.put('/resombra/edit/:ID_RELACAO', relacaoSombraController.editRelacaoSombra);
+router.delete('/resombra/delete/:ID_RELACAO', relacaoSombraController.deleteRelacaoSombra);
 
 // Relationship_11 Routes
 router.post('/r11/add', relationship11Controller.addRelationship11);
 router.get('/r11/list', relationship11Controller.listRelationship11);
-router.put('/r11/edit/:id_tipo', relationship11Controller.editRelationship11);
-router.delete('/r11/delete/:id_tipo', relationship11Controller.deleteRelationship11);
+router.put('/r11/edit/:ID_EQUIPA/:ID_JOGADORES', relationship11Controller.editRelationship11);
+router.delete('/r11/delete/:ID_EQUIPA/:ID_JOGADORES', relationship11Controller.deleteRelationship11);
 
 // Relationship_12 Routes
 router.post('/r12/add', relationship12Controller.addRelationship12);
 router.get('/r12/list', relationship12Controller.listRelationship12);
-router.put('/r12/edit/:id_tipo', relationship12Controller.editRelationship12);
-router.delete('/r12/delete/:id_tipo', relationship12Controller.deleteRelationship12);
+router.put('/r12/edit/:ID_JOGADORES/:ID_EVENTOS', relationship12Controller.editRelationship12);
+router.delete('/r12/delete/:ID_JOGADORES/:ID_EVENTOS', relationship12Controller.deleteRelationship12);
 
 
 module.exports = router;
