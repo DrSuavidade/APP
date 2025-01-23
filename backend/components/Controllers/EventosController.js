@@ -6,15 +6,15 @@ const eventosController = {};
 
 // Add a new event
 eventosController.addEvento = async (req, res) => {
-    const { data, hora, equipa_casa, visitante, local, id_relatorio } = req.body;
+    const { DATA, HORA, EQUIPA_CASA, VISITANTE, LOCAL, ID_USER } = req.body;
   
     try {
       // Fetch the highest current id_eventos in the collection
-      const maxEvento = await Evento.findOne().sort({ id_eventos: -1 }).select('id_eventos');
-      const id_evento = maxEvento ? maxEvento.id_eventos + 1 : 1; // Increment the max id_eventos by 1 or set to 1 if none exists
+      const maxEvento = await Evento.findOne().sort({ ID_EVENTOS: -1 }).select('ID_EVENTOS');
+      const ID_EVENTO = maxEvento ? maxEvento.ID_EVENTOS + 1 : 1; // Increment the max id_eventos by 1 or set to 1 if none exists
   
       // Create a new evento document with the calculated id_evento
-      const evento = new Evento({ data, hora, equipa_casa, visitante, local, id_relatorio, id_eventos: id_evento });
+      const evento = new Evento({ DATA, HORA, EQUIPA_CASA, VISITANTE, LOCAL, ID_USER, ID_EVENTOS: ID_EVENTO });
       await evento.save();
   
       res.status(201).json({ message: 'Evento adicionado com sucesso!', evento });
@@ -27,7 +27,7 @@ eventosController.addEvento = async (req, res) => {
 // List all events
 eventosController.listEvento = async (req, res) => {
   try {
-    const eventos = await Evento.find().populate('id_eventos');
+    const eventos = await Evento.find().populate('ID_EVENTOS');
     res.status(200).json(eventos);
   } catch (error) {
     console.error('Erro ao listar eventos:', error);
@@ -37,21 +37,21 @@ eventosController.listEvento = async (req, res) => {
 
 // Edit an event by id_evento
 eventosController.editEvento = async (req, res) => {
-  const { id_eventos } = req.params;
-  const { data, hora, equipa_casa, visitante, local, id_relatorio } = req.body;
+  const { ID_EVENTOS } = req.params;
+  const { DATA, HORA, EQUIPA_CASA, VISITANTE, LOCAL, ID_USER } = req.body;
 
   try {
-    const evento = await Eventos.findOne({ id_eventos });
+    const evento = await Eventos.findOne({ ID_EVENTOS });
     if (!evento) {
       return res.status(404).json({ message: 'Evento não encontrado' });
     }
 
-    if (data) evento.data = data;
-    if (hora) evento.hora = hora;
-    if (equipa_casa) evento.equipa_casa = equipa_casa;
-    if (visitante) evento.visitante = visitante;
-    if (local) evento.local = local;
-    if (id_relatorio) evento.id_relatorio = id_relatorio;
+    if (DATA) evento.DATA = DATA;
+    if (HORA) evento.HORA = HORA;
+    if (EQUIPA_CASA) evento.EQUIPA_CASA = EQUIPA_CASA;
+    if (VISITANTE) evento.VISITANTE = VISITANTE;
+    if (LOCAL) evento.LOCAL = LOCAL;
+    if (ID_USER) evento.ID_USER = ID_USER;
 
     const updatedEvento = await evento.save();
     res.status(200).json({ message: 'Evento atualizado com sucesso!', evento: updatedEvento });
@@ -63,10 +63,10 @@ eventosController.editEvento = async (req, res) => {
 
 // Delete an event by id_evento
 eventosController.deleteEvento = async (req, res) => {
-  const { id_evento } = req.params;
+  const { ID_EVENTOS } = req.params;
 
   try {
-    const deletedEvento = await Evento.findOneAndDelete({ id_evento });
+    const deletedEvento = await Evento.findOneAndDelete({ ID_EVENTOS });
     if (!deletedEvento) {
       return res.status(404).json({ message: 'Evento não encontrado' });
     }

@@ -4,27 +4,30 @@ const relatoriosController = {};
 
 // Add a new report
 relatoriosController.addRelatorio = async (req, res) => {
-  const { tecnica, velocidade, competitiva, inteligencia, altura, morfologia, comentario, status, id_user, id_jogadores, data } = req.body;
+  const { TECNICA, VELOCIDADE, COMPETITIVA, INTELIGENCIA, ALTURA, MORFOLOGIA, COMENTARIO, STATUS, ID_USER, ID_JOGADORES, ID_EVENTOS, COMENTARIO_ADM, DATA, NOTA } = req.body;
 
   try {
     // Fetch the highest current id_relatorios in the collection
-    const maxRelatorio = await Relatorio.findOne().sort({ id_relatorios: -1 }).select('id_relatorios');
-    const id_relatorio = maxRelatorio ? maxRelatorio.id_relatorios + 1 : 1; // Increment the max id_relatorios by 1 or set to 1 if none exists
+    const maxRelatorio = await Relatorio.findOne().sort({ ID_RELATORIOS: -1 }).select('ID_RELATORIOS');
+    const ID_RELATORIO = maxRelatorio ? maxRelatorio.ID_RELATORIOS + 1 : 1; // Increment the max id_relatorios by 1 or set to 1 if none exists
 
     // Create a new relatorio document with the calculated id_relatorio
     const relatorio = new Relatorio({ 
-      tecnica, 
-      velocidade, 
-      competitiva, 
-      inteligencia, 
-      altura, 
-      morfologia, 
-      comentario, 
-      status, 
-      id_user, 
-      id_jogadores, 
-      data, 
-      id_relatorios: id_relatorio 
+      TECNICA, 
+      VELOCIDADE, 
+      COMPETITIVA, 
+      INTELIGENCIA, 
+      ALTURA, 
+      MORFOLOGIA, 
+      COMENTARIO, 
+      STATUS, 
+      ID_USER, 
+      ID_JOGADORES, 
+      ID_EVENTOS, 
+      COMENTARIO_ADM, 
+      DATA, 
+      NOTA, 
+      ID_RELATORIOS: ID_RELATORIO 
     });
 
     // Log the document before saving to ensure the id_relatorios field is set correctly
@@ -44,7 +47,7 @@ relatoriosController.addRelatorio = async (req, res) => {
 // List all reports
 relatoriosController.listRelatorio = async (req, res) => {
   try {
-    const relatorios = await Relatorio.find().populate('id_relatorios');
+    const relatorios = await Relatorio.find().populate('ID_RELATORIOS');
     res.status(200).json(relatorios);
   } catch (error) {
     console.error('Erro ao listar relatórios:', error);
@@ -54,26 +57,29 @@ relatoriosController.listRelatorio = async (req, res) => {
 
 // Edit a report by id_relatorio
 relatoriosController.editRelatorio = async (req, res) => {
-  const { id_relatorios } = req.params;
-  const { tecnica, velocidade, competitiva, inteligencia, altura, morfologia, comentario, status, id_user, id_jogadores, data } = req.body;
+  const { ID_RELATORIOS } = req.params;
+  const { TECNICA, VELOCIDADE, COMPETITIVA, INTELIGENCIA, ALTURA, MORFOLOGIA, COMENTARIO, STATUS, ID_USER, ID_JOGADORES, ID_EVENTOS, COMENTARIO_ADM, DATA, NOTA } = req.body;
 
   try {
-    const relatorio = await Relatorio.findOne({ id_relatorios });
+    const relatorio = await Relatorio.findOne({ ID_RELATORIOS });
     if (!relatorio) {
       return res.status(404).json({ message: 'Relatório não encontrado' });
     }
 
-    if (tecnica) relatorio.tecnica = tecnica;
-    if (velocidade) relatorio.velocidade = velocidade;
-    if (competitiva) relatorio.competitiva = competitiva;
-    if (inteligencia) relatorio.inteligencia = inteligencia;
-    if (altura) relatorio.altura = altura;
-    if (morfologia) relatorio.morfologia = morfologia;
-    if (comentario) relatorio.comentario = comentario;
-    if (status) relatorio.status = status;
-    if (id_user) relatorio.id_user = id_user;
-    if (id_jogadores) relatorio.id_jogadores = id_jogadores;
-    if (data) relatorio.data = data;
+    if (TECNICA) relatorio.TECNICA = TECNICA;
+    if (VELOCIDADE) relatorio.VELOCIDADE = VELOCIDADE;
+    if (COMPETITIVA) relatorio.COMPETITIVA = COMPETITIVA;
+    if (INTELIGENCIA) relatorio.INTELIGENCIA = INTELIGENCIA;
+    if (ALTURA) relatorio.ALTURA = ALTURA;
+    if (MORFOLOGIA) relatorio.MORFOLOGIA = MORFOLOGIA;
+    if (COMENTARIO) relatorio.COMENTARIO = COMENTARIO;
+    if (STATUS) relatorio.STATUS = STATUS;
+    if (ID_USER) relatorio.ID_USER = ID_USER;
+    if (ID_JOGADORES) relatorio.ID_JOGADORES = ID_JOGADORES;
+    if (ID_EVENTOS) relatorio.ID_EVENTOS = ID_EVENTOS;
+    if (COMENTARIO_ADM) relatorio.COMENTARIO_ADM = COMENTARIO_ADM;
+    if (DATA) relatorio.DATA = DATA;
+    if (NOTA) relatorio.NOTA = NOTA;
 
     const updatedRelatorio = await relatorio.save();
     res.status(200).json({ message: 'Relatório atualizado com sucesso!', relatorio: updatedRelatorio });
@@ -85,10 +91,10 @@ relatoriosController.editRelatorio = async (req, res) => {
 
 // Delete a report by id_relatorio
 relatoriosController.deleteRelatorio = async (req, res) => {
-  const { id_relatorio } = req.params;
+  const { ID_RELATORIOS } = req.params;
 
   try {
-    const deletedRelatorio = await Relatorio.findOneAndDelete({ id_relatorio });
+    const deletedRelatorio = await Relatorio.findOneAndDelete({ ID_RELATORIOS });
     if (!deletedRelatorio) {
       return res.status(404).json({ message: 'Relatório não encontrado' });
     }

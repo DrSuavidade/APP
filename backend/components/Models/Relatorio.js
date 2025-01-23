@@ -12,6 +12,7 @@ const RelatorioSchema = new mongoose.Schema({
   STATUS: { type: String, required: true },
   ID_USER: { type: Number, required: true, ref: 'USER' }, // Reference to User's custom ID
   ID_JOGADORES: { type: Number, ref: 'JOGADORES' }, // Reference to Jogadores' custom ID
+  ID_EVENTOS: { type: Number, ref: 'EVENTOS' }, // Reference to Jogadores' custom ID
   COMENTARIO_ADM: { type: String }, // Added field
   DATA: { type: Date, required: true },
   NOTA: { type: Number }, // Added field

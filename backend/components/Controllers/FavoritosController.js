@@ -4,15 +4,15 @@ const favoritosController = {};
 
 // Add a new favorito
 favoritosController.addFavorito = async (req, res) => {
-  const { id_clube, id_user } = req.body;
+  const { ID_CLUBE, ID_USER } = req.body;
 
   try {
     // Fetch the highest current id_favoritos in the collection
-    const maxFavorito = await Favoritos.findOne().sort({ id_favoritos: -1 }).select('id_favoritos');
-    const id_favorito = maxFavorito ? maxFavorito.id_favoritos + 1 : 1; // Increment the max id_favoritos by 1 or set to 1 if none exists
+    const maxFavorito = await Favoritos.findOne().sort({ ID_FAVORITOS: -1 }).select('ID_FAVORITOS');
+    const ID_FAVORITO = maxFavorito ? maxFavorito.ID_FAVORITOS + 1 : 1; // Increment the max id_favoritos by 1 or set to 1 if none exists
 
     // Create a new favorito document with the calculated id_favorito
-    const favorito = new Favoritos({ id_clube, id_user, id_favoritos: id_favorito });
+    const favorito = new Favoritos({ ID_CLUBE, ID_USER, ID_FAVORITOS: ID_FAVORITO });
     await favorito.save();
 
     res.status(201).json({ message: 'Favorito adicionado com sucesso!', favorito });
@@ -25,7 +25,7 @@ favoritosController.addFavorito = async (req, res) => {
 // List all favoritos
 favoritosController.listFavoritos = async (req, res) => {
   try {
-    const favoritos = await Favoritos.find().populate('id_favoritos');
+    const favoritos = await Favoritos.find().populate('ID_FAVORITOS');
     res.status(200).json(favoritos);
   } catch (error) {
     console.error('Erro ao listar favoritos:', error);
@@ -35,17 +35,17 @@ favoritosController.listFavoritos = async (req, res) => {
 
 // Edit a favorito by id_favoritos
 favoritosController.editFavorito = async (req, res) => {
-  const { id_favoritos } = req.params;
-  const { id_clube, id_user } = req.body;
+  const { ID_FAVORITOS } = req.params;
+  const { ID_CLUBE, ID_USER } = req.body;
 
   try {
-    const favorito = await Favoritos.findOne({ id_favoritos });
+    const favorito = await Favoritos.findOne({ ID_FAVORITOS });
     if (!favorito) {
       return res.status(404).json({ message: 'Favorito não encontrado' });
     }
 
-    if (id_clube) favorito.id_clube = id_clube;
-    if (id_user) favorito.id_user = id_user;
+    if (ID_CLUBE) favorito.ID_CLUBE = ID_CLUBE;
+    if (ID_USER) favorito.ID_USER = ID_USER;
 
     const updatedFavorito = await favorito.save();
     res.status(200).json({ message: 'Favorito atualizado com sucesso!', favorito: updatedFavorito });
@@ -57,10 +57,10 @@ favoritosController.editFavorito = async (req, res) => {
 
 // Delete a favorito by id_favoritos
 favoritosController.deleteFavorito = async (req, res) => {
-  const { id_favoritos } = req.params;
+  const { ID_FAVORITOS } = req.params;
 
   try {
-    const deletedFavorito = await Favoritos.findOneAndDelete({ id_favoritos });
+    const deletedFavorito = await Favoritos.findOneAndDelete({ ID_FAVORITOS });
     if (!deletedFavorito) {
       return res.status(404).json({ message: 'Favorito não encontrado' });
     }

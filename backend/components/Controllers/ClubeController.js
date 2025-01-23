@@ -4,13 +4,13 @@ const clubeController = {};
 
 // Add a new club
 clubeController.addClube = async (req, res) => {
-  const { nome, abreviatura } = req.body;
+  const { NOME, ABREVIATURA } = req.body;
 
   try {
-    const maxClube = await Clube.findOne().sort({ id_clube: -1 }).select('id_clube');
-    const id_clube = maxClube ? maxClube.id_clube + 1 : 1;
+    const maxClube = await Clube.findOne().sort({ ID_CLUBE: -1 }).select('ID_CLUBE');
+    const ID_CLUBE = maxClube ? maxClube.ID_CLUBE + 1 : 1;
 
-    const clube = new Clube({ nome, abreviatura, id_clube });
+    const clube = new Clube({ NOME, ABREVIATURA, ID_CLUBE });
     await clube.save();
 
     res.status(201).json({ message: 'Clube adicionado com sucesso!', clube });
@@ -33,17 +33,17 @@ clubeController.listClube = async (req, res) => {
 
 // Edit a club by id_clube
 clubeController.editClube = async (req, res) => {
-  const { id_clube } = req.params;
-  const { nome, abreviatura } = req.body;
+  const { ID_CLUBE } = req.params;
+  const { NOME, ABREVIATURA } = req.body;
 
   try {
-    const clube = await Clube.findOne({ id_clube });
+    const clube = await Clube.findOne({ ID_CLUBE });
     if (!clube) {
       return res.status(404).json({ message: 'Clube não encontrado' });
     }
 
-    if (nome) clube.nome = nome;
-    if (abreviatura) clube.abreviatura = abreviatura;
+    if (NOME) clube.NOME = NOME;
+    if (ABREVIATURA) clube.ABREVIATURA = ABREVIATURA;
 
     const updatedClube = await clube.save();
     res.status(200).json({ message: 'Clube atualizado com sucesso!', clube: updatedClube });
@@ -55,10 +55,10 @@ clubeController.editClube = async (req, res) => {
 
 // Delete a club by id_clube
 clubeController.deleteClube = async (req, res) => {
-  const { id_clube } = req.params;
+  const { ID_CLUBE } = req.params;
 
   try {
-    const deletedClube = await Clube.findOneAndDelete({ id_clube });
+    const deletedClube = await Clube.findOneAndDelete({ ID_CLUBE });
     if (!deletedClube) {
       return res.status(404).json({ message: 'Clube não encontrado' });
     }

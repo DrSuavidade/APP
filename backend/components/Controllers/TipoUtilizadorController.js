@@ -4,15 +4,15 @@ const tipoUtilizadorController = {};
 
 // Add a new tipoUtilizador
 tipoUtilizadorController.addTipoUtilizador = async (req, res) => {
-  const { permissoes } = req.body;
+  const { PERMISSOES } = req.body;
 
   try {
     // Fetch the highest current id_tipo in the collection
-    const maxTipoUtilizador = await TipoUtilizador.findOne().sort({ id_tipo: -1 }).select('id_tipo');
-    const id_tipo = maxTipoUtilizador ? maxTipoUtilizador.id_tipo + 1 : 1; // Increment the max id_tipo by 1 or set to 1 if none exists
+    const maxTipoUtilizador = await TipoUtilizador.findOne().sort({ ID_TIPO: -1 }).select('ID_TIPO');
+    const ID_TIPO = maxTipoUtilizador ? maxTipoUtilizador.ID_TIPO + 1 : 1; // Increment the max id_tipo by 1 or set to 1 if none exists
 
     // Create a new tipoUtilizador document with the calculated id_tipo
-    const tipoUtilizador = new TipoUtilizador({ permissoes, id_tipo });
+    const tipoUtilizador = new TipoUtilizador({ PERMISSOES, ID_TIPO });
     await tipoUtilizador.save();
 
     res.status(201).json({ message: 'Tipo de Utilizador adicionado com sucesso!', tipoUtilizador });
@@ -35,16 +35,16 @@ tipoUtilizadorController.listTipoUtilizador = async (req, res) => {
 
 // Edit a tipoUtilizador by id_tipo
 tipoUtilizadorController.editTipoUtilizador = async (req, res) => {
-  const { id_tipo } = req.params;
-  const { permissoes } = req.body;
+  const { ID_TIPO } = req.params;
+  const { PERMISSOES } = req.body;
 
   try {
-    const tipoUtilizador = await TipoUtilizador.findOne({ id_tipo });
+    const tipoUtilizador = await TipoUtilizador.findOne({ ID_TIPO });
     if (!tipoUtilizador) {
       return res.status(404).json({ message: 'Tipo de Utilizador não encontrado' });
     }
 
-    if (permissoes) tipoUtilizador.permissoes = permissoes;
+    if (PERMISSOES) tipoUtilizador.PERMISSOES = PERMISSOES;
 
     const updatedTipoUtilizador = await tipoUtilizador.save();
     res.status(200).json({ message: 'Tipo de Utilizador atualizado com sucesso!', tipoUtilizador: updatedTipoUtilizador });
@@ -56,10 +56,10 @@ tipoUtilizadorController.editTipoUtilizador = async (req, res) => {
 
 // Delete a tipoUtilizador by id_tipo
 tipoUtilizadorController.deleteTipoUtilizador = async (req, res) => {
-  const { id_tipo } = req.params;
+  const { ID_TIPO } = req.params;
 
   try {
-    const deletedTipoUtilizador = await TipoUtilizador.findOneAndDelete({ id_tipo });
+    const deletedTipoUtilizador = await TipoUtilizador.findOneAndDelete({ ID_TIPO });
     if (!deletedTipoUtilizador) {
       return res.status(404).json({ message: 'Tipo de Utilizador não encontrado' });
     }

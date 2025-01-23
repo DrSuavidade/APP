@@ -4,13 +4,13 @@ const equipaController = {};
 
 // Add a new team
 equipaController.addEquipa = async (req, res) => {
-  const { nome, escalao, id_clube } = req.body;
+  const { NOME, ESCALAO, ID_CLUBE } = req.body;
 
   try {
-    const maxEquipa = await Equipa.findOne().sort({ id_equipa: -1 }).select('id_equipa');
-    const id_equipa = maxEquipa ? maxEquipa.id_equipa + 1 : 1;
+    const maxEquipa = await Equipa.findOne().sort({ ID_EQUIPA: -1 }).select('ID_EQUIPA');
+    const ID_EQUIPA = maxEquipa ? maxEquipa.ID_EQUIPA + 1 : 1;
 
-    const equipa = new Equipa({ nome, escalao, id_clube, id_equipa });
+    const equipa = new Equipa({ NOME, ESCALAO, ID_CLUBE, ID_EQUIPA });
     await equipa.save();
 
     res.status(201).json({ message: 'Equipa adicionada com sucesso!', equipa });
@@ -33,18 +33,18 @@ equipaController.listEquipa = async (req, res) => {
 
 // Edit a team by id_equipa
 equipaController.editEquipa = async (req, res) => {
-  const { id_equipa } = req.params;
-  const { nome, escalao, id_clube } = req.body;
+  const { ID_EQUIPA } = req.params;
+  const { NOME, ESCALAO, ID_CLUBE } = req.body;
 
   try {
-    const equipa = await Equipa.findOne({ id_equipa });
+    const equipa = await Equipa.findOne({ ID_EQUIPA });
     if (!equipa) {
       return res.status(404).json({ message: 'Equipa não encontrada' });
     }
 
-    if (nome) equipa.nome = nome;
-    if (escalao) equipa.escalao = escalao;
-    if (id_clube) equipa.id_clube = id_clube;
+    if (NOME) equipa.NOME = NOME;
+    if (ESCALAO) equipa.ESCALAO = ESCALAO;
+    if (ID_CLUBE) equipa.ID_CLUBE = ID_CLUBE;
 
     const updatedEquipa = await equipa.save();
     res.status(200).json({ message: 'Equipa atualizada com sucesso!', equipa: updatedEquipa });
@@ -56,10 +56,10 @@ equipaController.editEquipa = async (req, res) => {
 
 // Delete a team by id_equipa
 equipaController.deleteEquipa = async (req, res) => {
-  const { id_equipa } = req.params;
+  const { ID_EQUIPA } = req.params;
 
   try {
-    const deletedEquipa = await Equipa.findOneAndDelete({ id_equipa });
+    const deletedEquipa = await Equipa.findOneAndDelete({ ID_EQUIPA });
     if (!deletedEquipa) {
       return res.status(404).json({ message: 'Equipa não encontrada' });
     }

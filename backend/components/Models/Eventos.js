@@ -8,7 +8,6 @@ const EventoSchema = new mongoose.Schema({
   VISITANTE: { type: String, required: true },
   LOCAL: { type: String, required: true },
   ID_USER: { type: Number, required: true, ref: 'USER' }, // Reference to User's custom ID
-  ID_RELATORIO: { type: Number, ref: 'RELATORIOS' }, // Reference to Relatorio's custom ID
 }, { collection: 'EVENTOS', versionKey: false });
 
 module.exports = mongoose.model('EVENTOS', EventoSchema);
