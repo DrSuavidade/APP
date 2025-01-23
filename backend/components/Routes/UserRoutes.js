@@ -13,6 +13,7 @@ const equipaSombraController = require('../Controllers/EquipaSombraController');
 const relacaoSombraController = require('../Controllers/RelacaoSombraController');
 const relationship11Controller = require('../Controllers/Relationship_11Controller');
 const relationship12Controller = require('../Controllers/Relationship_12Controller');
+const autenticarJWT = require('../Middleware/authMiddleware');
 
 // User Routes
 router.post('/users/signup', userController.registar); // Use 'registar' instead of 'signup'
@@ -33,7 +34,7 @@ router.put('/equipa/edit/:ID_EQUIPA', equipaController.editEquipa); // Edit team
 router.delete('/equipa/delete/:ID_EQUIPA', equipaController.deleteEquipa); // Delete team
 
 // Eventos Routes
-router.post('/evento/add', eventosController.addEvento);
+router.post('/evento/add', autenticarJWT, eventosController.addEvento);
 router.get('/evento/list', eventosController.listEvento);
 router.get('/evento/list/:ID_USER', eventosController.getGamesByUser);
 router.put('/evento/edit/:ID_EVENTOS', eventosController.editEvento);
