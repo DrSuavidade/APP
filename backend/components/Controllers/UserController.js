@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const userController = {};
-
+/*
 userController.registar = async (req, res) => {
   const { NOME, EMAIL, PASSWORD, ID_TIPO } = req.body;
 
@@ -34,8 +34,53 @@ userController.registar = async (req, res) => {
     console.error('Erro ao criar usuário:', error);
     res.status(500).json({ error: 'Erro ao criar usuário' });
   }
+};*/
+
+userController.registar = async (req, res) => {
+  const { ID_TIPO, NOME, EMAIL, PASSWORD } = req.body;
+
+  try {
+      // Verifica se o EMAIL já existe
+      const existingEmail = await User.findOne({ EMAIL });
+      if (existingEmail) {
+          return res.status(400).json({ message: 'E-mail já registrado.' });
+      }
+
+      // Busca o maior ID_USER existente
+      const lastUser = await User.findOne().sort({ ID_USER: -1 }); // Ordena pelo maior ID_USER
+      const newId = lastUser ? lastUser.ID_USER + 1 : 1; // Incrementa ou começa com 1
+
+      // Gera o hash da senha
+      const hashedPassword = await bcrypt.hash(PASSWORD, 10);
+
+      // Cria o novo usuário
+      const newUser = new User({
+          ID_USER: newId,
+          ID_TIPO,
+          NOME,
+          EMAIL,
+          PASSWORD: hashedPassword
+      });
+
+      // Salva o novo usuário no banco
+      await newUser.save();
+
+      res.status(201).json({
+          message: 'Usuário registrado com sucesso!',
+          user: {
+              ID_USER: newUser.ID_USER,
+              ID_TIPO: newUser.ID_TIPO,
+              NOME: newUser.NOME,
+              EMAIL: newUser.EMAIL
+          }
+      });
+  } catch (error) {
+      console.error('Erro ao registrar usuário:', error);
+      res.status(500).json({ message: 'Erro no servidor.' });
+  }
 };
 
+/*
 userController.login = async (req, res) => {
   const { EMAIL, PASSWORD } = req.body;
 
@@ -51,7 +96,51 @@ userController.login = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Erro no login do usuário' });
   }
+};*/
+
+userController.login = async (req, res) => {
+  try {
+      console.log("Iniciando processo de login...");
+
+      const { EMAIL, PASSWORD } = req.body; // Use os mesmos nomes do corpo da requisição
+
+      if (!EMAIL || !PASSWORD) {
+          console.log("E-mail ou senha não fornecidos.");
+          return res.status(400).json({ message: 'E-mail e Password são obrigatórios.' });
+      }
+
+      // Verifica se o usuário existe
+      const user = await User.findOne({ EMAIL });
+      if (!user) {
+          console.log("E-mail não encontrado.");
+          return res.status(401).json({ message: 'E-mail ou Password inválidos.' });
+      }
+
+      // Verifica a senha
+      const isPasswordValid = await bcrypt.compare(PASSWORD, user.PASSWORD);
+
+      if (!isPasswordValid) {
+          console.log("Password inválida.");
+          return res.status(401).json({ message: 'E-mail ou Password inválidos.' });
+      }
+
+      console.log("Login bem-sucedido. Gerando token...");
+
+      // Gera o token JWT
+      const token = jwt.sign(
+          { id: user._id, ID_USER: user.ID_USER, ID_TIPO: user.ID_TIPO },
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+      );
+
+      return res.status(200).json({ token, message: 'Login realizado com sucesso.' });
+  } catch (error) {
+      console.error('Erro no processo de login:', error);
+      return res.status(500).json({ message: 'Erro no servidor.' });
+  }
 };
+
+
 
 userController.editUser = async (req, res) => {
   const { ID_USER } = req.params;

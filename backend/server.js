@@ -9,6 +9,12 @@ require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 
+
+app.use((req, res, next) => {
+  console.log('Body recebido no middleware:', req.body);
+  next();
+});
+
 app.use('/api', require('./components/Routes/UserRoutes'));
 
 
@@ -28,3 +34,4 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
+
