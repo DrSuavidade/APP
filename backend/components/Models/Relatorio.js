@@ -1,18 +1,20 @@
 const mongoose = require('mongoose');
 
 const RelatorioSchema = new mongoose.Schema({
-  id_relatorios: { type: Number, unique: true }, // Custom ID
-  tecnica: { type: Number, required: true },
-  velocidade: { type: Number, required: true },
-  competitiva: { type: Number, required: true },
-  inteligencia: { type: Number, required: true },
-  altura: { type: Number, required: true },
-  morfologia: { type: String, required: true },
-  comentario: { type: String },
-  status: { type: String, required: true },
-  id_user: { type: Number, required: true, ref: 'user' }, // Reference to User's custom ID
-  id_jogadores: { type: Number, required: true, ref: 'jogadores' }, // Reference to Jogadores' custom ID
-  data: { type: Date, required: true },
-}, { collection: 'relatorios', versionKey: false });
+  ID_RELATORIOS: { type: Number, unique: true }, // Custom ID
+  TECNICA: { type: Number, required: true },
+  VELOCIDADE: { type: Number, required: true },
+  COMPETITIVA: { type: Number, required: true },
+  INTELIGENCIA: { type: Number, required: true },
+  ALTURA: { type: String, required: true },
+  MORFOLOGIA: { type: String, required: true },
+  COMENTARIO: { type: String },
+  STATUS: { type: String, required: true },
+  ID_USER: { type: Number, required: true, ref: 'USER' }, // Reference to User's custom ID
+  ID_JOGADORES: { type: Number, ref: 'JOGADORES' }, // Reference to Jogadores' custom ID
+  COMENTARIO_ADM: { type: String }, // Added field
+  DATA: { type: Date, required: true },
+  NOTA: { type: Number }, // Added field
+}, { collection: 'RELATORIOS', versionKey: false });
 
-module.exports = mongoose.model('relatorios', RelatorioSchema);
+module.exports = mongoose.model('RELATORIOS', RelatorioSchema);

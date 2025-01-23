@@ -1,21 +1,105 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import '../api/api_service.dart';
 
 class RelatorioScreen extends StatefulWidget {
-  const RelatorioScreen({super.key});
+  const RelatorioScreen({Key? key}) : super(key: key);
 
   @override
   _RelatorioPageState createState() => _RelatorioPageState();
 }
 
 class _RelatorioPageState extends State<RelatorioScreen> {
-  int tecnica = 0, velocidade = 0, atitudeCompetitiva = 0, inteligencia = 0;
-  String? altura, morfologia;
-  final _commentController = TextEditingController();
+  final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
+  int? tecnica, velocidade, atitudeCompetitiva, inteligencia;
+  String? altura, morfologia, comentario;
+  late int idJogadores, idUser;
+
+  Map<String, dynamic>? playerInfo;
+  Map<String, dynamic>? relatorioInfo;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    idJogadores = args['id_jogadores'];
+    idUser = args['id_user'];
+    _fetchData();
+  }
+
+  Future<void> _fetchData() async {
+    try {
+      // Fetch player info
+      final playerResponse = await api.get('jogador/list/$idJogadores');
+      // Fetch relatorio info
+      final relatorioResponse = await api
+          .get('relatorio/get?id_jogadores=$idJogadores&id_user=$idUser');
+
+      if (relatorioResponse is Map<String, dynamic>) {
+      setState(() {
+        playerInfo = playerResponse;
+        relatorioInfo = relatorioResponse;
+
+        // Initialize form fields with fetched relatorio data
+        tecnica = relatorioInfo?['tecnica'];
+        velocidade = relatorioInfo?['velocidade'];
+        atitudeCompetitiva = relatorioInfo?['competitiva'];
+        inteligencia = relatorioInfo?['inteligencia'];
+        altura = relatorioInfo?['altura'];
+        morfologia = relatorioInfo?['morfologia'];
+        comentario = relatorioInfo?['comentario'];
+      });
+    } else {
+      throw Exception('Invalid API response format');
+    }
+  } catch (e) {
+    _showErrorDialog('Error', e.toString());
+  }
+}
+
+  void _showErrorDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _updateRelatorio() async {
+    try {
+      await api.put('relatorio/edit/app/${relatorioInfo!['id_relatorios']}', {
+        'tecnica': tecnica,
+        'velocidade': velocidade,
+        'competitiva': atitudeCompetitiva,
+        'inteligencia': inteligencia,
+        'altura': altura,
+        'morfologia': morfologia,
+        'comentario': comentario,
+        'data': DateTime.now().toIso8601String(),
+      });
+      Navigator.pop(context);
+    } catch (e) {
+      _showErrorDialog('Error', 'Failed to update relatorio');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (playerInfo == null || relatorioInfo == null) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -72,16 +156,16 @@ class _RelatorioPageState extends State<RelatorioScreen> {
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
-                              "NOME: Marco Saraiva",
+                              'NOME: ${playerInfo!['nome']}',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 10,
                                   fontWeight: FontWeight.w300),
                             ),
                             Text(
-                              "IDADE: 12",
+                              'IDADE: ${DateTime.now().year - DateTime.parse(playerInfo!['data_nasc']).year}',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 10,
@@ -122,16 +206,16 @@ class _RelatorioPageState extends State<RelatorioScreen> {
                   child: Column(
                     children: [
                       // Independent Rating Sections
-                      _buildRatingSection("TÉCNICA", tecnica,
+                      _buildRatingSection("TÉCNICA", tecnica ?? 0,
                           (value) => setState(() => tecnica = value)),
-                      _buildRatingSection("VELOCIDADE", velocidade,
+                      _buildRatingSection("VELOCIDADE", velocidade ?? 0,
                           (value) => setState(() => velocidade = value)),
                       _buildRatingSection(
                           "ATITUDE COMPETITIVA",
-                          atitudeCompetitiva,
+                          atitudeCompetitiva ?? 0,
                           (value) =>
                               setState(() => atitudeCompetitiva = value)),
-                      _buildRatingSection("INTELIGÊNCIA", inteligencia,
+                      _buildRatingSection("INTELIGÊNCIA", inteligencia ?? 0,
                           (value) => setState(() => inteligencia = value)),
                       // Altura Section
                       _buildOptionSection("ALTURA", ["Baixo", "Médio", "Alto"],
@@ -159,7 +243,10 @@ class _RelatorioPageState extends State<RelatorioScreen> {
                                 left: 10,
                                 right: 10), // Padding for the text field
                             child: TextField(
-                              controller: _commentController,
+                              controller:
+                                  TextEditingController(text: comentario),
+                              onChanged: (value) =>
+                                  setState(() => comentario = value),
                               maxLines: null, // Allow multiline input
                               expands: true, // Expand to fill the container
                               textAlignVertical: TextAlignVertical
@@ -190,27 +277,31 @@ class _RelatorioPageState extends State<RelatorioScreen> {
                       // Confirm Button
                       SizedBox(height: 10),
                       ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, '/home'); // Navigate to home.dart
+                        onPressed: () async {
+                          if (relatorioInfo != null) {
+                            try {
+                              await api.editRelatorio(
+                                relatorioInfo!['id_relatorios'].toString(),
+                                {
+                                  'tecnica': tecnica,
+                                  'velocidade': velocidade,
+                                  'competitiva': atitudeCompetitiva,
+                                  'inteligencia': inteligencia,
+                                  'altura': altura,
+                                  'morfologia': morfologia,
+                                  'comentario': comentario,
+                                  'data': DateTime.now().toIso8601String(),
+                                },
+                              );
+                              Navigator.pop(
+                                  context); // Navigate back after success
+                            } catch (e) {
+                              _showErrorDialog(
+                                  'Erro', 'Falha ao atualizar relatório');
+                            }
+                          }
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Colors.white, // Swap background color
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 15), // Add padding
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Text(
-                          "CONFIRMAR",
-                          style: TextStyle(
-                              color: Colors.grey[900], // Swap text color
-                              fontSize:
-                                  12 // Make the text bold for better visibility
-                              ),
-                        ),
+                        child: const Text("CONFIRMAR"),
                       ),
                       SizedBox(height: 20),
                     ],

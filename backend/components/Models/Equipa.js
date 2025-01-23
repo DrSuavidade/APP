@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const EquipaSchema = new mongoose.Schema({
-  id_equipa: { type: Number, unique: true }, // Custom ID
-  nome: { type: String, required: true },
-  escalao: { type: String, required: true },
-  id_clube: { type: Number, required: true, ref: 'clube' }, // Link to Clube's custom ID
-}, { collection: 'equipa', versionKey: false });
+  ID_EQUIPA: { type: Number, unique: true }, // Custom ID
+  NOME: { type: String, required: true },
+  ESCALAO: { type: String, required: true },
+  ID_CLUBE: { type: Number, required: true, ref: 'CLUBE' }, // Reference to Clube's custom ID
+}, { collection: 'EQUIPA', versionKey: false });
 
-module.exports = mongoose.model('equipa', EquipaSchema);
+module.exports = mongoose.model('EQUIPA', EquipaSchema);

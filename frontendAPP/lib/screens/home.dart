@@ -168,6 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               DateTime.now().year -
                                   DateTime.parse(player['data_nasc']).year,
                               5, // Replace with stars if available
+                              player['id_jogadores'],
                               context,
                             );
                           }).toList(),
@@ -421,11 +422,17 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _playerCard(String name, int age, int stars, BuildContext context) {
+  Widget _playerCard(String name, int age, int stars, int playerId, BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
-            context, '/relatorio'); // Navigate to relatorio.dart
+        context,
+        '/relatorio',
+        arguments: {
+          'id_jogadores': playerId,
+          'id_user': widget.userId,
+        },
+      );
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 6), // Space between cards

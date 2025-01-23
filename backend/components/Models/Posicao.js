@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const PosicaoSchema = new mongoose.Schema({
-  id_posicao: { type: Number, unique: true }, // Custom ID  
-  nome: { type: String, required: true },
-}, { collection: 'posicao', versionKey: false });
+  ID_POSICAO: { type: Number, unique: true }, // Custom ID
+  NOME: { type: String, required: true },
+}, { collection: 'POSICAO', versionKey: false });
 
-module.exports = mongoose.model('posicao', PosicaoSchema);
+module.exports = mongoose.model('POSICAO', PosicaoSchema);

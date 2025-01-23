@@ -100,4 +100,48 @@ relatoriosController.deleteRelatorio = async (req, res) => {
   }
 };
 
+relatoriosController.getRelatorioByPlayerAndUser = async (req, res) => {
+  const { id_jogadores, id_user } = req.query;
+
+  try {
+    const relatorio = await Relatorio.findOne({ id_jogadores, id_user });
+    if (!relatorio) {
+      return res.status(404).json({ message: 'Relatório não encontrado' });
+    }
+    res.status(200).json(relatorio);
+  } catch (error) {
+    console.error('Erro ao buscar relatório:', error);
+    res.status(500).json({ error: 'Erro ao buscar relatório' });
+  }
+};
+
+// Update a specific relatorio by id_relatorios
+relatoriosController.editAppRelatorio = async (req, res) => {
+  const { id_relatorios } = req.params;
+  const { tecnica, velocidade, competitiva, inteligencia, altura, morfologia, comentario, data } = req.body;
+
+  try {
+    const relatorio = await Relatorio.findOne({ id_relatorios });
+    if (!relatorio) {
+      return res.status(404).json({ message: 'Relatório não encontrado' });
+    }
+
+    // Update the fields if provided
+    if (tecnica !== undefined) relatorio.tecnica = tecnica;
+    if (velocidade !== undefined) relatorio.velocidade = velocidade;
+    if (competitiva !== undefined) relatorio.competitiva = competitiva;
+    if (inteligencia !== undefined) relatorio.inteligencia = inteligencia;
+    if (altura !== undefined) relatorio.altura = altura;
+    if (morfologia !== undefined) relatorio.morfologia = morfologia;
+    if (comentario !== undefined) relatorio.comentario = comentario;
+    if (data !== undefined) relatorio.data = data;
+
+    const updatedRelatorio = await relatorio.save();
+    res.status(200).json({ message: 'Relatório atualizado com sucesso!', relatorio: updatedRelatorio });
+  } catch (error) {
+    console.error('Erro ao atualizar relatório:', error);
+    res.status(500).json({ error: 'Erro ao atualizar relatório' });
+  }
+};
+
 module.exports = relatoriosController;

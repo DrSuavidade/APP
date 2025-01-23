@@ -117,6 +117,12 @@ class ApiService {
   Future<dynamic> addRelatorio(Map<String, dynamic> data) =>
       post('relatorio/add', data);
   Future<dynamic> listRelatorios() => get('relatorio/list');
+  Future<dynamic> getRelatorioByPlayerAndUser(int idJogadores, int idUser) async {
+  return await get('relatorio/get?id_jogadores=$idJogadores&id_user=$idUser');
+}
+Future<dynamic> editAppRelatorio(String idRelatorio, Map<String, dynamic> data) async {
+  return await put('relatorio/edit/app/$idRelatorio', data);
+}
   Future<dynamic> editRelatorio(String id, Map<String, dynamic> data) =>
       put('relatorio/edit/$id', data);
   Future<void> deleteRelatorio(String id) => delete('relatorio/delete/$id');
