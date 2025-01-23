@@ -8,7 +8,7 @@ relacaoSombraController.addRelacaoSombra = async (req, res) => {
 
   try {
     // Fetch the highest current id_tipo in the collection
-    const maxRelacaoSombra = await RelacaoSombra.findOne().sort({ ID_RELACAO: -1 }).select('ID_SOMBRA');
+    const maxRelacaoSombra = await RelacaoSombra.findOne().sort({ ID_RELACAO: -1 }).select('ID_RELACAO');
     const ID_RELACAO = maxRelacaoSombra ? maxRelacaoSombra.ID_RELACAO + 1 : 1; // Increment the max id_tipo by 1 or set to 1 if none exists
 
     // Create a new tipoUtilizador document with the calculated id_tipo

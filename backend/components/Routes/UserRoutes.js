@@ -56,9 +56,9 @@ router.delete('/posicao/delete/:ID_POSICAO', posicaoController.deletePosicao);
 router.post('/relatorio/add', relatoriosController.addRelatorio);
 router.get('/relatorio/list', relatoriosController.listRelatorio);
 router.get('/relatorio/get', relatoriosController.getRelatorioByPlayerAndUser);
-router.put('/relatorio/edit/app/:ID_RELATORIOS', relatoriosController.editAppRelatorio);
-router.put('/relatorio/edit/:ID_RELATORIOS', relatoriosController.editRelatorio);
-router.delete('/relatorio/delete/:ID_RELATORIOS', relatoriosController.deleteRelatorio);
+router.put('/relatorio/edit/app/:ID_RELATORIO', relatoriosController.editAppRelatorio);
+router.put('/relatorio/edit/:ID_RELATORIO', relatoriosController.editRelatorio);
+router.delete('/relatorio/delete/:ID_RELATORIO', relatoriosController.deleteRelatorio);
 
 // Favoritos Routes
 router.post('/favorito/add', favoritosController.addFavorito);

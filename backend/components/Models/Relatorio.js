@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const RelatorioSchema = new mongoose.Schema({
-  ID_RELATORIOS: { type: Number, unique: true }, // Custom ID
+  ID_RELATORIO: { type: Number, unique: true }, // Custom ID
   TECNICA: { type: Number, required: true },
   VELOCIDADE: { type: Number, required: true },
   COMPETITIVA: { type: Number, required: true },

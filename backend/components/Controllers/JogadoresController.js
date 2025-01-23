@@ -10,11 +10,11 @@ jogadoresController.addJogador = async (req, res) => {
 
     try {
         // Fetch the highest current id_jogadores in the collection
-        const maxJogador = await Jogadores.findOne().sort({ ID_JOGADORES: -1 }).select('id_jogadores');
+        const maxJogador = await Jogadores.findOne().sort({ ID_JOGADORES: -1 }).select('ID_JOGADORES');
         const ID_JOGADOR = maxJogador ? maxJogador.ID_JOGADORES + 1 : 1; // Increment the max id_jogadores by 1 or set to 1 if none exists
 
         // Create a new jogador document with the calculated id_jogadores
-        const jogador = new Jogador({ NOME, DATA_NASC, GENERO, LINK, NACIONALIDADE, DADOS_ENC, NOTA_ADM, STATUS, ID_JOGADOR });
+        const jogador = new Jogador({ NOME, DATA_NASC, GENERO, LINK, NACIONALIDADE, DADOS_ENC, NOTA_ADM, STATUS, ID_JOGADORES: ID_JOGADOR });
         await jogador.save();
 
         res.status(201).json({ message: 'Jogador adicionado com sucesso!', jogador });

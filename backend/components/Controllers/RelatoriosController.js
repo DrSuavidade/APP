@@ -8,8 +8,8 @@ relatoriosController.addRelatorio = async (req, res) => {
 
   try {
     // Fetch the highest current id_relatorios in the collection
-    const maxRelatorio = await Relatorio.findOne().sort({ ID_RELATORIOS: -1 }).select('ID_RELATORIOS');
-    const ID_RELATORIO = maxRelatorio ? maxRelatorio.ID_RELATORIOS + 1 : 1; // Increment the max id_relatorios by 1 or set to 1 if none exists
+    const maxRelatorio = await Relatorio.findOne().sort({ ID_RELATORIO: -1 }).select('ID_RELATORIO');
+    const ID_RELATORIO = maxRelatorio ? maxRelatorio.ID_RELATORIO + 1 : 1; // Increment the max id_relatorios by 1 or set to 1 if none exists
 
     // Create a new relatorio document with the calculated id_relatorio
     const relatorio = new Relatorio({ 
@@ -27,7 +27,7 @@ relatoriosController.addRelatorio = async (req, res) => {
       COMENTARIO_ADM, 
       DATA, 
       NOTA, 
-      ID_RELATORIOS: ID_RELATORIO 
+      ID_RELATORIO: ID_RELATORIO 
     });
 
     // Log the document before saving to ensure the id_relatorios field is set correctly
@@ -47,7 +47,7 @@ relatoriosController.addRelatorio = async (req, res) => {
 // List all reports
 relatoriosController.listRelatorio = async (req, res) => {
   try {
-    const relatorios = await Relatorio.find().populate('ID_RELATORIOS');
+    const relatorios = await Relatorio.find().populate('ID_RELATORIO');
     res.status(200).json(relatorios);
   } catch (error) {
     console.error('Erro ao listar relatórios:', error);
@@ -57,11 +57,11 @@ relatoriosController.listRelatorio = async (req, res) => {
 
 // Edit a report by id_relatorio
 relatoriosController.editRelatorio = async (req, res) => {
-  const { ID_RELATORIOS } = req.params;
+  const { ID_RELATORIO } = req.params;
   const { TECNICA, VELOCIDADE, COMPETITIVA, INTELIGENCIA, ALTURA, MORFOLOGIA, COMENTARIO, STATUS, ID_USER, ID_JOGADORES, ID_EVENTOS, COMENTARIO_ADM, DATA, NOTA } = req.body;
 
   try {
-    const relatorio = await Relatorio.findOne({ ID_RELATORIOS });
+    const relatorio = await Relatorio.findOne({ ID_RELATORIO });
     if (!relatorio) {
       return res.status(404).json({ message: 'Relatório não encontrado' });
     }
@@ -91,10 +91,10 @@ relatoriosController.editRelatorio = async (req, res) => {
 
 // Delete a report by id_relatorio
 relatoriosController.deleteRelatorio = async (req, res) => {
-  const { ID_RELATORIOS } = req.params;
+  const { ID_RELATORIO } = req.params;
 
   try {
-    const deletedRelatorio = await Relatorio.findOneAndDelete({ ID_RELATORIOS });
+    const deletedRelatorio = await Relatorio.findOneAndDelete({ ID_RELATORIO });
     if (!deletedRelatorio) {
       return res.status(404).json({ message: 'Relatório não encontrado' });
     }

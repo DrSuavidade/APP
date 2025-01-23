@@ -80,12 +80,12 @@ eventosController.deleteEvento = async (req, res) => {
 
 // Fetch games related to a specific user
 eventosController.getGamesByUser = async (req, res) => {
-  const { id_user } = req.params;
+  const { ID_USER } = req.params;
 
   try {
     // Get all relatorios by id_user
-    const relatorios = await Relatorio.find({ id_user }).select('id_relatorios');
-    const relatorioIds = relatorios.map((relatorio) => relatorio.id_relatorios);
+    const relatorios = await Relatorio.find({ ID_USER }).select('ID_RELATORIOS');
+    const relatorioIds = relatorios.map((relatorio) => relatorio.ID_RELATORIOS);
 
     if (!relatorioIds.length) {
       return res.status(404).json({ message: 'No games found for this user' });
