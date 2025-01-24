@@ -82,19 +82,26 @@ jogadoresController.deleteJogador = async (req, res) => {
 
 // Fetch players related to a specific user
 jogadoresController.getPlayersByUser = async (req, res) => {
-  const { id_user } = req.params;
+  const { ID_USER } = req.params;
 
   try {
-    // Get all relatorios by id_user
-    const relatorios = await Relatorio.find({ id_user }).select('id_jogadores');
-    const jogadorIds = relatorios.map((relatorio) => relatorio.id_jogadores);
+
+    // Fetch all relatorios for the given user
+    const relatorios = await Relatorio.find({ ID_USER }).select('ID_JOGADORES');
+
+    const jogadorIds = relatorios.map((relatorio) => relatorio.ID_JOGADORES);
 
     if (!jogadorIds.length) {
+      console.log('No jogadores IDs found for user:', ID_USER);
       return res.status(404).json({ message: 'No players found for this user' });
     }
 
-    // Get jogadores by their IDs
-    const jogadores = await Jogador.find({ id_jogadores: { $in: jogadorIds } });
+    // Fetch jogadores using correct field name
+    const jogadores = await Jogador.find({ ID_JOGADORES: { $in: jogadorIds } });
+
+    if (!jogadores.length) {
+      console.log('No jogadores found for extracted IDs');
+    }
 
     res.status(200).json(jogadores);
   } catch (error) {
@@ -102,6 +109,7 @@ jogadoresController.getPlayersByUser = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch players' });
   }
 };
+
 
 
 module.exports = jogadoresController;

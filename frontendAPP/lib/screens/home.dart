@@ -131,11 +131,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(height: 10),
                       ...userGames.map((game) {
                         return _eventoCard(
-                          game['data'],
-                          game['hora'],
-                          game['equipa_casa'],
-                          game['visitante'],
-                          game['local'],
+                          game['DATA'],
+                          game['HORA'],
+                          game['EQUIPA_CASA'],
+                          game['VISITANTE'],
+                          game['LOCAL'],
                           context,
                         );
                       }).toList(),
@@ -164,11 +164,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.only(right: 30),
                           children: userPlayers.map((player) {
                             return _playerCard(
-                              player['nome'],
+                              player['NOME'],
                               DateTime.now().year -
-                                  DateTime.parse(player['data_nasc']).year,
-                              5, // Replace with stars if available
-                              player['id_jogadores'],
+                                  DateTime.parse(player['DATA_NASC']).year,
+                              player['NOTA_ADM'],
+                              player['ID_JOGADORES'],
                               context,
                             );
                           }).toList(),
@@ -422,10 +422,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _playerCard(String name, int age, int stars, int playerId, BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
+  Widget _playerCard(String name, int age, int notaAdm, int playerId, BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.pushNamed(
         context,
         '/relatorio',
         arguments: {
@@ -433,58 +433,59 @@ class _HomeScreenState extends State<HomeScreen> {
           'id_user': widget.userId,
         },
       );
-      },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 6), // Space between cards
-        padding:
-            const EdgeInsets.only(left: 50, right: 40, top: 15, bottom: 15),
-        width: double.infinity,
-        height: 60,
-        decoration: BoxDecoration(
-          color: Colors.grey[900],
-          borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(10),
-            bottomRight: Radius.circular(10),
-          ),
+    },
+    child: Container(
+      margin: const EdgeInsets.only(bottom: 6), // Space between cards
+      padding:
+          const EdgeInsets.only(left: 50, right: 40, top: 15, bottom: 15),
+      width: double.infinity,
+      height: 60,
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(10),
+          bottomRight: Radius.circular(10),
         ),
-        child: Row(
-          children: [
-            const CircleAvatar(
-              backgroundColor: Color.fromARGB(255, 49, 49, 49),
-              child: Icon(Icons.person, color: Colors.white),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "NOME: $name",
-                    style: const TextStyle(color: Colors.white, fontSize: 9),
-                  ),
-                  Text(
-                    "IDADE: $age",
-                    style: const TextStyle(color: Colors.grey, fontSize: 8),
-                  ),
-                ],
-              ),
-            ),
-            Row(
+      ),
+      child: Row(
+        children: [
+          const CircleAvatar(
+            backgroundColor: Color.fromARGB(255, 49, 49, 49),
+            child: Icon(Icons.person, color: Colors.white),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "$stars",
-                  style: const TextStyle(color: Colors.white, fontSize: 18),
+                  "NOME: $name",
+                  style: const TextStyle(color: Colors.white, fontSize: 9),
                 ),
-                const Icon(
-                  Icons.star,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  size: 20,
+                Text(
+                  "IDADE: $age",
+                  style: const TextStyle(color: Colors.grey, fontSize: 8),
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+          Row(
+            children: [
+              Text(
+                "$notaAdm", // Display NOTA_ADM here
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              const Icon(
+                Icons.star,
+                color: Color.fromARGB(255, 255, 255, 255),
+                size: 20,
+              ),
+            ],
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
