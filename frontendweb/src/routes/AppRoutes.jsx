@@ -13,7 +13,7 @@ import PlayersCreatePage from '../pages/PlayersCreatePage';
 import PlayersEditPage from '../pages/PlayersEditPage';
 import PlayersReportsPage from '../pages/PlayersReportsPage';
 import PlayersAddToEventPage from '../pages/PlayersAddToEventPage';
-import PlayersNewPage from '../pages/PlayersNewPage';
+//import PlayersNewPage from '../pages/PlayersNewPage';
 import TeamPage from '../pages/TeamPage';
 import AddClubPage from '../pages/AddClubPage';
 import AddTeamPage from '../pages/AddTeamPage';
