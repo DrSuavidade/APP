@@ -2,7 +2,7 @@ import React from 'react';
 //import Navbar from '../components/Navbar';
 //import Footer from '../components/Footer';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import '../CSS/ware.css';
+//import '../CSS/ware.css';
 import '../CSS/site.main.css';
 
 export default function Home() {
