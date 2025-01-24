@@ -31,8 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
       // Sort events by date and filter the two closest
       List<dynamic> sortedGames = List<dynamic>.from(gamesResponse);
       sortedGames.sort((a, b) {
-        DateTime dateA = DateTime.parse(a['data']);
-        DateTime dateB = DateTime.parse(b['data']);
+        DateTime dateA = DateTime.parse(a['DATA']);
+        DateTime dateB = DateTime.parse(b['DATA']);
         return dateA.compareTo(dateB);
       });
 

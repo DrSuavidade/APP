@@ -21,13 +21,13 @@ class _LoginPageState extends State<LoginScreen> {
 
   try {
     final response = await api.loginUser({
-      'email': _emailController.text.trim(),
-      'password': _passwordController.text.trim(),
+      'EMAIL': _emailController.text.trim(),
+      'PASSWORD': _passwordController.text.trim(),
     });
 
-    if (response.containsKey('token') && response.containsKey('user') && response['user'] != null) {
-      final user = response['user'];
-      final userId = user['id_user']; // Extract id_user (number) from the response
+    if (response.containsKey('token') && response.containsKey('USER') && response['USER'] != null) {
+      final user = response['USER'];
+      final userId = user['ID_USER']; // Extract id_user (number) from the response
 
       setState(() {
         _isLoading = false;

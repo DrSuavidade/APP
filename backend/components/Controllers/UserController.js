@@ -99,46 +99,59 @@ userController.login = async (req, res) => {
 };*/
 
 userController.login = async (req, res) => {
+  console.log("Iniciando processo de login...");
+  const { EMAIL, PASSWORD } = req.body;
+
   try {
-      console.log("Iniciando processo de login...");
+    // Check if EMAIL and PASSWORD are provided
+    if (!EMAIL || !PASSWORD) {
+      console.log("E-mail ou senha não fornecidos.");
+      return res.status(400).json({ message: 'E-mail e Password são obrigatórios.' });
+    }
 
-      const { EMAIL, PASSWORD } = req.body; // Use os mesmos nomes do corpo da requisição
+    // Fetch user from the database
+    const user = await User.findOne({ EMAIL });
+    console.log("Usuário encontrado:", user);
 
-      if (!EMAIL || !PASSWORD) {
-          console.log("E-mail ou senha não fornecidos.");
-          return res.status(400).json({ message: 'E-mail e Password são obrigatórios.' });
-      }
+    // If user doesn't exist
+    if (!user) {
+      console.log("E-mail não encontrado.");
+      return res.status(401).json({ message: 'E-mail ou Password inválidos.' });
+    }
 
-      // Verifica se o usuário existe
-      const user = await User.findOne({ EMAIL });
-      if (!user) {
-          console.log("E-mail não encontrado.");
-          return res.status(401).json({ message: 'E-mail ou Password inválidos.' });
-      }
+    // Check if PASSWORD is valid
+    const isPasswordValid = await bcrypt.compare(PASSWORD, user.PASSWORD);
+    if (!isPasswordValid) {
+      console.log("Password inválida.");
+      return res.status(401).json({ message: 'E-mail ou Password inválidos.' });
+    }
 
-      // Verifica a senha
-      const isPasswordValid = await bcrypt.compare(PASSWORD, user.PASSWORD);
+    console.log("Login bem-sucedido. Gerando token...");
 
-      if (!isPasswordValid) {
-          console.log("Password inválida.");
-          return res.status(401).json({ message: 'E-mail ou Password inválidos.' });
-      }
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user._id, ID_USER: user.ID_USER, ID_TIPO: user.ID_TIPO },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
 
-      console.log("Login bem-sucedido. Gerando token...");
-
-      // Gera o token JWT
-      const token = jwt.sign(
-          { id: user._id, ID_USER: user.ID_USER, ID_TIPO: user.ID_TIPO },
-          process.env.JWT_SECRET,
-          { expiresIn: '1h' }
-      );
-
-      return res.status(200).json({ token, message: 'Login realizado com sucesso.' });
+    // Return token and user information in the response
+    return res.status(200).json({
+      token,
+      USER: {
+        ID_USER: user.ID_USER,
+        NOME: user.NOME,
+        EMAIL: user.EMAIL,
+        ID_TIPO: user.ID_TIPO,
+      },
+      message: 'Login realizado com sucesso.'
+    });
   } catch (error) {
-      console.error('Erro no processo de login:', error);
-      return res.status(500).json({ message: 'Erro no servidor.' });
+    console.error('Erro no processo de login:', error);
+    return res.status(500).json({ message: 'Erro no servidor.' });
   }
 };
+
 
 
 

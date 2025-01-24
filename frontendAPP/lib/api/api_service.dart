@@ -81,8 +81,10 @@ class ApiService {
   Future<dynamic> addEvento(Map<String, dynamic> data) =>
       post('evento/add', data);
   Future<dynamic> listEventos() => get('evento/list');
-  Future<dynamic> listEventosByUser(int userId) =>
-    get('evento/list/$userId');
+  // Fetch events by user ID
+Future<dynamic> listEventosByUser(int userId) async {
+  return await get('evento/list/$userId');
+}
   Future<dynamic> editEvento(String id, Map<String, dynamic> data) =>
       put('evento/edit/$id', data);
   Future<void> deleteEvento(String id) => delete('evento/delete/$id');

@@ -83,23 +83,24 @@ eventosController.getGamesByUser = async (req, res) => {
   const { ID_USER } = req.params;
 
   try {
-    // Get all relatorios by id_user
-    const relatorios = await Relatorio.find({ ID_USER }).select('ID_RELATORIOS');
-    const relatorioIds = relatorios.map((relatorio) => relatorio.ID_RELATORIOS);
+    console.log(`Fetching games for user ID: ${ID_USER}`);
 
-    if (!relatorioIds.length) {
-      return res.status(404).json({ message: 'No games found for this user' });
-    }
+    // Find all relatorios linked to the user
+    const relatorios = await Relatorio.find({ ID_USER }).select('ID_EVENTOS');
 
-    // Get eventos by their id_relatorios
-    const eventos = await Evento.find({ id_relatorio: { $in: relatorioIds } });
+    // Extract unique event IDs from relatorios
+    const eventIds = relatorios.map((relatorio) => relatorio.ID_EVENTOS);
+
+    // Fetch eventos using the event IDs
+    const eventos = await Evento.find({ ID_EVENTOS: { $in: eventIds } });
 
     res.status(200).json(eventos);
   } catch (error) {
-    console.error('Error fetching games:', error);
-    res.status(500).json({ error: 'Failed to fetch games' });
+    console.error('Error fetching games for user:', error);
+    res.status(500).json({ message: 'Erro no servidor ao buscar jogos do usuário.' });
   }
 };
+
 
 
 module.exports = eventosController;
