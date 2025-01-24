@@ -110,10 +110,20 @@ relatoriosController.getRelatorioByPlayerAndUser = async (req, res) => {
   const { id_jogadores, id_user } = req.query;
 
   try {
-    const relatorio = await Relatorio.findOne({ id_jogadores, id_user });
+    console.log('Query Parameters:', req.query);
+
+    // Fetch the relatorio for the given player and user
+    const relatorio = await Relatorio.findOne({
+      ID_JOGADORES: parseInt(id_jogadores), // Ensure correct type
+      ID_USER: parseInt(id_user),
+    });
+
     if (!relatorio) {
+      console.log('Relatório não encontrado.');
       return res.status(404).json({ message: 'Relatório não encontrado' });
     }
+
+    console.log('Relatório encontrado:', relatorio);
     res.status(200).json(relatorio);
   } catch (error) {
     console.error('Erro ao buscar relatório:', error);
@@ -121,26 +131,29 @@ relatoriosController.getRelatorioByPlayerAndUser = async (req, res) => {
   }
 };
 
+
+
 // Update a specific relatorio by id_relatorios
 relatoriosController.editAppRelatorio = async (req, res) => {
-  const { id_relatorios } = req.params;
+  const { id_relatorio } = req.params;
   const { tecnica, velocidade, competitiva, inteligencia, altura, morfologia, comentario, data } = req.body;
 
   try {
-    const relatorio = await Relatorio.findOne({ id_relatorios });
+    // Find the relatorio by its ID
+    const relatorio = await Relatorio.findOne({ ID_RELATORIO: id_relatorio });
     if (!relatorio) {
       return res.status(404).json({ message: 'Relatório não encontrado' });
     }
 
-    // Update the fields if provided
-    if (tecnica !== undefined) relatorio.tecnica = tecnica;
-    if (velocidade !== undefined) relatorio.velocidade = velocidade;
-    if (competitiva !== undefined) relatorio.competitiva = competitiva;
-    if (inteligencia !== undefined) relatorio.inteligencia = inteligencia;
-    if (altura !== undefined) relatorio.altura = altura;
-    if (morfologia !== undefined) relatorio.morfologia = morfologia;
-    if (comentario !== undefined) relatorio.comentario = comentario;
-    if (data !== undefined) relatorio.data = data;
+    // Update fields if provided
+    if (tecnica !== undefined) relatorio.TECNICA = tecnica;
+    if (velocidade !== undefined) relatorio.VELOCIDADE = velocidade;
+    if (competitiva !== undefined) relatorio.COMPETITIVA = competitiva;
+    if (inteligencia !== undefined) relatorio.INTELIGENCIA = inteligencia;
+    if (altura !== undefined) relatorio.ALTURA = altura;
+    if (morfologia !== undefined) relatorio.MORFOLOGIA = morfologia;
+    if (comentario !== undefined) relatorio.COMENTARIO = comentario;
+    if (data !== undefined) relatorio.DATA = new Date(data);
 
     const updatedRelatorio = await relatorio.save();
     res.status(200).json({ message: 'Relatório atualizado com sucesso!', relatorio: updatedRelatorio });
@@ -149,5 +162,6 @@ relatoriosController.editAppRelatorio = async (req, res) => {
     res.status(500).json({ error: 'Erro ao atualizar relatório' });
   }
 };
+
 
 module.exports = relatoriosController;
