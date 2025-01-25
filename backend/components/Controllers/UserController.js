@@ -80,6 +80,49 @@ userController.registar = async (req, res) => {
   }
 };
 
+userController.registoweb = async (req, res) => {
+  const { NOME, EMAIL, PASSWORD } = req.body;
+
+  try {
+    // Verifica se o EMAIL já existe
+    const existingEmail = await User.findOne({ EMAIL });
+    if (existingEmail) {
+      return res.status(400).json({ message: 'E-mail já registrado.' });
+    }
+
+    // Busca o maior ID_USER existente
+    const lastUser = await User.findOne().sort({ ID_USER: -1 }); // Ordena pelo maior ID_USER
+    const newId = lastUser ? lastUser.ID_USER + 1 : 1; // Incrementa ou começa com 1
+
+    // Gera o hash da senha
+    const hashedPassword = await bcrypt.hash(PASSWORD, 10);
+
+    // Cria o novo usuário com ID_TIPO fixo como 1
+    const newUser = new User({
+      ID_USER: newId,
+      ID_TIPO: 1, // Valor fixo
+      NOME,
+      EMAIL,
+      PASSWORD: hashedPassword,
+    });
+
+    // Salva o novo usuário no banco
+    await newUser.save();
+
+    res.status(201).json({
+      message: 'Usuário registrado com sucesso!',
+      user: {
+        ID_USER: newUser.ID_USER,
+        ID_TIPO: newUser.ID_TIPO,
+        NOME: newUser.NOME,
+        EMAIL: newUser.EMAIL,
+      },
+    });
+  } catch (error) {
+    console.error('Erro ao registrar usuário:', error);
+    res.status(500).json({ message: 'Erro no servidor.' });
+  }
+};
 /*
 userController.login = async (req, res) => {
   const { EMAIL, PASSWORD } = req.body;
