@@ -2,47 +2,25 @@
 //import Navbar from '../components/Navbar';
 //import Footer from '../components/Footer';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-//import '../CSS/ware.css';
-
 import React, { useState } from "react";
-//import "../CSS/Plantel.css";
+//import "../CSS/plantel.css";
 
-export default function Plantel() {
+const Plantel = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [sidebarGroup, setSidebarGroup] = useState("");
+  const [sidebarContent, setSidebarContent] = useState("");
 
   const openSidebar = (group) => {
-    setSidebarGroup(group);
+    setSidebarContent(group);
     setSidebarOpen(true);
   };
 
   const closeSidebar = () => {
     setSidebarOpen(false);
-    setSidebarGroup("");
+    setSidebarContent("");
   };
 
-  const squares = [
-    { color: "red", group: "Vermelho 1" },
-    { color: "red", group: "Vermelho 2" },
-    { color: "red", group: "Vermelho 3" },
-    { color: "red", group: "Vermelho 4" },
-    { color: "red", group: "Vermelho 5" },
-    { color: "yellow", group: "Amarelo 1" },
-    { color: "yellow", group: "Amarelo 2" },
-    { color: "yellow", group: "Amarelo 3" },
-    { color: "yellow", group: "Amarelo 4" },
-    { color: "yellow", group: "Amarelo 5" },
-    { color: "green", group: "Verde 1" },
-    { color: "green", group: "Verde 2" },
-    { color: "green", group: "Verde 3" },
-    { color: "green", group: "Verde 4" },
-    { color: "green", group: "Verde 5" },
-    { color: "blue", group: "Azul 1" },
-    { color: "blue", group: "Azul 2" },
-  ];
-
   return (
-    <div>
+    <div className="plantel-container">
       {/* Navbar */}
       <header className="navbar">
         <div className="logo">
@@ -60,26 +38,107 @@ export default function Plantel() {
 
       {/* Campo */}
       <div className="field">
-        {squares.map((square, index) => (
+        {/* Quadrados Vermelhos */}
+        <div className="row">
           <div
-            key={index}
-            className={`square ${square.color}`}
-            onClick={() => openSidebar(square.group)}
+            className="square red"
+            onClick={() => openSidebar("Vermelho 1")}
           ></div>
-        ))}
+          <div
+            className="square red"
+            onClick={() => openSidebar("Vermelho 2")}
+          ></div>
+        </div>
+        <div className="row">
+          <div
+            className="square red"
+            onClick={() => openSidebar("Vermelho 3")}
+          ></div>
+          <div
+            className="square red"
+            onClick={() => openSidebar("Vermelho 4")}
+          ></div>
+          <div
+            className="square red"
+            onClick={() => openSidebar("Vermelho 5")}
+          ></div>
+        </div>
+
+        {/* Quadrados Amarelos */}
+        <div className="row">
+          <div
+            className="square yellow"
+            onClick={() => openSidebar("Amarelo 1")}
+          ></div>
+          <div
+            className="square yellow"
+            onClick={() => openSidebar("Amarelo 2")}
+          ></div>
+          <div
+            className="square yellow"
+            onClick={() => openSidebar("Amarelo 3")}
+          ></div>
+        </div>
+        <div className="row">
+          <div
+            className="square yellow"
+            onClick={() => openSidebar("Amarelo 4")}
+          ></div>
+          <div
+            className="square yellow"
+            onClick={() => openSidebar("Amarelo 5")}
+          ></div>
+        </div>
+
+        {/* Quadrados Verdes */}
+        <div className="row">
+          <div
+            className="square green"
+            onClick={() => openSidebar("Verde 1")}
+          ></div>
+          <div
+            className="square green"
+            onClick={() => openSidebar("Verde 2")}
+          ></div>
+          <div
+            className="square green"
+            onClick={() => openSidebar("Verde 3")}
+          ></div>
+        </div>
+        <div className="row">
+          <div
+            className="square green"
+            onClick={() => openSidebar("Verde 4")}
+          ></div>
+          <div
+            className="square green"
+            onClick={() => openSidebar("Verde 5")}
+          ></div>
+        </div>
+
+        {/* Quadrados Azuis */}
+        <div className="row">
+          <div
+            className="square blue"
+            onClick={() => openSidebar("Azul 1")}
+          ></div>
+          <div
+            className="square blue"
+            onClick={() => openSidebar("Azul 2")}
+          ></div>
+        </div>
       </div>
 
       {/* Sidebar */}
-      <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-        <h2>Jogadores</h2>
-        {sidebarGroup && (
+      <div className={`sidebar ${sidebarOpen ? "open" : ""}`} id="sidebar">
+        <h2>Informações</h2>
+        {sidebarContent && (
           <div className="player-card">
             <div className="avatar">👤</div>
             <div className="info">
-              <h3>{sidebarGroup}</h3>
-              <p>11/05/2011 - 13 anos</p>
+              <h3>{sidebarContent}</h3>
+              <p>Detalhes sobre {sidebarContent}</p>
             </div>
-            <div className="progress">2/4</div>
           </div>
         )}
         <button className="close-btn" onClick={closeSidebar}>
@@ -88,4 +147,6 @@ export default function Plantel() {
       </div>
     </div>
   );
-}
+};
+
+export default Plantel;
