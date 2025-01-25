@@ -8,6 +8,8 @@ import ClubsPage from '../pages/ClubsPage';
 import ScoutsViewPage from '../pages/ScoutsViewPage';
 import ScoutsCreateEditPage from '../pages/ScoutsCreateEditPage';
 import EventsViewPage from '../pages/EventsViewPage';
+import AddScouterToEvent from '../pages/AddScouterToEvent';
+import AddEventToScout from '../pages/AddEventToScout';
 import EventsCreatePage from '../pages/EventsCreatePage';
 import PlayersCreatePage from '../pages/PlayersCreatePage';
 import PlayersEditPage from '../pages/PlayersEditPage';
@@ -18,6 +20,7 @@ import TeamPage from '../pages/TeamPage';
 import AddClubPage from '../pages/AddClubPage';
 import AddTeamPage from '../pages/AddTeamPage';
 import ShadowTeamPage from '../pages/ShadowTeamPage';
+
 
 const AppRoutes = () => {
   return (
@@ -32,6 +35,8 @@ const AppRoutes = () => {
         <Route path="/scouts" element={<ScoutsViewPage />} />
         <Route path="/scouts/new" element={<ScoutsCreateEditPage />} />
         <Route path="/events" element={<EventsViewPage />} />
+        <Route path="/events/AddScoutToEvent" element={<AddScouterToEvent />} />
+        <Route path="/events/AddEventToScout" element={<AddEventToScout />} />
         <Route path="/events/new" element={<EventsCreatePage />} />
         <Route path="/players/new" element={<PlayersCreatePage />} />
         <Route path="/players/:id/edit" element={<PlayersEditPage />} />

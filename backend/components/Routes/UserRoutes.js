@@ -14,6 +14,9 @@ const relacaoSombraController = require('../Controllers/RelacaoSombraController'
 const relationship11Controller = require('../Controllers/Relationship_11Controller');
 const relationship12Controller = require('../Controllers/Relationship_12Controller');
 const autenticarJWT = require('../Middleware/authMiddleware');
+const multer = require("multer");
+
+const upload = multer(); // Configura o multer para processar multipart/form-data
 
 // User Routes
 router.post('/users/signup', userController.registar); // Use 'registar' instead of 'signup'
@@ -43,7 +46,9 @@ router.delete('/evento/delete/:ID_EVENTOS', eventosController.deleteEvento);
 
 // Jogadores Routes
 router.post('/jogador/add', jogadoresController.addJogador);
+router.post("/jogador/addPlayerPage", upload.none(), jogadoresController.addPlayerPage);
 router.get('/jogador/list', jogadoresController.listJogador);
+router.get("/jogador/lastTen", jogadoresController.getLastTenPlayers);
 router.get('/jogador/:ID_JOGADORES', jogadoresController.getJogadorById);
 router.get('/jogador/list/:ID_USER', jogadoresController.getPlayersByUser);
 router.put('/jogador/edit/:ID_JOGADORES', jogadoresController.editJogador);
