@@ -17,6 +17,7 @@ const autenticarJWT = require('../Middleware/authMiddleware');
 
 // User Routes
 router.post('/users/signup', userController.registar); // Use 'registar' instead of 'signup'
+router.post('/users/registoweb', userController.registoweb);
 router.post('/users/login', userController.login);
 router.put('/users/edit/:ID_USER', userController.editUser); // Update user
 router.delete('/users/delete/:ID_USER', userController.deleteUser); // Delete user
