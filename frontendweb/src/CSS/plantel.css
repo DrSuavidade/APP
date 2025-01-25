@@ -50,15 +50,6 @@ body {
   color: #4caf50;
 }
 
-.field {
-  background: url("campo.jpg") no-repeat center center;
-  background-size: cover;
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 400px; /* Espaço reservado para a sidebar fechada */
-}
 
 .row {
   display: flex;
