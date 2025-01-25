@@ -422,14 +422,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _playerCard(String name, int age, int notaAdm, int playerId, BuildContext context) {
+  Widget _playerCard(String name, int age, int notaAdm, int relatorioId, BuildContext context) {
   return GestureDetector(
     onTap: () {
       Navigator.pushNamed(
         context,
         '/relatorio',
         arguments: {
-          'id_jogadores': playerId,
+          'id_relatorio': relatorioId,
           'id_user': widget.userId,
         },
       );

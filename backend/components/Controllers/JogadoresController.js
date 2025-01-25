@@ -110,6 +110,24 @@ jogadoresController.getPlayersByUser = async (req, res) => {
   }
 };
 
+// Fetch player by ID_JOGADORES
+jogadoresController.getJogadorById = async (req, res) => {
+  const { ID_JOGADORES } = req.params;
+
+  try {
+      const jogador = await Jogador.findOne({ ID_JOGADORES });
+      if (!jogador) {
+          return res.status(404).json({ message: 'Jogador não encontrado' });
+      }
+
+      res.status(200).json(jogador);
+  } catch (error) {
+      console.error('Erro ao buscar jogador:', error);
+      res.status(500).json({ error: 'Erro ao buscar jogador' });
+  }
+};
+
+
 
 
 module.exports = jogadoresController;

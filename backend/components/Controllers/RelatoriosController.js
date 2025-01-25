@@ -107,29 +107,35 @@ relatoriosController.deleteRelatorio = async (req, res) => {
 };
 
 relatoriosController.getRelatorioByPlayerAndUser = async (req, res) => {
-  const { id_jogadores, id_user } = req.query;
+  const { id_jogadores, id_user } = req.params; // Use params instead of query
 
   try {
-    console.log('Query Parameters:', req.query);
+    // Log the parameters for debugging
+    console.log('ID_JOGADORES:', id_jogadores);
+    console.log('ID_USER:', id_user);
+
+    // Ensure the parameters are numbers
+    const jogadorId = parseInt(id_jogadores, 10);
+    const userId = parseInt(id_user, 10);
+
+    if (isNaN(jogadorId) || isNaN(userId)) {
+      return res.status(400).json({ error: 'Invalid ID_JOGADORES or ID_USER' });
+    }
 
     // Fetch the relatorio for the given player and user
-    const relatorio = await Relatorio.findOne({
-      ID_JOGADORES: parseInt(id_jogadores), // Ensure correct type
-      ID_USER: parseInt(id_user),
-    });
+    const relatorio = await Relatorio.findOne({ ID_JOGADORES: jogadorId, ID_USER: userId });
 
     if (!relatorio) {
-      console.log('Relatório não encontrado.');
       return res.status(404).json({ message: 'Relatório não encontrado' });
     }
 
-    console.log('Relatório encontrado:', relatorio);
     res.status(200).json(relatorio);
   } catch (error) {
     console.error('Erro ao buscar relatório:', error);
     res.status(500).json({ error: 'Erro ao buscar relatório' });
   }
 };
+
 
 
 

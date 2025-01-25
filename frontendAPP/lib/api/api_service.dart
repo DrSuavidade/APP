@@ -101,6 +101,10 @@ Future<dynamic> listEventosByUser(int userId) async {
   Future<dynamic> addJogador(Map<String, dynamic> data) =>
       post('jogador/add', data);
   Future<dynamic> listJogadores() => get('jogador/list');
+  // Fetch player by ID_JOGADORES
+Future<dynamic> getJogadorById(int jogadorId) async {
+  return await get('jogador/$jogadorId');
+}
   Future<dynamic> listJogadoresByUser(int userId) =>
     get('jogador/list/$userId');
   Future<dynamic> editJogador(String id, Map<String, dynamic> data) =>
@@ -119,12 +123,6 @@ Future<dynamic> listEventosByUser(int userId) async {
   Future<dynamic> addRelatorio(Map<String, dynamic> data) =>
       post('relatorio/add', data);
   Future<dynamic> listRelatorios() => get('relatorio/list');
-  Future<dynamic> getRelatorioByPlayerAndUser(int idJogadores, int idUser) async {
-  return await get('relatorio/get/$idJogadores/$idUser');
-}
-Future<dynamic> editAppRelatorio(String idRelatorio, Map<String, dynamic> data) async {
-  return await put('relatorio/edit/app/$idRelatorio', data);
-}
   Future<dynamic> editRelatorio(String id, Map<String, dynamic> data) =>
       put('relatorio/edit/$id', data);
   Future<void> deleteRelatorio(String id) => delete('relatorio/delete/$id');
