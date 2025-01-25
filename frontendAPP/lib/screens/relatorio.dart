@@ -30,34 +30,27 @@ class _RelatorioPageState extends State<RelatorioScreen> {
   }
 
   Future<void> _fetchData() async {
-    try {
-      // Fetch player info
-      final playerResponse = await api.get('jogador/list/$idJogadores');
-      // Fetch relatorio info
-      final relatorioResponse = await api
-          .get('relatorio/get?id_jogadores=$idJogadores&id_user=$idUser');
+  try {
+    // Fetch relatorio info
+    final relatorioResponse = await api.getRelatorioByPlayerAndUser(idJogadores, idUser);
 
-      if (relatorioResponse is Map<String, dynamic>) {
-      setState(() {
-        playerInfo = playerResponse;
-        relatorioInfo = relatorioResponse;
+    setState(() {
+      relatorioInfo = relatorioResponse;
 
-        // Initialize form fields with fetched relatorio data
-        tecnica = relatorioInfo?['tecnica'];
-        velocidade = relatorioInfo?['velocidade'];
-        atitudeCompetitiva = relatorioInfo?['competitiva'];
-        inteligencia = relatorioInfo?['inteligencia'];
-        altura = relatorioInfo?['altura'];
-        morfologia = relatorioInfo?['morfologia'];
-        comentario = relatorioInfo?['comentario'];
-      });
-    } else {
-      throw Exception('Invalid API response format');
-    }
+      // Initialize form fields with fetched relatorio data
+      tecnica = relatorioInfo?['TECNICA'];
+      velocidade = relatorioInfo?['VELOCIDADE'];
+      atitudeCompetitiva = relatorioInfo?['COMPETITIVA'];
+      inteligencia = relatorioInfo?['INTELIGENCIA'];
+      altura = relatorioInfo?['ALTURA'];
+      morfologia = relatorioInfo?['MORFOLOGIA'];
+      comentario = relatorioInfo?['COMENTARIO'];
+    });
   } catch (e) {
-    _showErrorDialog('Error', e.toString());
+    _showErrorDialog('Erro', 'Falha ao carregar os dados do relatório');
   }
 }
+
 
   void _showErrorDialog(String title, String message) {
     showDialog(
@@ -76,8 +69,10 @@ class _RelatorioPageState extends State<RelatorioScreen> {
   }
 
   Future<void> _updateRelatorio() async {
-    try {
-      await api.put('relatorio/edit/app/${relatorioInfo!['id_relatorios']}', {
+  try {
+    await api.editAppRelatorio(
+      relatorioInfo!['ID_RELATORIO'].toString(),
+      {
         'tecnica': tecnica,
         'velocidade': velocidade,
         'competitiva': atitudeCompetitiva,
@@ -86,12 +81,14 @@ class _RelatorioPageState extends State<RelatorioScreen> {
         'morfologia': morfologia,
         'comentario': comentario,
         'data': DateTime.now().toIso8601String(),
-      });
-      Navigator.pop(context);
-    } catch (e) {
-      _showErrorDialog('Error', 'Failed to update relatorio');
-    }
+      },
+    );
+    Navigator.pop(context); // Navigate back after success
+  } catch (e) {
+    _showErrorDialog('Erro', 'Falha ao atualizar relatório');
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
