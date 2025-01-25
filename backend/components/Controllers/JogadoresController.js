@@ -24,6 +24,35 @@ jogadoresController.addJogador = async (req, res) => {
     }
 };
 
+jogadoresController.addPlayerPage = async (req, res) => {
+  const { NOME, DATA_NASC, GENERO, LINK, NACIONALIDADE } = req.body;
+
+  try {
+    const maxJogador = await Jogadores.findOne().sort({ ID_JOGADORES: -1 }).select('ID_JOGADORES');
+    const ID_JOGADOR = maxJogador ? maxJogador.ID_JOGADORES + 1 : 1;
+
+    const STATUS = "Active";
+
+    const jogador = new Jogadores({
+      NOME,
+      DATA_NASC,
+      GENERO,
+      LINK,
+      NACIONALIDADE,
+      STATUS,
+      ID_JOGADORES: ID_JOGADOR,
+    });
+
+    await jogador.save();
+
+    res.status(201).json({ message: 'Jogador adicionado com sucesso!', jogador });
+  } catch (error) {
+    console.error('Erro ao adicionar jogador:', error);
+    res.status(500).json({ error: 'Erro ao adicionar jogador' });
+  }
+};
+
+
 // List all players
 jogadoresController.listJogador = async (req, res) => {
   try {
@@ -34,6 +63,23 @@ jogadoresController.listJogador = async (req, res) => {
     res.status(500).json({ error: 'Erro ao listar jogadores' });
   }
 };
+
+jogadoresController.getLastTenPlayers = async (req, res) => {
+  try {
+    const jogadores = await Jogadores.find({})
+      .sort({ ID_JOGADORES: -1 })
+      .limit(10)
+      .select("NOME NOTA_ADM"); // Certifique-se de usar NOTA_ADM
+
+    res.status(200).json(jogadores);
+  } catch (error) {
+    console.error("Erro ao buscar os últimos 10 jogadores:", error);
+    res.status(500).json({ error: "Erro ao buscar os jogadores." });
+  }
+};
+
+
+
 
 // Edit a player by id_jogador
 jogadoresController.editJogador = async (req, res) => {

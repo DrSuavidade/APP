@@ -1,3 +1,6 @@
+const multer = require("multer");
+const upload = multer();
+
 const jwt = require('jsonwebtoken');
 
 const autenticarJWT = (req, res, next) => {

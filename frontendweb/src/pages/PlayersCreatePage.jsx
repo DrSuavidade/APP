@@ -1,150 +1,172 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../CSS/PlayerCreatePage.css";
+import api from "../api/axios";
 
-// Navbar Component
-function Navbar() {
-return (
-<header className="navbar">
-    <div className="logo">
-        <img src="/path/to/logo.png" alt="Logo" />
-    </div>
-    <div className="menu">
-        <span>Plantel</span>
-        <span>Jogadores</span>
-        <span>Clubes</span>
-        <span>Scouters</span>
-        <span>Eventos</span>
-        <span>Relatórios</span>
-    </div>
-</header>
-);
-}
+function PlayersCreatePage() {
+  const [formData, setFormData] = useState({
+    NOME: "",
+    LINK: "",
+    DATA_NASC: "",
+    GENERO: "male",
+    NACIONALIDADE: "portuguese",
+    DADOS_ENC: null,
+  });
 
-// Form Component
-function Form() {
-const [formData, setFormData] = useState({
-name: "",
-link: "",
-birthdate: "",
-gender: "male",
-nationality: "portuguese",
-club: "club1",
-team: "team1",
-educationData: null,
-});
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [players, setPlayers] = useState([]); // Estado para armazenar os jogadores
 
-const handleChange = (e) => {
-const { id, value, files } = e.target;
-setFormData({
-...formData,
-[id]: files ? files[0] : value,
-});
-};
+  // Fetch dos 10 últimos jogadores
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      try {
+        const response = await api.get("/jogador/lastTen");
+        setPlayers(response.data); // Armazena os jogadores no estado
+      } catch (error) {
+        console.error("Erro ao carregar os jogadores:", error);
+      }
+    };
 
-const handleSubmit = (e) => {
-e.preventDefault();
-console.log("Submitting: ", formData);
-// Aqui você pode integrar com a base de dados (ex: enviar via API)
-};
+    fetchPlayers();
+  }, [success]); // Atualiza a lista quando um jogador é adicionado com sucesso
 
-return (
-<div className="form-container">
-    <h2>Adicionar Jogador</h2>
-    <form onSubmit={handleSubmit}>
-        <div className="form-group">
-            <label htmlFor="name">Nome</label>
-            <input type="text" id="name" placeholder="Nome completo" onChange={handleChange} />
-        </div>
-        <div className="form-group">
-            <label htmlFor="link">Link</label>
-            <input type="url" id="link" placeholder="Link da federação" onChange={handleChange} />
-        </div>
-        <div className="form-group">
-            <label htmlFor="birthdate">Data de Nascimento</label>
-            <input type="date" id="birthdate" onChange={handleChange} />
-        </div>
-        <div className="form-row">
+  const handleChange = (e) => {
+    const { id, value, files } = e.target;
+    setFormData({
+      ...formData,
+      [id]: files ? files[0] : value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess(false);
+
+    try {
+      const formDataToSend = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        formDataToSend.append(key, value);
+      });
+
+      const response = await api.post("/jogador/addPlayerPage", formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 201) {
+        setSuccess(true);
+        setFormData({
+          NOME: "",
+          LINK: "",
+          DATA_NASC: "",
+          GENERO: "male",
+          NACIONALIDADE: "portuguese",
+          DADOS_ENC: null,
+        });
+      }
+    } catch (error) {
+      if (error.response) {
+        setError(error.response.data.message || "Erro ao adicionar jogador.");
+      } else {
+        setError("Erro de rede. Verifique sua conexão.");
+      }
+    }
+  };
+
+  return (
+    <div className="main-container">
+      <div className="form-container">
+        <h2>Adicionar Jogador</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="NOME">Nome</label>
+            <input
+              type="text"
+              id="NOME"
+              placeholder="Nome completo"
+              value={formData.NOME}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="LINK">Link</label>
+            <input
+              type="url"
+              id="LINK"
+              placeholder="Link da federação"
+              value={formData.LINK}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="DATA_NASC">Data de Nascimento</label>
+            <input
+              type="date"
+              id="DATA_NASC"
+              value={formData.DATA_NASC}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-row">
             <div className="form-group">
-                <label htmlFor="gender">Gênero</label>
-                <select id="gender" onChange={handleChange}>
-                    <option value="male">Masculino</option>
-                    <option value="female">Feminino</option>
-                    <option value="other">Outro</option>
-                </select>
+              <label htmlFor="GENERO">Gênero</label>
+              <select id="GENERO" value={formData.GENERO} onChange={handleChange}>
+                <option value="male">Masculino</option>
+                <option value="female">Feminino</option>
+                <option value="other">Outro</option>
+              </select>
             </div>
             <div className="form-group">
-                <label htmlFor="nationality">Nacionalidade</label>
-                <select id="nationality" onChange={handleChange}>
-                    <option value="portuguese">Português</option>
-                    <option value="spanish">Espanhol</option>
-                    <option value="other">Outro</option>
-                </select>
+              <label htmlFor="NACIONALIDADE">Nacionalidade</label>
+              <select
+                id="NACIONALIDADE"
+                value={formData.NACIONALIDADE}
+                onChange={handleChange}
+              >
+                <option value="portuguese">Português</option>
+                <option value="spanish">Espanhol</option>
+                <option value="other">Outro</option>
+              </select>
             </div>
-        </div>
-        <div className="form-group">
-            <label htmlFor="club">Clube</label>
-            <select id="club" onChange={handleChange}>
-                <option value="club1">Clube 1</option>
-                <option value="club2">Clube 2</option>
-                <option value="club3">Clube 3</option>
-            </select>
-        </div>
-        <div className="form-group">
-            <label htmlFor="team">Equipa</label>
-            <select id="team" onChange={handleChange}>
-                <option value="team1">Equipa 1</option>
-                <option value="team2">Equipa 2</option>
-                <option value="team3">Equipa 3</option>
-            </select>
-        </div>
-        <div className="form-group">
-            <label htmlFor="educationData">Dados Encarregados de Educação</label>
-            <input type="file" id="educationData" accept=".pdf,.doc,.docx" onChange={handleChange} />
-        </div>
-        <div className="form-group">
+          </div>
+          <div className="form-group">
+            <label htmlFor="DADOS_ENC">Dados Encarregados de Educação</label>
+            <input
+              type="file"
+              id="DADOS_ENC"
+              accept=".pdf,.doc,.docx"
+              onChange={handleChange}
+            />
+          </div>
+          {error && <p className="error-message">{error}</p>}
+          {success && <p className="success-message">Jogador adicionado com sucesso!</p>}
+          <div className="form-group">
             <button type="submit">Adicionar</button>
+          </div>
+        </form>
+      </div>
+      <div className="sidebar">
+        <h3>Últimos Jogadores Adicionados</h3>
+        <div className="history-item">
+            {players.map((player, index) => (
+            <div key={index} className="player">
+                <span className="name">{player.NOME}</span>
+                <span className="details">
+                {player.NOTA_ADM !== undefined && player.NOTA_ADM !== null
+                    ? player.NOTA_ADM
+                    : "N/A"}
+                </span>
+            </div>
+          ))}
         </div>
-    </form>
-</div>
-);
-}
-
-// Sidebar Component
-function Sidebar() {
-const players = [
-{ name: "Adriano Lopes", details: "★★★★★" },
-{ name: "Marco Santos", details: "★★★★☆" },
-{ name: "João Pereira", details: "★★★☆☆" },
-{ name: "Pedro Costa", details: "★★☆☆☆" },
-{ name: "Davi", details: "★☆☆☆☆" },
-];
-
-return (
-<div className="sidebar">
-    <h3>Histórico de Ações</h3>
-    <div className="history-item">
-        {players.map((player, index) => (
-        <div key={index} className="player">
-            <span className="name">{player.name}</span>
-            <span className="details">{player.details}</span>
-        </div>
-        ))}
+      </div>
     </div>
-</div>
-);
+  );
 }
 
-// Main App Component
-function App() {
-return (
-<div className="main-container">
-    <Navbar />
-    <div className="content-container">
-        <Form />
-        <Sidebar />
-    </div>
-</div>
-);
-}
-
-export default App;
+export default PlayersCreatePage;
