@@ -63,7 +63,14 @@ class _RelatorioPageState extends State<RelatorioScreen> {
         'DATA': DateTime.now().toIso8601String(),
         'STATUS': 'Avaliado',
       });
-      Navigator.pop(context);
+      Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/home',
+      (route) => false, // Remove all previous routes
+      arguments: {
+        'userId': idUser, // Pass userId to Home
+      },
+    );
     } catch (e) {
       _showErrorDialog('Erro', 'Falha ao salvar o relatório');
     }

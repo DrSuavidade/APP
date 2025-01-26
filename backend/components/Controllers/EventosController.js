@@ -86,7 +86,10 @@ eventosController.getGamesByUser = async (req, res) => {
     console.log(`Fetching games for user ID: ${ID_USER}`);
 
     // Find all relatorios linked to the user
-    const relatorios = await Relatorio.find({ ID_USER }).select('ID_EVENTOS');
+    const relatorios = await Relatorio.find({ 
+          ID_USER, 
+          STATUS: 'Ativo' // Replace 'Ativo' with the desired STATUS filter
+        }).select('ID_EVENTOS');
 
     // Extract unique event IDs from relatorios
     const eventIds = relatorios.map((relatorio) => relatorio.ID_EVENTOS);

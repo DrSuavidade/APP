@@ -64,7 +64,7 @@ router.delete('/posicao/delete/:ID_POSICAO', posicaoController.deletePosicao);
 router.post('/relatorio/add', relatoriosController.addRelatorio);
 router.get('/relatorio/list', relatoriosController.listRelatorio);
 router.get('/relatorio/get/:id_jogadores/:id_user', relatoriosController.getRelatorioByPlayerAndUser);
-router.put('/relatorio/edit/app/:ID_RELATORIO', relatoriosController.editAppRelatorio);
+router.get('/relatorio/historico', relatoriosController.listHistoricoRelatorios);
 router.put('/relatorio/edit/:ID_RELATORIO', relatoriosController.editRelatorio);
 router.delete('/relatorio/delete/:ID_RELATORIO', relatoriosController.deleteRelatorio);
 
