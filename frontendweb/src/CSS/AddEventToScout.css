@@ -1,0 +1,221 @@
+/* Global Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #111;
+    padding: 10px 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .logo img {
+    height: 40px;
+    width: auto;
+}
+
+.navbar .menu {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar .menu span {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.navbar .menu span:hover {
+    color: #4CAF50;
+}
+
+/* Main Layout Styles */
+.main-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.content-container {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+/* Event List Styles */
+.event-list-container {
+    background-color: #2c2c2c;
+    padding: 20px;
+    border-radius: 10px;
+    flex: 3;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1a1a1a;
+    color: white;
+    margin-right: 10px;
+}
+
+.search-bar .search-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.search-bar .search-button:hover {
+    background-color: #3e8e41;
+}
+
+.event-list {
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: #444;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.event-item {
+    background-color: #555;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.event-item .event-info {
+    flex: 1;
+}
+
+.event-item .event-details {
+    flex: 1;
+    text-align: right;
+}
+
+.confirm-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.confirm-button:hover {
+    background-color: #3e8e41;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* EventDetails Styles */
+.event-details-sidebar {
+    background-color: #2c2c2c;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.event-details-sidebar h3 {
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+/* ScouterDetails Styles */
+.scouter-details {
+    background-color: #2c2c2c;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.scouter-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.scouter-avatar {
+    width: 50px;
+    height: 50px;
+    background-color: #444;
+    border-radius: 50%;
+}
+
+.scouter-info .name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.scouter-info .role,
+.scouter-info .reviews {
+    font-size: 14px;
+    color: #ccc;
+}
+
+/* HighlightedPlayers Styles */
+.highlighted-players {
+    background-color: #2c2c2c;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.highlighted-players h3 {
+    margin-bottom: 20px;
+}
+
+.add-player-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.add-player-button:hover {
+    background-color: #3e8e41;
+}

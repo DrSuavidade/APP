@@ -9,8 +9,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #1f1f1f, #292929);
+    min-height: 90vh;
+    background: linear-gradient(135deg, #161616, #292929);
   }
   
   .register-box {
@@ -20,21 +20,32 @@ body {
     padding: 20px 40px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     text-align: center;
+    border: 1px solid rgb(173, 173, 173);
+      width: 350px;
+      height: 600px;
   }
+
+     .register-box h1 {
+       text-align: left;
+     }
   
   .register-logo img {
     width: 100px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   
   h1 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: 24px;
   }
   
-  .form-group {
-    margin-bottom: 15px;
-  }
+    .form-group {
+      margin-bottom: 15px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
   
   .form-group input {
     width: 100%;
@@ -48,18 +59,18 @@ body {
   
   .register-button {
     width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+      padding: 10px;
+      background-color: #2E2E2E;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
   }
   
   .register-button:hover {
-    background-color: #0056b3;
+    background-color: #191818e1;
   }
   
   .register-footer {
@@ -67,7 +78,7 @@ body {
   }
   
   .register-footer a {
-    color: #007bff;
+    color: #ffffff;
     text-decoration: none;
   }
   
@@ -87,3 +98,8 @@ body {
     font-size: 14px;
   }
   
+    .text {
+      font-size: 14px;
+      text-align: left;
+      text-decoration: none;
+    }

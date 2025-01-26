@@ -51,6 +51,7 @@ const RegisterPage = () => {
         <h1>Registrar</h1>
         <form onSubmit={handleRegister}>
           <div className="form-group">
+            <p className ="text">Email</p>
             <input
               type="email"
               placeholder="Email"
@@ -60,6 +61,7 @@ const RegisterPage = () => {
             />
           </div>
           <div className="form-group">
+             <p className ="text">Nome</p>
             <input
               type="text"
               placeholder="Nome"
@@ -69,6 +71,7 @@ const RegisterPage = () => {
             />
           </div>
           <div className="form-group">
+             <p className ="text">Password</p>
             <input
               type="password"
               placeholder="Password"
@@ -78,6 +81,7 @@ const RegisterPage = () => {
             />
           </div>
           <div className="form-group">
+            <p className ="text">Confirm Password</p>
             <input
               type="password"
               placeholder="Confirmar Password"
