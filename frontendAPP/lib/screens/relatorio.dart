@@ -61,6 +61,7 @@ class _RelatorioPageState extends State<RelatorioScreen> {
         'MORFOLOGIA': morfologia ?? '',
         'COMENTARIO': comentario ?? '',
         'DATA': DateTime.now().toIso8601String(),
+        'STATUS': 'Avaliado',
       });
       Navigator.pop(context);
     } catch (e) {
