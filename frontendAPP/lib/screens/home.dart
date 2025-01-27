@@ -159,7 +159,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Center(
                                   child: TextButton(
                                     onPressed: () {
-                                      Navigator.pushNamed(context, '/calendar');
+                                      Navigator.pushNamed(
+                                    context,
+                                    '/calendar',
+                                    arguments: {
+                                      'userId': widget.userId
+                                    }, // Pass userId here
+                                  );
                                     },
                                     style: TextButton.styleFrom(
                                       foregroundColor: Colors.white,

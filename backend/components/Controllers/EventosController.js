@@ -1,6 +1,6 @@
-const Eventos = require('../Models/Eventos');
 const Evento = require('../Models/Eventos');
 const Relatorio = require('../Models/Relatorio');
+const Equipa = require('../Models/Equipa');
 
 const eventosController = {};
 
@@ -103,6 +103,33 @@ eventosController.getGamesByUser = async (req, res) => {
     res.status(500).json({ message: 'Erro no servidor ao buscar jogos do usuário.' });
   }
 };
+
+eventosController.getFilteredGamesByUser = async (req, res) => {
+  const { ID_USER } = req.params;
+  const { ESCALAO } = req.query;
+
+  try {
+    const relatorios = await Relatorio.find({ ID_USER, STATUS: 'Ativo' }).select('ID_EVENTOS');
+    const eventIds = relatorios.map((relatorio) => relatorio.ID_EVENTOS);
+
+    const eventos = await Evento.find({ ID_EVENTOS: { $in: eventIds } });
+
+    if (ESCALAO) {
+      const equipas = await Equipa.find({ ESCALAO }).select('NOME');
+      const equipaNames = equipas.map((equipa) => equipa.NOME);
+      const filteredEventos = eventos.filter((evento) =>
+        equipaNames.includes(evento.EQUIPA_CASA)
+      );
+      return res.status(200).json(filteredEventos);
+    }
+
+    res.status(200).json(eventos);
+  } catch (error) {
+    console.error('Error fetching filtered games for user:', error);
+    res.status(500).json({ message: 'Erro no servidor ao buscar jogos do usuário.' });
+  }
+};
+
 
 
 

@@ -1,34 +1,90 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
+import '../api/api_service.dart';
 import 'hamburger_menu.dart';
 
-class CalendarScreen extends StatelessWidget {
-  final List<Map<String, String>> games = [
-    {
-      "home": "A.F Viseu",
-      "away": "SL Nelas",
-      "time": "12:00 AM",
-      "date": "17/10/2024"
-    },
-    {
-      "home": "AC Castro Daire",
-      "away": "CD Tondela",
-      "time": "18:00 PM",
-      "date": "20/10/2024"
-    },
-    {
-      "home": "UD Alta Lisboa",
-      "away": "AC Castro Daire",
-      "time": "15:00 PM",
-      "date": "23/10/2024"
-    },
-    // Add more games as needed
-  ];
-
+class CalendarScreen extends StatefulWidget {
   final int userId;
+  const CalendarScreen({Key? key, required this.userId}) : super(key: key);
 
-  CalendarScreen({Key? key, required this.userId}) : super(key: key);
+  @override
+  _CalendarScreenState createState() => _CalendarScreenState();
+}
+
+class _CalendarScreenState extends State<CalendarScreen> {
+  final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
+  List<dynamic> eventos = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
+  Future<void> _fetchData({String? escalao}) async {
+    try {
+      setState(() => isLoading = true);
+      List<dynamic> response;
+      if (escalao == null) {
+        response = await api.listEventosByUser(widget.userId);
+      } else {
+        response = await api.getFilteredEventosByEscalao(widget.userId, escalao);
+      }
+      setState(() {
+        eventos = response;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() => isLoading = false);
+      _showErrorDialog('Erro', 'Não foi possível carregar os eventos.');
+    }
+  }
+
+  void _showErrorDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _filterButton(String label, String? escalaoFilter) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: ElevatedButton(
+        onPressed: () => _fetchData(escalao: escalaoFilter),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey[900],
+        ),
+        child: Text(label, style: const TextStyle(color: Colors.white)),
+      ),
+    );
+  }
+
+  Widget _eventoCard(dynamic evento) {
+    return Card(
+      color: Colors.grey[800],
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+      child: ListTile(
+        title: Text(
+          "${evento['EQUIPA_CASA']}  vs  ${evento['VISITANTE']}",
+          style: const TextStyle(color: Colors.white),
+        ),
+        subtitle: Text(
+          "${evento['DATA']} às ${evento['HORA']} - ${evento['LOCAL']}",
+          style: const TextStyle(color: Colors.grey),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +98,13 @@ class CalendarScreen extends StatelessWidget {
           children: [
             Builder(
               builder: (context) => IconButton(
-                icon: Icon(Icons.menu, color: Colors.white),
+                icon: const Icon(Icons.menu, color: Colors.white),
                 onPressed: () {
                   Scaffold.of(context).openDrawer(); // Open the custom drawer
                 },
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Image.asset(
               'assets/images/Logofinal1.png',
               height: 40,
@@ -56,50 +112,46 @@ class CalendarScreen extends StatelessWidget {
           ],
         ),
       ),
-      drawer: HamburgerMenu(userId: userId),
+      drawer: HamburgerMenu(userId: widget.userId),
       body: Column(
         children: [
-          // Levels Filter
+          // Filters Section
           SizedBox(
             height: 40,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                _filterButton("Sub-10"),
-                _filterButton("Sub-11"),
-                _filterButton("Sub-12"),
-                _filterButton("Sub-13"),
-                _filterButton("Sub-14"),
-                _filterButton("Sub-16"),
-                _filterButton("Sub-19"),
-                _filterButton("Sub-23"),
-                _filterButton("PROFISSIONAL"),
+                _filterButton("Todos", null),
+                _filterButton("Sub-10", "Sub-10"),
+                _filterButton("Sub-11", "Sub-11"),
+                _filterButton("Sub-12", "Sub-12"),
+                _filterButton("Sub-13", "Sub-13"),
+                _filterButton("Sub-14", "Sub-14"),
+                _filterButton("Sub-16", "Sub-16"),
+                _filterButton("Sub-19", "Sub-19"),
+                _filterButton("Sub-23", "Sub-23"),
+                _filterButton("Profissional", "Profissional"),
               ],
             ),
           ),
-          SizedBox(height: 10),
-          // Games List
+          const SizedBox(height: 10),
+          // Events List
           Expanded(
-            child: ListView.builder(
-              itemCount: games.length,
-              itemBuilder: (context, index) {
-                final game = games[index];
-                return Card(
-                  color: Colors.grey[800],
-                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
-                  child: ListTile(
-                    title: Text(
-                      "${game['home']}  vs  ${game['away']}",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    subtitle: Text(
-                      "${game['date']} at ${game['time']}",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                );
-              },
-            ),
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : eventos.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'Não existem eventos para o filtro selecionado',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: eventos.length,
+                        itemBuilder: (context, index) {
+                          return _eventoCard(eventos[index]);
+                        },
+                      ),
           ),
         ],
       ),
@@ -108,22 +160,20 @@ class CalendarScreen extends StatelessWidget {
         children: [
           // Shadow Rectangle for Depth
           Positioned(
-            bottom: 16, // Slightly below the actual navbar
+            bottom: 16,
             left: 16,
             right: 16,
             child: Container(
               height: 70,
               decoration: BoxDecoration(
-                color:
-                    const Color.fromARGB(255, 36, 36, 36), // Dark shadow color
+                color: const Color.fromARGB(255, 36, 36, 36),
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
           ),
-          // Actual Bottom Navigation Bar
+          // Bottom Navigation Bar
           Container(
-            margin: EdgeInsets.fromLTRB(
-                16, 16, 16, 24), // Adjusted margin for the bottom
+            margin: const EdgeInsets.fromLTRB(16, 16, 16, 24),
             height: 64,
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 77, 77, 77),
@@ -140,31 +190,10 @@ class CalendarScreen extends StatelessWidget {
                       Navigator.pushNamed(
                         context,
                         '/calendar',
-                        arguments: {'userId': userId}, // Pass userId here
+                        arguments: {'userId': widget.userId},
                       );
                     },
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          height: double.infinity,
-                          width: 104, // Highlight width (wider for selected)
-                          decoration: BoxDecoration(
-                            color: 0 == 0 // Highlight condition
-                                ? Colors.grey[600] // Selected button background
-                                : Colors
-                                    .transparent, // Default button background
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        Icon(
-                          Icons.calendar_today,
-                          color:
-                              0 == 0 ? Colors.white : Colors.grey, // Icon color
-                          size: 34,
-                        ),
-                      ],
-                    ),
+                    child: _bottomNavBarButton(Icons.calendar_today, true),
                   ),
                   // Soccer Button
                   GestureDetector(
@@ -172,31 +201,10 @@ class CalendarScreen extends StatelessWidget {
                       Navigator.pushNamed(
                         context,
                         '/home',
-                        arguments: {'userId': userId}, // Pass userId here
+                        arguments: {'userId': widget.userId},
                       );
                     },
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          height: double.infinity,
-                          width: 80, // Highlight width (wider for selected)
-                          decoration: BoxDecoration(
-                            color: 1 == 0 // Highlight condition
-                                ? Colors.grey[600] // Selected button background
-                                : Colors
-                                    .transparent, // Default button background
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        Icon(
-                          Icons.sports_soccer,
-                          color:
-                              1 == 0 ? Colors.white : Colors.grey, // Icon color
-                          size: 34,
-                        ),
-                      ],
-                    ),
+                    child: _bottomNavBarButton(Icons.sports_soccer, false),
                   ),
                   // History Button
                   GestureDetector(
@@ -204,31 +212,10 @@ class CalendarScreen extends StatelessWidget {
                       Navigator.pushNamed(
                         context,
                         '/historico',
-                        arguments: {'userId': userId}, // Pass userId here
+                        arguments: {'userId': widget.userId},
                       );
                     },
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          height: double.infinity,
-                          width: 80, // Highlight width (wider for selected)
-                          decoration: BoxDecoration(
-                            color: 2 == 0 // Highlight condition
-                                ? Colors.grey[600] // Selected button background
-                                : Colors
-                                    .transparent, // Default button background
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        Icon(
-                          Icons.history,
-                          color:
-                              2 == 0 ? Colors.white : Colors.grey, // Icon color
-                          size: 34,
-                        ),
-                      ],
-                    ),
+                    child: _bottomNavBarButton(Icons.history, false),
                   ),
                 ],
               ),
@@ -239,18 +226,24 @@ class CalendarScreen extends StatelessWidget {
     );
   }
 
-  Widget _filterButton(String label) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: ElevatedButton(
-        onPressed: () {
-          // Filter functionality
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey[900],
+  Widget _bottomNavBarButton(IconData icon, bool isSelected) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          height: double.infinity,
+          width: 80,
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.grey[600] : Colors.transparent,
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
-        child: Text(label, style: TextStyle(color: Colors.white)),
-      ),
+        Icon(
+          icon,
+          color: isSelected ? Colors.white : Colors.grey,
+          size: 34,
+        ),
+      ],
     );
   }
 }

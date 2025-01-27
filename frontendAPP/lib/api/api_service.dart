@@ -85,6 +85,19 @@ class ApiService {
 Future<dynamic> listEventosByUser(int userId) async {
   return await get('evento/list/$userId');
 }
+Future<List<dynamic>> getFilteredEventosByEscalao(int userId, String escalao) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/eventos/user/$userId?ESCALAO=$escalao'),
+      headers: {'Content-Type': 'application/json'},
+    );
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to fetch filtered eventos');
+    }
+  }
+
+
   Future<dynamic> editEvento(String id, Map<String, dynamic> data) =>
       put('evento/edit/$id', data);
   Future<void> deleteEvento(String id) => delete('evento/delete/$id');
