@@ -23,6 +23,39 @@ eventosController.addEvento = async (req, res) => {
       res.status(500).json({ error: 'Erro ao adicionar evento' });
     }
   };
+  
+  eventosController.addEventoWeb = async (req, res) => {
+    const { DATA, HORA, EQUIPA_CASA, VISITANTE, LOCAL } = req.body;
+  
+    try {
+      // Validação dos campos obrigatórios
+      if (!DATA || !HORA || !EQUIPA_CASA || !VISITANTE || !LOCAL) {
+        return res.status(400).json({ message: "Todos os campos são obrigatórios." });
+      }
+  
+      // Obter o último ID_EVENTOS e incrementar
+      const lastEvent = await Evento.findOne().sort({ ID_EVENTOS: -1 }); // Ordena pelo maior ID_EVENTOS
+      const newId = lastEvent ? lastEvent.ID_EVENTOS + 1 : 1; // Incrementa ou começa com 1
+  
+      // Criar o novo evento
+      const newEvento = new Evento({
+        ID_EVENTOS: newId,
+        DATA,
+        HORA,
+        EQUIPA_CASA,
+        VISITANTE,
+        LOCAL,
+      });
+  
+      // Salvar no banco de dados
+      await newEvento.save();
+  
+      res.status(201).json({ message: "Evento criado com sucesso!", evento: newEvento });
+    } catch (error) {
+      console.error("Erro ao criar evento:", error);
+      res.status(500).json({ message: "Erro no servidor." });
+    }
+  };
 
 // List all events
 eventosController.listEvento = async (req, res) => {

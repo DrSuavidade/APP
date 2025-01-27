@@ -38,7 +38,8 @@ router.put('/equipa/edit/:ID_EQUIPA', equipaController.editEquipa); // Edit team
 router.delete('/equipa/delete/:ID_EQUIPA', equipaController.deleteEquipa); // Delete team
 
 // Eventos Routes
-router.post('/evento/add', autenticarJWT, eventosController.addEvento);
+router.post('/evento/add', /*autenticarJWT,*/ eventosController.addEvento);
+router.post('/evento/addweb', eventosController.addEventoWeb);
 router.get('/evento/list', eventosController.listEvento);
 router.get('/evento/list/:ID_USER', eventosController.getGamesByUser);
 router.get('/eventos/user/:ID_USER', eventosController.getFilteredGamesByUser);

@@ -79,8 +79,6 @@ jogadoresController.getLastTenPlayers = async (req, res) => {
 };
 
 
-
-
 // Edit a player by id_jogador
 jogadoresController.editJogador = async (req, res) => {
   const { ID_JOGADORES } = req.params;
