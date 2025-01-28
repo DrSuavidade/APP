@@ -1,11 +1,7 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 
 class SignupEmailScreen extends StatelessWidget {
-  final _emailController = TextEditingController();
-
-  SignupEmailScreen({super.key});
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +14,11 @@ class SignupEmailScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo
                 Image.asset(
                   'assets/images/Logofinal1.png',
                   height: 80.0,
                 ),
                 SizedBox(height: 24.0),
-
-                // Title Text
                 Text(
                   "Crie a sua conta",
                   style: TextStyle(
@@ -36,33 +29,17 @@ class SignupEmailScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 16.0),
-
-                // Progress Indicator
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    CircleAvatar(
-                      radius: 6,
-                      backgroundColor: Colors.white,
-                      child: Text(''),
-                    ),
+                    CircleAvatar(radius: 6, backgroundColor: Colors.white),
                     SizedBox(width: 8),
-                    CircleAvatar(
-                      radius: 6,
-                      backgroundColor: Colors.grey,
-                      child: Text(''),
-                    ),
+                    CircleAvatar(radius: 6, backgroundColor: Colors.grey),
                     SizedBox(width: 8),
-                    CircleAvatar(
-                      radius: 6,
-                      backgroundColor: Colors.grey,
-                      child: Text(''),
-                    ),
+                    CircleAvatar(radius: 6, backgroundColor: Colors.grey),
                   ],
                 ),
                 SizedBox(height: 24.0),
-
-                // Email Input Field
                 TextField(
                   controller: _emailController,
                   style: TextStyle(color: Colors.white),
@@ -80,11 +57,13 @@ class SignupEmailScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 24.0),
-
-                // Continue Button
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/signup_name'); // Assume this goes to the next signup step
+                    Navigator.pushNamed(
+                      context,
+                      '/signup_name',
+                      arguments: {'EMAIL': _emailController.text.trim()},
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[900],
@@ -93,35 +72,16 @@ class SignupEmailScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  child: Text(
-                    "Continuar",
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  child: Text("Continuar", style: TextStyle(color: Colors.white)),
                 ),
-                SizedBox(height: 24.0),
-
-                // Divider Line
-                Divider(color: Colors.grey),
-
-                // "Já tens uma conta? Log in" Button
+                Divider(color: Colors.grey, height: 36.0),
                 TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/'); // Navigates back to login
-                  },
+                  onPressed: () => Navigator.pushNamed(context, '/'),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
-                      Text(
-                        "Já tens uma conta? ",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        "Log in",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      Text("Já tens uma conta? ", style: TextStyle(color: Colors.white)),
+                      Text("Log in", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),

@@ -1,15 +1,15 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 
 class SignupPasswordScreen extends StatelessWidget {
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-
-  SignupPasswordScreen({super.key});
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final email = args['EMAIL'];
+    final nome = args['NOME'];
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Padding(
@@ -19,14 +19,11 @@ class SignupPasswordScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo
                 Image.asset(
                   'assets/images/Logofinal1.png',
                   height: 80.0,
                 ),
                 SizedBox(height: 24.0),
-
-                // Title Text
                 Text(
                   "Crie a sua conta",
                   style: TextStyle(
@@ -37,30 +34,17 @@ class SignupPasswordScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 16.0),
-
-                // Progress Indicator
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    CircleAvatar(
-                      radius: 6,
-                      backgroundColor: Colors.white, // First step complete
-                    ),
+                    CircleAvatar(radius: 6, backgroundColor: Colors.white),
                     SizedBox(width: 8),
-                    CircleAvatar(
-                      radius: 6,
-                      backgroundColor: Colors.white, // Second step complete
-                    ),
+                    CircleAvatar(radius: 6, backgroundColor: Colors.white),
                     SizedBox(width: 8),
-                    CircleAvatar(
-                      radius: 6,
-                      backgroundColor: Colors.white, // Third step active
-                    ),
+                    CircleAvatar(radius: 6, backgroundColor: Colors.white),
                   ],
                 ),
                 SizedBox(height: 24.0),
-
-                // Password Input Field
                 TextField(
                   controller: _passwordController,
                   obscureText: true,
@@ -77,14 +61,12 @@ class SignupPasswordScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 16.0),
-
-                // Confirm Password Input Field
                 TextField(
                   controller: _confirmPasswordController,
                   obscureText: true,
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    labelText: 'Confirmar password',
+                    labelText: 'Confirmar Password',
                     labelStyle: TextStyle(color: Colors.white),
                     filled: true,
                     fillColor: Colors.grey[800],
@@ -95,11 +77,35 @@ class SignupPasswordScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 24.0),
-
-                // Conclude Button
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/signup_complete'); // Navigate to the home page
+                    if (_passwordController.text.trim() !=
+                        _confirmPasswordController.text.trim()) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Erro'),
+                          content: Text('As senhas não coincidem.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
+                      return;
+                    }
+
+                    Navigator.pushNamed(
+                      context,
+                      '/signup_complete',
+                      arguments: {
+                        'EMAIL': email,
+                        'NOME': nome,
+                        'PASSWORD': _passwordController.text.trim(),
+                      },
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[900],
@@ -108,37 +114,7 @@ class SignupPasswordScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  child: Text(
-                    "Concluir",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                SizedBox(height: 24.0),
-
-                // Divider Line
-                Divider(color: Colors.grey),
-
-                // "Já tens uma conta? Log in" Button
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/'); // Navigate back to login
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "Já tens uma conta? ",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        "Log in",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: Text("Continuar", style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
