@@ -18,7 +18,7 @@ const ScoutsCreateEditPage = () => {
   useEffect(() => {
     const fetchTipoUtilizadores = async () => {
       try {
-        const response = await api.get("/tipo/listNames");
+        const response = await api.get("/tipo/listTP");
         setTipoUtilizadores(response.data);
       } catch (error) {
         setError("Erro ao carregar os tipos de utilizadores.");

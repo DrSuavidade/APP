@@ -22,6 +22,8 @@ const upload = multer(); // Configura o multer para processar multipart/form-dat
 router.post('/users/signup', userController.registar); // Use 'registar' instead of 'signup'
 router.post('/users/registoweb', userController.registoweb);
 router.post('/users/login', userController.login);
+router.get('/user/list/:ID_USER', userController.getUserById);
+router.get('/users/lastTen', userController.lastTenUsers);
 router.put('/users/edit/:ID_USER', userController.editUser); // Update user
 router.delete('/users/delete/:ID_USER', userController.deleteUser); // Delete user
 
@@ -79,6 +81,7 @@ router.delete('/favorito/delete/:ID_CLUBE/:ID_USER', favoritosController.deleteF
 // TipoUtilizador Routes
 router.post('/tipo/add', tipoUtilizadorController.addTipoUtilizador);
 router.get('/tipo/list', tipoUtilizadorController.listTipoUtilizador);
+router.get("/tipo/listTP", tipoUtilizadorController.listTPbyName);
 router.put('/tipo/edit/:ID_TIPO', tipoUtilizadorController.editTipoUtilizador);
 router.delete('/tipo/delete/:ID_TIPO', tipoUtilizadorController.deleteTipoUtilizador);
 

@@ -148,6 +148,25 @@ userController.login = async (req, res) => {
   }
 };
 
+userController.getUserById = async (req, res) => {
+  const { ID_USER } = req.params;
+
+  try {
+    // Find the user by ID_USER
+    const user = await User.findOne({ ID_USER });
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Erro ao buscar usuário:', error);
+    res.status(500).json({ message: 'Erro no servidor ao buscar usuário.' });
+  }
+};
+
+
 //LISTAR
 userController.lastTenUsers = async (req, res) => {
   try {

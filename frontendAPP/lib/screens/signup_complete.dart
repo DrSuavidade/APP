@@ -1,12 +1,21 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
+import '../api/api_service.dart';
 
-class SignupCompleteScreen extends StatelessWidget {
-  const SignupCompleteScreen({super.key});
+class SignupCompleteScreen extends StatefulWidget {
+  @override
+  _SignupCompleteScreenState createState() => _SignupCompleteScreenState();
+}
+
+class _SignupCompleteScreenState extends State<SignupCompleteScreen> {
+  final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final email = args['EMAIL'];
+    final nome = args['NOME'];
+    final password = args['PASSWORD'];
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Padding(
@@ -16,16 +25,13 @@ class SignupCompleteScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo
                 Image.asset(
                   'assets/images/Logofinal1.png',
                   height: 80.0,
                 ),
                 SizedBox(height: 24.0),
-
-                // Success Message
                 Text(
-                  "Conta criada com sucesso!",
+                  "Crie a sua conta",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24.0,
@@ -34,22 +40,47 @@ class SignupCompleteScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 16.0),
-
-                // Subtext
-                Text(
-                  "Volte para a página de login para\naceder à aplicação",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16.0,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 40.0),
-
-                // Back to Login Button
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/'); // Navigate back to login
+                  onPressed: () async {
+                    try {
+                      await api.registerUser({
+                        'EMAIL': email,
+                        'NOME': nome,
+                        'PASSWORD': password,
+                        'ID_TIPO': 3,
+                      });
+
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Sucesso'),
+                          content: Text('Usuário criado com sucesso!'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.pushReplacementNamed(context, '/');
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
+                    } catch (e) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Erro'),
+                          content: Text('Falha ao criar usuário.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey[900],
@@ -58,10 +89,7 @@ class SignupCompleteScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  child: Text(
-                    "Voltar",
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  child: Text("Confirmar Cadastro", style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),

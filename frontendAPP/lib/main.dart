@@ -41,9 +41,20 @@ class MyApp extends StatelessWidget {
               userId:
                   arguments['userId']); // Pass userId (number) to HomeScreen
         },
-        '/perfil': (context) => PerfilScreen(),
-        '/perfil_email': (context) => PerfilEmailScreen(),
-        '/perfil_password': (context) => PerfilPasswordScreen(),
+        '/perfil': (context) {
+  final arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+  return PerfilScreen(userId: arguments['userId']);
+},
+
+        '/perfil_email': (context) {
+  final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+  return PerfilEmailScreen(userId: args['userId']);
+},
+'/perfil_password': (context) {
+  final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+  return PerfilPasswordScreen(userId: args['userId']);
+},
+
         '/relatorio': (context) => RelatorioScreen(),
         '/calendar': (context) {
           final arguments = ModalRoute.of(context)!.settings.arguments
