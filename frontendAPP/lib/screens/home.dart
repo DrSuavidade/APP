@@ -46,7 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         isLoading = false;
       });
-      _showErrorDialog('Error', e.toString());
+      if (!(e.toString().contains('No players found') ||
+          e.toString().contains('No events found'))) {
+        _showErrorDialog('Error', e.toString());
+      }
     }
   }
 
@@ -129,27 +132,49 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      ...userGames.map((game) {
-                        return _eventoCard(
-                          game['DATA'],
-                          game['HORA'],
-                          game['EQUIPA_CASA'],
-                          game['VISITANTE'],
-                          game['LOCAL'],
-                          context,
-                        );
-                      }).toList(),
-                      Center(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/calendar');
-                          },
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.white, // Text color
-                          ),
-                          child: const Text('Ver mais jogos'),
-                        ),
-                      ),
+                      userGames.isEmpty
+                          ? Center(
+                              child: Text(
+                                "Não existem eventos de momento",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            )
+                          : Column(
+                              children: [
+                                Column(
+                                  children: userGames.map((game) {
+                                    return _eventoCard(
+                                      game['DATA'],
+                                      game['HORA'],
+                                      game['EQUIPA_CASA'],
+                                      game['VISITANTE'],
+                                      game['LOCAL'],
+                                      context,
+                                    );
+                                  }).toList(),
+                                ),
+                                Center(
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                    context,
+                                    '/calendar',
+                                    arguments: {
+                                      'userId': widget.userId
+                                    }, // Pass userId here
+                                  );
+                                    },
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                    ),
+                                    child: const Text('Ver mais jogos'),
+                                  ),
+                                ),
+                              ],
+                            ),
                       const SizedBox(height: 10),
                       const Text(
                         "JOGADORES DESTACADOS",
@@ -159,21 +184,32 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Expanded(
-                        child: ListView(
-                          padding: const EdgeInsets.only(right: 30),
-                          children: userPlayers.map((player) {
-                            return _playerCard(
-                              player['NOME'],
-                              DateTime.now().year -
-                                  DateTime.parse(player['DATA_NASC']).year,
-                              player['NOTA_ADM'],
-                              player['ID_JOGADORES'],
-                              context,
-                            );
-                          }).toList(),
-                        ),
-                      ),
+                      userPlayers.isEmpty
+                          ? Center(
+                              child: Text(
+                                "Não existem jogadores de momento",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            )
+                          : Expanded(
+                              child: ListView(
+                                padding: const EdgeInsets.only(right: 30),
+                                children: userPlayers.map((player) {
+                                  return _playerCard(
+                                    player['NOME'],
+                                    DateTime.now().year -
+                                        DateTime.parse(player['DATA_NASC'])
+                                            .year,
+                                    player['NOTA_ADM'],
+                                    player['ID_JOGADORES'],
+                                    context,
+                                  );
+                                }).toList(),
+                              ),
+                            ),
                     ],
                   ),
                 ),
@@ -422,70 +458,70 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _playerCard(String name, int age, int notaAdm, int relatorioId, BuildContext context) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.pushNamed(
-        context,
-        '/relatorio',
-        arguments: {
-          'id_relatorio': relatorioId,
-          'id_user': widget.userId,
-        },
-      );
-    },
-    child: Container(
-      margin: const EdgeInsets.only(bottom: 6), // Space between cards
-      padding:
-          const EdgeInsets.only(left: 50, right: 40, top: 15, bottom: 15),
-      width: double.infinity,
-      height: 60,
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(10),
-          bottomRight: Radius.circular(10),
-        ),
-      ),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            backgroundColor: Color.fromARGB(255, 49, 49, 49),
-            child: Icon(Icons.person, color: Colors.white),
+  Widget _playerCard(String name, int age, int notaAdm, int relatorioId,
+      BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          '/relatorio',
+          arguments: {
+            'id_relatorio': relatorioId,
+            'id_user': widget.userId,
+          },
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 6), // Space between cards
+        padding:
+            const EdgeInsets.only(left: 50, right: 40, top: 15, bottom: 15),
+        width: double.infinity,
+        height: 60,
+        decoration: BoxDecoration(
+          color: Colors.grey[900],
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(10),
+            bottomRight: Radius.circular(10),
           ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        ),
+        child: Row(
+          children: [
+            const CircleAvatar(
+              backgroundColor: Color.fromARGB(255, 49, 49, 49),
+              child: Icon(Icons.person, color: Colors.white),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "NOME: $name",
+                    style: const TextStyle(color: Colors.white, fontSize: 9),
+                  ),
+                  Text(
+                    "IDADE: $age",
+                    style: const TextStyle(color: Colors.grey, fontSize: 8),
+                  ),
+                ],
+              ),
+            ),
+            Row(
               children: [
                 Text(
-                  "NOME: $name",
-                  style: const TextStyle(color: Colors.white, fontSize: 9),
+                  "$notaAdm", // Display NOTA_ADM here
+                  style: const TextStyle(color: Colors.white, fontSize: 18),
                 ),
-                Text(
-                  "IDADE: $age",
-                  style: const TextStyle(color: Colors.grey, fontSize: 8),
+                const Icon(
+                  Icons.star,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  size: 20,
                 ),
               ],
             ),
-          ),
-          Row(
-            children: [
-              Text(
-                "$notaAdm", // Display NOTA_ADM here
-                style: const TextStyle(color: Colors.white, fontSize: 18),
-              ),
-              const Icon(
-                Icons.star,
-                color: Color.fromARGB(255, 255, 255, 255),
-                size: 20,
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }

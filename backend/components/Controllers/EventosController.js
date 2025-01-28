@@ -1,6 +1,6 @@
-const Eventos = require('../Models/Eventos');
 const Evento = require('../Models/Eventos');
 const Relatorio = require('../Models/Relatorio');
+const Equipa = require('../Models/Equipa');
 
 const eventosController = {};
 
@@ -21,6 +21,39 @@ eventosController.addEvento = async (req, res) => {
     } catch (error) {
       console.error('Erro ao adicionar evento:', error);
       res.status(500).json({ error: 'Erro ao adicionar evento' });
+    }
+  };
+  
+  eventosController.addEventoWeb = async (req, res) => {
+    const { DATA, HORA, EQUIPA_CASA, VISITANTE, LOCAL } = req.body;
+  
+    try {
+      // Validação dos campos obrigatórios
+      if (!DATA || !HORA || !EQUIPA_CASA || !VISITANTE || !LOCAL) {
+        return res.status(400).json({ message: "Todos os campos são obrigatórios." });
+      }
+  
+      // Obter o último ID_EVENTOS e incrementar
+      const lastEvent = await Evento.findOne().sort({ ID_EVENTOS: -1 }); // Ordena pelo maior ID_EVENTOS
+      const newId = lastEvent ? lastEvent.ID_EVENTOS + 1 : 1; // Incrementa ou começa com 1
+  
+      // Criar o novo evento
+      const newEvento = new Evento({
+        ID_EVENTOS: newId,
+        DATA,
+        HORA,
+        EQUIPA_CASA,
+        VISITANTE,
+        LOCAL,
+      });
+  
+      // Salvar no banco de dados
+      await newEvento.save();
+  
+      res.status(201).json({ message: "Evento criado com sucesso!", evento: newEvento });
+    } catch (error) {
+      console.error("Erro ao criar evento:", error);
+      res.status(500).json({ message: "Erro no servidor." });
     }
   };
 
@@ -86,7 +119,10 @@ eventosController.getGamesByUser = async (req, res) => {
     console.log(`Fetching games for user ID: ${ID_USER}`);
 
     // Find all relatorios linked to the user
-    const relatorios = await Relatorio.find({ ID_USER }).select('ID_EVENTOS');
+    const relatorios = await Relatorio.find({ 
+          ID_USER, 
+          STATUS: 'Ativo' // Replace 'Ativo' with the desired STATUS filter
+        }).select('ID_EVENTOS');
 
     // Extract unique event IDs from relatorios
     const eventIds = relatorios.map((relatorio) => relatorio.ID_EVENTOS);
@@ -100,6 +136,33 @@ eventosController.getGamesByUser = async (req, res) => {
     res.status(500).json({ message: 'Erro no servidor ao buscar jogos do usuário.' });
   }
 };
+
+eventosController.getFilteredGamesByUser = async (req, res) => {
+  const { ID_USER } = req.params;
+  const { ESCALAO } = req.query;
+
+  try {
+    const relatorios = await Relatorio.find({ ID_USER, STATUS: 'Ativo' }).select('ID_EVENTOS');
+    const eventIds = relatorios.map((relatorio) => relatorio.ID_EVENTOS);
+
+    const eventos = await Evento.find({ ID_EVENTOS: { $in: eventIds } });
+
+    if (ESCALAO) {
+      const equipas = await Equipa.find({ ESCALAO }).select('NOME');
+      const equipaNames = equipas.map((equipa) => equipa.NOME);
+      const filteredEventos = eventos.filter((evento) =>
+        equipaNames.includes(evento.EQUIPA_CASA)
+      );
+      return res.status(200).json(filteredEventos);
+    }
+
+    res.status(200).json(eventos);
+  } catch (error) {
+    console.error('Error fetching filtered games for user:', error);
+    res.status(500).json({ message: 'Erro no servidor ao buscar jogos do usuário.' });
+  }
+};
+
 
 
 

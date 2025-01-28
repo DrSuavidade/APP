@@ -34,11 +34,12 @@ const LoginPage = () => {
     <div className="login-container">
       <div className="login-box">
         <div className="login-logo">
-          <img src="/logo.png" alt="Logo" />
+          <img src="frontendweb\src\img\logo.png" alt="Logo" />
         </div>
         <h1>Login</h1>
         <form onSubmit={handleLogin}>
           <div className="form-group">
+            <p className ="text">Email</p>
             <input
               type="email"
               placeholder="Email"
@@ -48,6 +49,7 @@ const LoginPage = () => {
             />
           </div>
           <div className="form-group">
+            <p className ="text" >Password</p>
             <input
               type="password"
               placeholder="Password"
@@ -62,8 +64,8 @@ const LoginPage = () => {
           </button>
         </form>
         <div className="login-footer">
-          <a href="/forgot-password">Esqueceste-te da password?</a>
-          <p>
+          <a className ="text" href="/forgot-password">Esqueceste-te da password?</a>
+          <p className="bottom">
             Não tens conta? <a href="/register">Registrar</a>
           </p>
         </div>

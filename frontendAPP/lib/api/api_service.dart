@@ -53,13 +53,70 @@ class ApiService {
   }
 
   // UserController Endpoints
-  Future<dynamic> registerUser(Map<String, dynamic> data) =>
-      post('users/signup', data);
+  Future<Map<String, dynamic>> registerUser(Map<String, dynamic> userData) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/users/signup'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(userData),
+    );
+
+    if (response.statusCode == 201) {
+      return json.decode(response.body);
+    } else {
+      try {
+        final error = json.decode(response.body);
+        throw Exception(error['message'] ?? 'Failed to register user');
+      } catch (_) {
+        throw Exception('Unexpected error occurred while registering user');
+      }
+    }
+  }
+  Future<Map<String, dynamic>> getUserDetails(int userId) async {
+  final response = await http.get(
+    Uri.parse('$baseUrl/users/list/$userId'),
+    headers: {'Content-Type': 'application/json'},
+  );
+  if (response.statusCode == 200) {
+    return json.decode(response.body);
+  } else {
+    throw Exception('Failed to fetch user details');
+  }
+}
+
+Future<Map<String, dynamic>> sendRecoveryEmail(String email) async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/users/recuperar_senha'),
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode({'EMAIL': email}),
+  );
+
+  if (response.statusCode == 200) {
+    return json.decode(response.body);
+  } else {
+    try {
+      final error = json.decode(response.body);
+      throw Exception(error['message'] ?? 'Failed to send recovery email');
+    } catch (_) {
+      throw Exception('Unexpected error occurred while sending recovery email');
+    }
+  }
+}
+
+
   Future<dynamic> loginUser(Map<String, dynamic> data) =>
       post('users/login', data);
-  Future<dynamic> editUser(String id, Map<String, dynamic> data) =>
-      put('users/edit/$id', data);
-  Future<void> deleteUser(String id) => delete('users/delete/$id');
+  Future<void> editUser(int userId, Map<String, dynamic> data) async {
+  final response = await http.put(
+    Uri.parse('$baseUrl/users/edit/$userId'),
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode(data),
+  );
+
+  if (response.statusCode != 200) {
+    throw Exception('Erro ao atualizar usuário: ${response.body}');
+  }
+}
+  Future<void> deleteUser(int userId) => delete('users/delete/$userId');
 
   // ClubeController Endpoints
   Future<dynamic> addClube(Map<String, dynamic> data) =>
@@ -85,6 +142,19 @@ class ApiService {
 Future<dynamic> listEventosByUser(int userId) async {
   return await get('evento/list/$userId');
 }
+Future<List<dynamic>> getFilteredEventosByEscalao(int userId, String escalao) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/eventos/user/$userId?ESCALAO=$escalao'),
+      headers: {'Content-Type': 'application/json'},
+    );
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to fetch filtered eventos');
+    }
+  }
+
+
   Future<dynamic> editEvento(String id, Map<String, dynamic> data) =>
       put('evento/edit/$id', data);
   Future<void> deleteEvento(String id) => delete('evento/delete/$id');
@@ -123,6 +193,9 @@ Future<dynamic> getJogadorById(int jogadorId) async {
   Future<dynamic> addRelatorio(Map<String, dynamic> data) =>
       post('relatorio/add', data);
   Future<dynamic> listRelatorios() => get('relatorio/list');
+  Future<dynamic> listRelatoriosHistorico() async {
+  return await get('relatorio/historico');
+}
   Future<dynamic> editRelatorio(String id, Map<String, dynamic> data) =>
       put('relatorio/edit/$id', data);
   Future<void> deleteRelatorio(String id) => delete('relatorio/delete/$id');

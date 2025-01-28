@@ -50,15 +50,6 @@ body {
   color: #4caf50;
 }
 
-.field {
-  background: url("campo.jpg") no-repeat center center;
-  background-size: cover;
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 400px; /* Espaço reservado para a sidebar fechada */
-}
 
 .row {
   display: flex;
@@ -155,4 +146,32 @@ body {
 
 .close-btn:hover {
   background-color: #b71c1c;
+}
+
+.add-btn {
+  background-color: #32CD32; /* Cor verde */
+  color: white; /* Texto branco */
+  padding: 10px 20px; /* Tamanho consistente com o botão Fechar */
+  font-size: 16px; /* Mesma fonte */
+  border: none; /* Remove bordas extras */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
+  width: 100%; /* Largura completa para alinhar ao botão Fechar */
+  margin-bottom: 10px; /* Espaço acima do botão Fechar */
+}
+
+.add-btn:hover {
+  background-color: #28a428; /* Cor verde mais escura ao passar o mouse */
+}
+
+.close-btn {
+  /* Caso o botão Fechar tenha estilos específicos, eles podem ser reutilizados ou separados */
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #ff0000; /* Vermelho */
+  color: white;
+  width: 100%;
 }

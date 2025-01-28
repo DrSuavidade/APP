@@ -33,6 +33,19 @@ tipoUtilizadorController.listTipoUtilizador = async (req, res) => {
   }
 };
 
+tipoUtilizadorController.listTPbyName = async (req, res) => {
+  try {
+    // Buscar apenas os campos necessários: ID_TIPO e PERMISSOES
+    const tipoUtilizadores = await TipoUtilizador.find().select("ID_TIPO PERMISSOES -_id");
+    res.status(200).json(tipoUtilizadores);
+  } catch (error) {
+    console.error("Erro ao listar os tipos de utilizadores:", error);
+    res.status(500).json({ error: "Erro ao listar tipos de utilizadores." });
+  }
+};
+
+
+
 // Edit a tipoUtilizador by id_tipo
 tipoUtilizadorController.editTipoUtilizador = async (req, res) => {
   const { ID_TIPO } = req.params;

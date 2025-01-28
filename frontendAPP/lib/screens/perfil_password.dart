@@ -1,12 +1,70 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import '../api/api_service.dart';
 
-class PerfilPasswordScreen extends StatelessWidget {
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+class PerfilPasswordScreen extends StatefulWidget {
+  final int userId;
 
-  PerfilPasswordScreen({super.key});
+  const PerfilPasswordScreen({Key? key, required this.userId}) : super(key: key);
+
+  @override
+  State<PerfilPasswordScreen> createState() => _PerfilPasswordScreenState();
+}
+
+class _PerfilPasswordScreenState extends State<PerfilPasswordScreen> {
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+  final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
+
+  Future<void> _updatePassword() async {
+    if (_passwordController.text != _confirmPasswordController.text) {
+      _showErrorDialog("Erro", "As senhas não coincidem.");
+      return;
+    }
+
+    try {
+      await api.editUser(widget.userId, {"PASSWORD": _passwordController.text});
+      _showSuccessDialog("Sucesso", "Senha alterada com sucesso!");
+    } catch (e) {
+      _showErrorDialog("Erro", "Falha ao alterar a senha.");
+    }
+  }
+
+  void _showErrorDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showSuccessDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +79,7 @@ class PerfilPasswordScreen extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        title: Text("PERFIL", style: TextStyle(color: Colors.white)),
+        title: Text("Alterar Senha", style: TextStyle(color: Colors.white)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -33,23 +91,38 @@ class PerfilPasswordScreen extends StatelessWidget {
               child: Icon(Icons.person, color: Colors.white, size: 40),
             ),
             SizedBox(height: 16),
-            Text(
-              "Arasilva\nNOME: Armando Silva\nEMAIL: armandosilva@gmail.com",
+            TextField(
+              controller: _passwordController,
+              obscureText: true,
               style: TextStyle(color: Colors.white),
-              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                labelText: "Nova Senha",
+                labelStyle: TextStyle(color: Colors.grey),
+                filled: true,
+                fillColor: Colors.grey[800],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
             SizedBox(height: 16),
-            // Password Input
-            _buildTextField(_passwordController, "NOVA PASSWORD"),
-            SizedBox(height: 16),
-            // Confirm Password Input
-            _buildTextField(_confirmPasswordController, "REPITA A PASSWORD"),
+            TextField(
+              controller: _confirmPasswordController,
+              obscureText: true,
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                labelText: "Confirmar Senha",
+                labelStyle: TextStyle(color: Colors.grey),
+                filled: true,
+                fillColor: Colors.grey[800],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
             Spacer(),
-            // Confirm Button
             ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/perfil'); // Navigate back to perfil.dart
-              },
+              onPressed: _updatePassword,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 padding: EdgeInsets.symmetric(vertical: 14),
@@ -59,21 +132,6 @@ class PerfilPasswordScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildTextField(TextEditingController controller, String label) {
-    return TextField(
-      controller: controller,
-      obscureText: true,
-      style: TextStyle(color: Colors.white),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: TextStyle(color: Colors.grey),
-        filled: true,
-        fillColor: Colors.grey[800],
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
   }

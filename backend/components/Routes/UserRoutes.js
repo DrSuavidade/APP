@@ -22,6 +22,9 @@ const upload = multer(); // Configura o multer para processar multipart/form-dat
 router.post('/users/signup', userController.registar); // Use 'registar' instead of 'signup'
 router.post('/users/registoweb', userController.registoweb);
 router.post('/users/login', userController.login);
+router.post('/users/recuperar_senha', userController.recuperarSenha);
+router.get('/users/list/:ID_USER', userController.getUserById);
+router.get('/users/lastTen', userController.lastTenUsers);
 router.put('/users/edit/:ID_USER', userController.editUser); // Update user
 router.delete('/users/delete/:ID_USER', userController.deleteUser); // Delete user
 
@@ -38,9 +41,11 @@ router.put('/equipa/edit/:ID_EQUIPA', equipaController.editEquipa); // Edit team
 router.delete('/equipa/delete/:ID_EQUIPA', equipaController.deleteEquipa); // Delete team
 
 // Eventos Routes
-router.post('/evento/add', autenticarJWT, eventosController.addEvento);
+router.post('/evento/add', /*autenticarJWT,*/ eventosController.addEvento);
+router.post('/evento/addweb', eventosController.addEventoWeb);
 router.get('/evento/list', eventosController.listEvento);
 router.get('/evento/list/:ID_USER', eventosController.getGamesByUser);
+router.get('/eventos/user/:ID_USER', eventosController.getFilteredGamesByUser);
 router.put('/evento/edit/:ID_EVENTOS', eventosController.editEvento);
 router.delete('/evento/delete/:ID_EVENTOS', eventosController.deleteEvento);
 
@@ -64,7 +69,7 @@ router.delete('/posicao/delete/:ID_POSICAO', posicaoController.deletePosicao);
 router.post('/relatorio/add', relatoriosController.addRelatorio);
 router.get('/relatorio/list', relatoriosController.listRelatorio);
 router.get('/relatorio/get/:id_jogadores/:id_user', relatoriosController.getRelatorioByPlayerAndUser);
-router.put('/relatorio/edit/app/:ID_RELATORIO', relatoriosController.editAppRelatorio);
+router.get('/relatorio/historico', relatoriosController.listHistoricoRelatorios);
 router.put('/relatorio/edit/:ID_RELATORIO', relatoriosController.editRelatorio);
 router.delete('/relatorio/delete/:ID_RELATORIO', relatoriosController.deleteRelatorio);
 
@@ -77,6 +82,7 @@ router.delete('/favorito/delete/:ID_CLUBE/:ID_USER', favoritosController.deleteF
 // TipoUtilizador Routes
 router.post('/tipo/add', tipoUtilizadorController.addTipoUtilizador);
 router.get('/tipo/list', tipoUtilizadorController.listTipoUtilizador);
+router.get("/tipo/listTP", tipoUtilizadorController.listTPbyName);
 router.put('/tipo/edit/:ID_TIPO', tipoUtilizadorController.editTipoUtilizador);
 router.delete('/tipo/delete/:ID_TIPO', tipoUtilizadorController.deleteTipoUtilizador);
 

@@ -150,7 +150,7 @@ function PlayersCreatePage() {
           </div>
         </form>
       </div>
-      <div className="sidebar">
+      <div className="main-container">
         <h3>Últimos Jogadores Adicionados</h3>
         <div className="history-item">
             {players.map((player, index) => (

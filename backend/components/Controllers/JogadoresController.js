@@ -79,8 +79,6 @@ jogadoresController.getLastTenPlayers = async (req, res) => {
 };
 
 
-
-
 // Edit a player by id_jogador
 jogadoresController.editJogador = async (req, res) => {
   const { ID_JOGADORES } = req.params;
@@ -133,7 +131,10 @@ jogadoresController.getPlayersByUser = async (req, res) => {
   try {
 
     // Fetch all relatorios for the given user
-    const relatorios = await Relatorio.find({ ID_USER }).select('ID_JOGADORES');
+    const relatorios = await Relatorio.find({ 
+      ID_USER, 
+      STATUS: 'Ativo' // Replace 'Ativo' with the desired STATUS filter
+    }).select('ID_JOGADORES');
 
     const jogadorIds = relatorios.map((relatorio) => relatorio.ID_JOGADORES);
 

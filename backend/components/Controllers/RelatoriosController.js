@@ -1,4 +1,5 @@
 const Relatorio = require('../Models/Relatorio');
+const Jogadores = require('../Models/Jogadores');
 
 const relatoriosController = {};
 
@@ -138,36 +139,30 @@ relatoriosController.getRelatorioByPlayerAndUser = async (req, res) => {
 
 
 
-
-// Update a specific relatorio by id_relatorios
-relatoriosController.editAppRelatorio = async (req, res) => {
-  const { id_relatorio } = req.params;
-  const { tecnica, velocidade, competitiva, inteligencia, altura, morfologia, comentario, data } = req.body;
-
+relatoriosController.listHistoricoRelatorios = async (req, res) => {
   try {
-    // Find the relatorio by its ID
-    const relatorio = await Relatorio.findOne({ ID_RELATORIO: id_relatorio });
-    if (!relatorio) {
-      return res.status(404).json({ message: 'Relatório não encontrado' });
-    }
+    const relatorios = await Relatorio.find({ STATUS: { $ne: 'Ativo' } });
+    const jogadores = await Jogadores.find({
+      ID_JOGADORES: { $in: relatorios.map(r => r.ID_JOGADORES) },
+    });
 
-    // Update fields if provided
-    if (tecnica !== undefined) relatorio.TECNICA = tecnica;
-    if (velocidade !== undefined) relatorio.VELOCIDADE = velocidade;
-    if (competitiva !== undefined) relatorio.COMPETITIVA = competitiva;
-    if (inteligencia !== undefined) relatorio.INTELIGENCIA = inteligencia;
-    if (altura !== undefined) relatorio.ALTURA = altura;
-    if (morfologia !== undefined) relatorio.MORFOLOGIA = morfologia;
-    if (comentario !== undefined) relatorio.COMENTARIO = comentario;
-    if (data !== undefined) relatorio.DATA = new Date(data);
+    const results = relatorios.map(relatorio => {
+      const jogador = jogadores.find(j => j.ID_JOGADORES === relatorio.ID_JOGADORES);
+      return {
+        ...relatorio.toObject(),
+        JOGADOR_NOME: jogador ? jogador.NOME : 'Desconhecido',
+      };
+    });
 
-    const updatedRelatorio = await relatorio.save();
-    res.status(200).json({ message: 'Relatório atualizado com sucesso!', relatorio: updatedRelatorio });
+    res.status(200).json(results);
   } catch (error) {
-    console.error('Erro ao atualizar relatório:', error);
-    res.status(500).json({ error: 'Erro ao atualizar relatório' });
+    console.error('Erro ao listar relatórios históricos:', error);
+    res.status(500).json({ error: 'Erro ao listar relatórios históricos' });
   }
 };
+
+
+
 
 
 module.exports = relatoriosController;
