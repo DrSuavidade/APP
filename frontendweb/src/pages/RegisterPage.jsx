@@ -26,12 +26,12 @@ const RegisterPage = () => {
         EMAIL: email,
         NOME: name,
         PASSWORD: password,
-        ID_TIPO: 1, // Exemplo: Tipo padrão de usuário.
+        ID_TIPO: 1, 
       });
 
       if (response.status === 201) {
         setSuccess(true);
-        setTimeout(() => navigate("/login"), 2000); // Redireciona após 2 segundos
+        setTimeout(() => navigate("/login"), 2000); 
       }
     } catch (error) {
       if (error.response) {
@@ -46,7 +46,7 @@ const RegisterPage = () => {
     <div className="register-container">
       <div className="register-box">
         <div className="register-logo">
-          <img src="/logo.png" alt="Logo" />
+          <img src="frontendweb\src\img\logo.png" alt="Logo" />
         </div>
         <h1>Registrar</h1>
         <form onSubmit={handleRegister}>

@@ -34,7 +34,7 @@ const LoginPage = () => {
     <div className="login-container">
       <div className="login-box">
         <div className="login-logo">
-          <img src="/logo.png" alt="Logo" />
+          <img src="frontendweb\src\img\logo.png" alt="Logo" />
         </div>
         <h1>Login</h1>
         <form onSubmit={handleLogin}>
