@@ -71,9 +71,9 @@ class ApiService {
       }
     }
   }
-  Future<Map<String, dynamic>> getUserById(int userId) async {
+  Future<Map<String, dynamic>> getUserDetails(int userId) async {
   final response = await http.get(
-    Uri.parse('$baseUrl/users/$userId'),
+    Uri.parse('$baseUrl/user/list/$userId'),
     headers: {'Content-Type': 'application/json'},
   );
   if (response.statusCode == 200) {
@@ -85,9 +85,18 @@ class ApiService {
 
   Future<dynamic> loginUser(Map<String, dynamic> data) =>
       post('users/login', data);
-  Future<dynamic> editUser(String id, Map<String, dynamic> data) =>
-      put('users/edit/$id', data);
-  Future<void> deleteUser(String id) => delete('users/delete/$id');
+  Future<void> editUser(int userId, Map<String, dynamic> data) async {
+  final response = await http.put(
+    Uri.parse('$baseUrl/users/edit/$userId'),
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode(data),
+  );
+
+  if (response.statusCode != 200) {
+    throw Exception('Erro ao atualizar usuário: ${response.body}');
+  }
+}
+  Future<void> deleteUser(int userId) => delete('users/delete/$userId');
 
   // ClubeController Endpoints
   Future<dynamic> addClube(Map<String, dynamic> data) =>
