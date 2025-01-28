@@ -5,8 +5,10 @@ import AppRoutes from './routes/AppRoutes'; // Certifica-te de que o caminho est
 function App() {
   return (
     <div className="App">
-      {/* Invocar as rotas existentes */}
-      <AppRoutes />
+      <div className="page-container">
+        {/* Invocar as rotas existentes */}
+        <AppRoutes />
+      </div>
     </div>
   );
 }

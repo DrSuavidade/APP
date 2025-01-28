@@ -1,40 +1,9 @@
 const User = require('../Models/User');
+const TipoUtilizador = require('../Models/TipoUtilizador');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const userController = {};
-/*
-userController.registar = async (req, res) => {
-  const { NOME, EMAIL, PASSWORD, ID_TIPO } = req.body;
-
-  try {
-    // Find the highest current id_user in the collection
-    const maxUser = await User.findOne().sort({ ID_USER: -1 }).select('ID_USER');
-    
-    // Calculate the new id_user, start from 1 if no users exist
-    const ID_USER = maxUser ? maxUser.ID_USER + 1 : 1;
-
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(PASSWORD, 10);
-
-    // Create the new user with the incremented id_user (do not set _id manually)
-    const user = new User({ 
-      NOME, 
-      EMAIL, 
-      PASSWORD: hashedPassword, 
-      ID_TIPO, 
-      ID_USER 
-    });
-
-    // Save the user
-    await user.save();
-
-    res.status(201).json({ message: 'Usuário criado com sucesso!', user });
-  } catch (error) {
-    console.error('Erro ao criar usuário:', error);
-    res.status(500).json({ error: 'Erro ao criar usuário' });
-  }
-};*/
 
 userController.registar = async (req, res) => {
   const { ID_TIPO, NOME, EMAIL, PASSWORD } = req.body;
@@ -123,24 +92,8 @@ userController.registoweb = async (req, res) => {
     res.status(500).json({ message: 'Erro no servidor.' });
   }
 };
-/*
-userController.login = async (req, res) => {
-  const { EMAIL, PASSWORD } = req.body;
 
-  try {
-    const user = await User.findOne({ EMAIL });
-    if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
-
-    const isMatch = await bcrypt.compare(PASSWORD, user.PASSWORD);
-    if (!isMatch) return res.status(401).json({ error: 'Credenciais inválidas' });
-
-    const token = jwt.sign({ id: user._id }, 'SECRET_KEY', { expiresIn: '1h' });
-    res.status(200).json({ token, user });
-  } catch (error) {
-    res.status(500).json({ error: 'Erro no login do usuário' });
-  }
-};*/
-
+//LOGIN
 userController.login = async (req, res) => {
   console.log("Iniciando processo de login...");
   const { EMAIL, PASSWORD } = req.body;
@@ -214,9 +167,40 @@ userController.getUserById = async (req, res) => {
 };
 
 
+//LISTAR
+userController.lastTenUsers = async (req, res) => {
+  try {
+    // Buscar os 10 últimos usuários
+    const users = await User.find({})
+      .sort({ ID_USER: -1 })
+      .limit(10)
+      .select("NOME ID_TIPO");
+
+    // Buscar os nomes dos tipos de utilizadores
+    const tipoUtilizadores = await TipoUtilizador.find().select("ID_TIPO PERMISSOES");
+
+    // Mapear os tipos de utilizadores para um objeto para acesso rápido
+    const tipoUtilizadorMap = tipoUtilizadores.reduce((map, tipo) => {
+      map[tipo.ID_TIPO] = tipo.PERMISSOES;
+      return map;
+    }, {});
+
+    // Substituir o ID_TIPO pelo nome do tipo
+    const usersWithTipo = users.map((user) => ({
+      ...user._doc,
+      ID_TIPO: tipoUtilizadorMap[user.ID_TIPO] || "Tipo não encontrado",
+    }));
+
+    res.status(200).json(usersWithTipo);
+  } catch (error) {
+    console.error("Erro ao listar os últimos 10 utilizadores:", error);
+    res.status(500).json({ error: "Erro ao buscar utilizadores." });
+  }
+};
 
 
 
+//EDIT
 userController.editUser = async (req, res) => {
   const { ID_USER } = req.params;
   const { NOME, EMAIL, PASSWORD, ID_TIPO } = req.body;
