@@ -1,7 +1,10 @@
+const nodemailer = require('nodemailer');
 const User = require('../Models/User');
 const TipoUtilizador = require('../Models/TipoUtilizador');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+
 
 const userController = {};
 
@@ -145,6 +148,64 @@ userController.login = async (req, res) => {
   } catch (error) {
     console.error('Erro no processo de login:', error);
     return res.status(500).json({ message: 'Erro no servidor.' });
+  }
+};
+
+userController.recuperarSenha = async (req, res) => {
+  const { EMAIL } = req.body;
+
+  try {
+    if (!EMAIL) {
+      return res.status(400).json({ message: 'O e-mail é obrigatório.' });
+    }
+
+    const user = await User.findOne({ EMAIL });
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+
+    // Generate temporary password
+    const tempPassword = crypto.randomBytes(4).toString('hex');
+
+    // Hash the temporary password
+    const hashedPassword = await bcrypt.hash(tempPassword, 10);
+
+    // Update the user's password in the database
+    user.PASSWORD = hashedPassword;
+    await user.save();
+
+    // Configure nodemailer with Brevo
+    const transporter = nodemailer.createTransport({
+      host: 'smtp-relay.brevo.com',
+      port: 587,
+      auth: {
+        user: '848042002@smtp-brevo.com',
+        pass: 'pLNFrCIawq32T89g',
+      },
+    });
+
+    // Email content
+    const mailOptions = {
+      from: '"Viseu Scouts" <viseuscouts@gmail.com>',
+      to: EMAIL,
+      subject: 'Recuperação de Senha',
+      text: `Sua nova senha temporária é: ${tempPassword}. Por favor, altere-a assim que possível.`,
+      html: `<p>Sua nova senha temporária é: <strong>${tempPassword}</strong>.</p>
+             <p>Por favor, altere-a assim que possível.</p>`,
+    };
+
+    // Send the email
+    transporter.sendMail(mailOptions, (err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Erro ao enviar e-mail.', error: err.message });
+      }
+
+      res.status(200).json({ message: 'E-mail enviado com sucesso!' });
+    });
+  } catch (error) {
+    console.error('Erro na recuperação de senha:', error);
+    res.status(500).json({ message: 'Erro no servidor.', details: error.message });
   }
 };
 

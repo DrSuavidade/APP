@@ -14,7 +14,6 @@ import 'screens/historico.dart';
 import 'screens/add_game.dart';
 import 'screens/add_player.dart';
 import 'screens/add_player_bd.dart';
-import 'screens/add_player_name.dart';
 import 'screens/privacidade.dart';
 import 'screens/password_recover.dart';
 import 'screens/password_recover_confirm.dart';
@@ -81,7 +80,6 @@ class MyApp extends StatelessWidget {
               as Map<String, dynamic>;
           return AddPlayerBDScreen(userId: arguments['userId']);
         },
-        '/add_player_name': (context) => AddPlayerNameScreen(),
         '/privacidade': (context) => PrivacidadeScreen(),
         '/password_recover': (context) => PasswordRecoverScreen(),
         '/password_recover_confirm': (context) =>

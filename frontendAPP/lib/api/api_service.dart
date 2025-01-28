@@ -73,7 +73,7 @@ class ApiService {
   }
   Future<Map<String, dynamic>> getUserDetails(int userId) async {
   final response = await http.get(
-    Uri.parse('$baseUrl/user/list/$userId'),
+    Uri.parse('$baseUrl/users/list/$userId'),
     headers: {'Content-Type': 'application/json'},
   );
   if (response.statusCode == 200) {
@@ -82,6 +82,26 @@ class ApiService {
     throw Exception('Failed to fetch user details');
   }
 }
+
+Future<Map<String, dynamic>> sendRecoveryEmail(String email) async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/users/recuperar_senha'),
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode({'EMAIL': email}),
+  );
+
+  if (response.statusCode == 200) {
+    return json.decode(response.body);
+  } else {
+    try {
+      final error = json.decode(response.body);
+      throw Exception(error['message'] ?? 'Failed to send recovery email');
+    } catch (_) {
+      throw Exception('Unexpected error occurred while sending recovery email');
+    }
+  }
+}
+
 
   Future<dynamic> loginUser(Map<String, dynamic> data) =>
       post('users/login', data);
