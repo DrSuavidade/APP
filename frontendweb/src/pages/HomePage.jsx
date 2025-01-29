@@ -22,17 +22,6 @@ const HUB = () => {
   
     return (
       <div className="hub">
-        {/* Navbar */}
-        <header className="navbar">
-          <div className="menu">
-            <span>Plantel</span>
-            <span>Jogadores</span>
-            <span>Clubes</span>
-            <span>Scouters</span>
-            <span>Eventos</span>
-            <span>Relatórios</span>
-          </div>
-        </header>
   
         {/* Header */}
         <div className="header">RELATÓRIOS PENDENTES</div>
