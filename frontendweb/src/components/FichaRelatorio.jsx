@@ -46,7 +46,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
     ));
   };
 
-  
+
   const handleUpdate = (novoStatus) => {
     axios
       .put("http://localhost:3000/api/relatorio/update", {
@@ -100,7 +100,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
 
   return (
     <div className="ficha-relatorio-container">
-      <h2>RELATÓRIO {new Date(relatorio.DATA).toLocaleDateString("pt-BR")}</h2>
+      <h2>RELATÓRIO {relatorio.DATA}</h2>
       <div className="player-info">
         <div className="avatar-placeholder"></div>
         <div className="player-details">
