@@ -13,73 +13,38 @@ body {
   height: 100vh;
 }
 
-.navbar {
+.field {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  background-color: #111;
-  padding: 10px 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.navbar .logo img {
-  height: 40px;
-  width: auto;
-}
-
-.navbar .menu {
-  flex: 1;
-  display: flex;
   justify-content: center;
-  gap: 20px;
+  background-image: url("");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 85vh;
+  position: relative;
+  margin-top: 55px;
 }
-
-.navbar .menu span {
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: color 0.3s ease;
-}
-
-.navbar .menu span:hover {
-  color: #4caf50;
-}
-
 
 .row {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
   margin: 10px 0;
 }
 
 .square {
   width: 70px;
   height: 70px;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
-.square.red {
-  background-color: #d32f2f;
-}
-
-.square.yellow {
-  background-color: #fbc02d;
-}
-
-.square.green {
-  background-color: #388e3c;
-}
-
-.square.blue {
-  background-color: #1976d2;
-}
+.square.red { background-color: #d32f2f; }
+.square.yellow { background-color: #fbc02d; }
+.square.green { background-color: #388e3c; }
+.square.blue { background-color: #1976d2; }
 
 .sidebar {
   position: fixed;
@@ -99,38 +64,46 @@ body {
 }
 
 .player-card {
-  background-color: #222;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 8px;
   display: flex;
   align-items: center;
+  background-color: #222;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-.player-card .avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #6a1b9a;
+.player-card:hover {
+  background-color: #333;
+}
+
+.player-info {
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
+  width: 100%;
+}
+
+.player-avatar {
+  font-size: 30px;
   margin-right: 10px;
 }
 
-.player-card .info h3 {
-  margin: 0;
-  font-size: 14px;
-  color: #fff;
+.player-details {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  color: white;
 }
 
-.player-card .info p {
+.player-details h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.player-details p {
   margin: 2px 0;
-  font-size: 12px;
-  color: #aaa;
+  font-size: 14px;
+  color: #bbb;
 }
 
 .close-btn {
@@ -149,29 +122,43 @@ body {
 }
 
 .add-btn {
-  background-color: #32CD32; /* Cor verde */
-  color: white; /* Texto branco */
-  padding: 10px 20px; /* Tamanho consistente com o botão Fechar */
-  font-size: 16px; /* Mesma fonte */
-  border: none; /* Remove bordas extras */
-  border-radius: 5px; /* Bordas arredondadas */
-  cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
-  width: 100%; /* Largura completa para alinhar ao botão Fechar */
-  margin-bottom: 10px; /* Espaço acima do botão Fechar */
-}
-
-.add-btn:hover {
-  background-color: #28a428; /* Cor verde mais escura ao passar o mouse */
-}
-
-.close-btn {
-  /* Caso o botão Fechar tenha estilos específicos, eles podem ser reutilizados ou separados */
+  background-color: #32CD32;
+  color: white;
   padding: 10px 20px;
   font-size: 16px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #ff0000; /* Vermelho */
-  color: white;
   width: 100%;
+  margin-bottom: 10px;
+}
+
+.add-btn:hover {
+  background-color: #28a428;
+}
+
+.progress-bar {
+  width: 100%;
+  background-color: #444;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 5px 0;
+}
+
+.progress-bar-fill {
+  height: 10px;
+  background-color: #32CD32;
+  transition: width 0.3s ease;
+}
+
+.avatar-large {
+  font-size: 3rem;
+  margin-right: 1rem;
+}
+
+.player-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }

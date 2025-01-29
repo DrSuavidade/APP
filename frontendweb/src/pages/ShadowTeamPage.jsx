@@ -48,21 +48,6 @@ const Plantel = () => {
 
   return (
     <div className="plantel-container">
-      {/* Navbar */}
-      <header className="navbar">
-        <div className="logo">
-          <img src="logo.png" alt="Logo" />
-        </div>
-        <div className="menu">
-          <span>Plantel</span>
-          <span>Jogadores</span>
-          <span>Clubes</span>
-          <span>Scouters</span>
-          <span>Eventos</span>
-          <span>Relatórios</span>
-        </div>
-      </header>
-
       {/* Campo */}
       <div className="field">
         {/* Quadrados Vermelhos */}
@@ -110,15 +95,17 @@ const Plantel = () => {
             {playerData &&
               playerData.map((player) => (
                 <div key={player.id} className="player-card" onClick={() => openDetails(player)}>
-                  <div className="avatar">👤</div>
-                  <div className="info" style={{ textAlign: "left", paddingLeft: "1rem" }}>
-                    <h3>{player.name}</h3>
-                    <p>Idade: {player.age}</p>
-                    <p>Relatórios: {player.reports}</p>
+                  <div className="player-info">
+                    <div className="player-avatar">👤</div>
+                    <div className="player-details">
+                      <h3>{player.name}</h3>
+                      <p>Idade: {player.age}</p>
+                      <p>Relatórios: {player.reports}</p>
+                    </div>
                   </div>
                 </div>
               ))}
-              <button className="add-btn">ADICIONAR</button>
+            <button className="add-btn">ADICIONAR</button>
             <button className="close-btn" onClick={closeSidebar}>Fechar</button>
           </>
         ) : (
@@ -126,8 +113,8 @@ const Plantel = () => {
             <h2>Informações do Jogador</h2>
             {playerData && (
               <div className="player-details" style={{ textAlign: "left", padding: "1rem" }}>
-                <div className="player-header" style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
-                  <div className="avatar-large" style={{ fontSize: "3rem" }}>👤</div>
+                <div className="player-header">
+                  <div className="avatar-large">👤</div>
                   <div>
                     <h3 style={{ margin: 0 }}>{playerData.name}</h3>
                     <p style={{ margin: 0 }}>Idade: {playerData.age}</p>
