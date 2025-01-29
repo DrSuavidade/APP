@@ -46,6 +46,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
     ));
   };
 
+  
   const handleUpdate = (novoStatus) => {
     axios
       .put("http://localhost:3000/api/relatorio/update", {
