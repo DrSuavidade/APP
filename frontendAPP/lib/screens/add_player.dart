@@ -1,117 +1,176 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'hamburger_menu.dart'; // Import the reusable hamburger menu
+import '../api/api_service.dart';
 
-class AddPlayerScreen extends StatelessWidget {
-  final List<Map<String, String>> players = [
-    {"name": "João Gomes", "dob": "02/12/2012", "age": "12 anos"},
-    {"name": "Mário Silva", "dob": "15/05/2010", "age": "14 anos"},
-  ];
-
+class AddPlayerScreen extends StatefulWidget {
   final int userId;
+  final int idEvento;
 
-  AddPlayerScreen({Key? key, required this.userId}) : super(key: key);
+  const AddPlayerScreen(
+      {Key? key, required this.userId, required this.idEvento})
+      : super(key: key);
+
+  @override
+  _AddPlayerScreenState createState() => _AddPlayerScreenState();
+}
+
+class _AddPlayerScreenState extends State<AddPlayerScreen> {
+  final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
+  List<dynamic> jogadores = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchJogadores();
+  }
+
+  Future<void> _fetchJogadores() async {
+    try {
+      setState(() => isLoading = true);
+      final response = await api.listJogadoresByEvento(widget.idEvento);
+      setState(() {
+        jogadores = response;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() => isLoading = false);
+    }
+  }
+
+  Future<void> _createRelatorio(int idJogador) async {
+    try {
+      await api.addRelatorio({
+        "TECNICA": 0,
+        "VELOCIDADE": 0,
+        "COMPETITIVA": 0,
+        "INTELIGENCIA": 0,
+        "ALTURA": "null",
+        "MORFOLOGIA": "null",
+        "COMENTARIO": "null",
+        "STATUS": "Ativo",
+        "ID_USER": widget.userId,
+        "ID_JOGADORES": idJogador,
+        "ID_EVENTOS": widget.idEvento,
+        "COMENTARIO_ADM": "null",
+        "DATA": DateTime.now().toIso8601String(),
+        "NOTA": 0,
+      });
+
+      _showSuccessDialog();
+    } catch (e) {
+      if (e.toString().contains('Não pode ter vários relatórios')) {
+        _showErrorDialog('Erro',
+            'Não pode ter vários relatórios para o mesmo jogador no mesmo evento.');
+      } else {
+        _showErrorDialog('Erro', 'Não foi possível criar o relatório.');
+      }
+    }
+  }
+
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Sucesso'),
+        content: Text('Relatório criado com sucesso!'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context, '/home', (route) => false,
+                arguments: {'userId': widget.userId}),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showErrorDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
+        title: const Text('Adicionar Jogadores'),
         backgroundColor: Colors.black,
-        elevation: 0,
-        title: Row(
-          children: [
-            Builder(
-            builder: (context) => IconButton(
-              icon: Icon(Icons.menu, color: Colors.white),
-              onPressed: () {
-                Scaffold.of(context).openDrawer(); // Open the custom drawer
-              },
-            ),
-          ),
-            Spacer(),
-            Image.asset(
-              'assets/images/Logofinal1.png',
-              height: 40,
-            ),
-          ],
-        ),
       ),
-      drawer: HamburgerMenu(userId: userId),
       body: Column(
         children: [
-          // Search Bar
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: "Escreva o nome do jogador...",
-                hintStyle: TextStyle(color: Colors.grey),
-                prefixIcon: Icon(Icons.search, color: Colors.grey),
-                filled: true,
-                fillColor: Colors.grey[800],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide.none,
+          Expanded(
+            child: isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : jogadores.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'Nenhum jogador disponível',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: jogadores.length,
+                        itemBuilder: (context, index) {
+                          final jogador = jogadores[index];
+                          return ListTile(
+                            title: Text(
+                              jogador['NOME'] ?? 'Sem nome',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            trailing:
+                                const Icon(Icons.add, color: Colors.white),
+                            onTap: () =>
+                                _createRelatorio(jogador['ID_JOGADORES']),
+                          );
+                        },
+                      ),
+          ),
+          // Add the button at the bottom
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/add_player_bd',
+                    arguments: {
+                      'userId': widget.userId,
+                      'idEvento': widget.idEvento,
+                    },
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  'Adicionar Jogadores ao Banco de Dados',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
           ),
-          // Player List
-          Expanded(
-            child: ListView.builder(
-              itemCount: players.length,
-              itemBuilder: (context, index) {
-                final player = players[index];
-                return Card(
-                  color: Colors.grey[800],
-                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
-                  child: ListTile(
-                    title: Text(
-                      "NOME: ${player['name']}",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    subtitle: Text(
-                      "${player['dob']} - ${player['age']}",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    trailing: Icon(Icons.check_circle, color: Colors.green),
-                  ),
-                );
-              },
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/add_player_bd'); // Navigate to add_player_bd.dart
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.grey[900],
-              padding: EdgeInsets.symmetric(vertical: 14.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-            ),
-            child: Text("ADICIONAR JOGADOR", style: TextStyle(color: Colors.white)),
-          ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey[900],
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey,
-        currentIndex: 1,
-        onTap: (index) {
-          if (index == 0) Navigator.pushNamed(context, '/calendar');
-          if (index == 2) Navigator.pushNamed(context, '/historico');
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.sports_soccer), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: ""),
-        ],
-      ),
+      backgroundColor: Colors.black,
     );
   }
 }

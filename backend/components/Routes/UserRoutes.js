@@ -56,6 +56,7 @@ router.get('/jogador/list', jogadoresController.listJogador);
 router.get("/jogador/lastTen", jogadoresController.getLastTenPlayers);
 router.get('/jogador/:ID_JOGADORES', jogadoresController.getJogadorById);
 router.get('/jogador/list/:ID_USER', jogadoresController.getPlayersByUser);
+router.get('/jogador/evento/:idEvento', jogadoresController.listJogadoresByEvento);
 router.put('/jogador/edit/:ID_JOGADORES', jogadoresController.editJogador);
 router.delete('/jogador/delete/:ID_JOGADORES', jogadoresController.deleteJogador);
 
