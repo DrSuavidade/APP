@@ -24,7 +24,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
 
   Future<void> _fetchHistoricoRelatorios() async {
     try {
-      final response = await api.listRelatoriosHistorico();
+      final response = await api.listRelatoriosHistorico(userId: widget.userId);
       setState(() {
         relatorios = response;
         isLoading = false;

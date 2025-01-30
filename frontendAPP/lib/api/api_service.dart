@@ -217,9 +217,11 @@ Future<dynamic> getJogadorById(int jogadorId) async {
 }
 
   Future<dynamic> listRelatorios() => get('relatorio/list');
-  Future<dynamic> listRelatoriosHistorico() async {
-  return await get('relatorio/historico');
+  Future<List<dynamic>> listRelatoriosHistorico({required int userId}) async {
+  final response = await get('relatorio/historico/$userId');
+  return response;
 }
+
   Future<dynamic> editRelatorio(String id, Map<String, dynamic> data) =>
       put('relatorio/edit/$id', data);
   Future<void> deleteRelatorio(String id) => delete('relatorio/delete/$id');

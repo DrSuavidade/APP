@@ -174,10 +174,31 @@ class SignupPasswordScreen extends StatelessWidget {
                   SizedBox(height: 24.0),
 
                   // Continue Button
+                  // Continue Button
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        if (_passwordController.text.trim() != _confirmPasswordController.text.trim()) {
+                        String password = _passwordController.text.trim();
+                        String confirmPassword = _confirmPasswordController.text.trim();
+
+                        if (password.isEmpty || confirmPassword.isEmpty) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Erro'),
+                              content: Text('Os campos de senha não podem estar vazios.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                          return;
+                        }
+
+                        if (password != confirmPassword) {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
@@ -200,7 +221,7 @@ class SignupPasswordScreen extends StatelessWidget {
                           arguments: {
                             'EMAIL': email,
                             'NOME': nome,
-                            'PASSWORD': _passwordController.text.trim(),
+                            'PASSWORD': password,
                           },
                         );
                       },

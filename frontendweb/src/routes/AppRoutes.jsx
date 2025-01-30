@@ -11,6 +11,7 @@ import EventsViewPage from '../pages/EventsViewPage';
 import AddScouterToEvent from '../pages/AddScouterToEvent';
 import AddEventToScout from '../pages/AddEventToScout';
 import EventsCreatePage from '../pages/EventsCreatePage';
+import PlayersPage from '../pages/PlayersPage';
 import PlayersCreatePage from '../pages/PlayersCreatePage';
 import PlayersEditPage from '../pages/PlayersEditPage';
 import PlayersReportsPage from '../pages/PlayersReportsPage';
@@ -61,6 +62,7 @@ const RoutesWithNavbar = () => {
         <Route path="/team/add-club" element={<AddClubPage />} />
         <Route path="/team/add" element={<AddTeamPage />} />
         <Route path="/team/shadow" element={<ShadowTeamPage />} />
+        <Route path="/players" element={<PlayersPage />} />
       </Routes>
     </>
   );

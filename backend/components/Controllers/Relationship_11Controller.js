@@ -150,6 +150,8 @@ relationship11Controller.editRelationship11 = async (req, res) => {
   }
 };
 
+
+//PAGINA DE REALTORIOS
 // Novo controlador para listar todos os relatórios com dados completos
 relationship11Controller.listRelatoriosMergedData = async (req, res) => {
   try {
@@ -322,8 +324,6 @@ relationship11Controller.fichaReports = async (req, res) => {
   }
 };
 
-
-
 //Updadte atraves da ficha tecnicas de relatorios
 relationship11Controller.updateRelatorioADM = async (req, res) => {
   try {
@@ -364,6 +364,107 @@ relationship11Controller.updateRelatorioADM = async (req, res) => {
   } catch (error) {
     console.error("Erro ao atualizar relatório:", error);
     res.status(500).json({ error: "Erro ao atualizar os dados." });
+  }
+};
+
+//PAGINA DE JOGADORES
+//Busca os players com os jogadores inativos 
+relationship11Controller.cardsPlayersPendents = async (req, res) => {
+  try {
+    const jogadoresInativos = await Jogadores.find({ STATUS: "Inactive" });
+
+    const jogadoresComEquipa = await Promise.all(
+      jogadoresInativos.map(async (jogador) => {
+        // Buscar relação com equipe
+        const relacao = await Relationship11.findOne({ ID_JOGADORES: jogador.ID_JOGADORES });
+
+        let nomeEquipa = "Sem Equipa";
+        let abreviaturaClube = "--";
+
+        if (relacao) {
+          const equipa = await Equipa.findOne({ ID_EQUIPA: relacao.ID_EQUIPA });
+          if (equipa) {
+            nomeEquipa = equipa.NOME;
+            const clube = await Clube.findOne({ ID_CLUBE: equipa.ID_CLUBE });
+            if (clube) abreviaturaClube = clube.ABREVIATURA;
+          }
+        }
+
+        return {
+          ID_JOGADORES: jogador.ID_JOGADORES,
+          NOME: jogador.NOME,
+          IDADE: new Date().getFullYear() - new Date(jogador.DATA_NASC).getFullYear(),
+          ANO_NASCIMENTO: new Date(jogador.DATA_NASC).getFullYear(),
+          NACIONALIDADE: jogador.NACIONALIDADE,
+          NOME_EQUIPA: nomeEquipa,
+          ABREVIATURA_CLUBE: abreviaturaClube,
+        };
+      })
+    );
+
+    res.json(jogadoresComEquipa);
+  } catch (error) {
+    console.error("Erro ao buscar jogadores inativos:", error);
+    res.status(500).json({ error: "Erro ao buscar jogadores inativos" });
+  }
+};
+
+//Lista de Jogadores com algumas informaçoes extras como clube/equipa/n de relatorios
+relationship11Controller.listAllPlayersMerged = async (req, res) => {
+  try {
+    // Buscar todos os jogadores na base de dados
+    const jogadores = await Jogadores.find();
+
+    if (!jogadores || jogadores.length === 0) {
+      return res.status(404).json({ message: "Nenhum jogador encontrado." });
+    }
+
+    // Para cada jogador, buscar sua equipe, clube e contagem de relatórios
+    const jogadoresDetalhados = await Promise.all(
+      jogadores.map(async (jogador) => {
+        // Buscar relação com equipe
+        const relationship = await Relationship11.findOne({ ID_JOGADORES: jogador.ID_JOGADORES });
+
+        let nomeEquipa = "Sem Equipa";
+        let abreviaturaClube = "--";
+
+        if (relationship) {
+          const equipa = await Equipa.findOne({ ID_EQUIPA: relationship.ID_EQUIPA });
+          if (equipa) {
+            nomeEquipa = equipa.NOME;
+            const clube = await Clube.findOne({ ID_CLUBE: equipa.ID_CLUBE });
+            if (clube) {
+              abreviaturaClube = clube.ABREVIATURA;
+            }
+          }
+        }
+
+        // Contar o número de relatórios desse jogador
+        const totalRelatorios = await Relatorio.countDocuments({ ID_JOGADORES: jogador.ID_JOGADORES });
+
+        return {
+          ID_JOGADORES: jogador.ID_JOGADORES,
+          NOME: jogador.NOME,
+          DATA_NASC: jogador.DATA_NASC,
+          IDADE: new Date().getFullYear() - new Date(jogador.DATA_NASC).getFullYear(),
+          ANO_NASCIMENTO: new Date(jogador.DATA_NASC).getFullYear(),
+          GENERO: jogador.GENERO,
+          LINK: jogador.LINK,
+          NACIONALIDADE: jogador.NACIONALIDADE,
+          DADOS_ENC: jogador.DADOS_ENC,
+          NOTA_ADM: jogador.NOTA_ADM || "Sem nota",
+          STATUS: jogador.STATUS,
+          NOME_EQUIPA: nomeEquipa,
+          ABREVIATURA_CLUBE: abreviaturaClube,
+          TOTAL_RELATORIOS: totalRelatorios, // Número de relatórios do jogador
+        };
+      })
+    );
+
+    res.status(200).json(jogadoresDetalhados);
+  } catch (error) {
+    console.error("Erro ao buscar jogadores:", error);
+    res.status(500).json({ error: "Erro ao buscar jogadores." });
   }
 };
 

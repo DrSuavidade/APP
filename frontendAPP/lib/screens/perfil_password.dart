@@ -69,9 +69,9 @@ class _PerfilPasswordScreenState extends State<PerfilPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -79,59 +79,79 @@ class _PerfilPasswordScreenState extends State<PerfilPasswordScreen> {
             Navigator.pop(context);
           },
         ),
-        title: Text("Alterar Senha", style: TextStyle(color: Colors.white)),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.grey[700],
-              child: Icon(Icons.person, color: Colors.white, size: 40),
+      body: Stack(
+        children: [
+          // Background Image
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/Padrao.png'),
+                fit: BoxFit.cover,
+              ),
             ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                labelText: "Nova Senha",
-                labelStyle: TextStyle(color: Colors.grey),
-                filled: true,
-                fillColor: Colors.grey[800],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+          ),
+          Column(
+            children: [
+              SizedBox(height: 50),
+              Column(
+      children: [
+        CircleAvatar(radius: 40, backgroundColor: Colors.grey[700], child: Icon(Icons.person, color: Colors.white, size: 40)),
+        SizedBox(height: 8),
+        Divider(color: Colors.grey[600]),
+      ],
+    ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildInputLabel("NOVA PASSWORD"),
+                    _buildTextField(_passwordController, isPassword: true),
+                    SizedBox(height: 16),
+                    _buildInputLabel("REPITA A PASSWORD"),
+                    _buildTextField(_confirmPasswordController, isPassword: true),
+                  ],
                 ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _confirmPasswordController,
-              obscureText: true,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                labelText: "Confirmar Senha",
-                labelStyle: TextStyle(color: Colors.grey),
-                filled: true,
-                fillColor: Colors.grey[800],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            Spacer(),
-            ElevatedButton(
-              onPressed: _updatePassword,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                padding: EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-              child: Text("CONFIRMAR", style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        ),
+              Spacer(),
+              _buildConfirmButton(_updatePassword),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  Widget _buildInputLabel(String label) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4.0),
+      child: Text(label, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, {bool isPassword = false}) {
+    return TextField(
+      controller: controller,
+      obscureText: isPassword,
+      style: TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.grey[900],
+        border: OutlineInputBorder(borderSide: BorderSide.none),
+      ),
+    );
+  }
+
+  Widget _buildConfirmButton(VoidCallback onPressed) {
+    return SizedBox(
+      width: double.infinity,
+      height: 50,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.green, shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
+        child: Text("CONFIRMAR", style: TextStyle(color: Colors.white, fontSize: 16)),
       ),
     );
   }
