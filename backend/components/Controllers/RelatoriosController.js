@@ -91,6 +91,39 @@ relatoriosController.listRelatorio = async (req, res) => {
   }
 };
 
+
+relatoriosController.listRelatoriosAvaliadosComJogadores = async (req, res) => {
+  try {
+    // Buscar relatórios com status "Avaliado"
+    const relatorios = await Relatorio.find({ STATUS: 'Avaliado' });
+
+    // Buscar jogadores cujos IDs estão presentes nos relatórios
+    const jogadoresIds = relatorios.map(r => r.ID_JOGADORES);
+    
+    const jogadores = await Jogadores.find({ ID_JOGADORES: { $in: jogadoresIds } });
+
+    // Criar resposta formatada com os dados necessários
+    const result = relatorios.map(relatorio => {
+      const jogador = jogadores.find(j => j.ID_JOGADORES === relatorio.ID_JOGADORES);
+      return {
+        ID_RELATORIO: relatorio.ID_RELATORIO,
+        NOTA: relatorio.NOTA,
+        STATUS: relatorio.STATUS,
+        JOGADOR_NOME: jogador ? jogador.NOME : 'Desconhecido',
+        DATA_NASC: jogador ? jogador.DATA_NASC : null
+      };
+    });
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Erro ao buscar relatórios avaliados com jogadores:', error);
+    res.status(500).json({ error: 'Erro ao buscar relatórios avaliados com jogadores' });
+  }
+};
+
+
+
+
 // Edit a report by id_relatorio
 relatoriosController.editRelatorio = async (req, res) => {
   const { ID_RELATORIO } = req.params;

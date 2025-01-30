@@ -22,17 +22,6 @@ const HUB = () => {
   
     return (
       <div className="hub">
-        {/* Navbar */}
-        <header className="navbar">
-          <div className="menu">
-            <span>Plantel</span>
-            <span>Jogadores</span>
-            <span>Clubes</span>
-            <span>Scouters</span>
-            <span>Eventos</span>
-            <span>Relatórios</span>
-          </div>
-        </header>
   
         {/* Header */}
         <div className="header">RELATÓRIOS PENDENTES</div>
@@ -103,23 +92,28 @@ const HUB = () => {
           </div>
   
           {/* Jogos */}
-          <div className="functional-box">
-            <h3>JOGOS</h3>
-            {["A.F. VISEU VS SL NELAS", "A.F. VISEU VS SL NELAS"].map(
-              (game, index) => (
-                <div
-                  key={index}
-                  className="green-button"
-                  onClick={() => alert(`${game} clicado`)}
-                >
-                  {game}
-                  <br />
-                  Estádio do Fontelo
+          <div className="functional-box games-box">
+    <h3>JOGOS</h3>
+    {[
+        { scouter: "Marco Santos", team1: "A.F. VISEU", team2: "SL NELAS", date: "25/10/2024", time: "12:00 AM", location: "Estádio do Fontelo" },
+        { scouter: "Marco Santos", team1: "A.F. VISEU", team2: "SL NELAS", date: "25/10/2024", time: "12:00 AM", location: "Estádio do Fontelo" },
+        { scouter: "Marco Santos", team1: "A.F. VISEU", team2: "SL NELAS", date: "25/10/2024", time: "12:00 AM", location: "Estádio do Fontelo" }
+    ].map((gameInfo, index) => (
+        <div key={index} className="game-card">
+            <div className="game-header">
+                <span>Scouter: {gameInfo.scouter}</span>
+                <span>{gameInfo.date} {gameInfo.time}</span>
+            </div>
+            <div className="game-body">
+                <div className="team-names">
+                    <span>{gameInfo.team1}</span>
+                    <span>{gameInfo.team2}</span>
                 </div>
-              )
-            )}
-          </div>
-  
+                <div className="stadium-name">📍 {gameInfo.location}</div>
+            </div>
+        </div>
+    ))}
+</div>
           {/* Jogadores */}
           <div className="functional-box">
             <h3>JOGADORES</h3>
