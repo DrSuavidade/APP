@@ -1,3 +1,15 @@
+input[type="text"],
+input[type="url"],
+input[type="date"],
+input[type="file"],
+select {
+  background: black;
+  border: 1px solid #555;
+  color: #b0b0b0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
 .players-page {
   display: flex;
   justify-content: center;
@@ -19,6 +31,34 @@
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 15px;
+}
+
+input::placeholder {
+  color: #b0b0b0;
+  opacity: 0.7;
+}
+
+input[type="file"] {
+    background: black;
+    border: 1px solid #555;
+    color: #b0b0b0;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+  } 
+
+  input[type="file"]::-webkit-file-upload-button {
+    background: #444;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+input[type="file"]::-webkit-file-upload-button:hover {
+  background: #555;
 }
 
 .input-group input, select {
@@ -68,11 +108,17 @@
   margin-left: 20px; /* Criando um espaçamento ao lado do formulário */
 }
 
-.history-container h3 {
-  color: white;
-  text-align: center;
-  margin-bottom: 10px;
-  font-size: 14px;
+.history-container {
+  background: rgba(50, 50, 50, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  height: fit-content;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  
+  /* Ajuste para ficar ao lado do formulário */
+  position: relative;
+  margin-left: 20px; /* Espaçamento ao lado direito do formulário */
 }
 
 .history-list {
