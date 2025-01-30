@@ -43,7 +43,7 @@ const ClubsPage = () => {
   };
 
   return (
-    <div>
+    <div className="page-container">
       <ClubsCards teams={teams} favorites={favorites} setSelectedClub={setSelectedClub} toggleFavorite={toggleFavorite} />
       <div className="main-content">
         <ClubsList teams={teams} setSelectedClub={setSelectedClub} />
