@@ -106,3 +106,30 @@
 .nota-baixa {
     background: orange;
 }
+
+.status-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.edit-btn,
+.save-btn,
+.history-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-top: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.history-btn {
+  background: #17a2b8;
+}
+
+.edit-btn:disabled {
+  background: gray;
+  cursor: not-allowed;
+}

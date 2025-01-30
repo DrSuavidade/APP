@@ -112,7 +112,10 @@ router.delete('/relatorios/delete', relationship11Controller.deleteSelectedRelat
 router.put("/relatorio/update", relationship11Controller.updateRelatorioADM);
 //router.delete('/r11/delete/:ID_EQUIPA/:ID_JOGADORES', relationship11Controller.deleteRelationship11);
 router.get("/player-pendents", relationship11Controller.cardsPlayersPendents);
+router.delete("/players/delete", relationship11Controller.deletePlayers);
 router.get("/all-players", relationship11Controller.listAllPlayersMerged);
+router.get("/player/:ID_JOGADORES", relationship11Controller.getPlayerFicha);
+
 
 
 // Relationship_12 Routes

@@ -45,7 +45,7 @@ const ListPlayers = () => {
       alert("Selecione pelo menos um jogador para excluir.");
       return;
     }
-
+  
     Swal.fire({
       title: "Tem certeza?",
       text: "Os dados serão excluídos permanentemente!",
@@ -61,13 +61,13 @@ const ListPlayers = () => {
           const response = await axios.delete("http://localhost:3000/api/players/delete", {
             data: { playersIds: selectedPlayers }
           });
-
+  
           console.log("✅ Jogadores excluídos:", response.data);
-
+  
           setPlayers(players.filter(p => !selectedPlayers.includes(p.ID_JOGADORES)));
           setSelectedPlayers([]);
           setSelectMode(false);
-
+  
           Swal.fire("Excluído!", "Os jogadores foram excluídos com sucesso.", "success");
         } catch (error) {
           console.error("❌ Erro ao excluir jogadores:", error);

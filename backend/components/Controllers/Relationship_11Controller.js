@@ -468,4 +468,107 @@ relationship11Controller.listAllPlayersMerged = async (req, res) => {
   }
 };
 
+relationship11Controller.deletePlayers = async (req, res) => {
+  try {
+    const { playersIds } = req.body;
+
+    if (!playersIds || playersIds.length === 0) {
+      return res.status(400).json({ error: "Nenhum jogador selecionado para exclusão." });
+    }
+
+    console.log("🔴 Jogadores a serem excluídos:", playersIds);
+
+    // Deletar relatórios vinculados aos jogadores
+    await Relatorio.deleteMany({ ID_JOGADORES: { $in: playersIds } });
+    console.log("🗑 Relatórios vinculados removidos.");
+
+    // Deletar relações de equipe (corrigido para Relationship11)
+    await Relationship11.deleteMany({ ID_JOGADORES: { $in: playersIds } });
+    console.log("🗑 Relações de equipe removidas.");
+
+    // Deletar os jogadores
+    const deletedPlayers = await Jogadores.deleteMany({ ID_JOGADORES: { $in: playersIds } });
+
+    if (deletedPlayers.deletedCount === 0) {
+      return res.status(404).json({ error: "Nenhum jogador encontrado para exclusão." });
+    }
+
+    console.log("✅ Jogadores removidos:", deletedPlayers.deletedCount);
+    res.json({ success: true, message: "Jogadores excluídos com sucesso." });
+  } catch (error) {
+    console.error("❌ Erro ao excluir jogadores:", error);
+    res.status(500).json({ error: "Erro ao excluir jogadores." });
+  }
+};
+
+relationship11Controller.getPlayerFicha = async (req, res) => {
+  try {
+    const { ID_JOGADORES } = req.params;
+
+    if (!ID_JOGADORES) {
+      return res.status(400).json({ error: "ID do jogador não fornecido." });
+    }
+
+    // Buscar jogador pelo ID
+    const jogador = await Jogadores.findOne({ ID_JOGADORES });
+
+    if (!jogador) {
+      return res.status(404).json({ message: "Jogador não encontrado." });
+    }
+
+    // Formatar a data de nascimento para dd/mm/yyyy
+    const dataNascimentoFormatada = new Date(jogador.DATA_NASC).toLocaleDateString('pt-PT', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+
+    // Calcular idade e ano de nascimento
+    const anoNascimento = new Date(jogador.DATA_NASC).getFullYear();
+    const idade = new Date().getFullYear() - anoNascimento;
+
+    // Buscar relação com equipe e clube
+    const relationship = await Relationship11.findOne({ ID_JOGADORES });
+    let nomeEquipa = "Sem Equipa";
+    let abreviaturaClube = "--";
+
+    if (relationship) {
+      const equipa = await Equipa.findOne({ ID_EQUIPA: relationship.ID_EQUIPA });
+      if (equipa) {
+        nomeEquipa = equipa.NOME;
+        const clube = await Clube.findOne({ ID_CLUBE: equipa.ID_CLUBE });
+        if (clube) {
+          abreviaturaClube = clube.ABREVIATURA;
+        }
+      }
+    }
+
+    // Contar o número de relatórios do jogador
+    const totalRelatorios = await Relatorio.countDocuments({ ID_JOGADORES });
+
+    // Retornar os dados formatados
+    res.status(200).json({
+      ID_JOGADORES: jogador.ID_JOGADORES,
+      NOME: jogador.NOME,
+      DATA_NASC: dataNascimentoFormatada, // Agora no formato dd/mm/yyyy
+      IDADE: idade,
+      ANO_NASCIMENTO: anoNascimento,
+      GENERO: jogador.GENERO,
+      LINK: jogador.LINK,
+      NACIONALIDADE: jogador.NACIONALIDADE,
+      DADOS_ENC: jogador.DADOS_ENC,
+      NOTA_ADM: jogador.NOTA_ADM || "Sem nota",
+      STATUS: jogador.STATUS,
+      NOME_EQUIPA: nomeEquipa,
+      ABREVIATURA_CLUBE: abreviaturaClube,
+      TOTAL_RELATORIOS: totalRelatorios, // Número de relatórios do jogador
+    });
+  } catch (error) {
+    console.error("Erro ao buscar dados do jogador:", error);
+    res.status(500).json({ error: "Erro ao buscar dados do jogador." });
+  }
+};
+
+
+
 module.exports = relationship11Controller;
