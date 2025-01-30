@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "./../CSS/clubespage.css";
+import ClubsCards from "./../components/ClubsCards";
+import ClubsList from "./../components/ClubsList";
+import TeamsList from "./../components/TeamsList";
 
 const teams = [
   {
@@ -28,7 +31,6 @@ const teams = [
   { name: "Futebol Clube de Penafiel", abbreviation: "PNF", teams: 3, squads: [] }
 ];
 
-
 const ClubsPage = () => {
   const [selectedClub, setSelectedClub] = useState(null);
   const [favorites, setFavorites] = useState({});
@@ -39,104 +41,13 @@ const ClubsPage = () => {
       [clubName]: !prevFavorites[clubName],
     }));
   };
+
   return (
     <div>
-      
-
-      {/* Cards Section */}
-      <section className="clubes-cards-row">
-      <div>
-      {/* Cards dos Clubes */}
-      <div>
-      {/* Cards dos Clubes Favoritos */}
-      <div className="club-cards-container">
-        {teams.filter(team => favorites[team.name]).map((team, index) => (
-          <div key={index} className="club-card" onClick={() => setSelectedClub(team)}>
-            <h4>{team.name}</h4>
-            <p>{team.abbreviation}</p>
-            <button
-              className={`favorite-icon ${favorites[team.name] ? 'active' : ''}`}
-              onClick={(e) => {
-                e.stopPropagation(); // Impede que o clique no botão selecione o clube
-                toggleFavorite(team.name);
-              }}
-            >
-              ⭐
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-    </div>
-      </section>
-
-      {/* Main Content */}
+      <ClubsCards teams={teams} favorites={favorites} setSelectedClub={setSelectedClub} toggleFavorite={toggleFavorite} />
       <div className="main-content">
-        <div className="left-menu">
-          <form className="search-bar">
-            <input type="text" placeholder="Escreve o nome do clube ou da equipa" />
-            <button type="submit">Procurar</button>
-          </form>
-
-          <div className="team-header">
-            <span>Nome Clube</span>
-            <span>Abreviatura</span>
-            <span>Nº Equipas</span>
-          </div>
-
-          <div className="team-list">
-            {teams.map((team, index) => (
-              <div
-                className="team-item"
-                key={index}
-                onClick={() => setSelectedClub(team)}
-              >
-                <span className="team-name">{team.name}</span>
-                <span className="team-abbreviation">{team.abbreviation}</span>
-                <span className="team-count">{team.teams}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className={`right-menu ${selectedClub ? 'active' : ''}`}>
-          {selectedClub && (
-            <div className="selected-club-info">
-              <h3>{selectedClub.name}</h3>
-              <h4>{selectedClub.abbreviation}</h4>
-              <button
-                className={`favorite-button ${favorites[selectedClub.name] ? 'active' : ''}`}
-                onClick={() => toggleFavorite(selectedClub.name)}
-              >
-                ⭐ Favorito
-              </button>
-
-
-
-            </div>
-          )}
-          <div className="team-details">
-            <h3>Equipas</h3>
-            <div id="team-details-container">
-              {selectedClub ? (
-                selectedClub.squads.length > 0 ? (
-                  selectedClub.squads.map((squad, index) => (
-                    <div key={index} className="squad-item">
-                      <span>{squad.name}</span>
-                      <span>{squad.players} jogadores</span>
-                    </div>
-                  ))
-                ) : (
-                  <p className="empty">Este clube não tem equipas registadas.</p>
-                )
-              ) : (
-                <p className="empty">Selecione um clube à esquerda</p>
-              )}
-            </div>
-          </div>
-          <button className="manage-teams">Gerir Equipas</button>
-          <button className="create-team">Criar Equipa</button>
-        </div>
+        <ClubsList teams={teams} setSelectedClub={setSelectedClub} />
+        <TeamsList selectedClub={selectedClub} favorites={favorites} toggleFavorite={toggleFavorite} />
       </div>
     </div>
   );
