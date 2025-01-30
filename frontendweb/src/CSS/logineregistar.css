@@ -1,0 +1,228 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+  
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: url("../img/FundoLogin.png") no-repeat center center fixed;
+  background-size: cover;
+}
+  
+  .login-box {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border: 1px solid rgb(173, 173, 173);
+     width: 300px; 
+    height: 480px; 
+  }
+  
+  .login-box h1 {
+      text-align: left;
+    }
+    
+  .login-logo img {
+    width: 100px;
+    margin-bottom: 20px;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+  
+
+    .form-group input {
+      width: 100%;
+      /* Mesmo tamanho do botão de login */
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #ffffff;
+      font-size: 16px;
+      margin: 5px 0;
+      box-sizing: border-box;
+      /* Garante que o padding não afete o tamanho */
+    }
+  
+  .login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2E2E2E;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-button:hover {
+    background-color: #191818e1;
+  }
+  
+  .login-footer {
+    margin-top: 20px;
+  }
+  
+  .login-footer a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+  
+  .login-footer a:hover {
+    text-decoration: underline;
+  }
+  
+  .error-message {
+    color: red;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+
+  .text {
+    font-size: 14px;
+    text-align: left;
+    text-decoration: none;
+  }
+
+  .bottom {
+    font-size: 11px;
+  }
+
+  .no-scroll {
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* CSS REGISTAR*/
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: url("../img/FundoLogin.png") no-repeat center center fixed;
+  background-size: cover;
+}
+  
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background: none; /* Remove qualquer fundo */
+  backdrop-filter: none; /* Remove o efeito de desfoque */
+}
+  
+  .register-box {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border: 1px solid rgb(173, 173, 173);
+      width: 300px;
+      height: 580px;
+  }
+
+     .register-box h1 {
+       text-align: left;
+     }
+  
+  .register-logo img {
+    width: 80px;
+    margin-bottom: 10px;
+  }
+  
+    h1 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+  
+    .form-group {
+      margin-bottom: 10px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+  
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background: #ffffff;
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  
+  .register-button {
+    width: 100%;
+      padding: 8px;
+      background-color: #2E2E2E;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  }
+  
+  .register-button:hover {
+    background-color: #191818e1;
+  }
+  
+  .register-footer {
+    margin-top: 15px;
+    font-size: 13px;
+  }
+  
+  .register-footer a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+  
+  .register-footer a:hover {
+    text-decoration: underline;
+  }
+  
+  .error-message {
+    color: red;
+    margin: 8px 0;
+    font-size: 12px;
+  }
+  
+  .success-message {
+    color: green;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  
+    .text {
+      font-size: 13px;
+      text-align: left;
+      text-decoration: none;
+      margin: 3px 0;
+    }
