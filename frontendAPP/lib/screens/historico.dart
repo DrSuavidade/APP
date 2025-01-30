@@ -57,7 +57,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
     switch (status) {
       case 'Avaliado':
         return Colors.yellow;
-      case 'AvaliadoADM':
+      case 'Avaliado_ADM':
         return Colors.green;
       case 'Recusado':
         return Colors.red;
@@ -69,11 +69,12 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      extendBodyBehindAppBar: true, // Makes app bar float over the background
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent, // Fully transparent top bar
         elevation: 0,
+        toolbarHeight: 50, // Match home.dart
         title: Row(
           children: [
             Builder(
@@ -95,7 +96,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
       drawer: HamburgerMenu(userId: widget.userId),
       body: Stack(
         children: [
-          // Main Background
+          // Background Image
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -104,204 +105,161 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
               ),
             ),
           ),
-          // Main Content
           Padding(
-            padding:
-                const EdgeInsets.only(bottom: 100), // Adjust for bottom nav bar
-            child: isLoading
-                ? Center(child: CircularProgressIndicator())
-                : relatorios.isEmpty
-                    ? Center(
-                        child: Text(
-                          "Nenhum relatório encontrado",
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                      )
-                    : ListView.builder(
-                        itemCount: relatorios.length,
-                        itemBuilder: (context, index) {
-                          final relatorio = relatorios[index];
-                          final playerName =
-                              relatorio['JOGADOR_NOME'] ?? 'Desconhecido';
-                          final nota = relatorio['NOTA'] ?? 0;
-                          final status = relatorio['STATUS'] ?? 'Indefinido';
-
-                          return Card(
-                            color: Colors.grey[800],
-                            margin: EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 16),
-                            child: ListTile(
-                              title: Text(
-                                playerName,
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    "$nota",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  Icon(Icons.star, color: Colors.white),
-                                  SizedBox(width: 40),
-                                  CircleAvatar(
-                                    radius: 6, // Adjust the size of the dot
-                                    backgroundColor: _statusColor(status),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-          ),
-          // Bottom Navigation Bar
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Stack(
-              alignment: Alignment.bottomCenter,
+            padding: const EdgeInsets.only(bottom: 100), // Adjust for bottom nav bar
+            child: Column(
               children: [
-                // Shadow Rectangle for Depth
-                Positioned(
-                  bottom: 16,
-                  left: 16,
-                  right: 16,
-                  child: Container(
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(
-                          255, 36, 36, 36), // Dark shadow color
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                ),
-                // Actual Bottom Navigation Bar
+                // Grey Box containing the title and list
+                SizedBox(height: 50),
                 Container(
-                  margin: const EdgeInsets.fromLTRB(
-                      16, 16, 16, 24), // Adjusted margin for the bottom
-                  height: 64,
+                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 77, 77, 77),
-                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.grey[800], // Main grey box
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        // Calendar Button
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/calendar',
-                              arguments: {'userId': widget.userId},
-                            ); // Navigate to calendar
-                          },
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Container(
-                                height: double.infinity,
-                                width:
-                                    80, // Highlight width (wider for selected)
-                                decoration: BoxDecoration(
-                                  color: 0 == 2 // Highlight condition
-                                      ? Colors.grey[
-                                          600] // Selected button background
-                                      : Colors
-                                          .transparent, // Default button background
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                              const Icon(
-                                Icons.calendar_today,
-                                color: 0 == 2
-                                    ? Colors.white
-                                    : Colors.grey, // Icon color
-                                size: 34,
-                              ),
-                            ],
+                  child: Column(
+                    children: [
+                      // Title inside Dark Grey Box
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[900], // Dark grey box for title
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "HISTÓRICO DE AVALIAÇÕES",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                        // Soccer Button
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/home',
-                              arguments: {'userId': widget.userId},
-                            );
-                          },
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Container(
-                                height: double.infinity,
-                                width:
-                                    104, // Highlight width (wider for selected)
-                                decoration: BoxDecoration(
-                                  color: 1 == 2 // Highlight condition
-                                      ? Colors.grey[
-                                          600] // Selected button background
-                                      : Colors
-                                          .transparent, // Default button background
-                                  borderRadius: BorderRadius.circular(16),
+                      ),
+                      // List Items
+                      isLoading
+                          ? Center(child: CircularProgressIndicator())
+                          : relatorios.isEmpty
+                              ? Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    child: Text(
+                                      "Nenhum relatório encontrado",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: relatorios.length,
+                                  itemBuilder: (context, index) {
+                                    final relatorio = relatorios[index];
+                                    final playerName =
+                                        relatorio['JOGADOR_NOME'] ?? 'Desconhecido';
+                                    final nota = relatorio['NOTA'] ?? 0;
+                                    final status = relatorio['STATUS'] ?? 'Indefinido';
+
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 5),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[400],
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 16),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            // Player Name
+                                            Expanded(
+                                              child: Text(
+                                                playerName,
+                                                style:
+                                                    TextStyle(color: Colors.white, fontSize: 14),
+                                              ),
+                                            ),
+                                            // Rating
+                                            Row(
+                                              children: List.generate(
+                                                5,
+                                                (i) => Icon(
+                                                  Icons.star,
+                                                  size: 16,
+                                                  color: i < nota ? Colors.yellow : Colors.grey,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 10),
+                                            // Status Indicator
+                                            CircleAvatar(
+                                              radius: 6,
+                                              backgroundColor: _statusColor(status),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              ),
-                              const Icon(
-                                Icons.sports_soccer,
-                                color: 1 == 2
-                                    ? Colors.white
-                                    : Colors.grey, // Icon color
-                                size: 34,
-                              ),
-                            ],
-                          ),
-                        ),
-                        // History Button
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/historico',
-                              arguments: {'userId': widget.userId},
-                            ); // Navigate to historico
-                          },
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Container(
-                                height: double.infinity,
-                                width:
-                                    80, // Highlight width (wider for selected)
-                                decoration: BoxDecoration(
-                                  color: 2 == 2 // Highlight condition
-                                      ? Colors.grey[
-                                          600] // Selected button background
-                                      : Colors
-                                          .transparent, // Default button background
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                              const Icon(
-                                Icons.history,
-                                color: 2 == 2
-                                    ? Colors.white
-                                    : Colors.grey, // Icon color
-                                size: 34,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
+          // Bottom Navigation Bar
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+              height: 64,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 77, 77, 77),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _bottomNavButton(Icons.calendar_today, '/calendar', 0),
+                    _bottomNavButton(Icons.sports_soccer, '/home', 1),
+                    _bottomNavButton(Icons.history, '/historico', 2, selected: true),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _bottomNavButton(IconData icon, String route, int index, {bool selected = false}) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, route, arguments: {'userId': widget.userId});
+      },
+      child: Container(
+        width: 80,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          color: selected ? Colors.grey[600] : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Icon(
+          icon,
+          color: selected ? Colors.white : Colors.grey,
+          size: 34,
+        ),
       ),
     );
   }
