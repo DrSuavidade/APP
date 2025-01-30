@@ -6,17 +6,6 @@ body {
   padding: 0;
 }
 
-.menu-bar {
-  background-color: #181818;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo-container img {
-  height: 40px;
-}
 
 .menu {
   list-style: none;
@@ -316,7 +305,14 @@ body {
 
 .manage-teams, .create-team {
   width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
 }
+
 
 
 @media (max-width: 1024px) {
