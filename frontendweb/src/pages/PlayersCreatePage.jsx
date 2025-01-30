@@ -77,6 +77,7 @@ function PlayersCreatePage() {
 
   return (
     <div className="main-container">
+      {/* Formulário de Adicionar Jogador */}
       <div className="form-container">
         <h2>Adicionar Jogador</h2>
         <form onSubmit={handleSubmit}>
@@ -150,17 +151,19 @@ function PlayersCreatePage() {
           </div>
         </form>
       </div>
-      <div className="main-container">
+
+      {/* Seção de Últimos Jogadores Adicionados */}
+      <div className="history-container">
         <h3>Últimos Jogadores Adicionados</h3>
-        <div className="history-item">
-            {players.map((player, index) => (
-            <div key={index} className="player">
-                <span className="name">{player.NOME}</span>
-                <span className="details">
+        <div className="history-list">
+          {players.map((player, index) => (
+            <div key={index} className="player-item">
+              <span className="player-name">{player.NOME}</span>
+              <span className="player-rating">
                 {player.NOTA_ADM !== undefined && player.NOTA_ADM !== null
-                    ? player.NOTA_ADM
-                    : "N/A"}
-                </span>
+                  ? player.NOTA_ADM
+                  : "N/A"}
+              </span>
             </div>
           ))}
         </div>

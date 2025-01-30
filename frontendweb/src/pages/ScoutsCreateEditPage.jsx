@@ -11,7 +11,7 @@ const ScoutsCreateEditPage = () => {
   });
 
   const [tipoUtilizadores, setTipoUtilizadores] = useState([]);
-  const [users, setUsers] = useState([]); // Estado para armazenar os últimos 10 utilizadores
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -28,7 +28,7 @@ const ScoutsCreateEditPage = () => {
     const fetchUsers = async () => {
       try {
         const response = await api.get("/users/lastTen");
-        setUsers(response.data); // Armazena os últimos utilizadores
+        setUsers(response.data);
       } catch (error) {
         console.error("Erro ao carregar os últimos utilizadores:", error);
       }
@@ -58,8 +58,12 @@ const ScoutsCreateEditPage = () => {
       setError("Erro ao criar utilizador. Verifique os dados.");
     }
   };
+
   return (
-    <div className="main-container">
+    <div className="container-wrapper">
+      {/* Botão de Voltar no canto superior esquerdo */}
+      <div className="back-button">←</div>
+
       {/* Formulário */}
       <div className="form-container">
         <h2>Criar/Editar Scout</h2>
@@ -115,23 +119,21 @@ const ScoutsCreateEditPage = () => {
           <button type="submit">Adicionar</button>
         </form>
       </div>
-  
-      {/* Lista de Utilizadores */}
-      <div className="main-container">
-        <h3>Últimos Utilizadores Adicionados</h3>
-        <div className="history-item">
-            {users.map((user, index) => (
-            <div key={index} className="user">
-                <span className="name">{user.NOME}</span>
-                <span className="details">{user.ID_TIPO}</span> {/* Ajuste aqui */}
-            </div>
-            ))}
-        </div>
-    </div>
 
+      {/* Histórico de Utilizadores */}
+      <div className="history-container">
+        <h3>Histórico de Ações</h3>
+        <div className="history-item">
+          {users.map((user, index) => (
+            <div key={index} className="user">
+              <span className="name">{user.NOME}</span>
+              <span className="details">{user.ID_TIPO}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
-  
 };
 
 export default ScoutsCreateEditPage;

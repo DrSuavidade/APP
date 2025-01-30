@@ -1,0 +1,158 @@
+/* Estilos Gerais */
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+}
+
+/* Estilo do Formulário */
+.form-container {
+    background: rgba(30, 30, 30, 0.9);
+    padding: 30px;
+    border-radius: 10px;
+    width: 500px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    position: relative; /* Para posicionar o botão dentro */
+}
+
+.form-container h2 {
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+label {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* Inputs e Select estilizados */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    background-color: black !important; /* Fundo preto */
+    color: #b0b0b0 !important; /* Texto cinza */
+    padding: 10px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+input::placeholder, select {
+    color: #b0b0b0 !important; /* Placeholder em cinza */
+}
+
+select option {
+    background: black;
+    color: white;
+}
+
+input:focus, select:focus {
+    border-color: #66ff66;
+    outline: none;
+}
+
+/* Botão */
+button {
+    width: 100%;
+    padding: 10px;
+    background: #66ff66;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #57e657;
+}
+
+/* ----------- Ajustes no Layout ----------- */
+
+/* Container Principal */
+.container-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+/* Histórico de Ações */
+.history-container {
+    background: rgba(50, 50, 50, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    height: fit-content;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.history-container h3 {
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.history-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user {
+    display: flex;
+    justify-content: space-between;
+    background: #3a3a3a;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+.user .details {
+    color: #66ff66;
+    font-weight: bold;
+}
+
+/* Botão de Voltar */
+.back-button {
+    position: absolute;
+    top: 50%;
+    left: calc(50% - 320px); /* Ajusta para ficar ao lado do quadrado */
+    transform: translateY(-50%);
+    background: rgba(30, 30, 30, 0.9);
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+    font-size: 18px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    z-index: 1000; /* Mantém visível */
+}
+
+.back-button:hover {
+    background: rgba(40, 40, 40, 1);
+}
