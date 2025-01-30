@@ -1,6 +1,7 @@
 const Jogadores = require('../Models/Jogadores');
 const Jogador = require('../Models/Jogadores');
 const Relatorio = require('../Models/Relatorio');
+const Relationship12 = require('../Models/Relationship_12');
 
 const jogadoresController = {};
 
@@ -171,6 +172,30 @@ jogadoresController.getJogadorById = async (req, res) => {
   } catch (error) {
       console.error('Erro ao buscar jogador:', error);
       res.status(500).json({ error: 'Erro ao buscar jogador' });
+  }
+};
+
+jogadoresController.listJogadoresByEvento = async (req, res) => {
+  try {
+      const { idEvento } = req.params;
+
+      // Fetch relationships that match the event ID
+      const relationships = await Relationship12.find({ ID_EVENTOS: idEvento });
+
+      if (!relationships.length) {
+          return res.status(404).json({ message: 'Nenhum jogador encontrado para este evento.' });
+      }
+
+      // Extract player IDs
+      const jogadorIds = relationships.map(rel => rel.ID_JOGADORES);
+
+      // Fetch player details
+      const jogadores = await Jogadores.find({ ID_JOGADORES: { $in: jogadorIds } });
+
+      res.status(200).json(jogadores);
+  } catch (error) {
+      console.error('Erro ao buscar jogadores:', error);
+      res.status(500).json({ message: 'Erro ao buscar jogadores' });
   }
 };
 

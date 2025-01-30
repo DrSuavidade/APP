@@ -1,0 +1,92 @@
+/* Estilos gerais */
+.list-relatorios-container {
+    width: 90%;
+    margin: 20px auto;
+    background: #1c1c1c;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+  }
+  
+  /* Barra de pesquisa */
+  .search-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .search-container input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    margin-right: 10px;
+    background: #2a2a2a;
+    color: white;
+  }
+  
+  .search-btn {
+    background: #444;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .search-btn:hover {
+    background: #555;
+  }
+  
+  /* Botão de eliminação */
+  .delete-btn {
+    background: #444;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  .delete-btn.active {
+    background: red;
+  }
+  
+  /* Tabela de relatórios */
+  .relatorios-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .relatorios-table th, .relatorios-table td {
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .relatorios-table thead {
+    background: #333;
+  }
+  
+  .relatorios-table tbody tr:nth-child(even) {
+    background: #252525;
+  }
+  
+  .relatorios-table tbody tr:nth-child(odd) {
+    background: #1c1c1c;
+  }
+  
+  /* Estilização de status */
+  .status-circle {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  
+  /* Estilização de estrelas */
+  .stars {
+    color: gold;
+    font-size: 14px;
+  }
+  

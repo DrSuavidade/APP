@@ -1,0 +1,64 @@
+/* PlayerCard.css */
+
+.player-card {
+  background: #1c1c1c;
+  border-radius: 15px;
+  padding: 20px;
+  width: 200px;
+  text-align: center;
+  color: white;
+  font-family: "Arial", sans-serif;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.player-card .profile-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+}
+
+.player-card .player-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.player-card .player-age {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.player-card .team-name {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* Estilização do círculo da NOTA */
+.nota-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+  margin: 10px auto;
+}
+
+.player-card .status-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #ffd700;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}

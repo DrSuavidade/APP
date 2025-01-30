@@ -215,24 +215,51 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 // Bottom Navigation Bar
                 Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      // Shadow Rectangle for Depth
-                      Positioned(
-                        bottom: 16, // Slightly below the actual navbar
-                        left: 16,
-                        right: 16,
-                        child: Container(
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(
-                                255, 36, 36, 36), // Dark shadow color
-                            borderRadius: BorderRadius.circular(16),
-                          ),
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/add_game',
+                          arguments: {'userId': widget.userId}, // Pass userId here
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[600], // Button background color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 20,
                         ),
                       ),
+                      child: const Text(
+                        "Add Game",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    const SizedBox(height: 10), // Space between button and nav bar
+                    Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        // Shadow Rectangle for Depth
+                        Positioned(
+                          bottom: 16, // Slightly below the actual navbar
+                          left: 16,
+                          right: 16,
+                          child: Container(
+                            height: 70,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(
+                                  255, 36, 36, 36), // Dark shadow color
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                        ),
                       // Actual Bottom Navigation Bar
                       Container(
                         margin: const EdgeInsets.fromLTRB(
@@ -363,6 +390,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ],
+                  ),
+                  ],
                   ),
                 ),
               ],

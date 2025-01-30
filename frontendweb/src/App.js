@@ -1,13 +1,12 @@
 import React from 'react';
 import './App.css';
-import AppRoutes from './routes/AppRoutes'; // Certifica-te de que o caminho está correto
+import AppRoutes from './routes/AppRoutes';
 
 function App() {
   return (
     <div className="App">
       <div className="page-container">
-        {/* Invocar as rotas existentes */}
-        <AppRoutes />
+        <AppRoutes /> {/* Mantemos apenas o AppRoutes */}
       </div>
     </div>
   );
