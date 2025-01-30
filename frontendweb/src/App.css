@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+
+/* Ajustar o CSS global */
+body {
+  font-family: 'Abel', sans-serif !important;
+}
+
 /* Ajustar o CSS global */
 .App {
   text-align: center;
