@@ -56,7 +56,7 @@ router.get('/jogador/list', jogadoresController.listJogador);
 router.get("/jogador/lastTen", jogadoresController.getLastTenPlayers);
 router.get('/jogador/:ID_JOGADORES', jogadoresController.getJogadorById);
 router.get('/jogador/list/:ID_USER', jogadoresController.getPlayersByUser);
-router.get('/jogador/evento/:idEvento', jogadoresController.listJogadoresByEvento);
+router.get('/jogador/evento/:ID_EVENTOS', jogadoresController.listJogadoresByEvento);
 router.put('/jogador/edit/:ID_JOGADORES', jogadoresController.editJogador);
 router.delete('/jogador/delete/:ID_JOGADORES', jogadoresController.deleteJogador);
 
@@ -70,8 +70,8 @@ router.delete('/posicao/delete/:ID_POSICAO', posicaoController.deletePosicao);
 router.post('/relatorio/add', relatoriosController.addRelatorio);
 router.get('/relatorio/list', relatoriosController.listRelatorio);
 router.get('/relatorio/avaliados', relatoriosController.listRelatoriosAvaliadosComJogadores);
-router.get('/relatorio/get/:id_jogadores/:id_user', relatoriosController.getRelatorioByPlayerAndUser);
-router.get('/relatorio/historico', relatoriosController.listHistoricoRelatorios);
+router.get('/relatorio/get/:ID_JOGADORES/:ID_USER', relatoriosController.getRelatorioByPlayerAndUser);
+router.get('/relatorio/historico/:ID_USER', relatoriosController.listHistoricoRelatorios);
 router.put('/relatorio/edit/:ID_RELATORIO', relatoriosController.editRelatorio);
 router.delete('/relatorio/delete/:ID_RELATORIO', relatoriosController.deleteRelatorio);
 

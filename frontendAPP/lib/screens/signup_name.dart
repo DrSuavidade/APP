@@ -8,6 +8,22 @@ class SignupNameScreen extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final email = args['EMAIL'];
 
+    void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Erro"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -139,12 +155,18 @@ class SignupNameScreen extends StatelessWidget {
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
+                        final name = _nameController.text.trim();
+                        if (name.isEmpty) {
+                          _showErrorDialog(context, "O nome não pode estar vazio!");
+                          return;
+                        }
+
                         Navigator.pushNamed(
                           context,
                           '/signup_password',
                           arguments: {
                             'EMAIL': email,
-                            'NOME': _nameController.text.trim(),
+                            'NOME': name,
                           },
                         );
                       },

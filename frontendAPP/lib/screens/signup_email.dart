@@ -3,6 +3,35 @@ import 'package:flutter/material.dart';
 class SignupEmailScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
 
+  void _validateAndProceed(BuildContext context) {
+    if (_emailController.text.trim().isEmpty) {
+      _showErrorDialog(context, "O campo de e-mail não pode estar vazio.");
+      return;
+    }
+    
+    Navigator.pushNamed(
+      context,
+      '/signup_name',
+      arguments: {'EMAIL': _emailController.text.trim()},
+    );
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Erro"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,13 +164,7 @@ class SignupEmailScreen extends StatelessWidget {
                   // Continue Button
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/signup_name',
-                          arguments: {'EMAIL': _emailController.text.trim()},
-                        );
-                      },
+                      onPressed: () => _validateAndProceed(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[800],
                         padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 60.0),
@@ -152,6 +175,7 @@ class SignupEmailScreen extends StatelessWidget {
                       child: Text("Continuar", style: TextStyle(color: Colors.white)),
                     ),
                   ),
+
                   SizedBox(height: 80.0),
 
                   // Divider Line

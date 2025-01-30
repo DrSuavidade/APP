@@ -8,14 +8,44 @@ class SignupCompleteScreen extends StatefulWidget {
 
 class _SignupCompleteScreenState extends State<SignupCompleteScreen> {
   final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
+  bool isRegistering = true;
+  String? errorMessage;
 
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _registerUser();
+  }
+
+  Future<void> _registerUser() async {
+    if (!isRegistering) return; // Prevent multiple calls
+
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final email = args['EMAIL'];
     final nome = args['NOME'];
     final password = args['PASSWORD'];
 
+    try {
+      await api.registerUser({
+        'EMAIL': email,
+        'NOME': nome,
+        'PASSWORD': password,
+        'ID_TIPO': 3,
+      });
+
+      setState(() {
+        isRegistering = false;
+      });
+    } catch (e) {
+      setState(() {
+        isRegistering = false;
+        errorMessage = 'Falha ao criar usuário.';
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
@@ -48,7 +78,9 @@ class _SignupCompleteScreenState extends State<SignupCompleteScreen> {
 
                   // Success Message
                   Text(
-                    "Conta criada com sucesso!",
+                    isRegistering
+                        ? "Criando conta..."
+                        : (errorMessage != null ? "Erro ao criar conta" : "Conta criada com sucesso!"),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22.0,
@@ -60,7 +92,11 @@ class _SignupCompleteScreenState extends State<SignupCompleteScreen> {
 
                   // Secondary Message
                   Text(
-                    "Volte para a página de login para acessar a aplicação",
+                    isRegistering
+                        ? "Por favor, aguarde..."
+                        : (errorMessage != null
+                            ? "Ocorreu um erro ao tentar criar a conta."
+                            : "Volte para a página de login para acessar a aplicação"),
                     style: TextStyle(
                       color: Colors.grey[400],
                       fontSize: 14.0,
@@ -70,78 +106,28 @@ class _SignupCompleteScreenState extends State<SignupCompleteScreen> {
                   ),
                   SizedBox(height: 30.0),
 
-                  // Confirm Registration Button (Logic Restored)
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        try {
-                          await api.registerUser({
-                            'EMAIL': email,
-                            'NOME': nome,
-                            'PASSWORD': password,
-                            'ID_TIPO': 3,
-                          });
+                  if (isRegistering)
+                    CircularProgressIndicator(color: Colors.white),
 
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text('Sucesso'),
-                              content: Text('Usuário criado com sucesso!'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    Navigator.pushReplacementNamed(context, '/');
-                                  },
-                                  child: Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-                        } catch (e) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text('Erro'),
-                              content: Text('Falha ao criar usuário.'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey[800],
-                        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      child: Text("Confirmar Cadastro", style: TextStyle(color: Colors.white)),
-                    ),
-                  ),
                   SizedBox(height: 20.0),
 
                   // Back to Login Button
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey[800],
-                        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
+                  if (!isRegistering)
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, '/');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey[800],
+                          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
                         ),
+                        child: Text("Voltar", style: TextStyle(color: Colors.white)),
                       ),
-                      child: Text("Voltar", style: TextStyle(color: Colors.white)),
                     ),
-                  ),
                 ],
               ),
             ),

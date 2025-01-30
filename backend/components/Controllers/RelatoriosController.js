@@ -208,8 +208,13 @@ relatoriosController.getRelatorioByPlayerAndUser = async (req, res) => {
 
 
 relatoriosController.listHistoricoRelatorios = async (req, res) => {
+  const { ID_USER } = req.params; // Captura o ID_USER passado pela rota
+
   try {
-    const relatorios = await Relatorio.find({ STATUS: { $ne: 'Ativo' } });
+    // Buscar relatórios do usuário específico que não estão "Ativo"
+    const relatorios = await Relatorio.find({ STATUS: { $ne: 'Ativo' }, ID_USER });
+
+    // Buscar jogadores correspondentes aos relatórios
     const jogadores = await Jogadores.find({
       ID_JOGADORES: { $in: relatorios.map(r => r.ID_JOGADORES) },
     });
@@ -228,6 +233,7 @@ relatoriosController.listHistoricoRelatorios = async (req, res) => {
     res.status(500).json({ error: 'Erro ao listar relatórios históricos' });
   }
 };
+
 
 
 
