@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import RegisterPage from '../pages/RegisterPage';
 import ConfirmRegisterPage from '../pages/ConfirmRegisterPage';
 import LoginPage from '../pages/LoginPage';
@@ -11,20 +11,36 @@ import EventsViewPage from '../pages/EventsViewPage';
 import AddScouterToEvent from '../pages/AddScouterToEvent';
 import AddEventToScout from '../pages/AddEventToScout';
 import EventsCreatePage from '../pages/EventsCreatePage';
+import PlayersPage from '../pages/PlayersPage';
 import PlayersCreatePage from '../pages/PlayersCreatePage';
 import PlayersEditPage from '../pages/PlayersEditPage';
 import PlayersReportsPage from '../pages/PlayersReportsPage';
 import PlayersAddToEventPage from '../pages/PlayersAddToEventPage';
-//import PlayersNewPage from '../pages/PlayersNewPage';
 import TeamPage from '../pages/TeamPage';
 import AddClubPage from '../pages/AddClubPage';
 import AddTeamPage from '../pages/AddTeamPage';
 import ShadowTeamPage from '../pages/ShadowTeamPage';
-
+import Navbar from '../components/Navbar';
 
 const AppRoutes = () => {
   return (
-    <Router>
+    <Router> {/* Agora colocamos o Router aqui! */}
+      <RoutesWithNavbar />
+    </Router>
+  );
+};
+
+// Componente auxiliar para gerenciar a Navbar
+const RoutesWithNavbar = () => {
+  const location = useLocation(); // useLocation agora está dentro do Router
+
+  // Rotas onde a Navbar NÃO deve aparecer
+  const hideNavbarRoutes = ["/login", "/register"];
+
+  return (
+    <>
+      {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
+
       <Routes>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/register/confirm" element={<ConfirmRegisterPage />} />
@@ -46,8 +62,9 @@ const AppRoutes = () => {
         <Route path="/team/add-club" element={<AddClubPage />} />
         <Route path="/team/add" element={<AddTeamPage />} />
         <Route path="/team/shadow" element={<ShadowTeamPage />} />
+        <Route path="/players" element={<PlayersPage />} />
       </Routes>
-    </Router>
+    </>
   );
 };
 
