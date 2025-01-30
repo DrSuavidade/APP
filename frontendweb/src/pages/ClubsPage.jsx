@@ -41,22 +41,7 @@ const ClubsPage = () => {
   };
   return (
     <div>
-      {/* Header */}
-      <header>
-        <nav className="menu-bar">
-          <div className="logo-container">
-            <img src="../img/v687_776.png" alt="Logotipo" className="logo" />
-          </div>
-          <ul className="menu">
-            <li><a href="#">Plantel</a></li>
-            <li><a href="#">Jogadores</a></li>
-            <li><a className="active" href="#">Clubes</a></li>
-            <li><a href="#">Scouters</a></li>
-            <li><a href="#">Eventos</a></li>
-            <li><a href="#">Relatórios</a></li>
-          </ul>
-        </nav>
-      </header>
+      
 
       {/* Cards Section */}
       <section className="clubes-cards-row">
