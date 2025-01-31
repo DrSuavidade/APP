@@ -1,53 +1,63 @@
-import React from "react";
-import "../CSS/Playersaddtoeventpage.css";
+// PlayersAddToEventPage.jsx
+import React, { useState } from "react";
+import "../CSS/main.css";
 
 const PlayersAddToEventPage = () => {
+  const [selectedPlayers, setSelectedPlayers] = useState([]);
+
+  const players = [
+    { id: 1, name: "David Moreira", age: 15, birthYear: 2008, team: "AC Viseu Sub-16" },
+    { id: 2, name: "Rodrigo Mello", age: 16, birthYear: 2007, team: "AC Viseu Sub-16" },
+    { id: 2, name: "Rodrigo Mello", age: 16, birthYear: 2007, team: "AC Viseu Sub-16" },
+  ];
+
+  const togglePlayerSelection = (id) => {
+    setSelectedPlayers((prev) =>
+      prev.includes(id) ? prev.filter((playerId) => playerId !== id) : [...prev, id]
+    );
+  };
+
   return (
     <div className="container">
-      {/* Sidebar */}
-      <aside className="sidebar">
-        <h2>EVENTO</h2>
+      <aside className="sidebar" style={{ display: "block", visibility: "visible" }}>
         <div className="event-info">
-          <p><strong>24/Jul/2024</strong></p>
-          <p>AF Viseu 12:00 AM vs SL Nelas</p>
+          <h3>EVENTO</h3>
+          <p>AF Viseu vs SL Nelas</p>
           <p>📍 Entrada do torneio</p>
+          <p>25/10/2024 - 12:00 AM</p>
         </div>
 
-        <h2>SCOUTER</h2>
         <div className="scouter-info">
-          <p><strong>Armando Silva</strong></p>
-          <p>👤 Scouter</p>
+          <h3>SCOUTER</h3>
+          <p>Armando Silva</p>
+          <span>🔍 5 Avaliações</span>
         </div>
 
-        <h2>JOGADORES DESTACADOS</h2>
         <button className="add-player-btn">➕ Adicionar Jogador</button>
       </aside>
 
-      {/* Main Content */}
       <main className="main-content">
         <h1>Adicionar Jogadores ao Evento</h1>
 
-        {/* Search Box */}
         <div className="search-box">
           <input type="text" placeholder="Escreva o nome do clube ou jogador" />
           <button>🔍 Procurar</button>
         </div>
 
-        {/* Player List */}
         <div className="player-list">
-          {[
-            { id: 1, name: "David Moreira", age: 15, birthYear: 2008, team: "AC Viseu Sub-16" },
-            { id: 2, name: "Rodrigo Mello", age: 16, birthYear: 2007, team: "AC Viseu Sub-16" },
-          ].map((player) => (
-            <div key={player.id} className="player-card">
+          {players.map((player) => (
+            <button
+              key={player.id}
+              className={`player-card ${selectedPlayers.includes(player.id) ? "selected" : ""}`}
+              onClick={() => togglePlayerSelection(player.id)}
+            >
               <p><strong>{player.name}</strong></p>
               <p>{player.age} anos • {player.birthYear}</p>
               <p>{player.team}</p>
-            </div>
+            </button>
           ))}
         </div>
 
-        {/* Confirm Button */}
         <button className="confirm-btn">✅ Confirmar</button>
       </main>
     </div>
