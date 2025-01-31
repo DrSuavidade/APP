@@ -10,6 +10,8 @@ const ListRelatorios = ({ID_JOGADORES, onSelectRelatorio }) => {
   const [selectedRelatorios, setSelectedRelatorios] = useState([]);
 
   useEffect(() => {
+    if (!ID_JOGADORES) return;
+  
     const fetchRelatorios = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/api/player/reports/${ID_JOGADORES}`);
@@ -19,9 +21,9 @@ const ListRelatorios = ({ID_JOGADORES, onSelectRelatorio }) => {
         console.error("❌ Erro ao buscar relatórios:", error);
       }
     };
-
+  
     fetchRelatorios();
-  }, []);
+  }, [ID_JOGADORES]);
 
   const toggleSelectMode = () => {
     setSelectMode(!selectMode);

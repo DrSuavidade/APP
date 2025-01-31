@@ -123,6 +123,8 @@ router.delete("/player/reject/:ID_JOGADORES", relationship11Controller.rejectPla
 // Relationship_11 Routes / HISTORY PAGE
 router.get("/player/history/:ID_JOGADORES", relationship11Controller.listPendingReportsByPlayer);
 router.get("/player/reports/:ID_JOGADORES", relationship11Controller.listPlayerReports);
+// Relationship_11 Routes / HOME PAGE
+router.get("/users", relationship11Controller.listAllUsersWithPermissions);
 
 
 

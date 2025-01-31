@@ -4,6 +4,7 @@ const Clube = require('../Models/Clube');
 const Relatorio = require('../Models/Relatorio');
 const Jogadores = require('../Models/Jogadores');
 const User = require('../Models/User');
+const TiposdeUtilizador = require('../Models/TipoUtilizador');
 
 const relationship11Controller = {};
 
@@ -734,6 +735,39 @@ relationship11Controller.listPlayerReports = async (req, res) => {
   } catch (error) {
     console.error("Erro ao buscar relatórios do jogador:", error);
     res.status(500).json({ error: "Erro ao buscar relatórios do jogador." });
+  }
+};
+
+// HOME PAGE
+// Lista todos os usuários com o ID, Nome e Nome da Permissão
+relationship11Controller.listAllUsersWithPermissions = async (req, res) => {
+  try {
+    // Buscar todos os usuários
+    const users = await User.find();
+
+    if (!users || users.length === 0) {
+      return res.status(404).json({ message: "Nenhum usuário encontrado." });
+    }
+
+    // Buscar permissões associadas
+    const tiposIds = users.map(user => user.ID_TIPO);
+    const tipos = await TiposdeUtilizador.find({ ID_TIPO: { $in: tiposIds } });
+
+    // Montar a resposta
+    const response = users.map(user => {
+      const tipo = tipos.find(t => t.ID_TIPO === user.ID_TIPO);
+      return {
+        ID_USER: user.ID_USER,
+        NOME: user.NOME,
+        ID_TIPO: user.ID_TIPO, // Agora incluindo o ID_TIPO
+        PERMISSOES: tipo ? tipo.PERMISSOES : "Sem Permissão" // Nome da permissão
+      };
+    });
+
+    res.status(200).json(response);
+  } catch (error) {
+    console.error("Erro ao buscar usuários com permissões:", error);
+    res.status(500).json({ error: "Erro ao buscar usuários com permissões." });
   }
 };
 
