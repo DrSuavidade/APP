@@ -568,28 +568,8 @@ relationship11Controller.getPlayerFicha = async (req, res) => {
     res.status(500).json({ error: "Erro ao buscar dados do jogador." });
   }
 };
-const handleActivatePlayer = async (ID_JOGADORES) => {
-  const confirm = await Swal.fire({
-    title: "Tem certeza?",
-    text: "Esta ação irá ativar o jogador. Tem certeza que deseja continuar?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Sim, ativar!",
-    cancelButtonText: "Cancelar",
-  });
 
-  if (confirm.isConfirmed) {
-    try {
-      const response = await axios.put(`http://localhost:3000/api/player/activate/${ID_JOGADORES}`);
-      Swal.fire("Sucesso!", response.data.message, "success");
-      setPlayer({ ...player, STATUS: "Active" });
-    } catch (error) {
-      Swal.fire("Erro!", error.response?.data?.error || "Erro ao ativar jogador.", "error");
-    }
-  }
-};
+
 // Ativar Jogador
 relationship11Controller.activatePlayer = async (req, res) => {
   const { ID_JOGADORES } = req.params;
@@ -632,6 +612,128 @@ relationship11Controller.rejectPlayer = async (req, res) => {
   } catch (error) {
       console.error("Erro ao rejeitar jogador:", error);
       res.status(500).json({ error: "Erro ao rejeitar jogador." });
+  }
+};
+
+relationship11Controller.listPendingReportsByPlayer = async (req, res) => {
+  const { ID_JOGADORES } = req.params;
+
+  if (!ID_JOGADORES) {
+      return res.status(400).json({ error: "ID do jogador não fornecido." });
+  }
+
+  try {
+      // Buscar relatórios com STATUS 'Avaliado'
+      const relatorios = await Relatorio.find({ ID_JOGADORES, STATUS: "Avaliado" });
+
+      if (!relatorios.length) {
+          return res.status(404).json({ message: "Nenhum relatório Avaliado encontrado." });
+      }
+
+      // Buscar detalhes do jogador
+      const jogador = await Jogadores.findOne({ ID_JOGADORES });
+
+      if (!jogador) {
+          return res.status(404).json({ message: "Jogador não encontrado." });
+      }
+
+      // Buscar relação do jogador com equipe e clube
+      const relationship = await Relationship11.findOne({ ID_JOGADORES });
+      let nomeEquipa = "Sem equipa";
+      let abreviaturaClube = "--";
+
+      if (relationship) {
+          const equipa = await Equipa.findOne({ ID_EQUIPA: relationship.ID_EQUIPA });
+          if (equipa) {
+              nomeEquipa = equipa.NOME;
+              const clube = await Clube.findOne({ ID_CLUBE: equipa.ID_CLUBE });
+              if (clube) {
+                  abreviaturaClube = clube.ABREVIATURA;
+              }
+          }
+      }
+
+      // Formatar resposta
+      const response = relatorios.map(relatorio => ({
+          ID_RELATORIO: relatorio.ID_RELATORIO,
+          JOGADOR_NOME: jogador.NOME,
+          DATA_NASC: jogador.DATA_NASC,
+          NOME_EQUIPA: nomeEquipa,
+          ABREVIATURA_CLUBE: abreviaturaClube,
+          STATUS: relatorio.STATUS,
+          NOTA: relatorio.NOTA,
+      }));
+
+      res.status(200).json(response);
+  } catch (error) {
+      console.error("Erro ao buscar relatórios pendentes:", error);
+      res.status(500).json({ error: "Erro ao buscar relatórios pendentes." });
+  }
+};
+
+// Lista todos os relatórios de um jogador específico 
+// (A diferença deste controller e o de cima é que este vai a tabela user buscar o nome do scouter e lista todos os relatorios.)
+relationship11Controller.listPlayerReports = async (req, res) => {
+  const { ID_JOGADORES } = req.params;
+
+  if (!ID_JOGADORES) {
+    return res.status(400).json({ error: "ID do jogador não fornecido." });
+  }
+
+  try {
+    // Buscar relatórios do jogador
+    const relatorios = await Relatorio.find({ ID_JOGADORES });
+
+    if (!relatorios.length) {
+      return res.status(404).json({ message: "Nenhum relatório encontrado para este jogador." });
+    }
+
+    // Buscar jogador pelo ID
+    const jogador = await Jogadores.findOne({ ID_JOGADORES });
+
+    if (!jogador) {
+      return res.status(404).json({ message: "Jogador não encontrado." });
+    }
+
+    // Buscar relação do jogador com equipe e clube
+    const relationship = await Relationship11.findOne({ ID_JOGADORES });
+    let nomeEquipa = "Sem equipa";
+    let abreviaturaClube = "--";
+
+    if (relationship) {
+      const equipa = await Equipa.findOne({ ID_EQUIPA: relationship.ID_EQUIPA });
+      if (equipa) {
+        nomeEquipa = equipa.NOME;
+        const clube = await Clube.findOne({ ID_CLUBE: equipa.ID_CLUBE });
+        if (clube) {
+          abreviaturaClube = clube.ABREVIATURA;
+        }
+      }
+    }
+
+    // Buscar usuários (scouters) pelos IDs presentes nos relatórios
+    const usersIds = relatorios.map(r => r.ID_USER);
+    const users = await User.find({ ID_USER: { $in: usersIds } });
+
+    // Formatar resposta
+    const response = relatorios.map(relatorio => {
+      const user = users.find(u => u.ID_USER === relatorio.ID_USER);
+      return {
+        ID_RELATORIO: relatorio.ID_RELATORIO,
+        JOGADOR_NOME: jogador.NOME,
+        ABREVIATURA_CLUBE: abreviaturaClube,
+        NOTA_ADM: jogador.NOTA_ADM || "Sem nota",
+        ID_USER: relatorio.ID_USER,
+        NOME_USER: user ? user.NOME : "Desconhecido",
+        DATA: relatorio.DATA,
+        STATUS: relatorio.STATUS
+      };
+    });
+
+    res.status(200).json(response);
+  } catch (error) {
+    console.error("Erro ao buscar relatórios do jogador:", error);
+    res.status(500).json({ error: "Erro ao buscar relatórios do jogador." });
   }
 };
 

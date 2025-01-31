@@ -113,12 +113,17 @@ router.get("/relatorio/ficha/:ID_RELATORIO", relationship11Controller.fichaRepor
 router.delete('/relatorios/delete', relationship11Controller.deleteSelectedRelatorios);
 router.put("/relatorio/update", relationship11Controller.updateRelatorioADM);
 //router.delete('/r11/delete/:ID_EQUIPA/:ID_JOGADORES', relationship11Controller.deleteRelationship11);
+// Relationship_11 Routes / PLAYERS PAGE
 router.get("/player-pendents", relationship11Controller.cardsPlayersPendents);
 router.delete("/players/delete", relationship11Controller.deletePlayers);
 router.get("/all-players", relationship11Controller.listAllPlayersMerged);
 router.get("/player/:ID_JOGADORES", relationship11Controller.getPlayerFicha);
 router.put("/player/activate/:ID_JOGADORES", relationship11Controller.activatePlayer);
 router.delete("/player/reject/:ID_JOGADORES", relationship11Controller.rejectPlayer);
+// Relationship_11 Routes / HISTORY PAGE
+router.get("/player/history/:ID_JOGADORES", relationship11Controller.listPendingReportsByPlayer);
+router.get("/player/reports/:ID_JOGADORES", relationship11Controller.listPlayerReports);
+
 
 
 

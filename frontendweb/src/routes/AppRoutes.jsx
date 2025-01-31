@@ -21,6 +21,7 @@ import AddClubPage from '../pages/AddClubPage';
 import AddTeamPage from '../pages/AddTeamPage';
 import ShadowTeamPage from '../pages/ShadowTeamPage';
 import Navbar from '../components/Navbar';
+import ReportsHistory from '../pages/ReportsHistory';
 
 const AppRoutes = () => {
   return (
@@ -47,6 +48,7 @@ const RoutesWithNavbar = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/reports" element={<ReportsPage />} />
+        <Route path="/reports/history/:ID_JOGADORES" element={<ReportsHistory />} />
         <Route path="/clubs" element={<ClubsPage />} />
         <Route path="/scouts" element={<ScoutsViewPage />} />
         <Route path="/scouts/new" element={<ScoutsCreateEditPage />} />
