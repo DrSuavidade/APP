@@ -43,7 +43,7 @@ class HamburgerMenu extends StatelessWidget {
                     _buildDividerBigger(),
                     _buildMenuItem(context, "HOME", '/home', userId),
                     _buildDivider(),
-                    _buildMenuItem(context, "RELATÓRIO", '/relatorio', userId),
+                    _buildMenuItem(context, "NOVO RELATÓRIO", '/add_game', userId),
                     _buildDivider(),
                     _buildMenuItem(context, "HISTÓRICO", '/historico', userId),
                     _buildDivider(),

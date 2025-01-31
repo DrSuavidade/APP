@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../CSS/login.css";
+import "../CSS/logineregistar.css";
 import api from "../api/axios";
+import { useEffect } from "react";
+
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -30,11 +32,18 @@ const LoginPage = () => {
     }
   };
 
+  useEffect(() => {
+    document.body.classList.add("no-scroll");
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, []);
+
   return (
     <div className="login-container">
       <div className="login-box">
         <div className="login-logo">
-          <img src="frontendweb\src\img\logo.png" alt="Logo" />
+        <img src="/logo.png" alt="Logo" className="h-10" />
         </div>
         <h1>Login</h1>
         <form onSubmit={handleLogin}>

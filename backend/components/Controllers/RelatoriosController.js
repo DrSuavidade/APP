@@ -5,44 +5,79 @@ const relatoriosController = {};
 
 // Add a new report
 relatoriosController.addRelatorio = async (req, res) => {
-  const { TECNICA, VELOCIDADE, COMPETITIVA, INTELIGENCIA, ALTURA, MORFOLOGIA, COMENTARIO, STATUS, ID_USER, ID_JOGADORES, ID_EVENTOS, COMENTARIO_ADM, DATA, NOTA } = req.body;
+  const {
+    TECNICA = 0, // Default value
+    VELOCIDADE = 0, // Default value
+    COMPETITIVA = 0, // Default value
+    INTELIGENCIA = 0, // Default value
+    ALTURA = 0, // Default value
+    MORFOLOGIA = "", // Default value
+    COMENTARIO = "", // Default value
+    STATUS = "Em Andamento", // Default value
+    ID_USER,
+    ID_JOGADORES,
+    ID_EVENTOS,
+    COMENTARIO_ADM = "", // Default value
+    DATA = new Date(), // Default value
+    NOTA = 0, // Default value
+  } = req.body;
 
   try {
-    // Fetch the highest current id_relatorios in the collection
-    const maxRelatorio = await Relatorio.findOne().sort({ ID_RELATORIO: -1 }).select('ID_RELATORIO');
-    const ID_RELATORIO = maxRelatorio ? maxRelatorio.ID_RELATORIO + 1 : 1; // Increment the max id_relatorios by 1 or set to 1 if none exists
-
-    // Create a new relatorio document with the calculated id_relatorio
-    const relatorio = new Relatorio({ 
-      TECNICA, 
-      VELOCIDADE, 
-      COMPETITIVA, 
-      INTELIGENCIA, 
-      ALTURA, 
-      MORFOLOGIA, 
-      COMENTARIO, 
-      STATUS, 
-      ID_USER, 
-      ID_JOGADORES, 
-      ID_EVENTOS, 
-      COMENTARIO_ADM, 
-      DATA, 
-      NOTA, 
-      ID_RELATORIO: ID_RELATORIO 
+    // Check if a relatorio with the same ID_USER, ID_JOGADORES, and ID_EVENTOS exists
+    const existingRelatorio = await Relatorio.findOne({
+      ID_USER,
+      ID_JOGADORES,
+      ID_EVENTOS,
     });
 
-    // Log the document before saving to ensure the id_relatorios field is set correctly
-    console.log('Relatório to be saved:', relatorio);
+    if (existingRelatorio) {
+      return res
+        .status(400)
+        .json({
+          error:
+            "Não pode ter vários relatórios para o mesmo jogador no mesmo evento.",
+        });
+    }
+
+    // Fetch the highest current ID_RELATORIO in the collection
+    const maxRelatorio = await Relatorio.findOne()
+      .sort({ ID_RELATORIO: -1 })
+      .select("ID_RELATORIO");
+    const ID_RELATORIO = maxRelatorio
+      ? maxRelatorio.ID_RELATORIO + 1
+      : 1; // Increment the max ID_RELATORIO by 1 or set to 1 if none exists
+
+    // Create a new relatorio document with the calculated ID_RELATORIO
+    const relatorio = new Relatorio({
+      TECNICA,
+      VELOCIDADE,
+      COMPETITIVA,
+      INTELIGENCIA,
+      ALTURA,
+      MORFOLOGIA,
+      COMENTARIO,
+      STATUS,
+      ID_USER,
+      ID_JOGADORES,
+      ID_EVENTOS,
+      COMENTARIO_ADM,
+      DATA,
+      NOTA,
+      ID_RELATORIO: ID_RELATORIO,
+    });
 
     // Save the new relatorio
     await relatorio.save();
 
-    res.status(201).json({ message: 'Relatório adicionado com sucesso!', relatorio });
+    res
+      .status(201)
+      .json({ message: "Relatório adicionado com sucesso!", relatorio });
   } catch (error) {
-    console.error('Erro ao adicionar relatório:', error);
-    res.status(500).json({ error: 'Erro ao adicionar relatório' });
+    console.error("Erro ao adicionar relatório:", error);
+    res.status(500).json({ error: "Erro ao adicionar relatório." });
   }
 };
+
 
 
 // List all reports
@@ -55,6 +90,39 @@ relatoriosController.listRelatorio = async (req, res) => {
     res.status(500).json({ error: 'Erro ao listar relatórios' });
   }
 };
+
+
+relatoriosController.listRelatoriosAvaliadosComJogadores = async (req, res) => {
+  try {
+    // Buscar relatórios com status "Avaliado"
+    const relatorios = await Relatorio.find({ STATUS: 'Avaliado' });
+
+    // Buscar jogadores cujos IDs estão presentes nos relatórios
+    const jogadoresIds = relatorios.map(r => r.ID_JOGADORES);
+    
+    const jogadores = await Jogadores.find({ ID_JOGADORES: { $in: jogadoresIds } });
+
+    // Criar resposta formatada com os dados necessários
+    const result = relatorios.map(relatorio => {
+      const jogador = jogadores.find(j => j.ID_JOGADORES === relatorio.ID_JOGADORES);
+      return {
+        ID_RELATORIO: relatorio.ID_RELATORIO,
+        NOTA: relatorio.NOTA,
+        STATUS: relatorio.STATUS,
+        JOGADOR_NOME: jogador ? jogador.NOME : 'Desconhecido',
+        DATA_NASC: jogador ? jogador.DATA_NASC : null
+      };
+    });
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Erro ao buscar relatórios avaliados com jogadores:', error);
+    res.status(500).json({ error: 'Erro ao buscar relatórios avaliados com jogadores' });
+  }
+};
+
+
+
 
 // Edit a report by id_relatorio
 relatoriosController.editRelatorio = async (req, res) => {
@@ -140,8 +208,13 @@ relatoriosController.getRelatorioByPlayerAndUser = async (req, res) => {
 
 
 relatoriosController.listHistoricoRelatorios = async (req, res) => {
+  const { ID_USER } = req.params; // Captura o ID_USER passado pela rota
+
   try {
-    const relatorios = await Relatorio.find({ STATUS: { $ne: 'Ativo' } });
+    // Buscar relatórios do usuário específico que não estão "Ativo"
+    const relatorios = await Relatorio.find({ STATUS: { $ne: 'Ativo' }, ID_USER });
+
+    // Buscar jogadores correspondentes aos relatórios
     const jogadores = await Jogadores.find({
       ID_JOGADORES: { $in: relatorios.map(r => r.ID_JOGADORES) },
     });
@@ -160,6 +233,7 @@ relatoriosController.listHistoricoRelatorios = async (req, res) => {
     res.status(500).json({ error: 'Erro ao listar relatórios históricos' });
   }
 };
+
 
 
 

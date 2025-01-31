@@ -56,8 +56,11 @@ router.get('/jogador/list', jogadoresController.listJogador);
 router.get("/jogador/lastTen", jogadoresController.getLastTenPlayers);
 router.get('/jogador/:ID_JOGADORES', jogadoresController.getJogadorById);
 router.get('/jogador/list/:ID_USER', jogadoresController.getPlayersByUser);
+router.get('/jogador/evento/:ID_EVENTOS', jogadoresController.listJogadoresByEvento);
 router.put('/jogador/edit/:ID_JOGADORES', jogadoresController.editJogador);
 router.delete('/jogador/delete/:ID_JOGADORES', jogadoresController.deleteJogador);
+router.get('/jogador/equipa/:idEquipa', jogadoresController.listJogadoresByEquipa);
+
 
 // Posicao Routes
 router.post('/posicao/add', posicaoController.addPosicao);
@@ -68,8 +71,9 @@ router.delete('/posicao/delete/:ID_POSICAO', posicaoController.deletePosicao);
 // Relatorios Routes
 router.post('/relatorio/add', relatoriosController.addRelatorio);
 router.get('/relatorio/list', relatoriosController.listRelatorio);
-router.get('/relatorio/get/:id_jogadores/:id_user', relatoriosController.getRelatorioByPlayerAndUser);
-router.get('/relatorio/historico', relatoriosController.listHistoricoRelatorios);
+router.get('/relatorio/avaliados', relatoriosController.listRelatoriosAvaliadosComJogadores);
+router.get('/relatorio/get/:ID_JOGADORES/:ID_USER', relatoriosController.getRelatorioByPlayerAndUser);
+router.get('/relatorio/historico/:ID_USER', relatoriosController.listHistoricoRelatorios);
 router.put('/relatorio/edit/:ID_RELATORIO', relatoriosController.editRelatorio);
 router.delete('/relatorio/delete/:ID_RELATORIO', relatoriosController.deleteRelatorio);
 
@@ -101,8 +105,29 @@ router.delete('/resombra/delete/:ID_RELACAO', relacaoSombraController.deleteRela
 // Relationship_11 Routes
 router.post('/r11/add', relationship11Controller.addRelationship11);
 router.get('/r11/list', relationship11Controller.listRelationship11);
+router.get('/relationship11/team-club/:ID_JOGADORES', relationship11Controller.getPlayerTeamAndClub);
+router.get('/player-cards', relationship11Controller.playerCards);
+router.get('/relatorios-merged', relationship11Controller.listRelatoriosMergedData);
 router.put('/r11/edit/:ID_EQUIPA/:ID_JOGADORES', relationship11Controller.editRelationship11);
-router.delete('/r11/delete/:ID_EQUIPA/:ID_JOGADORES', relationship11Controller.deleteRelationship11);
+router.get("/relatorio/ficha/:ID_RELATORIO", relationship11Controller.fichaReports);
+router.delete('/relatorios/delete', relationship11Controller.deleteSelectedRelatorios);
+router.put("/relatorio/update", relationship11Controller.updateRelatorioADM);
+//router.delete('/r11/delete/:ID_EQUIPA/:ID_JOGADORES', relationship11Controller.deleteRelationship11);
+// Relationship_11 Routes / PLAYERS PAGE
+router.get("/player-pendents", relationship11Controller.cardsPlayersPendents);
+router.delete("/players/delete", relationship11Controller.deletePlayers);
+router.get("/all-players", relationship11Controller.listAllPlayersMerged);
+router.get("/player/:ID_JOGADORES", relationship11Controller.getPlayerFicha);
+router.put("/player/activate/:ID_JOGADORES", relationship11Controller.activatePlayer);
+router.delete("/player/reject/:ID_JOGADORES", relationship11Controller.rejectPlayer);
+// Relationship_11 Routes / HISTORY PAGE
+router.get("/player/history/:ID_JOGADORES", relationship11Controller.listPendingReportsByPlayer);
+router.get("/player/reports/:ID_JOGADORES", relationship11Controller.listPlayerReports);
+// Relationship_11 Routes / HOME PAGE
+router.get("/users", relationship11Controller.listAllUsersWithPermissions);
+
+
+
 
 // Relationship_12 Routes
 router.post('/r12/add', relationship12Controller.addRelationship12);

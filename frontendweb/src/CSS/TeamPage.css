@@ -1,0 +1,340 @@
+body {
+    font-family: 'Abel', sans-serif;
+    background-color: #181818;
+    color: white;
+}
+
+/* ==============================
+   SEARCH BAR
+   ============================== */
+.search-container {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.search-input {
+    flex: 4;
+    /* Agora ocupa mais espaço */
+    padding: 14px;
+    border-radius: 5px;
+    border: none;
+    background: #222;
+    color: white;
+}
+
+.search-button {
+    flex: 1;
+    /* Reduzi ainda mais o botão */
+    padding: 12px;
+    background-color: #629F49;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Estilo do botão Selecionar Todos */
+.select-all-button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.select-all-button.deselected {
+    background-color: #D9534F;
+    /* Vermelho para indicar desseleção */
+}
+
+/* ==============================
+   LAYOUT PRINCIPAL
+   ============================== */
+   .main-container {
+    display: flex;
+    flex-direction: row; /* Garante que os componentes fiquem lado a lado */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: flex-start; /* Mantém alinhado ao topo */
+    gap: 40px; /* Mantém um espaçamento adequado */
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto; /* Garante centralização */
+}
+
+.team-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding-top: 200px; /* Aumenta o espaço abaixo da navbar */
+}
+
+/* ==============================
+   FILTRO E DROPDOWN
+   ============================== */
+.team-page .filter-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.team-page .year-dropdown {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background: #444;
+    color: white;
+}
+
+.players-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Cartão do jogador */
+.player-card {
+    background: #333;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    /* Mantém largura consistente */
+    min-width: 180px;
+    height: 200px;
+    /* Ajustei a altura para reduzir o espaço extra */
+}
+
+.player-card:hover {
+    background: #444;
+}
+
+.player-card.selected {
+    border: 2px solid #4CAF50;
+}
+
+/* Avatar centralizado e com menos espaço ao redor */
+.player-avatar {
+    width: 50px;
+    height: 50px;
+    background: gray;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    /* Reduzi o espaçamento abaixo */
+}
+
+/* Melhor espaçamento das informações dentro do card */
+.player-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-align: center;
+    color: white;
+}
+
+.player-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.player-age,
+.player-year {
+    font-size: 14px;
+    color: #bbb;
+}
+
+.player-team {
+    margin-top: 3px;
+    /* Reduzi o espaçamento para manter compacto */
+    font-size: 13px;
+    font-weight: bold;
+    color: #629F49;
+}
+
+
+
+/* ==============================
+   PAINEL ESQUERDO
+   ============================== */
+   .left-panel {
+    flex: 1; /* Faz com que ocupe metade do espaço disponível */
+    min-width: 600px; /* Mantém um tamanho mínimo */
+    max-width: 700px;
+    background-color: #2b2b2b;
+    padding: 25px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ==============================
+   PAINEL DIREITO
+   ============================== */
+   .right-panel {
+    flex: 1; /* Garante que tenha o mesmo espaço do painel esquerdo */
+    min-width: 400px; /* Mantém um tamanho mínimo */
+    max-width: 500px;
+    background-color: #1f1f1f;
+    padding: 25px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ==============================
+   GRID DE JOGADORES
+   ============================== */
+.team-page .club-name {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.team-page .club-abbreviation {
+    font-size: 18px;
+    text-align: center;
+    color: #ccc;
+}
+
+.team-page .club-rating {
+    font-size: 16px;
+    text-align: center;
+    color: #bbb;
+}
+
+/* ==============================
+   Lista de Jogadores Formatada
+   ============================== */
+
+/* Garante que o container ocupa toda a largura disponível */
+.player-list {
+    width: 100%;
+    background: #2b2b2b;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Espaço uniforme entre jogadores */
+}
+
+/* Faz cada jogador ocupar toda a linha */
+.player-entry {
+    display: flex;
+    justify-content: space-between;
+    /* Nome à esquerda, estrelas à direita */
+    align-items: center;
+    padding: 15px;
+    background: #333;
+    border-radius: 5px;
+    color: white;
+
+    width: 100%;
+    /* Usa toda a largura disponível */
+    flex: 1;
+    /* Faz cada item ocupar a linha inteira */
+    box-sizing: border-box;
+    /* Evita que padding/margins afetem a largura */
+}
+
+/* Nome do jogador ocupa todo o espaço disponível */
+.player-name {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    flex-grow: 1;
+    /* Expande para ocupar o máximo de espaço */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Estrelas alinhadas à direita */
+.player-stars {
+    color: gold;
+    font-size: 18px;
+    text-align: right;
+    min-width: 60px;
+    /* Mantém um espaço fixo para as estrelas */
+    flex-shrink: 0;
+    /* Garante que as estrelas não diminuam */
+}
+
+
+
+
+
+/* Botão Confirmar */
+.confirm-button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+@media (max-width: 1280px) {
+
+    .team-page .left-panel,
+    .team-page .right-panel {
+        width: 100%;
+        position: relative;
+        left: 0;
+        right: 0;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .players-container {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        /* Mantém os cards alinhados em telas pequenas */
+    }
+
+    .player-card {
+        max-width: 150px;
+        /* Garante que os cards não fiquem gigantes */
+        height: 200px;
+    }
+
+    .player-name {
+        font-size: 14px;
+    }
+
+    .player-age,
+    .player-year {
+        font-size: 12px;
+    }
+
+    .player-team {
+        font-size: 12px;
+    }
+}

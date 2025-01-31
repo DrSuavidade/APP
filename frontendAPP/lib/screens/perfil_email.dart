@@ -69,9 +69,9 @@ class _PerfilEmailScreenState extends State<PerfilEmailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -79,57 +79,78 @@ class _PerfilEmailScreenState extends State<PerfilEmailScreen> {
             Navigator.pop(context);
           },
         ),
-        title: Text("Alterar Email", style: TextStyle(color: Colors.white)),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.grey[700],
-              child: Icon(Icons.person, color: Colors.white, size: 40),
+      body: Stack(
+        children: [
+          // Background Image
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/Padrao.png'),
+                fit: BoxFit.cover,
+              ),
             ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _emailController,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                labelText: "Novo Email",
-                labelStyle: TextStyle(color: Colors.grey),
-                filled: true,
-                fillColor: Colors.grey[800],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+          ),
+          Column(
+            children: [
+              SizedBox(height: 50),
+              Column(
+      children: [
+        CircleAvatar(radius: 40, backgroundColor: Colors.grey[700], child: Icon(Icons.person, color: Colors.white, size: 40)),
+        SizedBox(height: 8),
+        Divider(color: Colors.grey[600]),
+      ],
+    ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildInputLabel("NOVO EMAIL"),
+                    _buildTextField(_emailController),
+                    SizedBox(height: 16),
+                    _buildInputLabel("REPITA O EMAIL"),
+                    _buildTextField(_confirmEmailController),
+                  ],
                 ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _confirmEmailController,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                labelText: "Confirmar Email",
-                labelStyle: TextStyle(color: Colors.grey),
-                filled: true,
-                fillColor: Colors.grey[800],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            Spacer(),
-            ElevatedButton(
-              onPressed: _updateEmail,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                padding: EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-              child: Text("CONFIRMAR", style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        ),
+              Spacer(),
+              _buildConfirmButton(_updateEmail),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  Widget _buildInputLabel(String label) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4.0),
+      child: Text(label, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller) {
+    return TextField(
+      controller: controller,
+      style: TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.grey[900],
+        border: OutlineInputBorder(borderSide: BorderSide.none),
+      ),
+    );
+  }
+
+  Widget _buildConfirmButton(VoidCallback onPressed) {
+    return SizedBox(
+      width: double.infinity,
+      height: 50,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.green, shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
+        child: Text("CONFIRMAR", style: TextStyle(color: Colors.white, fontSize: 16)),
       ),
     );
   }

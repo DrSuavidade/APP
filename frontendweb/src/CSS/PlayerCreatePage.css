@@ -1,60 +1,81 @@
+html, body {
+  overflow: hidden; /* Remove o scroll da página */
+  height: 100vh; /* Garante que o conteúdo fique visível sem rolagem */
+}
+
+/* Garante que todo o conteúdo fique abaixo da navbar */
+.page-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 200px; /* Aumentei para descer ainda mais */
+  background-color: #121212;
+}
+
+.form-container {
+  margin-top: 80px; /* Adiciona um espaçamento extra */
+}
+
+/* Define o layout principal */
 .main-container {
-    display: flex;
-    gap: 20px;
-    padding: 20px;
-  }
-  
-  .form-container {
-    flex: 2;
-    background: #333;
-    padding: 20px;
-    border-radius: 10px;
-    color: white;
-  }
-  
-  .sidebar {
-    flex: 1;
-    background-color: #2c2c2c;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-  }
-  
-  .sidebar h3 {
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    margin-bottom: 15px;
-  }
-  
-  .history-item {
-    background-color: #444;
-    border-radius: 5px;
-    padding: 10px;
-    overflow-y: auto;
-  }
-  
-  .player {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #555;
-    border-radius: 5px;
-    padding: 8px;
-    margin-bottom: 10px;
-    color: white;
-  }
-  
-  .player .name {
-    flex: 2;
-    font-size: 14px;
-  }
-  
-  .player .details {
-    flex: 1;
-    text-align: center;
-    font-size: 14px;
-    color: #ffc107;
-  }
-  
+  display: flex;
+  justify-content: center; /* Centraliza os elementos */
+  align-items: flex-start;
+  gap: 40px; /* Espaço maior entre os elementos */
+  width: 80%;
+  max-width: 1100px;
+}
+
+/* Ajustes do formulário */
+.form-container {
+  flex: 1;
+  max-width: 600px;
+  background: #1e1e1e;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Últimos Jogadores */
+.history-container {
+  flex: 0.5;
+  width: 320px;
+  background: rgba(50, 50, 50, 0.9);
+  padding: 20px;
+  border-radius: 12px;
+  height: fit-content;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Lista de jogadores */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Estilos para cada jogador */
+.player-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background: #3a3a3a;
+  border-radius: 5px;
+  color: white;
+}
+
+/* Nome do jogador */
+.player-name {
+  flex: 2;
+  font-size: 14px;
+}
+
+/* Nota */
+.player-rating {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+  color: #66ff66;
+}

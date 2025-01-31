@@ -1,0 +1,216 @@
+/* Reset de estilos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Abel', sans-serif;
+  background-color: #181818;
+  color: #fff;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 20px;
+  width: 95%;
+  max-width: 1400px;
+
+}
+
+/* Barra de pesquisa */
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2c2c2c;
+  padding: 12px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 1200px;
+  gap: 10px;
+  position: absolute;
+  top: 100px; /* Ajusta o valor conforme necessário */
+}
+
+.search-bar input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  background-color: #1f1f1f;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 5px;
+  outline: none;
+}
+
+.search-btn, .add-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.search-btn {
+  background-color: #444;
+}
+
+.add-btn {
+  background-color: #629F49;
+}
+
+.search-btn:hover {
+  background-color: #555;
+}
+
+.add-btn:hover {
+  background-color: #4e803a;
+}
+
+/* Layout principal */
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+  gap: 40px;
+}
+
+/* Container de eventos */
+.events-container {
+  flex: 2;
+  background-color: #1f1f1f;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top: 180px; /* Ajusta o valor conforme necessário */
+}
+
+.events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.event {
+  background-color: #3a3a3a;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  min-height: 80px;
+}
+
+.event p {
+  font-size: 14px;
+  margin: 5px 10px;
+}
+
+/* Próximas partidas */
+.upcoming-matches {
+  flex: 1;
+  background-color: #2c2c2c;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  min-width: 320px;
+  max-width: 350px;
+  text-align: center;
+  position: relative;
+  top: 180px; /* Ajusta o valor conforme necessário */
+}
+
+.upcoming-matches h2 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  border-bottom: 2px solid #629F49;
+  padding-bottom: 8px;
+}
+
+.match-card {
+  background-color: #3a3a3a;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  font-size: 14px;
+  width: 100%;
+}
+
+.match-teams {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.match-info {
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .content {
+    flex-direction: column;
+    align-items: center;
+  }
+  .events-container, .upcoming-matches {
+    width: 100%;
+    max-width: 1000px;
+  }
+  .events-list {
+    flex-direction: column;
+  }
+  .event {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-bar {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .search-bar input {
+    margin-bottom: 10px;
+  }
+  .content {
+    flex-direction: column;
+    align-items: center;
+  }
+  .events-list {
+    flex-direction: column;
+    align-items: center;
+  }
+  .event {
+    width: 100%;
+    max-width: 600px;
+  }
+}

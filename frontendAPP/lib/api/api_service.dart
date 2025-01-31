@@ -179,6 +179,18 @@ Future<dynamic> getJogadorById(int jogadorId) async {
     get('jogador/list/$userId');
   Future<dynamic> editJogador(String id, Map<String, dynamic> data) =>
       put('jogador/edit/$id', data);
+  Future<List<dynamic>> listJogadoresByEvento(int idEvento) async {
+  final response = await http.get(
+    Uri.parse('$baseUrl/jogador/evento/$idEvento'),
+    headers: {'Content-Type': 'application/json'},
+  );
+  if (response.statusCode == 200) {
+    return json.decode(response.body);
+  } else {
+    throw Exception('Erro ao listar jogadores.');
+  }
+}
+
   Future<void> deleteJogador(String id) => delete('jogador/delete/$id');
 
   // PosicaoController Endpoints
@@ -190,12 +202,26 @@ Future<dynamic> getJogadorById(int jogadorId) async {
   Future<void> deletePosicao(String id) => delete('posicao/delete/$id');
 
   // RelatoriosController Endpoints
-  Future<dynamic> addRelatorio(Map<String, dynamic> data) =>
-      post('relatorio/add', data);
-  Future<dynamic> listRelatorios() => get('relatorio/list');
-  Future<dynamic> listRelatoriosHistorico() async {
-  return await get('relatorio/historico');
+  Future<dynamic> addRelatorio(Map<String, dynamic> data) async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/relatorio/add'),
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode(data),
+  );
+
+  if (response.statusCode == 201) {
+    return json.decode(response.body);
+  } else {
+    throw Exception('Erro ao adicionar relatório.');
+  }
 }
+
+  Future<dynamic> listRelatorios() => get('relatorio/list');
+  Future<List<dynamic>> listRelatoriosHistorico({required int userId}) async {
+  final response = await get('relatorio/historico/$userId');
+  return response;
+}
+
   Future<dynamic> editRelatorio(String id, Map<String, dynamic> data) =>
       put('relatorio/edit/$id', data);
   Future<void> deleteRelatorio(String id) => delete('relatorio/delete/$id');

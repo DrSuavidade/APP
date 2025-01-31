@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../CSS/register.css";
+import "../CSS/logineregistar.css";
 import api from "../api/axios";
 
 const RegisterPage = () => {
@@ -46,7 +46,7 @@ const RegisterPage = () => {
     <div className="register-container">
       <div className="register-box">
         <div className="register-logo">
-          <img src="frontendweb\src\img\logo.png" alt="Logo" />
+        <img src="/logo.png" alt="Logo" className="h-10" />
         </div>
         <h1>Registrar</h1>
         <form onSubmit={handleRegister}>
