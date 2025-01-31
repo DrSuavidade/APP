@@ -1,181 +1,81 @@
-input[type="text"],
-input[type="url"],
-input[type="date"],
-input[type="file"],
-select {
-  background: black;
-  border: 1px solid #555;
-  color: #b0b0b0;
-  padding: 10px;
-  border-radius: 5px;
+html, body {
+  overflow: hidden; /* Remove o scroll da página */
+  height: 100vh; /* Garante que o conteúdo fique visível sem rolagem */
 }
 
-.players-page {
+/* Garante que todo o conteúdo fique abaixo da navbar */
+.page-wrapper {
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+  align-items: flex-start;
+  padding-top: 200px; /* Aumentei para descer ainda mais */
+  background-color: #121212;
 }
 
 .form-container {
-  background: rgba(30, 30, 30, 0.9);
-  padding: 30px;
-  border-radius: 10px;
-  width: 600px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  margin-top: 80px; /* Adiciona um espaçamento extra */
 }
 
-.input-group {
+/* Define o layout principal */
+.main-container {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 15px;
+  justify-content: center; /* Centraliza os elementos */
+  align-items: flex-start;
+  gap: 40px; /* Espaço maior entre os elementos */
+  width: 80%;
+  max-width: 1100px;
 }
 
-input::placeholder {
-  color: #b0b0b0;
-  opacity: 0.7;
-}
-
-input[type="file"] {
-    background: black;
-    border: 1px solid #555;
-    color: #b0b0b0;
-    padding: 10px;
-    border-radius: 5px;
-    width: 100%;
-    cursor: pointer;
-  } 
-
-  input[type="file"]::-webkit-file-upload-button {
-    background: #444;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-input[type="file"]::-webkit-file-upload-button:hover {
-  background: #555;
-}
-
-.input-group input, select {
+/* Ajustes do formulário */
+.form-container {
   flex: 1;
-  padding: 10px;
-  background: black;
-  border: 1px solid #555;
-  border-radius: 5px;
-  color: #b0b0b0;
+  max-width: 600px;
+  background: #1e1e1e;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-.file-input {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.file-input button {
-  background: #444;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.submit-button {
-  width: 100%;
-  padding: 10px;
-  background: #66ff66;
-  color: black;
-  font-weight: bold;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-}
-
+/* Últimos Jogadores */
 .history-container {
+  flex: 0.5;
+  width: 320px;
   background: rgba(50, 50, 50, 0.9);
   padding: 20px;
-  border-radius: 10px;
-  width: 300px;
+  border-radius: 12px;
   height: fit-content;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-  
-  /* Alterações para posicionar ao lado direito */
-  position: relative; /* Removendo a posição absoluta */
-  margin-left: 20px; /* Criando um espaçamento ao lado do formulário */
 }
 
-.history-container {
-  background: rgba(50, 50, 50, 0.9);
-  padding: 20px;
-  border-radius: 10px;
-  width: 300px;
-  height: fit-content;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-  
-  /* Ajuste para ficar ao lado do formulário */
-  position: relative;
-  margin-left: 20px; /* Espaçamento ao lado direito do formulário */
-}
-
+/* Lista de jogadores */
 .history-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
+/* Estilos para cada jogador */
 .player-item {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  padding: 12px;
   background: #3a3a3a;
   border-radius: 5px;
   color: white;
 }
 
+/* Nome do jogador */
 .player-name {
   flex: 2;
   font-size: 14px;
 }
 
+/* Nota */
 .player-rating {
   flex: 1;
   text-align: center;
   font-size: 14px;
   color: #66ff66;
-}
-
-.back-button {
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
-  background: rgba(30, 30, 30, 0.9);
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
-  font-size: 18px;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  z-index: 1000;
-}
-
-.back-button:hover {
-  background: rgba(40, 40, 40, 1);
-}
-
-.main-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 20px;
-  padding-top: 50px;
 }

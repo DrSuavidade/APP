@@ -1,3 +1,7 @@
+html, body {
+  overflow-x: hidden;
+}
+
 nav {
     background-color: #111;
     color: white;
@@ -8,7 +12,7 @@ nav {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     height: 60px;
     z-index: 1000;
     border-bottom: 2px solid #222;
@@ -48,5 +52,14 @@ nav {
   nav ul li:not(:last-child) {
     border-right: 1px solid rgba(255, 255, 255, 0.2);
     padding-right: 20px;
+  }
+  
+  .nav-link {
+    color: white;
+    text-decoration: none; /* Remove o sublinhado */
+  }
+  
+  .nav-link:hover {
+    opacity: 0.8;
   }
   

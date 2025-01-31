@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import api from "../api/axios";
 import "../CSS/UltimosJogadores.css";
 
-
 function UltimosJogadores() {
   const [players, setPlayers] = useState([]);
 
