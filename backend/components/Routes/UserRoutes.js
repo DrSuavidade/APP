@@ -117,6 +117,8 @@ router.get("/player-pendents", relationship11Controller.cardsPlayersPendents);
 router.delete("/players/delete", relationship11Controller.deletePlayers);
 router.get("/all-players", relationship11Controller.listAllPlayersMerged);
 router.get("/player/:ID_JOGADORES", relationship11Controller.getPlayerFicha);
+router.put("/player/activate/:ID_JOGADORES", relationship11Controller.activatePlayer);
+router.delete("/player/reject/:ID_JOGADORES", relationship11Controller.rejectPlayer);
 
 
 

@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faHistory, faTimes } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 const FichaPlayer = ({ ID_JOGADORES }) => {
   const [player, setPlayer] = useState(null);
@@ -52,6 +53,40 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
     setEditMode(false); // Cancela a edição
   };
 
+  const handleActivatePlayer = async (ID_JOGADORES) => {
+    try {
+      const response = await axios.put(`http://localhost:3000/api/player/activate/${ID_JOGADORES}`);
+      Swal.fire("Sucesso!", response.data.message, "success");
+      // Atualizar o estado do jogador após a ativação
+      setPlayer({ ...player, STATUS: "Active" });
+    } catch (error) {
+      Swal.fire("Erro!", error.response?.data?.error || "Erro ao ativar jogador.", "error");
+    }
+  };
+
+  const handleRejectPlayer = async (ID_JOGADORES) => {
+    const confirm = await Swal.fire({
+      title: "Tem certeza?",
+      text: "Esta ação é irreversível e removerá o jogador e todos os seus dados permanentemente. Deseja continuar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sim, excluir!",
+      cancelButtonText: "Cancelar",
+    });
+  
+    if (confirm.isConfirmed) {
+      try {
+        const response = await axios.delete(`http://localhost:3000/api/player/reject/${ID_JOGADORES}`);
+        Swal.fire("Sucesso!", response.data.message, "success");
+        navigate("/players"); // Redirecionar para a lista de jogadores
+      } catch (error) {
+        Swal.fire("Erro!", error.response?.data?.error || "Erro ao rejeitar jogador.", "error");
+      }
+    }
+  };
+
   const getStatusColor = () => {
     if (player?.STATUS === "Inactive") return "yellow";
     if (player?.STATUS === "Active") return "green";
@@ -62,6 +97,7 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
     return <div>Carregando...</div>;
   }
 
+  
   return (
     <div className="ficha-relatorio-container">
       <div className="header">
@@ -138,6 +174,18 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
           <FontAwesomeIcon icon={faHistory} />
         </button>
       </div>
+
+      {/* Botões de Ativar e Rejeitar Jogador (apenas para jogadores Inativos) */}
+      {player.STATUS === "Inactive" && (
+        <div className="player-actions">
+          <button className="activate-btn" onClick={() => handleActivatePlayer(player.ID_JOGADORES)}>
+            Ativar Jogador
+          </button>
+          <button className="reject-btn" onClick={() => handleRejectPlayer(player.ID_JOGADORES)}>
+            Rejeitar Jogador
+          </button>
+        </div>
+      )}
 
       <p>Total de Relatórios: {player.TOTAL_RELATORIOS}</p>
     </div>

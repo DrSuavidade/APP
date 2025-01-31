@@ -568,7 +568,72 @@ relationship11Controller.getPlayerFicha = async (req, res) => {
     res.status(500).json({ error: "Erro ao buscar dados do jogador." });
   }
 };
+const handleActivatePlayer = async (ID_JOGADORES) => {
+  const confirm = await Swal.fire({
+    title: "Tem certeza?",
+    text: "Esta ação irá ativar o jogador. Tem certeza que deseja continuar?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sim, ativar!",
+    cancelButtonText: "Cancelar",
+  });
 
+  if (confirm.isConfirmed) {
+    try {
+      const response = await axios.put(`http://localhost:3000/api/player/activate/${ID_JOGADORES}`);
+      Swal.fire("Sucesso!", response.data.message, "success");
+      setPlayer({ ...player, STATUS: "Active" });
+    } catch (error) {
+      Swal.fire("Erro!", error.response?.data?.error || "Erro ao ativar jogador.", "error");
+    }
+  }
+};
+// Ativar Jogador
+relationship11Controller.activatePlayer = async (req, res) => {
+  const { ID_JOGADORES } = req.params;
+
+  try {
+      const jogador = await Jogadores.findOne({ ID_JOGADORES });
+
+      if (!jogador) {
+          return res.status(404).json({ message: "Jogador não encontrado." });
+      }
+
+      jogador.STATUS = "Active";
+      await jogador.save();
+
+      res.status(200).json({ message: "Jogador ativado com sucesso!", jogador });
+  } catch (error) {
+      console.error("Erro ao ativar jogador:", error);
+      res.status(500).json({ error: "Erro ao ativar jogador." });
+  }
+};
+
+// Rejeitar Jogador
+relationship11Controller.rejectPlayer = async (req, res) => {
+  const { ID_JOGADORES } = req.params;
+
+  try {
+      // Verificar se o jogador existe
+      const jogador = await Jogadores.findOne({ ID_JOGADORES });
+
+      if (!jogador) {
+          return res.status(404).json({ message: "Jogador não encontrado." });
+      }
+
+      // Remover o jogador e todos os dados associados
+      await Relatorio.deleteMany({ ID_JOGADORES }); // Remove relatórios associados
+      await Relationship11.deleteMany({ ID_JOGADORES }); // Remove relações com equipes
+      await Jogadores.deleteOne({ ID_JOGADORES }); // Remove o jogador
+
+      res.status(200).json({ message: "Jogador rejeitado e removido com sucesso!" });
+  } catch (error) {
+      console.error("Erro ao rejeitar jogador:", error);
+      res.status(500).json({ error: "Erro ao rejeitar jogador." });
+  }
+};
 
 
 module.exports = relationship11Controller;
