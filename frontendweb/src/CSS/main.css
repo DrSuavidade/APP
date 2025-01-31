@@ -1,0 +1,136 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #1a1a1a;
+  color: white;
+}
+
+/* Layout principal */
+.container {
+  display: flex !important;
+  flex-direction: row-reverse; /* Inverte a ordem dos elementos */
+  height: 100vh;
+  width: 100%;
+
+}
+
+/* Sidebar */
+.sidebar {
+  width: 25%;
+  background-color: #2a2a2a;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+  border-left: 2px solid #333; /* Mantém a borda à esquerda */
+  position: absolute !important;
+  left: 70vw;
+  z-index: 10;
+}
+
+.event-info, .scouter-info {
+  background-color: #3a3a3a;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.add-player-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Conteúdo principal */
+.main-content {
+  width: 75%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Caixa de pesquisa */
+.search-box {
+  display: flex;
+  margin-bottom: 20px;
+  width: 100%;
+  position: relative;
+  right: 10vw;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 5px 0 0 5px;
+  border: none;
+}
+
+.search-box button {
+  padding: 10px;
+  background-color: #5a5a5a;
+  color: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+/* Lista de jogadores */
+.player-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  width: 100%;
+}
+
+.player-card {
+  background-color: #3a3a3a;
+  padding: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.3s;
+  position: relative;
+  right: 15vw;
+}
+
+.player-card:hover {
+  background-color: #4a4a4a;
+}
+
+.player-card.selected {
+  border: 2px solid #4caf50;
+}
+
+/* Botão de confirmação */
+.confirm-btn {
+  width: 100%;
+  padding: 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  position: relative;
+  right: 10vw;
+}
