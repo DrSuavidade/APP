@@ -60,8 +60,9 @@ router.get('/jogador/evento/:ID_EVENTOS', jogadoresController.listJogadoresByEve
 router.put('/jogador/edit/:ID_JOGADORES', jogadoresController.editJogador);
 router.delete('/jogador/delete/:ID_JOGADORES', jogadoresController.deleteJogador);
 router.get('/jogador/equipa/:idEquipa', jogadoresController.listJogadoresByEquipa);
+router.get('/jogador/ano/:year', jogadoresController.listJogadoresByAge);
 router.get('/jogador/details/:ID_JOGADORES', jogadoresController.getJogadorDetails);
-
+router.post("/jogador/adicionar", relationship11Controller.addRelationship11);
 
 
 // Posicao Routes
@@ -130,6 +131,7 @@ router.get("/player/history/:ID_JOGADORES", relationship11Controller.listPending
 router.get("/player/reports/:ID_JOGADORES", relationship11Controller.listPlayerReports);
 // Relationship_11 Routes / HOME PAGE
 router.get("/users", relationship11Controller.listAllUsersWithPermissions);
+router.delete("/relationship11/:ID_JOGADORES", relationship11Controller.deleteRelationship11);
 
 
 

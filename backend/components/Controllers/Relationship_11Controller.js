@@ -771,5 +771,25 @@ relationship11Controller.listAllUsersWithPermissions = async (req, res) => {
   }
 };
 
+//remover relaçao entre equipa-jogador
+relationship11Controller.deleteRelationship11 = async (req, res) => {
+  const { ID_JOGADORES } = req.params;
+
+  try {
+    const deletedRelationship = await Relationship11.findOneAndDelete({ ID_JOGADORES });
+    
+    if (!deletedRelationship) {
+      return res.status(404).json({ message: "Relação jogador-equipa não encontrada" });
+    }
+
+    res.status(200).json({ message: "Relação jogador-equipa removida com sucesso!", relationship: deletedRelationship });
+  } catch (error) {
+    console.error("Erro ao remover relação jogador-equipa:", error);
+    res.status(500).json({ error: "Erro ao remover relação jogador-equipa" });
+  }
+};
+
+
+
 
 module.exports = relationship11Controller;
