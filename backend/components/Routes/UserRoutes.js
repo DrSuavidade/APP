@@ -60,6 +60,9 @@ router.get('/jogador/evento/:ID_EVENTOS', jogadoresController.listJogadoresByEve
 router.put('/jogador/edit/:ID_JOGADORES', jogadoresController.editJogador);
 router.delete('/jogador/delete/:ID_JOGADORES', jogadoresController.deleteJogador);
 router.get('/jogador/equipa/:idEquipa', jogadoresController.listJogadoresByEquipa);
+router.get('/jogador/ano/:year', jogadoresController.listJogadoresByAge);
+router.get('/jogador/details/:ID_JOGADORES', jogadoresController.getJogadorDetails);
+router.post("/jogador/adicionar", relationship11Controller.addRelationship11);
 
 
 // Posicao Routes
@@ -93,14 +96,17 @@ router.delete('/tipo/delete/:ID_TIPO', tipoUtilizadorController.deleteTipoUtiliz
 // EquipaSombra Routes
 router.post('/sombra/add', equipaSombraController.addEquipaSombra);
 router.get('/sombra/list', equipaSombraController.listEquipaSombra);
+router.get('/sombra/listByUser', equipaSombraController.listEquipaSombraByUser);
 router.put('/sombra/edit/:ID_SOMBRA', equipaSombraController.editEquipaSombra);
 router.delete('/sombra/delete/:ID_SOMBRA', equipaSombraController.deleteEquipaSombra);
 
 // RelacaoSombra Routes
 router.post('/resombra/add', relacaoSombraController.addRelacaoSombra);
 router.get('/resombra/list', relacaoSombraController.listRelacaoSombra);
+router.get('/resombra/posicao/list', relacaoSombraController.listPlayersByPosition);
 router.put('/resombra/edit/:ID_RELACAO', relacaoSombraController.editRelacaoSombra);
 router.delete('/resombra/delete/:ID_RELACAO', relacaoSombraController.deleteRelacaoSombra);
+router.delete('/resombra/remove', relacaoSombraController.removeRelacaoSombra);
 
 // Relationship_11 Routes
 router.post('/r11/add', relationship11Controller.addRelationship11);
@@ -125,6 +131,7 @@ router.get("/player/history/:ID_JOGADORES", relationship11Controller.listPending
 router.get("/player/reports/:ID_JOGADORES", relationship11Controller.listPlayerReports);
 // Relationship_11 Routes / HOME PAGE
 router.get("/users", relationship11Controller.listAllUsersWithPermissions);
+router.delete("/relationship11/:ID_JOGADORES", relationship11Controller.deleteRelationship11);
 
 
 

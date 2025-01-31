@@ -95,73 +95,89 @@ body {
     color: white;
 }
 
-.players-container {
+
+/* ==========================
+   🔹 GARANTINDO CENTRALIZAÇÃO DOS CARDS 🔹
+   ========================== */
+   .players-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-/* Cartão do jogador */
-.player-card {
-    background: #333;
-    padding: 10px;
-    border-radius: 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    display: flex;
-    flex-direction: column;
+    justify-content: center; /* Centraliza os cards dentro do painel */
     align-items: center;
-    justify-content: center;
-    width: 180px;
-    /* Mantém largura consistente */
-    min-width: 180px;
-    height: 200px;
-    /* Ajustei a altura para reduzir o espaço extra */
+    gap: 15px; /* Espaçamento entre os cards */
+    width: 100%;
+    max-width: 100%;
 }
 
-.player-card:hover {
-    background: #444;
+.players-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+    gap: 10px; /* Espaço entre os cards */
+    justify-content: center; /* Mantém os cards centralizados */
+    max-width: 100%;
+    padding: 20px 50px; /* Ajuste de margem para manter centralizado */
+    padding-left: 450px;
 }
 
-.player-card.selected {
-    border: 2px solid #4CAF50;
+/* 🔹 Ajusta o card para que fique corretamente dentro do container */
+.player-card {
+    display: flex;
+    align-items: center;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    padding: 15px;
+    width: 100%; /* Ajusta o tamanho ao container */
+    min-width: 250px; /* Define um tamanho mínimo */
+    max-width: 300px; /* Define um tamanho máximo */
+    gap: 10px;
 }
 
-/* Avatar centralizado e com menos espaço ao redor */
+/* 🔹 Avatar do jogador */
 .player-avatar {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     background: gray;
     border-radius: 50%;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 5px;
-    /* Reduzi o espaçamento abaixo */
+    flex-shrink: 0;
+    margin-right: 12px;
 }
 
-/* Melhor espaçamento das informações dentro do card */
+.player-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+/* 🔹 Ajusta as informações */
 .player-info {
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    text-align: center;
+    gap: 4px;
+    text-align: left;
     color: white;
+    flex-grow: 1;
 }
 
 .player-name {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
 }
 
 .player-age,
-.player-year {
-    font-size: 14px;
+.player-note {
+    font-size: 12px;
     color: #bbb;
 }
+
+
+
+
 
 .player-team {
     margin-top: 3px;
@@ -171,23 +187,32 @@ body {
     color: #629F49;
 }
 
+/* Adiciona um contorno verde aos jogadores selecionados */
+.player-entry.selected {
+    border: 2px solid #4CAF50;
+    background-color: rgba(76, 175, 80, 0.2);
+}
 
 
 /* ==============================
-   PAINEL ESQUERDO
+   🔹 CORRIGINDO O PAINEL ESQUERDO 🔹
    ============================== */
    .left-panel {
-    flex: 1; /* Faz com que ocupe metade do espaço disponível */
-    min-width: 600px; /* Mantém um tamanho mínimo */
-    max-width: 700px;
+    flex: 1;
+    width: 100%;
+    min-width: 900px; /* Aumentei para dar mais espaço aos cards */
+    max-width: 1400px; /* Expande melhor */
     background-color: #2b2b2b;
-    padding: 25px;
+    padding: 40px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
+    overflow: hidden;
 }
+
+
 
 /* ==============================
    PAINEL DIREITO
