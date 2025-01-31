@@ -102,7 +102,7 @@ const SmallListUsers = () => {
       <div className="toolbar">
         <FaTrash className="icon trash" onClick={handleDelete} />
         {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
-        <FaPlus className="icon add" onClick={() => navigate('/players/new')} />
+        <FaPlus className="icon add" onClick={() => navigate('/scouts/new')} />
       </div>
 
       <div className={`user-list ${showScrollbar ? "with-scrollbar" : "without-scrollbar"}`}>
