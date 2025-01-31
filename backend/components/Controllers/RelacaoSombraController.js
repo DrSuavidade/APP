@@ -1,24 +1,32 @@
 const RelacaoSombra = require('../Models/RelacaoSombra');
+const Jogadores = require("../Models/Jogadores");
 
 const relacaoSombraController = {};
 
 // Add a new tipoUtilizador
 relacaoSombraController.addRelacaoSombra = async (req, res) => {
-  const { ID_JOGADORES, ID_SOMBRA, ID_POSICAO } = req.body;
+  const { ID_POSICAO, ID_JOGADORES, ID_SOMBRA } = req.body;
 
   try {
-    // Fetch the highest current id_tipo in the collection
-    const maxRelacaoSombra = await RelacaoSombra.findOne().sort({ ID_RELACAO: -1 }).select('ID_RELACAO');
-    const ID_RELACAO = maxRelacaoSombra ? maxRelacaoSombra.ID_RELACAO + 1 : 1; // Increment the max id_tipo by 1 or set to 1 if none exists
+    // Check if a relation already exists for the same position, team, and player
+    const existingEntry = await RelacaoSombra.findOne({
+      ID_POSICAO,
+      ID_JOGADORES,
+      ID_SOMBRA,
+    });
 
-    // Create a new tipoUtilizador document with the calculated id_tipo
-    const relacaoSombra = new RelacaoSombra({ ID_JOGADORES, ID_SOMBRA, ID_POSICAO, ID_RELACAO });
-    await relacaoSombra.save();
+    if (existingEntry) {
+      return res.status(400).json({ message: "O jogador já está nessa posição para essa equipe sombra." });
+    }
 
-    res.status(201).json({ message: 'Relacao Sombra adicionado com sucesso!', relacaoSombra });
+    // If no duplicate is found, create a new entry
+    const newEntry = new RelacaoSombra({ ID_POSICAO, ID_JOGADORES, ID_SOMBRA });
+    await newEntry.save();
+
+    res.status(201).json({ message: "Jogador adicionado com sucesso!" });
   } catch (error) {
-    console.error('Erro ao adicionar relacao sombra:', error);
-    res.status(500).json({ error: 'Erro ao adicionar relacao sombra' });
+    console.error("Erro ao adicionar jogador à posição:", error);
+    res.status(500).json({ error: "Erro ao adicionar jogador à posição." });
   }
 };
 
@@ -70,6 +78,52 @@ relacaoSombraController.deleteRelacaoSombra = async (req, res) => {
   } catch (error) {
     console.error('Erro ao deletar relacao sombra:', error);
     res.status(500).json({ error: 'Erro ao deletar relacao sombra' });
+  }
+};
+
+relacaoSombraController.listPlayersByPosition = async (req, res) => {
+  const { ID_SOMBRA, ID_POSICAO } = req.query; // Get parameters from query
+
+  try {
+    // Step 1: Find all relations where the given position and shadow team exist
+    const relations = await RelacaoSombra.find({ ID_SOMBRA, ID_POSICAO });
+
+    if (!relations.length) {
+      return res.status(404).json({ message: "No players found for this position." });
+    }
+
+    // Step 2: Extract all player IDs from RELACAOSOMBRA
+    const playerIds = relations.map(rel => rel.ID_JOGADORES);
+
+    // Step 3: Fetch full player details using the extracted IDs
+    const players = await Jogadores.find({ ID_JOGADORES: { $in: playerIds } });
+
+    res.status(200).json(players);
+  } catch (error) {
+    console.error("Error fetching players:", error);
+    res.status(500).json({ error: "Error fetching players." });
+  }
+};
+
+relacaoSombraController.removeRelacaoSombra = async (req, res) => {
+  const { ID_POSICAO, ID_JOGADORES, ID_SOMBRA } = req.body;
+
+  try {
+    // Find and delete the relation
+    const deletedEntry = await RelacaoSombra.findOneAndDelete({
+      ID_POSICAO,
+      ID_JOGADORES,
+      ID_SOMBRA,
+    });
+
+    if (!deletedEntry) {
+      return res.status(404).json({ message: "Relação não encontrada." });
+    }
+
+    res.status(200).json({ message: "Jogador removido com sucesso!" });
+  } catch (error) {
+    console.error("Erro ao remover jogador da posição:", error);
+    res.status(500).json({ error: "Erro ao remover jogador da posição." });
   }
 };
 

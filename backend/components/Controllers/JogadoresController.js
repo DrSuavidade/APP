@@ -237,6 +237,61 @@ jogadoresController.listJogadoresByEquipa = async (req, res) => {
   }
 };
 
+jogadoresController.getJogadorDetails = async (req, res) => {
+  const { ID_JOGADORES } = req.params;
+
+  try {
+    // Fetch player data
+    const jogador = await Jogador.findOne({ ID_JOGADORES }).select("NOME DATA_NASC NOTA_ADM");
+
+    if (!jogador) {
+      return res.status(404).json({ message: "Jogador não encontrado." });
+    }
+
+    // Fetch all reports (RELATORIOS) for this player
+    const relatorios = await Relatorio.find({ ID_JOGADORES }).sort({ DATA: -1 });
+
+    if (relatorios.length === 0) {
+      return res.status(200).json({
+        jogador,
+        stats: {
+          tecnica: 0,
+          velocidade: 0,
+          competitiva: 0,
+          inteligencia: 0,
+          altura: null,
+          morfologia: null,
+        },
+      });
+    }
+
+    // Calculate averages for stats
+    const totalReports = relatorios.length;
+    const avgTecnica = relatorios.reduce((sum, r) => sum + r.TECNICA, 0) / totalReports;
+    const avgVelocidade = relatorios.reduce((sum, r) => sum + r.VELOCIDADE, 0) / totalReports;
+    const avgCompetitiva = relatorios.reduce((sum, r) => sum + r.COMPETITIVA, 0) / totalReports;
+    const avgInteligencia = relatorios.reduce((sum, r) => sum + r.INTELIGENCIA, 0) / totalReports;
+
+    // Get the latest ALTURA and MORFOLOGIA
+    const latestRelatorio = relatorios[0];
+
+    const stats = {
+      tecnica: avgTecnica.toFixed(1),
+      velocidade: avgVelocidade.toFixed(1),
+      competitiva: avgCompetitiva.toFixed(1),
+      inteligencia: avgInteligencia.toFixed(1),
+      altura: latestRelatorio.ALTURA,
+      morfologia: latestRelatorio.MORFOLOGIA,
+    };
+
+    res.status(200).json({ jogador, stats });
+  } catch (error) {
+    console.error("Erro ao buscar detalhes do jogador:", error);
+    res.status(500).json({ error: "Erro ao buscar detalhes do jogador." });
+  }
+};
+
+
 
 
 
