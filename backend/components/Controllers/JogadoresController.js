@@ -237,6 +237,46 @@ jogadoresController.listJogadoresByEquipa = async (req, res) => {
   }
 };
 
+jogadoresController.listJogadoresByAge = async (req, res) => {
+  try {
+      const { year } = req.params;
+
+      if (!year || isNaN(year)) {
+          return res.status(400).json({ message: "Ano inválido." });
+      }
+
+      console.log(`📌 Buscando jogadores disponíveis do ano: ${year}`);
+
+      const startDate = new Date(`${year}-01-01T00:00:00.000Z`);
+      const endDate = new Date(`${year}-12-31T23:59:59.999Z`);
+
+      // Buscar IDs de jogadores que já estão atribuídos a equipas na `RELATIONSHIP_11`
+      const jogadoresComEquipa = await Relationship11.find({}, { ID_JOGADORES: 1, _id: 0 });
+      const idsComEquipa = jogadoresComEquipa.map(rel => rel.ID_JOGADORES);
+
+      console.log(`🔎 IDs de jogadores já atribuídos a equipas:`, idsComEquipa);
+
+      // Buscar jogadores que NÃO estão na `RELATIONSHIP_11`
+      const jogadores = await Jogadores.find({
+          DATA_NASC: { $gte: startDate, $lte: endDate },
+          ID_JOGADORES: { $nin: idsComEquipa } // Exclui jogadores que já estão atribuídos
+      });
+
+      console.log(`📌 Jogadores disponíveis para ${year}:`, jogadores);
+
+      if (!jogadores.length) {
+          return res.status(404).json({ message: `Nenhum jogador disponível para o ano ${year}.` });
+      }
+
+      res.status(200).json(jogadores);
+  } catch (error) {
+      console.error("❌ Erro ao buscar jogadores por idade:", error);
+      res.status(500).json({ message: "Erro ao buscar jogadores por idade." });
+  }
+};
+
+
+
 
 
 
