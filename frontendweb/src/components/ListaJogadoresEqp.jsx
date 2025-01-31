@@ -1,30 +1,44 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios"; 
+import axios from "axios";
 
-const ListaJogadoresEqp = ({ selectedYear, addedPlayers }) => {
+const ListaJogadoresEqp = ({ selectedYear, addedPlayers, idEquipa }) => {
     const [registeredPlayers, setRegisteredPlayers] = useState([]);
 
     useEffect(() => {
-        axios.get("/api/jogadores") 
-            .then(response => setRegisteredPlayers(response.data || [])) 
-            .catch(error => console.error("Erro ao buscar jogadores:", error));
-    }, []);
+        if (!idEquipa) return; // Evita chamadas sem ID
+
+        const fetchPlayers = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3000/api/jogador/equipa/${idEquipa}`);
+                console.log("📌 Jogadores recebidos:", response.data);
+                setRegisteredPlayers(response.data || []);
+            } catch (error) {
+                console.error("❌ Erro ao buscar jogadores:", error);
+            }
+        };
+
+        fetchPlayers();
+    }, [idEquipa]);
 
     useEffect(() => {
         if (addedPlayers && addedPlayers.length > 0) {
             setRegisteredPlayers(prevPlayers => {
-                const newPlayers = addedPlayers.filter(player => 
+                const newPlayers = addedPlayers.filter(player =>
                     !prevPlayers.some(existingPlayer => existingPlayer.name === player.name)
                 );
                 return [...prevPlayers, ...newPlayers];
             });
 
             addedPlayers.forEach(player => {
-                axios.post("/api/jogadores", player)
-                    .catch(error => console.error("Erro ao adicionar jogador:", error));
+                axios.post("http://localhost:3000/api/jogadores", player)
+                    .catch(error => console.error("❌ Erro ao adicionar jogador:", error));
             });
         }
     }, [addedPlayers]);
+
+    const getStars = (nota) => {
+        return "★".repeat(nota || 0) + "☆".repeat(5 - (nota || 0));
+    };
 
     return (
         <div className="right-panel">
@@ -35,13 +49,18 @@ const ListaJogadoresEqp = ({ selectedYear, addedPlayers }) => {
             <p className="player-count">Jogadores: {registeredPlayers.length}</p>
 
             <div className="player-list">
-                {registeredPlayers.map((player, index) => (
-                    <div key={index} className="player-entry">
-                        <span className="player-name">{player.name}</span>
-                        <span className="player-stars">{'★'.repeat(player.stars || 0)}</span>
-                    </div>
-                ))}
+                {registeredPlayers.length > 0 ? (
+                    registeredPlayers.map((player) => (
+                        <div key={player.ID_JOGADORES} className="player-entry">
+                            <span className="player-name">{player.NOME}</span>
+                            <span className="player-stars">{getStars(player.NOTA_ADM)}</span>
+                        </div>
+                    ))
+                ) : (
+                    <p className="no-players">Nenhum jogador encontrado para esta equipa.</p>
+                )}
             </div>
+
         </div>
     );
 };

@@ -31,7 +31,7 @@ const DropboxJogadores = ({ players, onRegisterPlayer }) => {
     return (
         <div className="left-panel">
             <div className="search-container">
-                <input type="text" className="search-input" placeholder="Escreva o nome do clube ou da equipa" />
+                <input type="text" className="search-input" placeholder="Escreva o nome do jogador" />
                 <button className="search-button">Procurar</button>
             </div>
 

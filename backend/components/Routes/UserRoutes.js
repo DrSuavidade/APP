@@ -59,6 +59,8 @@ router.get('/jogador/list/:ID_USER', jogadoresController.getPlayersByUser);
 router.get('/jogador/evento/:ID_EVENTOS', jogadoresController.listJogadoresByEvento);
 router.put('/jogador/edit/:ID_JOGADORES', jogadoresController.editJogador);
 router.delete('/jogador/delete/:ID_JOGADORES', jogadoresController.deleteJogador);
+router.get('/jogador/equipa/:idEquipa', jogadoresController.listJogadoresByEquipa);
+
 
 // Posicao Routes
 router.post('/posicao/add', posicaoController.addPosicao);

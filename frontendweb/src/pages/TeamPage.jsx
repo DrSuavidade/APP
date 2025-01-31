@@ -15,6 +15,7 @@ const players = [
 const TeamPage = () => {
     const [availablePlayers, setAvailablePlayers] = useState(players);
     const [registeredPlayers, setRegisteredPlayers] = useState([]);
+    const [idEquipa] = useState(1); // 🔹 Definindo ID da equipa como 1
 
     const handleRegisterPlayer = (player) => {
         setRegisteredPlayers([...registeredPlayers, player]);
@@ -31,6 +32,7 @@ const TeamPage = () => {
                 <ListaJogadoresEqp 
                     selectedYear={""} 
                     addedPlayers={registeredPlayers} 
+                    idEquipa={idEquipa} // 🔹 Passando ID da equipa para a ListaJogadoresEqp
                 />
             </div>
         </div>
