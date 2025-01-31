@@ -2,7 +2,7 @@ const Jogadores = require('../Models/Jogadores');
 const Jogador = require('../Models/Jogadores');
 const Relatorio = require('../Models/Relatorio');
 const Relationship12 = require('../Models/Relationship_12');
-const Relationship11 = require('../models/Relationship_11');
+const Relationship11 = require('../Models/Relationship_11');
 
 
 const jogadoresController = {};
