@@ -6,6 +6,7 @@ import axios from "axios";
 
 const ReportsPage = () => {
   const [selectedRelatorio, setSelectedRelatorio] = useState(null);
+  
 
   useEffect(() => {
     // Buscar a lista de relatórios e selecionar o primeiro automaticamente

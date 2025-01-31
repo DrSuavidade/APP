@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "../CSS/FichaRelatorio.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faHistory, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const FichaPlayer = ({ ID_JOGADORES }) => {
   const [player, setPlayer] = useState(null);
@@ -27,14 +29,18 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
 
   const handleSave = () => {
     axios
-      .put(`http://localhost:3000/api/player/update/${ID_JOGADORES}`, {
+      .put(`http://localhost:3000/api/jogador/edit/${ID_JOGADORES}`, {
+        NOME: player.NOME,
         DATA_NASC: player.DATA_NASC,
         GENERO: player.GENERO,
         NACIONALIDADE: player.NACIONALIDADE,
         LINK: player.LINK,
         DADOS_ENC: player.DADOS_ENC,
+        NOTA_ADM: player.NOTA_ADM,
+        STATUS: player.STATUS,
       })
-      .then(() => {
+      .then((response) => {
+        console.log(response.data.message);
         setEditMode(false);
       })
       .catch((error) => {
@@ -42,8 +48,12 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
       });
   };
 
+  const handleCancel = () => {
+    setEditMode(false); // Cancela a edição
+  };
+
   const getStatusColor = () => {
-    if (player?.STATUS === "Inactive") return "red";
+    if (player?.STATUS === "Inactive") return "yellow";
     if (player?.STATUS === "Active") return "green";
     return "orange";
   };
@@ -54,7 +64,11 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
 
   return (
     <div className="ficha-relatorio-container">
-      <h2>Informações do Jogador</h2>
+      <div className="header">
+        <h2>Informações do Jogador</h2>
+        <div className="status-circle" style={{ background: getStatusColor() }}></div>
+      </div>
+
       <div className="player-info">
         <div className="avatar-placeholder"></div>
         <div className="player-details">
@@ -62,20 +76,15 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
           <p>Equipa: {player.NOME_EQUIPA}</p>
           <p>Clube: {player.ABREVIATURA_CLUBE}</p>
         </div>
-        <div className="status-circle" style={{ background: getStatusColor() }}></div>
       </div>
-
-      <button className="edit-btn" onClick={handleEdit} disabled={editMode}>
-        Editar
-      </button>
 
       <div className="player-fields">
         <label>Data de Nascimento:</label>
         <input
-        type="text"
-        value={new Date(player.DATA_NASC).toLocaleDateString("pt-PT")}
-        disabled={!editMode}
-        onChange={(e) => setPlayer({ ...player, DATA_NASC: e.target.value })}
+          type="text"
+          value={new Date(player.DATA_NASC).toLocaleDateString("pt-PT")}
+          disabled={!editMode}
+          onChange={(e) => setPlayer({ ...player, DATA_NASC: e.target.value })}
         />
         <label>Gênero:</label>
         <select
@@ -111,16 +120,26 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
         />
       </div>
 
-      {editMode && (
-        <button className="save-btn" onClick={handleSave}>
-          Salvar
+      <div className="actions">
+        <button className="icon-btn" onClick={handleEdit} disabled={editMode}>
+          <FontAwesomeIcon icon={faEdit} />
         </button>
-      )}
+        {editMode && (
+          <>
+            <button className="icon-btn cancel-btn" onClick={handleCancel}>
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+            <button className="save-btn" onClick={handleSave}>
+              Salvar
+            </button>
+          </>
+        )}
+        <button className="icon-btn" onClick={() => navigate("/player/history")}>
+          <FontAwesomeIcon icon={faHistory} />
+        </button>
+      </div>
 
       <p>Total de Relatórios: {player.TOTAL_RELATORIOS}</p>
-      <button className="history-btn" onClick={() => navigate("/player/history")}>
-        Histórico
-      </button>
     </div>
   );
 };

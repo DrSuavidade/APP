@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import "../CSS/PlayerCard.css";
 import axios from "axios";
 
-const CardPlayersPendents = () => {
+const CardPlayersPendents = ({ setSelectedPlayerId }) => {
+
   const [players, setPlayers] = useState([]);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ const CardPlayersPendents = () => {
 
       {players.length > 0 ? (
         players.map((player) => (
-          <div key={player.ID_JOGADORES} className="player-card">
+          <div key={player.ID_JOGADORES} className="player-card" onClick={() => setSelectedPlayerId(player.ID_JOGADORES)}>
             <div className="status-dot"></div>
             <div className="profile-icon">👤</div>
             <h3 className="player-name">{player.NOME || "Nome não disponível"}</h3>

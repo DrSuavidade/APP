@@ -4,7 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
-const ListPlayers = () => {
+const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
   const [players, setPlayers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectMode, setSelectMode] = useState(false);
@@ -17,13 +17,18 @@ const ListPlayers = () => {
         const response = await axios.get("http://localhost:3000/api/all-players");
         console.log("📌 Jogadores recebidos:", response.data);
         setPlayers(response.data);
+
+        // Chama a função onPlayersLoaded apenas na primeira carga
+        if (onPlayersLoaded && players.length === 0) {
+          onPlayersLoaded(response.data);
+        }
       } catch (error) {
         console.error("❌ Erro ao buscar jogadores:", error);
       }
     };
 
     fetchPlayers();
-  }, []);
+  }, [onPlayersLoaded, players.length]);
 
   const toggleSelectMode = () => {
     setSelectMode(!selectMode);
@@ -45,7 +50,7 @@ const ListPlayers = () => {
       alert("Selecione pelo menos um jogador para excluir.");
       return;
     }
-  
+
     Swal.fire({
       title: "Tem certeza?",
       text: "Os dados serão excluídos permanentemente!",
@@ -54,20 +59,20 @@ const ListPlayers = () => {
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Avançar",
-      cancelButtonText: "Cancelar"
+      cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           const response = await axios.delete("http://localhost:3000/api/players/delete", {
-            data: { playersIds: selectedPlayers }
+            data: { playersIds: selectedPlayers },
           });
-  
+
           console.log("✅ Jogadores excluídos:", response.data);
-  
-          setPlayers(players.filter(p => !selectedPlayers.includes(p.ID_JOGADORES)));
+
+          setPlayers(players.filter((p) => !selectedPlayers.includes(p.ID_JOGADORES)));
           setSelectedPlayers([]);
           setSelectMode(false);
-  
+
           Swal.fire("Excluído!", "Os jogadores foram excluídos com sucesso.", "success");
         } catch (error) {
           console.error("❌ Erro ao excluir jogadores:", error);
@@ -122,13 +127,14 @@ const ListPlayers = () => {
             <th>Gênero</th>
             <th>Ano Nasc.</th>
             <th>Nacionalidade</th>
+            <th>Estado</th> {/* Nova coluna para o estado */}
           </tr>
         </thead>
         <tbody>
           {players
             .filter((p) => p.NOME.toLowerCase().includes(searchTerm.toLowerCase()))
             .map((player) => (
-              <tr key={player.ID_JOGADORES}>
+              <tr key={player.ID_JOGADORES} onClick={() => onSelectPlayer(player.ID_JOGADORES)}>
                 {selectMode && (
                   <td>
                     <input
@@ -145,6 +151,19 @@ const ListPlayers = () => {
                 <td>{player.GENERO}</td>
                 <td>{player.DATA_NASC ? new Date(player.DATA_NASC).getFullYear() : "--"}</td>
                 <td>{player.NACIONALIDADE}</td>
+                <td>
+                  {player.STATUS === "Inactive" && (
+                    <div
+                      style={{
+                        width: "12px",
+                        height: "12px",
+                        borderRadius: "50%",
+                        backgroundColor: "yellow",
+                        display: "inline-block",
+                      }}
+                    ></div>
+                  )}
+                </td>
               </tr>
             ))}
         </tbody>

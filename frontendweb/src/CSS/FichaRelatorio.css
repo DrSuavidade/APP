@@ -133,3 +133,100 @@
   background: gray;
   cursor: not-allowed;
 }
+
+/* Estilos específicos para FichaPlayer */
+.ficha-relatorio-container .header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.ficha-relatorio-container .header h2 {
+  margin: 0;
+}
+
+.ficha-relatorio-container .status-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.ficha-relatorio-container .player-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ficha-relatorio-container .player-details {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.ficha-relatorio-container .player-details h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.ficha-relatorio-container .player-details p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.ficha-relatorio-container .player-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ficha-relatorio-container .player-fields label {
+  font-weight: bold;
+}
+
+.ficha-relatorio-container .player-fields input,
+.ficha-relatorio-container .player-fields select,
+.ficha-relatorio-container .player-fields textarea {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #444;
+  background: #2a2a2a;
+  color: white;
+}
+
+.ficha-relatorio-container .player-fields textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.ficha-relatorio-container .actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.ficha-relatorio-container .icon-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.ficha-relatorio-container .icon-btn:disabled {
+  color: gray;
+  cursor: not-allowed;
+}
+
+.ficha-relatorio-container .cancel-btn {
+  color: red; /* Cor do ícone de cancelar */
+}
+
+.ficha-relatorio-container .save-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
