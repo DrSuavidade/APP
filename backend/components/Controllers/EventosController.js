@@ -1,6 +1,7 @@
 const Evento = require('../Models/Eventos');
 const Relatorio = require('../Models/Relatorio');
 const Equipa = require('../Models/Equipa');
+const User = require('../Models/User');
 
 const eventosController = {};
 
@@ -160,6 +161,40 @@ eventosController.getFilteredGamesByUser = async (req, res) => {
   } catch (error) {
     console.error('Error fetching filtered games for user:', error);
     res.status(500).json({ message: 'Erro no servidor ao buscar jogos do usuário.' });
+  }
+};
+
+eventosController.listEventosRecentes = async (req, res) => {
+  try {
+    // Buscar todos os eventos ordenados por DATA (mais recentes primeiro)
+    const eventos = await Evento.find().sort({ DATA: -1 });
+
+    // Obter os IDs únicos de usuários presentes nos eventos
+    const userIds = [...new Set(eventos.map(evento => evento.ID_USER).filter(id => id !== undefined))];
+
+    // Buscar os usuários correspondentes
+    const users = await User.find({ ID_USER: { $in: userIds } }).select('ID_USER NOME');
+
+    // Criar um mapa de usuários para busca rápida
+    const userMap = {};
+    users.forEach(user => {
+      userMap[user.ID_USER] = user.NOME;
+    });
+
+    // Formatar os eventos para incluir o nome do usuário
+    const eventosFormatados = eventos.map(evento => ({
+      EQUIPA_CASA: evento.EQUIPA_CASA,
+      VISITANTE: evento.VISITANTE,
+      DATA: evento.DATA,
+      HORA: evento.HORA,
+      LOCAL: evento.LOCAL,
+      NOME_USER: userMap[evento.ID_USER] || "Sem Scout Associado"
+    }));
+
+    res.status(200).json(eventosFormatados);
+  } catch (error) {
+    console.error('Erro ao listar eventos recentes:', error);
+    res.status(500).json({ error: 'Erro ao listar eventos recentes', detalhes: error.message });
   }
 };
 
