@@ -88,7 +88,7 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
   };
 
   return (
-    <div className="list-relatorios-container">
+    <div className="list-players-container">
       {/* Barra de pesquisa */}
       <div className="search-container">
         <input
@@ -101,12 +101,12 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
       </div>
 
       {/* Botão de adicionar */}
-      <button className="add-btn" onClick={() => navigate("/players/new")}>
+      <button className="list-players-add-btn" onClick={() => navigate("/players/new")}>
         Adicionar Jogador
       </button>
 
       {/* Botão de seleção/eliminação */}
-      <button className={`delete-btn ${selectMode ? "active" : ""}`} onClick={toggleSelectMode}>
+      <button className={`list-players-delete-btn ${selectMode ? "active" : ""}`} onClick={toggleSelectMode}>
         {selectMode ? "Cancelar" : "Selecionar para Eliminar"}
       </button>
       {selectMode && (
@@ -116,7 +116,8 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
       )}
 
       {/* Tabela de jogadores */}
-      <table className="relatorios-table">
+      <div className="list-players-scroll-container">
+      <table className="list-players-table">
         <thead>
           <tr>
             {selectMode && <th></th>}
@@ -168,6 +169,7 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
             ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };

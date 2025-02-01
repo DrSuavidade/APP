@@ -241,3 +241,277 @@
   font-size: 14px;
   color: #28a745;
 }
+
+/* Estilos para o RecentEvents */
+.recent-events-container {
+  width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: none; /* Removendo o fundo */
+}
+
+.recent-events-container h2 {
+  margin-bottom: 15px;
+  font-size: 1.5em;
+  color: #000; /* Ajustando a cor do texto para preto */
+}
+
+.events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 400px; /* Aumentando a altura para mostrar mais listas */
+  overflow-y: auto; /* Adiciona barra de scroll vertical */
+  padding-right: 10px; /* Espaço para a barra de scroll */
+}
+
+/* Estilo específico para os cartões de eventos */
+.recent-events-container {
+  width: 260px;
+  margin: 20px auto;
+  padding: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: none; /* Removendo o fundo do container principal */
+}
+
+.recent-events-container h2 {
+  margin-bottom: 2px;
+  font-size: 1.5em;
+  color: #ffffff; /* Ajustando a cor do texto para preto */
+}
+
+.events-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 373px; /* Aumentando a altura para mostrar mais listas */
+  max-width: 350px;
+  overflow-y: auto; /* Adiciona barra de scroll vertical */
+  padding-right: 10px; /* Espaço para a barra de scroll */
+}
+
+.recent-events-container .event-info {
+  display: flex;
+  flex-direction: column;
+  background-color: #218838;
+  width: 200px;
+  margin-bottom: 2px;
+}
+
+.recent-events-container .event-scout {
+  font-size: 0.9em;
+  color: #e0e0e0; /* Cor clara para o texto do scout */
+}
+
+.recent-events-container .event-date-time {
+  font-size: 1em;
+  font-weight: bold;
+  color: #fff; /* Cor branca para a data e hora */
+}
+
+.recent-events-container .event-teams {
+  font-size: 1.1em;
+  color: #fff; /* Cor branca para as equipes */
+}
+
+.recent-events-container .event-location {
+  font-size: 0.9em;
+  color: #e0e0e0; /* Cor clara para o local */
+}
+
+.recent-events-container .add-event-btn {
+  background: #28a745; /* Botão verde */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Efeito flutuante */
+  transition: background 0.3s ease, transform 0.3s ease; /* Transição suave */
+}
+
+.recent-events-container .add-event-btn:hover {
+  background: #218838; /* Verde mais escuro ao passar o mouse */
+  transform: translateY(-2px); /* Efeito de flutuação ao passar o mouse */
+}
+
+/* Estilização da barra de scroll */
+.events-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.events-list::-webkit-scrollbar-thumb {
+  background: #28a745; /* Scrollbar verde */
+  border-radius: 4px;
+}
+
+.events-list::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Fundo claro para a barra de scroll */
+}
+
+
+/*PÁGINA REPORTS
+
+/* Estilos específicos para a ReportsPage */
+.reports-page .list-relatorios-container {
+  width: 1000px;
+  max-width: 100%; /* Ajuste conforme necessário */
+}
+
+.reports-page .relatorios-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reports-page .relatorios-table th,
+.reports-page .relatorios-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #000000;
+}
+
+.reports-page .relatorios-table th {
+  background-color: #000000;
+}
+
+.reports-page .relatorios-table tr:hover {
+  background-color: #000000;
+}
+
+/* Container da lista de relatórios */
+.list-relatorios-container {
+  max-height: 70vh; /* Altura máxima */
+  overflow-y: auto; /* Scrollbar vertical */
+  padding: 10px; /* Espaçamento interno */
+  border: 1px solid #444; /* Borda escura */
+  border-radius: 8px; /* Bordas arredondadas */
+  background-color: #1c1c1c; /* Fundo escuro */
+  color: white; /* Cor do texto */
+}
+
+/* Personalização da scrollbar */
+.list-relatorios-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.list-relatorios-container::-webkit-scrollbar-track {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+
+.list-relatorios-container::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+.list-relatorios-container::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+/* Container da lista de relatórios */
+.list-relatorios-container {
+  max-height: 70vh; /* Altura máxima */
+  overflow-y: auto; /* Scrollbar vertical */
+  padding: 10px; /* Espaçamento interno */
+  border: 1px solid #444; /* Borda escura */
+  border-radius: 8px; /* Bordas arredondadas */
+  background-color: #1c1c1c; /* Fundo escuro */
+  color: white; /* Cor do texto */
+}
+
+/* Cabeçalho fixo */
+.list-relatorios-header {
+  position: sticky;
+  top: 0; /* Fixa no topo */
+  background-color: #1c1c1c; /* Cor de fundo igual ao container */
+  z-index: 10; /* Garante que fique acima do conteúdo */
+  padding-bottom: 10px; /* Espaçamento abaixo do cabeçalho */
+}
+
+/* Barra de pesquisa e botões */
+.search-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.search-container input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #2a2a2a;
+  color: white;
+}
+
+.search-btn {
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.actions-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.delete-btn, .confirm-delete-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.confirm-delete-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Títulos das colunas */
+.table-header {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #444;
+  font-weight: bold;
+}
+
+.table-header div {
+  flex: 1;
+  text-align: left;
+}
+
+/* Conteúdo rolável */
+.table-content {
+  overflow-y: auto; /* Scrollbar vertical */
+}
+
+/* Linhas da tabela */
+.table-row {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #444;
+  cursor: pointer;
+}
+
+.table-row div {
+  flex: 1;
+  text-align: left;
+}

@@ -3,7 +3,6 @@ import "../CSS/PlayerCard.css";
 import axios from "axios";
 
 const CardPlayersPendents = ({ setSelectedPlayerId }) => {
-
   const [players, setPlayers] = useState([]);
 
   useEffect(() => {
@@ -25,25 +24,23 @@ const CardPlayersPendents = ({ setSelectedPlayerId }) => {
       <h2>JOGADORES PENDENTES</h2>
 
       {players.length > 0 ? (
-        players.map((player) => (
-          <div key={player.ID_JOGADORES} className="player-card" onClick={() => setSelectedPlayerId(player.ID_JOGADORES)}>
-            <div className="status-dot"></div>
-            <div className="profile-icon">👤</div>
-            <h3 className="player-name">{player.NOME || "Nome não disponível"}</h3>
-            <p className="player-age">
-              {player.IDADE} anos • {player.ANO_NASCIMENTO}
-            </p>
-            <p className="player-age">
-              {player.NACIONALIDADE} 
-            </p>
-            <p className="team-name">
-              {player.ABREVIATURA_CLUBE} - {player.NOME_EQUIPA}
-            </p>
-          </div>
-        ))
-      ) : (
-        <p>Nenhum jogador pendente encontrado.</p>
-      )}
+  players.map((player) => (
+    <div key={player.ID_JOGADORES} className="player-card-new" onClick={() => setSelectedPlayerId(player.ID_JOGADORES)}>
+      <div className="profile-icon">👤</div> {/* Ícone movido para a esquerda */}
+      
+      <div className="player-info"> {/* Agrupa as informações do jogador */}
+        <h3 className="player-name">{player.NOME || "Nome não disponível"}</h3>
+        <p className="player-age-year">{player.IDADE} anos • {player.ANO_NASCIMENTO}</p>
+        <p className="player-nationality">{player.NACIONALIDADE}</p>
+        <p className="player-team">{player.ABREVIATURA_CLUBE} - {player.NOME_EQUIPA}</p>
+      </div>
+
+      <div className="status-dot"></div> {/* Ponto de status mantido no canto superior direito */}
+    </div>
+  ))
+) : (
+  <p>Nenhum jogador pendente encontrado.</p>
+)}
     </div>
   );
 };

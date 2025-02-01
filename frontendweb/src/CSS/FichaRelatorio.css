@@ -254,3 +254,10 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+/*Página Reports*/
+
+.reports-page .ficha-relatorio-container {
+  width: 100%;
+  max-width: 100%; /* Ajuste conforme necessário */
+}

@@ -3,13 +3,12 @@ import PlayerCard from "../components/PlayerCard";
 import ListRelatorios from "../components/ListRelatorios";
 import FichaRelatorio from "../components/FichaRelatorio";
 import axios from "axios";
+import "../CSS/ReportsPage.css"; // Importe o CSS específico para a ReportsPage
 
 const ReportsPage = () => {
   const [selectedRelatorio, setSelectedRelatorio] = useState(null);
-  
 
   useEffect(() => {
-    // Buscar a lista de relatórios e selecionar o primeiro automaticamente
     const fetchRelatorios = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/relatorios-merged");
@@ -25,10 +24,14 @@ const ReportsPage = () => {
   }, []);
 
   return (
-    <div className="report-section">
-      <PlayerCard onSelectRelatorio={setSelectedRelatorio} />
-      <ListRelatorios onSelectRelatorio={setSelectedRelatorio} />
-      {selectedRelatorio && <FichaRelatorio ID_RELATORIO={selectedRelatorio} />}
+    <div className="reports-page">
+      <div className="reports-left">
+        <PlayerCard onSelectRelatorio={setSelectedRelatorio} />
+        <ListRelatorios onSelectRelatorio={setSelectedRelatorio} />
+      </div>
+      <div className="reports-right">
+        {selectedRelatorio && <FichaRelatorio ID_RELATORIO={selectedRelatorio} />}
+      </div>
     </div>
   );
 };

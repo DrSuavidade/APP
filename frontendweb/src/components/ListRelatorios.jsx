@@ -104,19 +104,20 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
   };
 
   return (
-    <div className="list-relatorios-container">
-      {/* Barra de pesquisa */}
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Escreva o nome do jogador"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button className="search-btn">Search</button>
-      </div>
+<div className="list-relatorios-container">
+  {/* Cabeçalho fixo */}
+  <div className="list-relatorios-header">
+    <div className="search-container">
+      <input
+        type="text"
+        placeholder="Escreva o nome do jogador"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <button className="search-btn">Search</button>
+    </div>
 
-      {/* Botão de seleção/eliminação */}
+    <div className="actions-container">
       <button className={`delete-btn ${selectMode ? "active" : ""}`} onClick={toggleSelectMode}>
         {selectMode ? "Cancelar" : "Selecionar para Eliminar"}
       </button>
@@ -125,57 +126,47 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
           Confirmar Eliminação
         </button>
       )}
-
-      {/* Tabela de relatórios */}
-      <table className="relatorios-table">
-        <thead>
-          <tr>
-            {selectMode && <th></th>}
-            <th>ID</th>
-            <th>Jogador</th>
-            <th>Clube</th>
-            <th>Avaliação</th>
-            <th>Scouter</th>
-            <th>Data</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {relatorios
-            .filter((r) => r.JOGADOR_NOME.toLowerCase().includes(searchTerm.toLowerCase()))
-            .map((report) => (
-              <tr
-                key={report.ID_RELATORIO}
-                onClick={() => onSelectRelatorio(report.ID_RELATORIO)}
-                style={{ cursor: "pointer" }}
-              >
-                {selectMode && (
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={selectedRelatorios.includes(report.ID_RELATORIO)}
-                      onChange={() => toggleSelection(report.ID_RELATORIO)}
-                    />
-                  </td>
-                )}
-                <td>{report.ID_RELATORIO}</td>
-                <td>{report.JOGADOR_NOME}</td>
-                <td>{report.ABREVIATURA_CLUBE}</td>
-                <td>{getStars(report.NOTA_ADM)}</td>
-                <td>{report.NOME_USER} (ID: {report.ID_USER})</td>
-                <td>{formatDate(report.DATA)}</td>
-                <td>
-                  <span
-                    className="status-circle"
-                    style={{ backgroundColor: getStatusColor(report.STATUS) }}
-                    title={report.STATUS}
-                  ></span>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
     </div>
+
+    {/* Títulos das colunas */}
+    <div className="table-header">
+      <div>ID</div>
+      <div>Jogador</div>
+      <div>Clube</div>
+      <div>Avaliação</div>
+      <div>Scouter</div>
+      <div>Data</div>
+      <div>Status</div>
+    </div>
+  </div>
+
+  {/* Conteúdo rolável */}
+  <div className="table-content">
+    {relatorios
+      .filter((r) => r.JOGADOR_NOME.toLowerCase().includes(searchTerm.toLowerCase()))
+      .map((report) => (
+        <div
+          key={report.ID_RELATORIO}
+          className="table-row"
+          onClick={() => onSelectRelatorio(report.ID_RELATORIO)}
+        >
+          <div>{report.ID_RELATORIO}</div>
+          <div>{report.JOGADOR_NOME}</div>
+          <div>{report.ABREVIATURA_CLUBE}</div>
+          <div>{getStars(report.NOTA_ADM)}</div>
+          <div>{report.NOME_USER} (ID: {report.ID_USER})</div>
+          <div>{formatDate(report.DATA)}</div>
+          <div>
+            <span
+              className="status-circle"
+              style={{ backgroundColor: getStatusColor(report.STATUS) }}
+              title={report.STATUS}
+            ></span>
+          </div>
+        </div>
+      ))}
+  </div>
+</div>
   );
 };
 

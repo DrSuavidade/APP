@@ -1,0 +1,50 @@
+  /*PÁGINA REPORTS
+
+/* Garante que a página inteira tenha uma scrollbar vertical */
+html, body {
+    height: 100%; /* Faz com que o body ocupe 100% da altura da tela */
+    overflow-y: auto; /* Adiciona a scrollbar vertical quando necessário */
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove paddings padrão */
+  }
+  
+  /* Container principal da página */
+  .reports-page {
+    min-height: 100vh; /* Garante que o container ocupe pelo menos 100% da altura da tela */
+    padding: 20px; /* Adiciona um espaçamento interno */
+    box-sizing: border-box; /* Garante que o padding não aumente o tamanho total */
+  }
+
+  /* ReportsPage.css */
+  .reports-page {
+    display: flex;
+    flex-direction: row;
+    gap: 20px; /* Espaço entre as seções */
+    padding: 20px;
+    padding-top: 80px; /* Espaçamento entre a navbar e o conteúdo */
+    height: 100vh;
+  }
+  
+  .reports-page .left-section {
+    flex: 1;
+    max-width: 300px; /* Ajuste conforme necessário */
+  }
+  
+  .reports-page .right-section {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .reports-left {
+    flex: 1; /* Ocupa 1 parte do espaço disponível */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espaço entre PlayerCard e ListRelatorios */
+  }
+  
+  .reports-right {
+    flex: 2; /* Ocupa 2 partes do espaço disponível */
+    max-width: 800px; /* Largura máxima para o relatório */
+  }
