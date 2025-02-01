@@ -1,4 +1,5 @@
 const Equipa = require('../Models/Equipa');
+const Relationship11 = require("../Models/Relationship_11");
 
 const equipaController = {};
 
@@ -70,5 +71,49 @@ equipaController.deleteEquipa = async (req, res) => {
     res.status(500).json({ error: 'Erro ao deletar equipa' });
   }
 };
+
+equipaController.listTeamsByClub = async (req, res) => {
+  try {
+    const { ID_CLUBE } = req.params;
+
+    if (!ID_CLUBE) {
+      return res.status(400).json({ error: "ID do clube é obrigatório" });
+    }
+
+    // Buscar apenas as informações necessárias da equipa
+    const equipas = await Equipa.find(
+      { ID_CLUBE },
+      { ID_EQUIPA: 1, NOME: 1, ABREVIATURA: 1, ESCALAO: 1, _id: 0 }
+    );
+
+    if (!equipas.length) {
+      return res.status(404).json({ message: "Nenhuma equipa encontrada para este clube." });
+    }
+
+    // Buscar número de jogadores atribuídos a cada equipa
+    const equipasComJogadores = await Promise.all(
+      equipas.map(async (equipa) => {
+        const numJogadores = await Relationship11.countDocuments({
+          ID_EQUIPA: equipa.ID_EQUIPA,
+        });
+
+        return {
+          ID_EQUIPA: equipa.ID_EQUIPA,
+          NOME: equipa.NOME,
+          ABREVIATURA: equipa.ABREVIATURA,
+          ESCALAO: equipa.ESCALAO,
+          NUMERO_JOGADORES: numJogadores, // 🔹 Número total de jogadores atribuídos
+        };
+      })
+    );
+
+    res.status(200).json(equipasComJogadores);
+  } catch (error) {
+    console.error("Erro ao listar equipas:", error);
+    res.status(500).json({ error: "Erro ao listar equipas" });
+  }
+};
+
+
 
 module.exports = equipaController;

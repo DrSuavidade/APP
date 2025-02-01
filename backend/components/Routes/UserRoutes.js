@@ -33,12 +33,17 @@ router.post('/clube/add', clubeController.addClube); // Add club
 router.get('/clube/list', clubeController.listClube); // List clubs
 router.put('/clube/edit/:ID_CLUBE', clubeController.editClube); // Edit club
 router.delete('/clube/delete/:ID_CLUBE', clubeController.deleteClube); // Delete club
+router.get("/clubes/com-equipas", clubeController.listClubesWithTeams); // list club with team
+router.delete("/clubes/delete-multiple", clubeController.deleteSelectedClubes); // Delete a todos os selecionados
+
 
 // Equipa Routes
 router.post('/equipa/add', equipaController.addEquipa); // Add team
 router.get('/equipa/list', equipaController.listEquipa); // List teams
 router.put('/equipa/edit/:ID_EQUIPA', equipaController.editEquipa); // Edit team
 router.delete('/equipa/delete/:ID_EQUIPA', equipaController.deleteEquipa); // Delete team
+router.get("/equipas/:ID_CLUBE", equipaController.listTeamsByClub); // Listar equipa by club
+
 
 // Eventos Routes
 router.post('/evento/add', /*autenticarJWT,*/ eventosController.addEvento);
@@ -62,7 +67,7 @@ router.delete('/jogador/delete/:ID_JOGADORES', jogadoresController.deleteJogador
 router.get('/jogador/equipa/:idEquipa', jogadoresController.listJogadoresByEquipa);
 router.get('/jogador/ano/:year', jogadoresController.listJogadoresByAge);
 router.get('/jogador/details/:ID_JOGADORES', jogadoresController.getJogadorDetails);
-router.post("/jogador/adicionar", relationship11Controller.addRelationship11);
+
 
 
 // Posicao Routes
@@ -132,7 +137,7 @@ router.get("/player/reports/:ID_JOGADORES", relationship11Controller.listPlayerR
 // Relationship_11 Routes / HOME PAGE
 router.get("/users", relationship11Controller.listAllUsersWithPermissions);
 router.delete("/relationship11/:ID_JOGADORES", relationship11Controller.deleteRelationship11);
-
+router.post("/jogador/adicionar", relationship11Controller.addRelationship11);
 
 
 
