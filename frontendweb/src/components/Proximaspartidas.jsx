@@ -1,5 +1,5 @@
 import React from "react";
-import "../CSS/eventscreatepage.css";
+import "../CSS/eventsviewpage.css";
 
 
 const matches = [
