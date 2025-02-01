@@ -115,6 +115,30 @@ clubeController.deleteSelectedClubes = async (req, res) => {
   }
 };
 
+// Novo método para buscar nome e abreviatura de um clube pelo ID_CLUBE
+clubeController.getClubeById = async (req, res) => {
+  try {
+    const { ID_CLUBE } = req.params;
+
+    if (!ID_CLUBE) {
+      return res.status(400).json({ error: "ID do clube é obrigatório" });
+    }
+
+    const clube = await Clube.findOne(
+      { ID_CLUBE },
+      { NOME: 1, ABREVIATURA: 1, _id: 0 }
+    );
+
+    if (!clube) {
+      return res.status(404).json({ message: "Clube não encontrado." });
+    }
+
+    res.status(200).json(clube);
+  } catch (error) {
+    console.error("Erro ao buscar informações do clube:", error);
+    res.status(500).json({ error: "Erro ao buscar informações do clube." });
+  }
+};
 
 
 module.exports = clubeController;

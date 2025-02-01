@@ -32,12 +32,6 @@ const TeamsList = ({ selectedClub, favorites, toggleFavorite }) => {
         <div className="selected-club-info">
           <h3>{selectedClub.nome}</h3>
           <h4>{selectedClub.abreviatura}</h4>
-          <button
-            className={`favorite-button ${favorites[selectedClub.nome] ? 'active' : ''}`}
-            onClick={() => toggleFavorite(selectedClub.nome)}
-          >
-            ⭐ Favorito
-          </button>
         </div>
       )}
 

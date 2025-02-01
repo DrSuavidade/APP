@@ -36,7 +36,7 @@ router.put('/clube/edit/:ID_CLUBE', clubeController.editClube); // Edit club
 router.delete('/clube/delete/:ID_CLUBE', clubeController.deleteClube); // Delete club
 router.get("/clubes/com-equipas", clubeController.listClubesWithTeams); // list club with team
 router.delete("/clubes/delete-multiple", clubeController.deleteSelectedClubes); // Delete a todos os selecionados
-
+router.get("/clube/:ID_CLUBE", clubeController.getClubeById);
 
 // Equipa Routes
 router.post('/equipa/add', equipaController.addEquipa); // Add team
@@ -93,6 +93,7 @@ router.post('/favorito/add', favoritosController.addFavorito);
 router.get('/favorito/list', favoritosController.listFavoritos);
 router.put('/favorito/edit/:ID_CLUBE/:ID_USER', favoritosController.editFavorito);
 router.delete('/favorito/delete/:ID_CLUBE/:ID_USER', favoritosController.deleteFavorito);
+router.get('/favorito/list/:ID_USER', favoritosController.listFavoritosByUser);
 
 // TipoUtilizador Routes
 router.post('/tipo/add', tipoUtilizadorController.addTipoUtilizador);
