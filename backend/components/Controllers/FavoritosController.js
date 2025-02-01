@@ -1,4 +1,5 @@
 const Favoritos = require('../Models/Favoritos');
+const Clube = require('../Models/Clube'); 
 
 const favoritosController = {};
 
@@ -68,4 +69,44 @@ favoritosController.deleteFavorito = async (req, res) => {
   }
 };
 
+// List favoritos by ID_USER (Retorna apenas ID_CLUBE)
+favoritosController.listFavoritosByUser = async (req, res) => {
+  const { ID_USER } = req.params;
+
+  try {
+    // Buscar os favoritos do usuário (apenas os ID_CLUBE)
+    const favoritos = await Favoritos.find({ ID_USER });
+
+    if (!favoritos || favoritos.length === 0) {
+      return res.status(404).json({ message: 'Nenhum favorito encontrado para este usuário.' });
+    }
+
+    // Extrair os ID_CLUBE únicos
+    const clubesIds = favoritos.map(fav => fav.ID_CLUBE);
+
+    // Buscar os detalhes dos clubes manualmente
+    const clubes = await Clube.find({ ID_CLUBE: { $in: clubesIds } }, 'ID_CLUBE NOME ABREVIATURA');
+
+    // Criar a resposta combinando os favoritos com os dados dos clubes
+    const favoritosComDetalhes = favoritos.map(fav => {
+      const clubeInfo = clubes.find(clube => clube.ID_CLUBE === fav.ID_CLUBE);
+      return {
+        ID_CLUBE: fav.ID_CLUBE,
+        nome: clubeInfo ? clubeInfo.NOME : "Nome não encontrado", // ⚠️ Ajustado para NOME
+        abreviatura: clubeInfo ? clubeInfo.ABREVIATURA : "Abrev. não encontrada" // ⚠️ Ajustado para ABREVIATURA
+      };
+    });
+
+    res.status(200).json(favoritosComDetalhes);
+  } catch (error) {
+    console.error('Erro ao listar favoritos pelo ID_USER:', error);
+    res.status(500).json({ error: 'Erro ao listar favoritos pelo ID_USER' });
+  }
+};
+
+
+
+
 module.exports = favoritosController;
+
+

@@ -21,9 +21,10 @@ const TeamsList = ({ selectedClub, favorites, toggleFavorite }) => {
     fetchTeams();
   }, [selectedClub]);
 
-  // Função para redirecionar para a página /team
+  // Função para redirecionar para a página /team com idClube
   const handleManageTeams = () => {
-    navigate("/team");
+    if (!selectedClub) return;
+    navigate("/team", { state: { idClube: selectedClub.id_clube } });
   };
 
   return (
@@ -32,12 +33,6 @@ const TeamsList = ({ selectedClub, favorites, toggleFavorite }) => {
         <div className="selected-club-info">
           <h3>{selectedClub.nome}</h3>
           <h4>{selectedClub.abreviatura}</h4>
-          <button
-            className={`favorite-button ${favorites[selectedClub.nome] ? 'active' : ''}`}
-            onClick={() => toggleFavorite(selectedClub.nome)}
-          >
-            ⭐ Favorito
-          </button>
         </div>
       )}
 
@@ -46,7 +41,12 @@ const TeamsList = ({ selectedClub, favorites, toggleFavorite }) => {
         <div id="team-details-container">
           {teams.length > 0 ? (
             teams.map((team, index) => (
-              <div key={index} className="squad-item">
+              <div 
+                key={index} 
+                className="squad-item" 
+                onClick={() => navigate("/team", { state: { idClube: selectedClub.id_clube, idEquipa: team.ID_EQUIPA } })}
+                style={{ cursor: "pointer" }} // Garante que pareça clicável
+              >
                 {/* Lado Esquerdo: ID_EQUIPA, NOME e ESCALAO */}
                 <div className="team-info-left">
                   <span className="team-id">{team.ID_EQUIPA}</span>

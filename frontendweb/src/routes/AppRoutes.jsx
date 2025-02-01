@@ -23,6 +23,7 @@ import ShadowTeamPage from '../pages/ShadowTeamPage';
 import Navbar from '../components/Navbar';
 import ReportsHistory from '../pages/ReportsHistory';
 
+
 const AppRoutes = () => {
   return (
     <Router> {/* Agora colocamos o Router aqui! */}
@@ -65,6 +66,7 @@ const RoutesWithNavbar = () => {
         <Route path="/team/add" element={<AddTeamPage />} />
         <Route path="/team/shadow" element={<ShadowTeamPage />} />
         <Route path="/players" element={<PlayersPage />} />
+        <Route path="/clubs/:ID_USER" element={<ClubsPage />} />
       </Routes>
     </>
   );

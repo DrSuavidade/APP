@@ -1,37 +1,69 @@
 import React, { useState, useEffect } from "react";
 
-const ClubsCards = ({ favorites, setSelectedClub, toggleFavorite }) => {
+const ClubsCards = ({ ID_USER, setSelectedClub, toggleFavorite }) => {
   const [teams, setTeams] = useState([]);
 
   useEffect(() => {
-    const fetchClubs = async () => {
+    const fetchFavoriteClubs = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/clubes/com-equipas");
-        const data = await response.json();
-        setTeams(data); // Atualiza o estado com os clubes vindos do backend
+        console.log(`Buscando clubes favoritos para ID_USER: ${ID_USER}`); // DEBUG
+        const response = await fetch(`http://localhost:3000/api/favorito/list/${ID_USER}`);
+        if (!response.ok) throw new Error("Erro ao buscar clubes favoritos");
+
+        const favoriteClubs = await response.json(); // Lista de clubes favoritos com nome e abreviatura
+        console.log("Clubes recebidos:", favoriteClubs); // DEBUG
+
+        if (Array.isArray(favoriteClubs) && favoriteClubs.length > 0) {
+          setTeams(favoriteClubs); // Atualiza o estado com os favoritos apenas se houver dados
+        } else {
+          console.warn("Nenhum clube retornado pela API.");
+        }
       } catch (error) {
-        console.error("Erro ao buscar clubes:", error);
+        console.error("Erro ao buscar os clubes favoritos:", error);
       }
     };
 
-    fetchClubs();
-  }, []);
+    fetchFavoriteClubs();
+  }, [ID_USER]);
+
+  const handleRemoveFavorite = async (ID_CLUBE) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/favorito/delete/${ID_CLUBE}/${ID_USER}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao remover favorito');
+      }
+
+      // Atualiza a lista de favoritos após a remoção
+      const updatedTeams = teams.filter(team => team.ID_CLUBE !== ID_CLUBE);
+      setTeams(updatedTeams);
+
+      console.log('Favorito removido com sucesso!');
+    } catch (error) {
+      console.error('Erro ao remover favorito:', error);
+    }
+  };
+
+  console.log("Estado atual dos clubes:", teams); // DEBUG
 
   return (
     <section className="clubes-cards-row">
       <div className="club-cards-container">
-        {teams.filter(team => favorites[team.nome]).map((team, index) => (
+        {teams.length === 0 && <p style={{ color: "red" }}>Nenhum clube encontrado.</p>} {/* DEBUG VISUAL */}
+        {teams.map((team, index) => (
           <div key={index} className="club-card" onClick={() => setSelectedClub(team)}>
-            <h4>{team.nome}</h4>
-            <p>{team.abreviatura}</p>
+            <h4>{team.nome || "Nome não encontrado"}</h4> {/* Exibe nome corretamente */}
+            <p>{team.abreviatura || "Sem abreviação"}</p> {/* Exibe a abreviação corretamente */}
             <button
-              className={`favorite-icon ${favorites[team.nome] ? 'active' : ''}`}
+              className={`favorite-icon active`} // Ajuste no botão de favorito
               onClick={(e) => {
                 e.stopPropagation();
-                toggleFavorite(team.nome);
+                handleRemoveFavorite(team.ID_CLUBE);
               }}
             >
-              ⭐
+              ✅ {/* Ícone atualizado */}
             </button>
           </div>
         ))}

@@ -237,6 +237,7 @@ jogadoresController.listJogadoresByEquipa = async (req, res) => {
   }
 };
 
+
 jogadoresController.listJogadoresByAge = async (req, res) => {
   try {
       const { year } = req.params;

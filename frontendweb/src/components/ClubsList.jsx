@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { FaTrash, FaPlus, FaTimes } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 
-const ClubsList = ({ setSelectedClub }) => { // Adicionado setSelectedClub como prop
+const ClubsList = ({ setSelectedClub }) => {
   const [clubes, setClubes] = useState([]);
   const [erro, setErro] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedClubes, setSelectedClubes] = useState([]);
   const [showCheckboxes, setShowCheckboxes] = useState(false);
+  const [favoriteClubes, setFavoriteClubes] = useState([]);
+  const [isFavoriteMode, setIsFavoriteMode] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,7 +25,17 @@ const ClubsList = ({ setSelectedClub }) => { // Adicionado setSelectedClub como 
       }
     };
 
+    const fetchFavoriteClubes = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/favorito/list/${1}`); // Substitua 1 pelo ID do usuário logado
+        setFavoriteClubes(response.data.map(fav => fav.ID_CLUBE));
+      } catch (error) {
+        console.error("Erro ao buscar favoritos:", error);
+      }
+    };
+
     fetchClubes();
+    fetchFavoriteClubes();
   }, []);
 
   const handleSearch = (event) => {
@@ -83,9 +95,30 @@ const ClubsList = ({ setSelectedClub }) => { // Adicionado setSelectedClub como 
     setShowCheckboxes(false);
   };
 
-  // Função para lidar com o clique em um clube
   const handleClubClick = (clube) => {
-    setSelectedClub(clube); // Atualiza o clube selecionado
+    setSelectedClub(clube);
+    if (isFavoriteMode) {
+      handleAddFavorito(clube.id_clube);
+    }
+  };
+
+  const handleAddFavorito = async (clubeId) => {
+    const ID_USER = 1; // Substitua pelo ID do usuário logado
+    try {
+      await axios.post('http://localhost:3000/api/favorito/add', {
+        ID_CLUBE: clubeId,
+        ID_USER: ID_USER
+      });
+      setFavoriteClubes([...favoriteClubes, clubeId]);
+      Swal.fire("Sucesso!", "Clube adicionado aos favoritos.", "success");
+    } catch (error) {
+      console.error('Erro ao adicionar favorito:', error);
+      Swal.fire("Erro!", "Não foi possível adicionar o clube aos favoritos.", "error");
+    }
+  };
+
+  const toggleFavoriteMode = () => {
+    setIsFavoriteMode(!isFavoriteMode);
   };
 
   const filteredClubes = clubes.filter((clube) =>
@@ -106,10 +139,17 @@ const ClubsList = ({ setSelectedClub }) => { // Adicionado setSelectedClub como 
       </div>
 
       <div className="toolbar">
-        <FaTrash className="icon trash" onClick={handleDelete} />
-        {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
-        <FaPlus className="icon add" onClick={() => navigate('/team/add-club')} />
-      </div>
+  <button className="favorite-button" onClick={toggleFavoriteMode}>
+    {isFavoriteMode ? "✅ Favoritos" : "Favoritos"}
+  </button>
+  <div className="icons-container">
+    <FaTrash className="icon trash" onClick={handleDelete} />
+    <FaPlus className="icon add" onClick={() => navigate('/team/add-club')} />
+    {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
+  </div>
+</div>
+
+
 
       <div className="team-header">
         <span>ID Clube</span>
@@ -122,14 +162,11 @@ const ClubsList = ({ setSelectedClub }) => { // Adicionado setSelectedClub como 
           <p className="error-message">Erro: {erro}</p>
         ) : (
           filteredClubes.map((clube, index) => (
-            <li key={index} className="team-item" onClick={() => handleClubClick(clube)}> {/* Adiciona o clique aqui */}
-              {showCheckboxes && (
-                <input
-                  type="checkbox"
-                  checked={selectedClubes.includes(clube.id_clube)}
-                  onChange={() => toggleClubeSelection(clube.id_clube)}
-                />
-              )}
+            <li
+              key={index}
+              className={`team-item ${isFavoriteMode && favoriteClubes.includes(clube.id_clube) ? 'selected' : ''}`}
+              onClick={() => handleClubClick(clube)}
+            >
               <span>{clube.id_clube}</span>
               <span>{clube.nome}</span>
               <span>{clube.abreviatura}</span>
