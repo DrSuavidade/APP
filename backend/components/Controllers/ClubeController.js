@@ -1,5 +1,5 @@
 const Clube = require('../Models/Clube');
-
+const Equipa = require('../Models/Equipa');
 const clubeController = {};
 
 // Add a new club
@@ -69,5 +69,52 @@ clubeController.deleteClube = async (req, res) => {
     res.status(500).json({ error: 'Erro ao deletar clube' });
   }
 };
+
+clubeController.listClubesWithTeams = async (req, res) => {
+  try {
+    const clubes = await Clube.find({}, { NOME: 1, ABREVIATURA: 1, ID_CLUBE: 1 });
+
+    const clubesComTotalEquipas = await Promise.all(
+      clubes.map(async (clube) => {
+        const totalEquipas = await Equipa.countDocuments({ ID_CLUBE: clube.ID_CLUBE });
+        return {
+          id_clube: clube.ID_CLUBE,  // Agora retorna também o ID_CLUBE
+          nome: clube.NOME,
+          abreviatura: clube.ABREVIATURA,
+          totalEquipas,
+        };
+      })
+    );
+
+    res.status(200).json(clubesComTotalEquipas);
+  } catch (error) {
+    console.error("Erro ao listar clubes com equipas:", error);
+    res.status(500).json({ error: "Erro ao listar clubes com equipas." });
+  }
+};
+
+clubeController.deleteSelectedClubes = async (req, res) => {
+  const { clubesIds } = req.body; // Recebe uma lista de IDs dos clubes a serem excluídos
+
+  if (!clubesIds || clubesIds.length === 0) {
+    return res.status(400).json({ error: "Nenhum clube selecionado para exclusão." });
+  }
+
+  try {
+    // Deletar os clubes que têm os IDs fornecidos
+    const deletedClubs = await Clube.deleteMany({ ID_CLUBE: { $in: clubesIds } });
+
+    if (deletedClubs.deletedCount === 0) {
+      return res.status(404).json({ error: "Nenhum clube encontrado para exclusão." });
+    }
+
+    res.status(200).json({ success: true, message: "Clubes excluídos com sucesso!", count: deletedClubs.deletedCount });
+  } catch (error) {
+    console.error("❌ Erro ao excluir clubes:", error);
+    res.status(500).json({ error: "Erro ao excluir clubes." });
+  }
+};
+
+
 
 module.exports = clubeController;

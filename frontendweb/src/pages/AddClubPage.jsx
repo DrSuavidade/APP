@@ -22,7 +22,7 @@ const AddClubPage = () => {
   
       if (response.status === 201) {
         setSuccess(true);
-        navigate("/home"); // Redireciona imediatamente após sucesso
+        navigate("/clubs"); // Redireciona imediatamente após sucesso
       }
     } catch (error) {
       if (error.response) {
