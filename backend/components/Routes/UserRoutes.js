@@ -53,6 +53,8 @@ router.get('/evento/list/:ID_USER', eventosController.getGamesByUser);
 router.get('/eventos/user/:ID_USER', eventosController.getFilteredGamesByUser);
 router.put('/evento/edit/:ID_EVENTOS', eventosController.editEvento);
 router.delete('/evento/delete/:ID_EVENTOS', eventosController.deleteEvento);
+router.get('/eventos/recentes', eventosController.listEventosRecentes);
+
 
 // Jogadores Routes
 router.post('/jogador/add', jogadoresController.addJogador);
