@@ -301,4 +301,27 @@ userController.deleteUser = async (req, res) => {
   }
 };
 
+//eleminar varios
+userController.deleteMultipleUsers = async (req, res) => {
+  const { userIds } = req.body;
+
+  if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+    return res.status(400).json({ message: "Nenhum usuário selecionado para exclusão." });
+  }
+
+  try {
+    const result = await User.deleteMany({ ID_USER: { $in: userIds } });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Nenhum usuário encontrado para exclusão." });
+    }
+
+    res.status(200).json({ message: "Usuários deletados com sucesso!", deletedCount: result.deletedCount });
+  } catch (error) {
+    console.error("Erro ao deletar usuários:", error);
+    res.status(500).json({ message: "Erro ao deletar usuários." });
+  }
+};
+
+
 module.exports = userController;

@@ -27,6 +27,7 @@ router.get('/users/list/:ID_USER', userController.getUserById);
 router.get('/users/lastTen', userController.lastTenUsers);
 router.put('/users/edit/:ID_USER', userController.editUser); // Update user
 router.delete('/users/delete/:ID_USER', userController.deleteUser); // Delete user
+router.delete('/users/delete-multiple', userController.deleteMultipleUsers);
 
 // Clube Routes
 router.post('/clube/add', clubeController.addClube); // Add club

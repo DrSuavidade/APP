@@ -61,7 +61,7 @@ const SmallListUsers = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete('http://localhost:3000/api/users/delete', { data: { usersIds: selectedUsers } });
+          await axios.delete('http://localhost:3000/api/users/delete-multiple', { data: { userIds: selectedUsers } });
           setUsers(users.filter((user) => !selectedUsers.includes(user.ID_USER)));
           setSelectedUsers([]);
           setShowCheckboxes(false);
