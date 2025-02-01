@@ -3,6 +3,7 @@ import CardPlayersPendents from "../components/CardPlayersPendents";
 import ListPlayers from "../components/ListPlayers";
 import FichaPlayer from "../components/FichaPlayer";
 
+
 const PlayersPage = () => {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   const [playersLoaded, setPlayersLoaded] = useState(false); // Novo estado para controlar se os jogadores foram carregados

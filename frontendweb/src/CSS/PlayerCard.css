@@ -1,20 +1,37 @@
-/* PlayerCard.css */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #1c1c1c; /* Cor de fundo da página */
+}
+
+.player-card-container {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  margin-top: 80px;
+}
 
 .player-card {
-  background: #1c1c1c;
+  background: #2a2a2a;
   border-radius: 15px;
-  padding: 20px;
-  width: 200px;
+  padding: 15px; /* Reduz o padding para diminuir o tamanho */
+  width: 180px; /* Reduz a largura do cartão */
   text-align: center;
   color: white;
   font-family: "Arial", sans-serif;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
   position: relative;
+  margin: 0 auto; /* Centraliza o cartão */
 }
 
 .player-card .profile-icon {
-  width: 60px;
-  height: 60px;
+  width: 50px; /* Reduz o tamanho do ícone do perfil */
+  height: 50px;
   border-radius: 50%;
   background: white;
   display: flex;
@@ -24,38 +41,40 @@
 }
 
 .player-card .player-name {
-  font-size: 16px;
+  font-size: 14px; /* Reduz o tamanho da fonte do nome */
   font-weight: bold;
+  color: #f1f1f1;
 }
 
 .player-card .player-age {
-  font-size: 14px;
-  color: #ccc;
+  font-size: 12px; /* Reduz o tamanho da fonte da idade */
+  color: #aaa;
 }
 
-.player-card .team-name {
-  font-size: 14px;
-  font-weight: bold;
-  margin-top: 5px;
-}
-
-/* Estilização do círculo da NOTA */
 .nota-circle {
-  width: 50px;
-  height: 50px;
+  width: 40px; /* Reduz o tamanho do círculo da nota */
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 16px; /* Reduz o tamanho da fonte da nota */
   color: white;
   margin: 10px auto;
 }
 
+.nota-circle.green {
+  background: #4caf50;
+}
+
+.nota-circle.orange {
+  background: #ff9800;
+}
+
 .player-card .status-dot {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   background-color: #ffd700;
   border-radius: 50%;
   position: absolute;

@@ -33,12 +33,17 @@ router.post('/clube/add', clubeController.addClube); // Add club
 router.get('/clube/list', clubeController.listClube); // List clubs
 router.put('/clube/edit/:ID_CLUBE', clubeController.editClube); // Edit club
 router.delete('/clube/delete/:ID_CLUBE', clubeController.deleteClube); // Delete club
+router.get("/clubes/com-equipas", clubeController.listClubesWithTeams); // list club with team
+router.delete("/clubes/delete-multiple", clubeController.deleteSelectedClubes); // Delete a todos os selecionados
+
 
 // Equipa Routes
 router.post('/equipa/add', equipaController.addEquipa); // Add team
 router.get('/equipa/list', equipaController.listEquipa); // List teams
 router.put('/equipa/edit/:ID_EQUIPA', equipaController.editEquipa); // Edit team
 router.delete('/equipa/delete/:ID_EQUIPA', equipaController.deleteEquipa); // Delete team
+router.get("/equipas/:ID_CLUBE", equipaController.listTeamsByClub); // Listar equipa by club
+
 
 // Eventos Routes
 router.post('/evento/add', /*autenticarJWT,*/ eventosController.addEvento);
@@ -62,6 +67,9 @@ router.get('/jogador/evento/:ID_EVENTOS', jogadoresController.listJogadoresByEve
 router.put('/jogador/edit/:ID_JOGADORES', jogadoresController.editJogador);
 router.delete('/jogador/delete/:ID_JOGADORES', jogadoresController.deleteJogador);
 router.get('/jogador/equipa/:idEquipa', jogadoresController.listJogadoresByEquipa);
+router.get('/jogador/ano/:year', jogadoresController.listJogadoresByAge);
+router.get('/jogador/details/:ID_JOGADORES', jogadoresController.getJogadorDetails);
+
 
 
 // Posicao Routes
@@ -95,14 +103,17 @@ router.delete('/tipo/delete/:ID_TIPO', tipoUtilizadorController.deleteTipoUtiliz
 // EquipaSombra Routes
 router.post('/sombra/add', equipaSombraController.addEquipaSombra);
 router.get('/sombra/list', equipaSombraController.listEquipaSombra);
+router.get('/sombra/listByUser', equipaSombraController.listEquipaSombraByUser);
 router.put('/sombra/edit/:ID_SOMBRA', equipaSombraController.editEquipaSombra);
 router.delete('/sombra/delete/:ID_SOMBRA', equipaSombraController.deleteEquipaSombra);
 
 // RelacaoSombra Routes
 router.post('/resombra/add', relacaoSombraController.addRelacaoSombra);
 router.get('/resombra/list', relacaoSombraController.listRelacaoSombra);
+router.get('/resombra/posicao/list', relacaoSombraController.listPlayersByPosition);
 router.put('/resombra/edit/:ID_RELACAO', relacaoSombraController.editRelacaoSombra);
 router.delete('/resombra/delete/:ID_RELACAO', relacaoSombraController.deleteRelacaoSombra);
+router.delete('/resombra/remove', relacaoSombraController.removeRelacaoSombra);
 
 // Relationship_11 Routes
 router.post('/r11/add', relationship11Controller.addRelationship11);
@@ -127,7 +138,8 @@ router.get("/player/history/:ID_JOGADORES", relationship11Controller.listPending
 router.get("/player/reports/:ID_JOGADORES", relationship11Controller.listPlayerReports);
 // Relationship_11 Routes / HOME PAGE
 router.get("/users", relationship11Controller.listAllUsersWithPermissions);
-
+router.delete("/relationship11/:ID_JOGADORES", relationship11Controller.deleteRelationship11);
+router.post("/jogador/adicionar", relationship11Controller.addRelationship11);
 
 
 
