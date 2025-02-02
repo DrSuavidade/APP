@@ -19,16 +19,21 @@ relacaoSombraController.addRelacaoSombra = async (req, res) => {
       return res.status(400).json({ message: "O jogador já está nessa posição para essa equipe sombra." });
     }
 
-    // If no duplicate is found, create a new entry
-    const newEntry = new RelacaoSombra({ ID_POSICAO, ID_JOGADORES, ID_SOMBRA });
+    // Fetch the highest current ID_RELACAO in the collection
+    const maxRelacao = await RelacaoSombra.findOne().sort({ ID_RELACAO: -1 }).select("ID_RELACAO");
+    const ID_RELACAO = maxRelacao ? maxRelacao.ID_RELACAO + 1 : 1; // Increment or start from 1
+
+    // If no duplicate is found, create a new entry with the incremented ID_RELACAO
+    const newEntry = new RelacaoSombra({ ID_RELACAO, ID_POSICAO, ID_JOGADORES, ID_SOMBRA });
     await newEntry.save();
 
-    res.status(201).json({ message: "Jogador adicionado com sucesso!" });
+    res.status(201).json({ message: "Jogador adicionado com sucesso!", newEntry });
   } catch (error) {
     console.error("Erro ao adicionar jogador à posição:", error);
     res.status(500).json({ error: "Erro ao adicionar jogador à posição." });
   }
 };
+
 
 // List all tipoUtilizador
 relacaoSombraController.listRelacaoSombra = async (req, res) => {

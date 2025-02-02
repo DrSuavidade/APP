@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../api/axios"; // Axios instance for backend calls
 import "../CSS/plantel.css";
+import PlayerRadarChart from "../components/PlayerRadarChart";
 
 const Plantel = () => {
   const [positions, setPositions] = useState({}); // Store positions by row
@@ -15,56 +16,62 @@ const Plantel = () => {
   const [selectedShadowTeam, setSelectedShadowTeam] = useState(1); // Default to ID_SOMBRA = 1
   const [selectedFormation, setSelectedFormation] = useState("2-5-5-5"); // Default
 
-
   const fetchPositions = async () => {
     try {
       const response = await api.get("/posicao/list");
       const positionsList = response.data;
-  
+
       let formation = {};
-  
+
       if (selectedFormation === "2-5-5-5") {
         formation = {
-          row1: positionsList.filter(p => ["Avancado", "Avancado2", "Avancado3"].includes(p.NOME)),
-          row2: positionsList.filter(p => ["Avancado4", "Avancado5"].includes(p.NOME)),
-          row3: positionsList.filter(p => ["Medio", "Medio2", "Medio3"].includes(p.NOME)),
-          row4: positionsList.filter(p => ["Medio4", "Medio5"].includes(p.NOME)),
-          row5: positionsList.filter(p => ["Defesa", "Defesa2"].includes(p.NOME)),
-          row6: positionsList.filter(p => ["Defesa3", "Defesa4", "Defesa5"].includes(p.NOME)),
-          row7: positionsList.filter(p => p.NOME.includes("GuardaRedes")),
+          row1: positionsList.filter((p) =>
+            ["AV1", "AV2", "AV3"].includes(p.NOME)
+          ),
+          row2: positionsList.filter((p) => ["AV4", "AV5"].includes(p.NOME)),
+          row3: positionsList.filter((p) =>
+            ["MD1", "MD2", "MD3"].includes(p.NOME)
+          ),
+          row4: positionsList.filter((p) => ["MD4", "MD5"].includes(p.NOME)),
+          row5: positionsList.filter((p) => ["DF1", "DF2"].includes(p.NOME)),
+          row6: positionsList.filter((p) =>
+            ["DF3", "DF4", "DF5"].includes(p.NOME)
+          ),
+          row7: positionsList.filter((p) => p.NOME.includes("GR")),
         };
       } else if (selectedFormation === "1-4-4-2") {
         formation = {
-          row1: positionsList.filter(p => ["Avancado", "Avancado2"].includes(p.NOME)),
-          row2: positionsList.filter(p => ["Medio", "Medio2"].includes(p.NOME)),
-          row3: positionsList.filter(p => ["Medio3", "Medio4"].includes(p.NOME)),
-          row4: positionsList.filter(p => ["Defesa", "Defesa2"].includes(p.NOME)),
-          row5: positionsList.filter(p => ["Defesa3", "Defesa4"].includes(p.NOME)),
-          row6: positionsList.filter(p => ["GuardaRedes"].includes(p.NOME)),
+          row1: positionsList.filter((p) => ["AV1", "AV2"].includes(p.NOME)),
+          row2: positionsList.filter((p) => ["MD1", "MD2"].includes(p.NOME)),
+          row3: positionsList.filter((p) => ["MD3", "MD4"].includes(p.NOME)),
+          row4: positionsList.filter((p) => ["DF1", "DF2"].includes(p.NOME)),
+          row5: positionsList.filter((p) => ["DF3", "DF4"].includes(p.NOME)),
+          row6: positionsList.filter((p) => ["GR1"].includes(p.NOME)),
         };
       } else if (selectedFormation === "1-5-4-1") {
         formation = {
-          row1: positionsList.filter(p => ["Avancado"].includes(p.NOME)),
-          row2: positionsList.filter(p => ["Medio", "Medio2"].includes(p.NOME)),
-          row3: positionsList.filter(p => ["Medio3", "Medio4"].includes(p.NOME)),
-          row4: positionsList.filter(p => ["Defesa", "Defesa2", "Defesa3"].includes(p.NOME)),
-          row5: positionsList.filter(p => ["Defesa4", "Defesa5"].includes(p.NOME)),
-          row6: positionsList.filter(p => ["GuardaRedes"].includes(p.NOME)),
+          row1: positionsList.filter((p) => ["AV1"].includes(p.NOME)),
+          row2: positionsList.filter((p) => ["MD1", "MD2"].includes(p.NOME)),
+          row3: positionsList.filter((p) => ["MD3", "MD4"].includes(p.NOME)),
+          row4: positionsList.filter((p) =>
+            ["DF1", "DF2", "DF3"].includes(p.NOME)
+          ),
+          row5: positionsList.filter((p) => ["DF4", "DF5"].includes(p.NOME)),
+          row6: positionsList.filter((p) => ["GR1"].includes(p.NOME)),
         };
       }
-  
+
       setPositions(formation);
     } catch (error) {
       console.error("Error fetching positions:", error);
     }
   };
-  
+
   // Use useEffect to trigger fetchPositions when selectedFormation changes
   useEffect(() => {
     fetchPositions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFormation]);
-  
-  
 
   // Define fetchShadowTeams outside of useEffect so it can be reused
   const fetchShadowTeams = async () => {
@@ -186,29 +193,30 @@ const Plantel = () => {
 
   const deleteShadowTeam = async () => {
     if (!selectedShadowTeam) return;
-  
-    const confirmDelete = window.confirm("Tem certeza que deseja remover esta Equipa Sombra?");
+
+    const confirmDelete = window.confirm(
+      "Tem certeza que deseja remover esta Equipa Sombra?"
+    );
     if (!confirmDelete) return;
-  
+
     try {
       await api.delete(`/sombra/delete/${selectedShadowTeam}`);
-  
+
       // Refresh the list after deletion
       fetchShadowTeams();
-  
+
       // If the deleted team was selected, switch to another one
       if (shadowTeams.length > 1) {
         setSelectedShadowTeam(shadowTeams[0].ID_SOMBRA);
       } else {
         setSelectedShadowTeam(null);
       }
-  
+
       setSidebarOpen(false); // Hide the sidebar
     } catch (error) {
       console.error("Erro ao remover equipa sombra:", error);
     }
   };
-  
 
   // Toggle the sidebar content
   const toggleSidebar = (position) => {
@@ -229,10 +237,10 @@ const Plantel = () => {
   };
 
   const getPositionColor = (positionName) => {
-    if (positionName.includes("GuardaRedes")) return "blue";
-    if (positionName.includes("Defesa")) return "red";
-    if (positionName.includes("Medio")) return "yellow";
-    if (positionName.includes("Avancado")) return "green";
+    if (positionName.includes("GR")) return "blue";
+    if (positionName.includes("DF")) return "red";
+    if (positionName.includes("MD")) return "yellow";
+    if (positionName.includes("AV")) return "green";
     return "gray";
   };
 
@@ -240,67 +248,68 @@ const Plantel = () => {
     <div className="plantel-container">
       {/* Field with positions */}
       <div className={`field ${sidebarOpen ? "shifted" : ""}`}>
-  {Object.keys(positions).map((rowKey, rowIndex) => (
-    <div 
-      key={rowIndex} 
-      className={`row f-${selectedFormation}-row-${rowIndex}`} // Apply dynamic class
-    >
-      {positions[rowKey]?.map(position => (
-        <div
-          key={position.ID_POSICAO}
-          className="square"
-          onClick={() => toggleSidebar(position)}
-          style={{ backgroundColor: getPositionColor(position.NOME) }}
-        >
-          {position.NOME}
-        </div>
-      ))}
-    </div>
-  ))}
-</div>
-
+        {Object.keys(positions).map((rowKey, rowIndex) => (
+          <div
+            key={rowIndex}
+            className={`row f-${selectedFormation}-row-${rowIndex}`} // Apply dynamic class
+          >
+            {positions[rowKey]?.map((position) => (
+              <div
+                key={position.ID_POSICAO}
+                className="square"
+                onClick={() => toggleSidebar(position)}
+                style={{ backgroundColor: getPositionColor(position.NOME) }}
+              >
+                {position.NOME}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
 
       {/* Dropdown for EquipaSombra (Outside the field to prevent shifting) */}
       <div className="shadow-team-selector">
-  <label htmlFor="teamSelect">Equipa Sombra:</label>
-  <select
-    id="teamSelect"
-    value={selectedShadowTeam}
-    onChange={(e) => {
-      setSelectedShadowTeam(Number(e.target.value));
-      setSidebarOpen(false);
-      setSelectedPosition(null);
-      setPlayers([]);
-    }}
-  >
-    {shadowTeams.map(team => (
-      <option key={team.ID_SOMBRA} value={team.ID_SOMBRA}>
-        {team.NOME}
-      </option>
-    ))}
-  </select>
+        <label htmlFor="teamSelect">Equipa Sombra:</label>
+        <select
+          id="teamSelect"
+          value={selectedShadowTeam}
+          onChange={(e) => {
+            setSelectedShadowTeam(Number(e.target.value));
+            setSidebarOpen(false);
+            setSelectedPosition(null);
+            setPlayers([]);
+          }}
+        >
+          {shadowTeams.map((team) => (
+            <option key={team.ID_SOMBRA} value={team.ID_SOMBRA}>
+              {team.NOME}
+            </option>
+          ))}
+        </select>
 
-  {/* Add and Delete Buttons */}
-  <button className="add-shadow-team-btn" onClick={addNewShadowTeam}>+</button>
-  <button className="delete-shadow-team-btn" onClick={deleteShadowTeam}>🗑</button>
-</div>
-            
-<div className="formation-selector">
-  <label>Formação:</label>
-  <select
-    value={selectedFormation}
-    onChange={(e) => {
-      setSelectedFormation(e.target.value);
-      fetchPositions(); // Refresh positions based on new formation
-    }}
-  >
-    <option value="2-5-5-5">2-5-5-5</option>
-    <option value="1-4-4-2">1-4-4-2</option>
-    <option value="1-5-4-1">1-5-4-1</option>
-  </select>
-</div>
+        {/* Add and Delete Buttons */}
+        <button className="add-shadow-team-btn" onClick={addNewShadowTeam}>
+          +
+        </button>
+        <button className="delete-shadow-team-btn" onClick={deleteShadowTeam}>
+          🗑
+        </button>
+      </div>
 
-
+      <div className="formation-selector">
+        <label>Formação:</label>
+        <select
+          value={selectedFormation}
+          onChange={(e) => {
+            setSelectedFormation(e.target.value);
+            fetchPositions(); // Refresh positions based on new formation
+          }}
+        >
+          <option value="2-5-5-5">2-5-5-5</option>
+          <option value="1-4-4-2">1-4-4-2</option>
+          <option value="1-5-4-1">1-5-4-1</option>
+        </select>
+      </div>
 
       {sidebarOpen && (
         <div className="sidebar open">
@@ -324,12 +333,15 @@ const Plantel = () => {
                           <p>Status: {player.STATUS}</p>
                         </div>
                       </div>
-                      <button
-                        className="remove-btn"
-                        onClick={() => removePlayerFromPosition(player)}
+                      <span
+                        className="remove-icon"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent card click from triggering
+                          removePlayerFromPosition(player);
+                        }}
                       >
                         ✖
-                      </button>
+                      </span>
                     </div>
                   ))
                 ) : (
@@ -348,7 +360,8 @@ const Plantel = () => {
             </>
           ) : selectedPosition && isAddingPlayer ? (
             <>
-              <h2>Escolha um Jogador</h2>
+              <h2>{selectedPosition.NOME}</h2>
+              <h3>Escolha um Jogador</h3>
               <div className="player-list">
                 {allPlayers.length > 0 ? (
                   allPlayers.map((player) => (
@@ -380,12 +393,14 @@ const Plantel = () => {
             </>
           ) : selectedPlayer && playerDetails ? (
             <>
-              <button
-                className="back-btn"
+              {/* Inside the sidebar */}
+              <span
+                className="back-icon"
                 onClick={() => setSelectedPlayer(null)}
               >
-                ← Voltar
-              </button>
+                ←
+              </span>
+
               <div className="player-header">
                 <div className="player-avatar-large">👤</div>
                 <div>
@@ -399,32 +414,137 @@ const Plantel = () => {
                   <p>Nota Adm: {playerDetails.jogador.NOTA_ADM}</p>
                 </div>
               </div>
+
               <h3>Características</h3>
               <div className="player-stats">
-                <p>
-                  <strong>Técnica:</strong> {playerDetails.stats.tecnica || 0}/4
-                </p>
-                <p>
-                  <strong>Velocidade:</strong>{" "}
-                  {playerDetails.stats.velocidade || 0}/4
-                </p>
-                <p>
-                  <strong>Competitiva:</strong>{" "}
-                  {playerDetails.stats.competitiva || 0}/4
-                </p>
-                <p>
-                  <strong>Inteligência:</strong>{" "}
-                  {playerDetails.stats.inteligencia || 0}/4
-                </p>
-                <p>
-                  <strong>Altura:</strong>{" "}
-                  {playerDetails.stats.altura || "Não disponível"}
-                </p>
-                <p>
-                  <strong>Morfologia:</strong>{" "}
-                  {playerDetails.stats.morfologia || "Não disponível"}
-                </p>
+                {/* Progress Bars with Dynamic Colors */}
+                <div className="stat-row">
+                  <span className="stat-label">Técnica:</span>
+                  <div className="progress-container">
+                    <div className="progress-bar">
+                      <div
+                        className="progress-bar-fill"
+                        style={{
+                          width: `${
+                            (parseFloat(playerDetails.stats.tecnica) || 0) * 25
+                          }%`,
+                          backgroundColor: `hsl(${
+                            (parseFloat(playerDetails.stats.tecnica) || 0) *
+                              30 +
+                            10
+                          }, 100%, 50%)`,
+                        }}
+                      ></div>
+                    </div>
+                    <span className="stat-value">
+                      {(parseFloat(playerDetails.stats.tecnica) || 0).toFixed(
+                        1
+                      )}
+                      /4.0
+                    </span>
+                  </div>
+                </div>
+
+                <div className="stat-row">
+                  <span className="stat-label">Velocidade:</span>
+                  <div className="progress-container">
+                    <div className="progress-bar">
+                      <div
+                        className="progress-bar-fill"
+                        style={{
+                          width: `${
+                            (parseFloat(playerDetails.stats.velocidade) || 0) *
+                            25
+                          }%`,
+                          backgroundColor: `hsl(${
+                            (parseFloat(playerDetails.stats.velocidade) || 0) *
+                              30 +
+                            10
+                          }, 100%, 50%)`,
+                        }}
+                      ></div>
+                    </div>
+                    <span className="stat-value">
+                      {(
+                        parseFloat(playerDetails.stats.velocidade) || 0
+                      ).toFixed(1)}
+                      /4.0
+                    </span>
+                  </div>
+                </div>
+
+                <div className="stat-row">
+                  <span className="stat-label">Atitude Competitiva:</span>
+                  <div className="progress-container">
+                    <div className="progress-bar">
+                      <div
+                        className="progress-bar-fill"
+                        style={{
+                          width: `${
+                            (parseFloat(playerDetails.stats.competitiva) || 0) *
+                            25
+                          }%`,
+                          backgroundColor: `hsl(${
+                            (parseFloat(playerDetails.stats.competitiva) || 0) *
+                              30 +
+                            10
+                          }, 100%, 50%)`,
+                        }}
+                      ></div>
+                    </div>
+                    <span className="stat-value">
+                      {(
+                        parseFloat(playerDetails.stats.competitiva) || 0
+                      ).toFixed(1)}
+                      /4.0
+                    </span>
+                  </div>
+                </div>
+
+                <div className="stat-row">
+                  <span className="stat-label">Inteligência:</span>
+                  <div className="progress-container">
+                    <div className="progress-bar">
+                      <div
+                        className="progress-bar-fill"
+                        style={{
+                          width: `${
+                            (parseFloat(playerDetails.stats.inteligencia) ||
+                              0) * 25
+                          }%`,
+                          backgroundColor: `hsl(${
+                            (parseFloat(playerDetails.stats.inteligencia) ||
+                              0) *
+                              30 +
+                            10
+                          }, 100%, 50%)`,
+                        }}
+                      ></div>
+                    </div>
+                    <span className="stat-value">
+                      {(
+                        parseFloat(playerDetails.stats.inteligencia) || 0
+                      ).toFixed(1)}
+                      /4.0
+                    </span>
+                  </div>
+                </div>
+
+                {/* Altura and Morfologia - Now Aligned */}
+                <div className="stat-row">
+                  <span className="stat-label">Altura:</span>
+                  <span className="stat-value">
+                    {playerDetails.stats.altura || "Não disponível"}
+                  </span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Morfologia:</span>
+                  <span className="stat-value">
+                    {playerDetails.stats.morfologia || "Não disponível"}
+                  </span>
+                </div>
               </div>
+              <PlayerRadarChart playerDetails={playerDetails} />
             </>
           ) : null}
         </div>
