@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import RegisterPage from '../pages/RegisterPage';
 import ConfirmRegisterPage from '../pages/ConfirmRegisterPage';
 import LoginPage from '../pages/LoginPage';
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import ForgotPasswordConfirm from "../pages/ForgotPasswordConfirm";
 import HomePage from '../pages/HomePage';
 import ReportsPage from '../pages/ReportsPage';
 import ClubsPage from '../pages/ClubsPage';
@@ -37,7 +39,7 @@ const RoutesWithNavbar = () => {
   const location = useLocation(); // useLocation agora está dentro do Router
 
   // Rotas onde a Navbar NÃO deve aparecer
-  const hideNavbarRoutes = ["/login", "/register"];
+  const hideNavbarRoutes = ["/login", "/register", "/register/confirm", "/forgot-password", "/forgot-password-confirm"];
 
   return (
     <>
@@ -47,6 +49,8 @@ const RoutesWithNavbar = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/register/confirm" element={<ConfirmRegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/forgot-password-confirm" element={<ForgotPasswordConfirm />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/reports" element={<ReportsPage />} />
         <Route path="/reports/history/:ID_JOGADORES" element={<ReportsHistory />} />

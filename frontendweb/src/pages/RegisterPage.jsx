@@ -9,49 +9,43 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     if (password !== confirmPassword) {
       setError("As senhas não coincidem.");
+      setLoading(false);
       return;
     }
 
     try {
-      const response = await api.post("/users/registoweb", {
+      await api.post("/users/registoweb", {
         EMAIL: email,
         NOME: name,
         PASSWORD: password,
-        ID_TIPO: 1, 
+        ID_TIPO: 1,
       });
 
-      if (response.status === 201) {
-        setSuccess(true);
-        setTimeout(() => navigate("/login"), 2000); 
-      }
+      navigate("/register/confirm"); // Redirect to confirmation page
     } catch (error) {
-      if (error.response) {
-        setError(error.response.data.message || "Erro ao criar conta.");
-      } else {
-        setError("Erro de rede. Verifique sua conexão.");
-      }
+      setError(error.response?.data?.message || "Erro ao criar conta.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="register-container">
       <div className="register-box">
-        <div className="register-logo">
-        <img src="/logo.png" alt="Logo" className="h-10" />
-        </div>
         <h1>Registrar</h1>
         <form onSubmit={handleRegister}>
           <div className="form-group">
-            <p className ="text">Email</p>
+            <p className="text">Email</p>
             <input
               type="email"
               placeholder="Email"
@@ -61,7 +55,7 @@ const RegisterPage = () => {
             />
           </div>
           <div className="form-group">
-             <p className ="text">Nome</p>
+            <p className="text">Nome</p>
             <input
               type="text"
               placeholder="Nome"
@@ -71,29 +65,28 @@ const RegisterPage = () => {
             />
           </div>
           <div className="form-group">
-             <p className ="text">Password</p>
+            <p className="text">Senha</p>
             <input
               type="password"
-              placeholder="Password"
+              placeholder="Senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
           <div className="form-group">
-            <p className ="text">Confirm Password</p>
+            <p className="text">Confirmar Senha</p>
             <input
               type="password"
-              placeholder="Confirmar Password"
+              placeholder="Confirmar Senha"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
           </div>
           {error && <p className="error-message">{error}</p>}
-          {success && <p className="success-message">Conta criada com sucesso!</p>}
-          <button type="submit" className="register-button">
-            Create Account
+          <button type="submit" className="register-button" disabled={loading}>
+            {loading ? "Criando Conta..." : "Criar Conta"}
           </button>
         </form>
         <div className="register-footer">
