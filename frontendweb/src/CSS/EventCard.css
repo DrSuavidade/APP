@@ -1,0 +1,45 @@
+.event-card {
+    background-color: #a0a0a0;
+    padding: 24px;
+    border-radius: 16px;
+    text-align: center;
+    color: black;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.date {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.event-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.home-team,
+.away-team {
+    text-transform: uppercase;
+}
+
+.time {
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.location {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+}
+
+.location .material-icons {
+    margin-right: 5px;
+}
