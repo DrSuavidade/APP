@@ -176,8 +176,8 @@ body {
 .sidebar {
   position: fixed;
   top: 60px;
-  right: -400px;
-  width: 400px;
+  right: -200px;
+  max-width: 400px;
   height: calc(100vh - 60px);
   background-color: #111;
   box-shadow: -4px 0 8px rgba(0, 0, 0, 0.5);
