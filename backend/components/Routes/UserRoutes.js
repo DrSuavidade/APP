@@ -28,6 +28,7 @@ router.get('/users/lastTen', userController.lastTenUsers);
 router.put('/users/edit/:ID_USER', userController.editUser); // Update user
 router.delete('/users/delete/:ID_USER', userController.deleteUser); // Delete user
 router.delete('/users/delete-multiple', userController.deleteMultipleUsers);
+router.get('/users/tipo/3', userController.getUserByTipo);
 
 // Clube Routes
 router.post('/clube/add', clubeController.addClube); // Add club
@@ -55,6 +56,8 @@ router.get('/eventos/user/:ID_USER', eventosController.getFilteredGamesByUser);
 router.put('/evento/edit/:ID_EVENTOS', eventosController.editEvento);
 router.delete('/evento/delete/:ID_EVENTOS', eventosController.deleteEvento);
 router.get('/eventos/recentes', eventosController.listEventosRecentes);
+
+
 
 
 // Jogadores Routes
