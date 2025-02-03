@@ -18,18 +18,33 @@ class _PerfilPasswordScreenState extends State<PerfilPasswordScreen> {
   final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
 
   Future<void> _updatePassword() async {
-    if (_passwordController.text != _confirmPasswordController.text) {
-      _showErrorDialog("Erro", "As senhas não coincidem.");
-      return;
-    }
+  String password = _passwordController.text.trim();
+  String confirmPassword = _confirmPasswordController.text.trim();
 
-    try {
-      await api.editUser(widget.userId, {"PASSWORD": _passwordController.text});
-      _showSuccessDialog("Sucesso", "Senha alterada com sucesso!");
-    } catch (e) {
-      _showErrorDialog("Erro", "Falha ao alterar a senha.");
-    }
+  if (password.isEmpty || confirmPassword.isEmpty) {
+    _showErrorDialog("Erro", "Os campos de senha não podem estar vazios.");
+    return;
   }
+
+  // Ensure password has at least one uppercase letter and one number
+  if (!RegExp(r'^(?=.*[A-Z])(?=.*\d).{6,}$').hasMatch(password)) {
+    _showErrorDialog("Erro", "A senha deve conter pelo menos uma letra maiúscula e um número.");
+    return;
+  }
+
+  if (password != confirmPassword) {
+    _showErrorDialog("Erro", "As senhas não coincidem.");
+    return;
+  }
+
+  try {
+    await api.editUser(widget.userId, {"PASSWORD": password});
+    _showSuccessDialog("Sucesso", "Senha alterada com sucesso!");
+  } catch (e) {
+    _showErrorDialog("Erro", "Falha ao alterar a senha.");
+  }
+}
+
 
   void _showErrorDialog(String title, String message) {
     showDialog(

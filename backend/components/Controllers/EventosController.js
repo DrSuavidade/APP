@@ -198,6 +198,7 @@ eventosController.listEventosRecentes = async (req, res) => {
   }
 };
 
+
 // List events filtered by team category (Escalão)
 eventosController.listEventosByEscalao = async (req, res) => {
   try {
@@ -229,6 +230,7 @@ eventosController.listEventosByEscalao = async (req, res) => {
     res.status(500).json({ error: 'Erro ao listar eventos por escalão' });
   }
 };
+
 
 
 

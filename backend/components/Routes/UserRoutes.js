@@ -60,6 +60,7 @@ router.get('/eventos/escalao/:ESCALAO', eventosController.listEventosByEscalao);
 
 
 
+
 // Jogadores Routes
 router.post('/jogador/add', jogadoresController.addJogador);
 router.post("/jogador/addPlayerPage", upload.none(), jogadoresController.addPlayerPage);

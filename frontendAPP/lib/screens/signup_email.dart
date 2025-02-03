@@ -8,6 +8,11 @@ class SignupEmailScreen extends StatelessWidget {
       _showErrorDialog(context, "O campo de e-mail não pode estar vazio.");
       return;
     }
+
+    if (!_emailController.text.trim().contains('@') || !_emailController.text.trim().contains('.')) {
+    _showErrorDialog(context, "O e-mail inserido não é válido. Insira um e-mail correto.");
+    return;
+  }
     
     Navigator.pushNamed(
       context,
