@@ -7,48 +7,15 @@ body {
     color: white;
 }
 
-/* Navbar Styles */
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #111;
-    padding: 10px 20px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.navbar .logo img {
-    height: 40px;
-    width: auto;
-}
-
-.navbar .menu {
-    display: flex;
-    gap: 20px;
-}
-
-.navbar .menu span {
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: color 0.3s ease;
-}
-
-.navbar .menu span:hover {
-    color: #4CAF50;
-}
-
-/* Main Container Styles */
+/* Main Container */
 .main-container {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    height: 100vh;
 }
 
+/* Layout principal dividido em duas áreas */
 .content-container {
     display: flex;
     padding: 20px;
@@ -56,6 +23,7 @@ body {
     box-sizing: border-box;
 }
 
+/* Área esquerda (Pesquisa e ScouterCard) */
 .left-container {
     flex: 3;
     display: flex;
@@ -63,11 +31,13 @@ body {
     gap: 20px;
 }
 
+/* Área direita (Histórico de Avaliações e Próximas Partidas) */
 .right-container {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    align-items: center;
 }
 
 /* SearchScouter Styles */
@@ -121,8 +91,14 @@ body {
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-    width: 150px;
+    width: 180px;
     text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.scouter-card:hover {
+    transform: scale(1.05);
 }
 
 .scouter-avatar {
@@ -138,93 +114,22 @@ body {
     font-weight: bold;
 }
 
-.scouter-info .role,
-.scouter-info .reviews {
+.scouter-info .role {
     font-size: 12px;
     color: #ccc;
 }
 
-/* ScouterDetails Sidebar Styles */
-.scouter-details-sidebar {
-    background-color: #2c2c2c;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-}
-
-.scouter-details-sidebar h3 {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #4CAF50;
-}
-
-.scouter-details-sidebar .role,
-.scouter-details-sidebar .email,
-.scouter-details-sidebar .reviews {
-    font-size: 14px;
-    color: #ccc;
-}
-
-/* EvaluationHistory Styles */
-.evaluation-history {
+/* Sidebar Styles */
+.right-container .historico-avaliacoes,
+.right-container .proximas-partidas {
     background-color: #2c2c2c;
     padding: 15px;
     border-radius: 10px;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 300px;
 }
 
-.evaluation-history h3 {
-    margin-bottom: 10px;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.evaluation-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.evaluation-item .status {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-}
-
-.evaluation-item .status.yellow {
-    background-color: yellow;
-}
-
-.evaluation-item .status.red {
-    background-color: red;
-}
-
-.evaluation-item .status.green {
-    background-color: green;
-}
-
-/* UpcomingMatches Styles */
-.upcoming-matches {
-    background-color: #2c2c2c;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-}
-
-.upcoming-matches h3 {
-    margin-bottom: 10px;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.match-item {
-    margin-bottom: 10px;
-    font-size: 14px;
-    color: #ccc;
-}
-
+/* Botão "Atribuir Evento" */
 .assign-event-button {
     width: 100%;
     padding: 10px;
@@ -237,41 +142,5 @@ body {
 }
 
 .assign-event-button:hover {
-    background-color: #3e8e41;
-}
-
-/* HighlightedPlayers Styles */
-.highlighted-players {
-    background-color: #2c2c2c;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-}
-
-.highlighted-players h3 {
-    margin-bottom: 10px;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.player-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.add-player-button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.add-player-button:hover {
     background-color: #3e8e41;
 }
