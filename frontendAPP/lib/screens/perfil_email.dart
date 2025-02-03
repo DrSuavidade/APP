@@ -18,18 +18,33 @@ class _PerfilEmailScreenState extends State<PerfilEmailScreen> {
   final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
 
   Future<void> _updateEmail() async {
-    if (_emailController.text != _confirmEmailController.text) {
-      _showErrorDialog("Erro", "Os emails não coincidem.");
-      return;
-    }
+  String email = _emailController.text.trim();
+  String confirmEmail = _confirmEmailController.text.trim();
 
-    try {
-      await api.editUser(widget.userId, {"EMAIL": _emailController.text});
-      _showSuccessDialog("Sucesso", "Email alterado com sucesso!");
-    } catch (e) {
-      _showErrorDialog("Erro", "Falha ao alterar o email.");
-    }
+  if (email.isEmpty || confirmEmail.isEmpty) {
+    _showErrorDialog("Erro", "Os campos de e-mail não podem estar vazios.");
+    return;
   }
+
+  // Ensure email format is correct
+  if (!email.contains('@') || !email.contains('.')) {
+    _showErrorDialog("Erro", "O e-mail inserido não é válido. Insira um e-mail correto.");
+    return;
+  }
+
+  if (email != confirmEmail) {
+    _showErrorDialog("Erro", "Os emails não coincidem.");
+    return;
+  }
+
+  try {
+    await api.editUser(widget.userId, {"EMAIL": email});
+    _showSuccessDialog("Sucesso", "Email alterado com sucesso!");
+  } catch (e) {
+    _showErrorDialog("Erro", "Falha ao alterar o email.");
+  }
+}
+
 
   void _showErrorDialog(String title, String message) {
     showDialog(

@@ -160,12 +160,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: TextButton(
                                     onPressed: () {
                                       Navigator.pushNamed(
-                                    context,
-                                    '/calendar',
-                                    arguments: {
-                                      'userId': widget.userId
-                                    }, // Pass userId here
-                                  );
+                                        context,
+                                        '/calendar',
+                                        arguments: {
+                                          'userId': widget.userId
+                                        }, // Pass userId here
+                                      );
                                     },
                                     style: TextButton.styleFrom(
                                       foregroundColor: Colors.white,
@@ -215,183 +215,191 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 // Bottom Navigation Bar
                 Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/add_game',
-                          arguments: {'userId': widget.userId}, // Pass userId here
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey[600], // Button background color
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/add_game',
+                            arguments: {
+                              'userId': widget.userId
+                            }, // Pass userId here
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Colors.grey[600], // Button background color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 20,
+                          ),
                         ),
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 20,
+                        child: const Text(
+                          "Add Game",
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
-                      child: const Text(
-                        "Add Game",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    const SizedBox(height: 10), // Space between button and nav bar
-                    Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        // Shadow Rectangle for Depth
-                        Positioned(
-                          bottom: 16, // Slightly below the actual navbar
-                          left: 16,
-                          right: 16,
-                          child: Container(
-                            height: 70,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(
-                                  255, 36, 36, 36), // Dark shadow color
-                              borderRadius: BorderRadius.circular(16),
+                      const SizedBox(
+                          height: 10), // Space between button and nav bar
+                      Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          // Shadow Rectangle for Depth
+                          Positioned(
+                            bottom: 16, // Slightly below the actual navbar
+                            left: 16,
+                            right: 16,
+                            child: Container(
+                              height: 70,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(
+                                    255, 36, 36, 36), // Dark shadow color
+                                borderRadius: BorderRadius.circular(16),
+                              ),
                             ),
                           ),
-                        ),
-                      // Actual Bottom Navigation Bar
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(
-                            16, 16, 16, 24), // Adjusted margin for the bottom
-                        height: 64,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 77, 77, 77),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              // Calendar Button
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    '/calendar',
-                                    arguments: {
-                                      'userId': widget.userId
-                                    }, // Pass userId here
-                                  ); // Navigate to calendar
-                                },
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Container(
-                                      height: double.infinity,
-                                      width:
-                                          80, // Highlight width (wider for selected)
-                                      decoration: BoxDecoration(
-                                        color: 0 == 1 // Highlight condition
-                                            ? Colors.grey[
-                                                600] // Selected button background
-                                            : Colors
-                                                .transparent, // Default button background
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
+                          // Actual Bottom Navigation Bar
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(16, 16, 16,
+                                24), // Adjusted margin for the bottom
+                            height: 64,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 77, 77, 77),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  // Calendar Button
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/calendar',
+                                        arguments: {
+                                          'userId': widget.userId
+                                        }, // Pass userId here
+                                      ); // Navigate to calendar
+                                    },
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Container(
+                                          height: double.infinity,
+                                          width:
+                                              80, // Highlight width (wider for selected)
+                                          decoration: BoxDecoration(
+                                            color: 0 == 1 // Highlight condition
+                                                ? Colors.grey[
+                                                    600] // Selected button background
+                                                : Colors
+                                                    .transparent, // Default button background
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                          ),
+                                        ),
+                                        const Icon(
+                                          Icons.calendar_today,
+                                          color: 0 == 1
+                                              ? Colors.white
+                                              : Colors.grey, // Icon color
+                                          size: 34,
+                                        ),
+                                      ],
                                     ),
-                                    const Icon(
-                                      Icons.calendar_today,
-                                      color: 0 == 1
-                                          ? Colors.white
-                                          : Colors.grey, // Icon color
-                                      size: 34,
+                                  ),
+                                  // Soccer Button
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/home',
+                                        arguments: {
+                                          'userId': widget.userId
+                                        }, // Pass userId here
+                                      );
+                                    },
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Container(
+                                          height: double.infinity,
+                                          width:
+                                              104, // Highlight width (wider for selected)
+                                          decoration: BoxDecoration(
+                                            color: 1 == 1 // Highlight condition
+                                                ? Colors.grey[
+                                                    600] // Selected button background
+                                                : Colors
+                                                    .transparent, // Default button background
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                          ),
+                                        ),
+                                        const Icon(
+                                          Icons.sports_soccer,
+                                          color: 1 == 1
+                                              ? Colors.white
+                                              : Colors.grey, // Icon color
+                                          size: 34,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  // History Button
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/historico',
+                                        arguments: {
+                                          'userId': widget.userId
+                                        }, // Pass userId here
+                                      ); // Navigate to historico
+                                    },
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Container(
+                                          height: double.infinity,
+                                          width:
+                                              80, // Highlight width (wider for selected)
+                                          decoration: BoxDecoration(
+                                            color: 2 == 1 // Highlight condition
+                                                ? Colors.grey[
+                                                    600] // Selected button background
+                                                : Colors
+                                                    .transparent, // Default button background
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                          ),
+                                        ),
+                                        const Icon(
+                                          Icons.history,
+                                          color: 2 == 1
+                                              ? Colors.white
+                                              : Colors.grey, // Icon color
+                                          size: 34,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              // Soccer Button
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    '/home',
-                                    arguments: {
-                                      'userId': widget.userId
-                                    }, // Pass userId here
-                                  );
-                                },
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Container(
-                                      height: double.infinity,
-                                      width:
-                                          104, // Highlight width (wider for selected)
-                                      decoration: BoxDecoration(
-                                        color: 1 == 1 // Highlight condition
-                                            ? Colors.grey[
-                                                600] // Selected button background
-                                            : Colors
-                                                .transparent, // Default button background
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                    ),
-                                    const Icon(
-                                      Icons.sports_soccer,
-                                      color: 1 == 1
-                                          ? Colors.white
-                                          : Colors.grey, // Icon color
-                                      size: 34,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // History Button
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    '/historico',
-                                    arguments: {
-                                      'userId': widget.userId
-                                    }, // Pass userId here
-                                  ); // Navigate to historico
-                                },
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Container(
-                                      height: double.infinity,
-                                      width:
-                                          80, // Highlight width (wider for selected)
-                                      decoration: BoxDecoration(
-                                        color: 2 == 1 // Highlight condition
-                                            ? Colors.grey[
-                                                600] // Selected button background
-                                            : Colors
-                                                .transparent, // Default button background
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                    ),
-                                    const Icon(
-                                      Icons.history,
-                                      color: 2 == 1
-                                          ? Colors.white
-                                          : Colors.grey, // Icon color
-                                      size: 34,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
-                  ),
-                  ],
                   ),
                 ),
               ],
@@ -410,7 +418,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
-            context, '/add_player'); // Adjust navigation if necessary
+          context,
+          '/calendar',
+          arguments: {'userId': widget.userId}, // Pass userId here
+        ); // Navigate to calendar
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 6), // Space between cards

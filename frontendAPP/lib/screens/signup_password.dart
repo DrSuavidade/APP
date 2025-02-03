@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class SignupPasswordScreen extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final email = args['EMAIL'];
     final nome = args['NOME'];
 
@@ -19,7 +21,8 @@ class SignupPasswordScreen extends StatelessWidget {
             height: double.infinity,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/Padrao.png'), // Background image
+                image:
+                    AssetImage('assets/images/Padrao.png'), // Background image
                 fit: BoxFit.cover, // Cover the full screen
               ),
             ),
@@ -29,7 +32,8 @@ class SignupPasswordScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start, // Align labels and inputs
+                crossAxisAlignment:
+                    CrossAxisAlignment.start, // Align labels and inputs
                 children: [
                   SizedBox(height: 45.0),
 
@@ -63,13 +67,17 @@ class SignupPasswordScreen extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            CircleAvatar(radius: 10, backgroundColor: Colors.grey[600]),
+                            CircleAvatar(
+                                radius: 10, backgroundColor: Colors.grey[600]),
                             SizedBox(height: 4),
-                            Text("email", style: TextStyle(color: Colors.white, fontSize: 10)),
+                            Text("email",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10)),
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsets.only(bottom: 15), // Moves the line slightly up
+                          padding: EdgeInsets.only(
+                              bottom: 15), // Moves the line slightly up
                           child: Container(
                             height: 2, // Line height
                             width: 32, // Line width
@@ -78,13 +86,17 @@ class SignupPasswordScreen extends StatelessWidget {
                         ),
                         Column(
                           children: [
-                            CircleAvatar(radius: 10, backgroundColor: Colors.grey[600]),
+                            CircleAvatar(
+                                radius: 10, backgroundColor: Colors.grey[600]),
                             SizedBox(height: 4),
-                            Text("nome", style: TextStyle(color: Colors.white, fontSize: 10)),
+                            Text("nome",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10)),
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsets.only(bottom: 15), // Moves the line slightly up
+                          padding: EdgeInsets.only(
+                              bottom: 15), // Moves the line slightly up
                           child: Container(
                             height: 2, // Line height
                             width: 32, // Line width
@@ -93,9 +105,12 @@ class SignupPasswordScreen extends StatelessWidget {
                         ),
                         Column(
                           children: [
-                            CircleAvatar(radius: 10, backgroundColor: Colors.grey[600]),
+                            CircleAvatar(
+                                radius: 10, backgroundColor: Colors.grey[600]),
                             SizedBox(height: 4),
-                            Text("pass", style: TextStyle(color: Colors.white, fontSize: 10)),
+                            Text("pass",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10)),
                           ],
                         ),
                       ],
@@ -124,14 +139,18 @@ class SignupPasswordScreen extends StatelessWidget {
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: 'Digite sua senha',
-                          hintStyle: TextStyle(color: Colors.grey[300], fontSize: 14.0, fontWeight: FontWeight.w300),
+                          hintStyle: TextStyle(
+                              color: Colors.grey[300],
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w300),
                           filled: true,
                           fillColor: const Color.fromARGB(255, 169, 169, 169),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 30.0),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 2.0, horizontal: 30.0),
                         ),
                       ),
                     ),
@@ -159,14 +178,18 @@ class SignupPasswordScreen extends StatelessWidget {
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: 'Repita sua senha',
-                          hintStyle: TextStyle(color: Colors.grey[300], fontSize: 14.0, fontWeight: FontWeight.w300),
+                          hintStyle: TextStyle(
+                              color: Colors.grey[300],
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w300),
                           filled: true,
                           fillColor: const Color.fromARGB(255, 169, 169, 169),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 30.0),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 2.0, horizontal: 30.0),
                         ),
                       ),
                     ),
@@ -174,19 +197,40 @@ class SignupPasswordScreen extends StatelessWidget {
                   SizedBox(height: 24.0),
 
                   // Continue Button
-                  // Continue Button
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
                         String password = _passwordController.text.trim();
-                        String confirmPassword = _confirmPasswordController.text.trim();
+                        String confirmPassword =
+                            _confirmPasswordController.text.trim();
 
                         if (password.isEmpty || confirmPassword.isEmpty) {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
                               title: Text('Erro'),
-                              content: Text('Os campos de senha não podem estar vazios.'),
+                              content: Text(
+                                  'Os campos de senha não podem estar vazios.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                          return;
+                        }
+
+                        // Ensure password contains at least one uppercase letter and one number
+                        if (!RegExp(r'^(?=.*[A-Z])(?=.*\d)')
+                            .hasMatch(password)) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Erro'),
+                              content: Text(
+                                  'A senha deve conter pelo menos uma letra maiúscula e um número.'),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),
@@ -227,12 +271,14 @@ class SignupPasswordScreen extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[800],
-                        padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 60.0),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 60.0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
-                      child: Text("Continuar", style: TextStyle(color: Colors.white)),
+                      child: Text("Continuar",
+                          style: TextStyle(color: Colors.white)),
                     ),
                   ),
                   SizedBox(height: 80.0),
