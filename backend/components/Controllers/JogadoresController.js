@@ -179,10 +179,10 @@ jogadoresController.getJogadorById = async (req, res) => {
 
 jogadoresController.listJogadoresByEvento = async (req, res) => {
   try {
-      const { idEvento } = req.params;
+      const { ID_EVENTOS } = req.params;
 
       // Fetch relationships that match the event ID
-      const relationships = await Relationship12.find({ ID_EVENTOS: idEvento });
+      const relationships = await Relationship12.find({ ID_EVENTOS: ID_EVENTOS });
 
       if (!relationships.length) {
           return res.status(404).json({ message: 'Nenhum jogador encontrado para este evento.' });

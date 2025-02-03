@@ -222,8 +222,19 @@ Future<dynamic> getJogadorById(int jogadorId) async {
   return response;
 }
 
-  Future<dynamic> editRelatorio(String id, Map<String, dynamic> data) =>
-      put('relatorio/edit/$id', data);
+  Future<void> updateRelatorio(int idRelatorio, Map<String, dynamic> data) async {
+  final response = await http.put(
+    Uri.parse('$baseUrl/relatorio/edit/$idRelatorio'),
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode(data),
+  );
+
+  if (response.statusCode != 200) {
+    print("DEBUG - Erro ao atualizar relatório: ${response.body}");
+    throw Exception('Erro ao atualizar relatório');
+  }
+}
+
   Future<void> deleteRelatorio(String id) => delete('relatorio/delete/$id');
 
   // TipoUtilizadorController Endpoints

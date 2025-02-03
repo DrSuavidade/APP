@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../api/api_service.dart';
+import 'hamburger_menu.dart';
 
 class AddGameScreen extends StatefulWidget {
   final int userId;
@@ -62,45 +63,189 @@ class _AddGameScreenState extends State<AddGameScreen> {
     );
   }
 
+  String _formatDate(String isoDate) {
+    DateTime date = DateTime.parse(isoDate);
+    return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true, // Makes app bar overlay background
       appBar: AppBar(
-        title: Text('Selecionar Jogo'),
-        backgroundColor: Colors.black,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent, // Transparent top bar
+        elevation: 0,
+        toolbarHeight: 50,
+        title: Row(
+          children: [
+            Builder(
+              builder: (context) => IconButton(
+                icon: const Icon(Icons.menu, color: Colors.white),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              ),
+            ),
+            const Spacer(),
+            Image.asset(
+              'assets/images/Logofinal1.png',
+              height: 40,
+            ),
+          ],
+        ),
       ),
-      backgroundColor: Colors.black,
-      body: isLoading
-          ? Center(child: CircularProgressIndicator(color: Colors.white))
-          : eventos.isEmpty
-              ? Center(
+      drawer: HamburgerMenu(userId: widget.userId),
+      body: Stack(
+        children: [
+          // Background Image
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/Padrao.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Column(
+            children: [
+              SizedBox(height: 75), // Adjusted to move content up
+              // Title at the top
+              Padding(
+                padding: EdgeInsets.only(top: 8, bottom: 5),
+                child: Center(
                   child: Text(
-                    'Nenhum jogo disponível.',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    "SELECIONE UMA PARTIDA",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
                   ),
-                )
-              : ListView.builder(
-                  itemCount: eventos.length,
-                  itemBuilder: (context, index) {
-                    final evento = eventos[index];
-                    return Card(
-                      color: Colors.grey[800],
-                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      child: ListTile(
-                        title: Text(
-                          '${evento['EQUIPA_CASA']} vs ${evento['VISITANTE']}',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text(
-                          'Data: ${evento['DATA']}\nHora: ${evento['HORA']}',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        trailing: Icon(Icons.arrow_forward, color: Colors.white),
-                        onTap: () => _navigateToAddPlayer(evento['ID_EVENTOS']),
-                      ),
-                    );
-                  },
                 ),
+              ),
+
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[850], // Now matches event cards
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // List of Events
+                      Expanded(
+                        child: isLoading
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                    color: Colors.white))
+                            : eventos.isEmpty
+                                ? Center(
+                                    child: Text(
+                                      'Nenhum jogo disponível.',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    itemCount: eventos.length,
+                                    itemBuilder: (context, index) {
+                                      final evento = eventos[index];
+                                      return GestureDetector(
+                                        onTap: () => _navigateToAddPlayer(evento[
+                                            'ID_EVENTOS']), // Restored logic
+                                        child: Container(
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 6, horizontal: 8),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 16),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[
+                                                700], // Lighter gray for event cards
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                '${evento['EQUIPA_CASA']}  vs  ${evento['VISITANTE']}',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              SizedBox(height: 6),
+                                              Text(
+                                                '${_formatDate(evento['DATA'])}  ${evento['HORA']}',
+                                                style: TextStyle(
+                                                  color: Colors.grey[400],
+                                                  fontSize: 11,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 120),
+            ],
+          ),
+          // Bottom Navigation Bar inside the Stack (fixes white background issue)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+              height: 64,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 77, 77, 77),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _bottomNavButton(Icons.calendar_today, '/calendar', 0,
+                      selected: true),
+                  _bottomNavButton(Icons.sports_soccer, '/home', 1),
+                  _bottomNavButton(Icons.history, '/historico', 2),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _bottomNavButton(IconData icon, String route, int index,
+      {bool selected = false}) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, route,
+            arguments: {'userId': widget.userId});
+      },
+      child: Container(
+        width: 80,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          color: selected ? Colors.grey[600] : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Icon(
+          icon,
+          color: selected ? Colors.white : Colors.grey,
+          size: 34,
+        ),
+      ),
     );
   }
 }

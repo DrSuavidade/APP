@@ -71,6 +71,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  String _formatDate(String isoDate) {
+    DateTime date = DateTime.parse(isoDate);
+    return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Column(
                                   children: userGames.map((game) {
                                     return _eventoCard(
-                                      game['DATA'],
+                                      _formatDate(game['DATA']),
                                       game['HORA'],
                                       game['EQUIPA_CASA'],
                                       game['VISITANTE'],
