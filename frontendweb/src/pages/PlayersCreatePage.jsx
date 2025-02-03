@@ -2,6 +2,20 @@ import React, { useState, useEffect } from "react";
 import "../CSS/PlayerCreatePage.css";
 import api from "../api/axios";
 
+// Função para renderizar estrelas
+const renderStars = (rating) => {
+  const totalStars = 5;  // Definindo o total de estrelas
+  const filledStars = Math.floor(rating);  // Estrelas cheias
+  const emptyStars = totalStars - filledStars;  // Estrelas vazias
+
+  // Cria as estrelas cheias e vazias
+  const stars = [
+    ...Array(filledStars).fill(<span className="filled-star">⭐</span>),
+    ...Array(emptyStars).fill(<span className="empty-star">☆</span>)
+  ];
+  return stars;
+};
+
 function PlayersCreatePage() {
   const [formData, setFormData] = useState({
     NOME: "",
@@ -160,9 +174,7 @@ function PlayersCreatePage() {
             <div key={index} className="player-item">
               <span className="player-name">{player.NOME}</span>
               <span className="player-rating">
-                {player.NOTA_ADM !== undefined && player.NOTA_ADM !== null
-                  ? player.NOTA_ADM
-                  : "N/A"}
+                {renderStars(player.NOTA_ADM !== undefined && player.NOTA_ADM !== null ? player.NOTA_ADM : 0)}
               </span>
             </div>
           ))}

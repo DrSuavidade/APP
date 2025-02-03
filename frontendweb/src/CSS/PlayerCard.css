@@ -1,79 +1,84 @@
-/* Ajuste para empurrar a seção de jogadores para baixo corretamente */
-.players-page-container {
-  padding-top: 100px; /* Ajuste conforme necessário */
-}
-
-.players-page-wrapper {
-  padding-top: 150px; /* Ajuste conforme necessário */
-}
-
-/* Estilos existentes */
+/* 🔹 Ajuste global da página */
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
   background-color: #1c1c1c;
+  margin: 0;
+  padding: 0;
 }
 
-.player-card-container {
+/* 🔹 Container principal dos cards */
+.player-cards-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  min-height: calc(100vh - 80px);
-  margin-top: 80px;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 15px;
 }
 
+/* 🔹 Card padrão para ambas as páginas */
 .player-card {
-  background: #2a2a2a;
-  border-radius: 15px;
-  padding: 15px;
   width: 180px;
+  height: 240px;
+  background-color: #222;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+  position: relative;
+}
+
+.player-card:hover {
+  transform: scale(1.05);
+}
+
+/* 🔹 Ícone do jogador */
+.profile-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 22px;
+}
+
+/* 🔹 Nome do jogador */
+.player-name {
   text-align: center;
   color: white;
-  font-family: "Arial", sans-serif;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
-  position: relative;
-  margin: 0 auto;
-}
-
-.player-card .profile-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 10px;
-}
-
-.player-card .player-name {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
-  color: #f1f1f1;
 }
 
-.player-card .player-age {
+/* 🔹 Informações do jogador */
+.player-info p {
   font-size: 12px;
   color: #aaa;
+  text-align: center;
+  margin: 3px 0;
 }
 
+/* 🔹 Indicador de nota */
 .nota-circle {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 14px;
   color: white;
-  margin: 10px auto;
+  margin: 8px auto;
 }
 
+/* Cores da nota */
 .nota-circle.green {
   background: #4caf50;
 }
@@ -82,7 +87,8 @@ body {
   background: #ff9800;
 }
 
-.player-card .status-dot {
+/* 🔹 Status (ponto no canto superior direito) */
+.status-dot {
   width: 12px;
   height: 12px;
   background-color: #ffd700;
@@ -92,14 +98,9 @@ body {
   right: 10px;
 }
 
-/* Novos estilos para o layout da PlayersPage */
+/* 🔹 Específico para a PlayersPage */
 .players-page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #1c1c1c;
-  color: white;
+  padding-top: 100px;
 }
 
 .players-content {
@@ -109,44 +110,23 @@ body {
   margin-top: 20px;
 }
 
+/* 🔹 Seção de lista de jogadores */
 .players-list-section {
   flex: 1;
-  margin-right: 150px;
+  margin-right: 50px;
 }
 
+/* 🔹 Seção de detalhes do jogador */
 .player-details-section {
   flex: 2;
 }
 
-/* Novas classes para o layout dos jogadores */
-.player-card .player-name {
-  font-size: 16px; /* Aumenta o tamanho da fonte do nome */
-  margin-bottom: 8px; /* Adiciona espaço abaixo do nome */
-}
-
-.player-card .player-age-year {
-  font-size: 12px;
-  color: #aaa;
-  margin-bottom: 8px; /* Adiciona espaço abaixo da idade */
-}
-
-.player-card .player-nationality {
-  font-size: 12px;
-  color: #aaa;
-  margin-bottom: 8px; /* Adiciona espaço abaixo do país */
-}
-
-.player-card .player-team {
-  font-size: 12px;
-  color: #aaa;
-}
-
-/* Novas classes para o layout do player card */
+/* 🔹 PlayersPage: Card com layout horizontal */
 .player-card-new {
   background: #2a2a2a;
   border-radius: 12px;
   padding: 15px;
-  width: 250px;
+  width: 260px;
   display: flex;
   align-items: center;
   color: white;
@@ -156,7 +136,7 @@ body {
   margin: 0 auto;
 }
 
-/* Ícone de perfil à esquerda */
+/* 🔹 Ícone de perfil à esquerda */
 .player-card-new .profile-icon {
   width: 50px;
   height: 50px;
@@ -165,20 +145,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0; /* Impede o redimensionamento */
-  margin-right: 12px; /* Espaço entre o ícone e o texto */
+  flex-shrink: 0;
+  margin-right: 12px;
 }
 
-/* Container para as informações do jogador */
+/* 🔹 Container para informações do jogador */
 .player-card-new .player-info {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  text-align: left; /* Garante alinhamento do texto */
-  flex-grow: 1; /* Ocupa o espaço restante */
+  text-align: left;
+  flex-grow: 1;
 }
 
-/* Nome do jogador */
+/* 🔹 Nome e idade na PlayersPage */
 .player-card-new .player-name {
   font-size: 16px;
   font-weight: bold;
@@ -186,7 +166,6 @@ body {
   margin-bottom: 5px;
 }
 
-/* Idade e ano de nascimento */
 .player-card-new .player-age-year {
   font-size: 14px;
   color: #ccc;
@@ -194,27 +173,13 @@ body {
   margin-bottom: 5px;
 }
 
-/* Nacionalidade */
-.player-card-new .player-nationality {
-  font-size: 13px;
-  color: #aaa;
-  margin-bottom: 5px;
-}
-
-/* Nome da equipa e abreviação do clube */
 .player-card-new .player-team {
   font-size: 14px;
   font-weight: bold;
   color: #f1f1f1;
 }
 
-.player-card-new .player-team {
-  font-size: 14px;
-  font-weight: bold;
-  color: #f1f1f1;
-}
-
-/* Ícone de status */
+/* 🔹 PlayersPage: Ícone de status */
 .player-card-new .status-dot {
   width: 12px;
   height: 12px;
@@ -225,65 +190,22 @@ body {
   right: 10px;
 }
 
-/*PÁGINA REPORTS
-
-/* Estilos específicos para a ReportsPage */
-.player-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* 🔹 ReportsPage: Ajustes específicos */
+.reports-page .player-cards-container {
+  justify-content: flex-start;
 }
 
-.player-card:hover {
-  background-color: #000000;
-}
-
-/* Estilos específicos para a ReportsPage */
 .reports-page .player-card {
-  padding: 8px; /* Reduz o padding interno */
-  width: 80%; /* Reduz a largura da caixa */
-  max-width: 200px; /* Define uma largura máxima menor */
-  margin-bottom: 8px; /* Reduz o espaçamento inferior */
-  background-image: url('../img/Padrao (2).png'); /* Adiciona o padrão de fundo */
-  background-size: cover; /* Garante que o padrão cubra toda a caixa */
-  background-repeat: no-repeat; /* Evita repetição do padrão */
-  background-position: center; /* Centraliza o padrão */
-  border: 1px solid #212121; /* Adiciona uma borda sutil */
+  width: 160px;
+  height: 220px;
 }
 
-.reports-page .player-name {
-  font-size: 14px; /* Reduz o tamanho da fonte do nome */
-  margin-bottom: 4px;
-  font-weight: bold; /* Deixa o nome em negrito */
-  color: #ffffff; /* Cor do texto para contrastar com o fundo */
+.reports-page .player-card .player-name {
+  font-size: 14px;
 }
 
-.reports-page .player-age {
-  font-size: 12px; /* Reduz o tamanho da fonte da idade */
-  color: #666;
-  margin-bottom: 4px;
-}
-
-.reports-page .team-name {
-  font-size: 12px; /* Reduz o tamanho da fonte do time */
-  color: #666;
-}
-
-.reports-page .nota-circle {
-  width: 24px; /* Reduz o tamanho do círculo da nota */
-  height: 24px;
-  font-size: 12px; /* Reduz o tamanho da fonte da nota */
-  margin-top: 8px; /* Ajusta o espaçamento superior */
-  background-color: rgba(255, 255, 255, 0.8); /* Fundo semi-transparente para o círculo */
-  border-radius: 50%; /* Garante que o círculo seja redondo */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.reports-page .player-card .nota-circle {
+  width: 30px;
+  height: 30px;
+  font-size: 12px;
 }

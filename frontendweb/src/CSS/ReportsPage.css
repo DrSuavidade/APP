@@ -38,13 +38,23 @@ html, body {
   }
 
   .reports-left {
-    flex: 1; /* Ocupa 1 parte do espaço disponível */
+    flex: 2; /* Ocupa mais espaço */
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Espaço entre PlayerCard e ListRelatorios */
-  }
+    gap: 10px; /* Reduz o espaçamento */
+}
+
+.reports-left .player-cards-container {
+  display: flex;
+  justify-content: flex-start; /* Alinha os cards à esquerda */
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+}
   
   .reports-right {
     flex: 2; /* Ocupa 2 partes do espaço disponível */
     max-width: 800px; /* Largura máxima para o relatório */
   }
+
+  
