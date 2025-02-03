@@ -79,3 +79,13 @@ html, body {
   font-size: 14px;
   color: #66ff66;
 }
+
+/* Estilo para a classificação de estrelas */
+.player-rating {
+  font-size: 20px;
+  color: #333; /* Cor escura para as estrelas cheias */
+}
+
+.player-rating .empty-star {
+  color: #555; /* Cor para as estrelas vazias */
+}

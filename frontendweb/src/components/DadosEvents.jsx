@@ -1,35 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../CSS/eventsviewpage.css";
 
-const DadosEvents = ({ scouter, jogo, escalado, data, hora, local }) => {
-  return (
-    <div className="event">
-      <p><strong>Scouter:</strong> {scouter}</p>
-      <p><strong>Jogo:</strong> {jogo}</p>
-      <p><strong>Escalado:</strong> {escalado}</p>
-      <p><strong>Data:</strong> {data}</p>
-      <p><strong>Hora:</strong> {hora}</p>
-      <p><strong>Local:</strong> {local}</p>
-    </div>
-  );
-};
+const DadosEvents = () => {
+  const [eventos, setEventos] = useState([]);
+  const [erro, setErro] = useState(null);
 
-const EventsList = () => {
-  const eventos = [
-    { scouter: "Marco Santos", jogo: "A.F. VISEU vs SL NELAS", escalado: "Sub-16", data: "25/10/2024", hora: "12:00 AM", local: "Estádio do Fontelo" },
-    { scouter: "Marco Santos", jogo: "A.F. VISEU vs SL NELAS", escalado: "Sub-23", data: "25/10/2024", hora: "12:00 AM", local: "Estádio do Fontelo" },
-    { scouter: "Marco Santos", jogo: "A.F. VISEU vs SL NELAS", escalado: "Sub-19", data: "25/10/2024", hora: "12:00 AM", local: "Estádio do Fontelo" },
-  ];
+  useEffect(() => {
+    const fetchEventos = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/evento/list");
+        setEventos(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar eventos:", error);
+        setErro("Erro ao buscar eventos");
+      }
+    };
+
+    fetchEventos();
+  }, []);
 
   return (
     <section className="events-container">
       <div className="events-list">
-        {eventos.map((evento, index) => (
-          <DadosEvents key={index} {...evento} />
-        ))}
+        {erro ? (
+          <p className="error-message">{erro}</p>
+        ) : (
+          eventos.map((evento, index) => (
+            <div key={index} className="event">
+              <p><strong>Jogo:</strong> {evento.EQUIPA_CASA} vs {evento.VISITANTE}</p>
+              <p><strong>Scouter:</strong> {evento.NOME_USER || "Sem Scout Associado"}</p>
+              <p><strong>Data:</strong> {evento.DATA}</p>
+              <p><strong>Hora:</strong> {evento.HORA}</p>
+              <p><strong>Local:</strong> {evento.LOCAL}</p>
+            </div>
+          ))
+        )}
       </div>
     </section>
   );
 };
 
-export default EventsList;
+export default DadosEvents;

@@ -199,6 +199,39 @@ eventosController.listEventosRecentes = async (req, res) => {
 };
 
 
+// List events filtered by team category (Escalão)
+eventosController.listEventosByEscalao = async (req, res) => {
+  try {
+    const { ESCALAO } = req.params;
+
+    if (!ESCALAO) {
+      return res.status(400).json({ error: "Escalão é obrigatório" });
+    }
+
+    // Buscar equipas pelo escalão
+    const equipas = await Equipa.find({ ESCALAO }).select('NOME');
+    const equipaNames = equipas.map(equipa => equipa.NOME);
+
+    if (equipaNames.length === 0) {
+      return res.status(404).json({ message: "Nenhuma equipa encontrada para este escalão." });
+    }
+
+    // Buscar eventos que envolvem as equipas filtradas
+    const eventos = await Evento.find({
+      $or: [
+        { EQUIPA_CASA: { $in: equipaNames } },
+        { VISITANTE: { $in: equipaNames } }
+      ]
+    });
+
+    res.status(200).json(eventos);
+  } catch (error) {
+    console.error('Erro ao listar eventos por escalão:', error);
+    res.status(500).json({ error: 'Erro ao listar eventos por escalão' });
+  }
+};
+
+
 
 
 module.exports = eventosController;

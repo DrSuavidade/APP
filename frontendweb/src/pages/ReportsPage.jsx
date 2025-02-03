@@ -24,16 +24,19 @@ const ReportsPage = () => {
   }, []);
 
   return (
-    <div className="reports-page">
-      <div className="reports-left">
-        <PlayerCard onSelectRelatorio={setSelectedRelatorio} />
-        <ListRelatorios onSelectRelatorio={setSelectedRelatorio} />
+      <div className="reports-page">
+        <div className="reports-left">
+          <div className="player-cards-container">
+            <PlayerCard onSelectRelatorio={setSelectedRelatorio} />
+          </div>
+          <ListRelatorios onSelectRelatorio={setSelectedRelatorio} />
+        </div>
+        <div className="reports-right">
+          {selectedRelatorio && <FichaRelatorio ID_RELATORIO={selectedRelatorio} />}
+        </div>
       </div>
-      <div className="reports-right">
-        {selectedRelatorio && <FichaRelatorio ID_RELATORIO={selectedRelatorio} />}
-      </div>
-    </div>
-  );
+    );
+    
 };
 
 export default ReportsPage;
