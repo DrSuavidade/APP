@@ -53,30 +53,38 @@ class _RelatorioPageState extends State<RelatorioScreen> {
   }
 
   Future<void> _saveRelatorio() async {
-    try {
-      await api.put('relatorio/edit/$idRelatorio', {
-        'TECNICA': tecnica ?? 0,
-        'VELOCIDADE': velocidade ?? 0,
-        'COMPETITIVA': atitudeCompetitiva ?? 0,
-        'INTELIGENCIA': inteligencia ?? 0,
-        'ALTURA': altura ?? '',
-        'MORFOLOGIA': morfologia ?? '',
-        'COMENTARIO': comentario ?? '',
-        'DATA': DateTime.now().toIso8601String(),
-        'STATUS': 'Avaliado',
-      });
-      Navigator.pushNamedAndRemoveUntil(
+  if (tecnica == null || velocidade == null || atitudeCompetitiva == null || inteligencia == null ||
+      altura == null || morfologia == null) {
+    _showErrorDialog('Erro', 'Todos os campos devem ser preenchidos, exceto Comentário.');
+    return;
+  }
+
+  try {
+    await api.put('relatorio/edit/$idRelatorio', {
+      'TECNICA': tecnica,
+      'VELOCIDADE': velocidade,
+      'COMPETITIVA': atitudeCompetitiva,
+      'INTELIGENCIA': inteligencia,
+      'ALTURA': altura,
+      'MORFOLOGIA': morfologia,
+      'COMENTARIO': comentario ?? '', // Only comentario can be empty
+      'DATA': DateTime.now().toIso8601String(),
+      'STATUS': 'Avaliado',
+    });
+
+    Navigator.pushNamedAndRemoveUntil(
       context,
       '/home',
-      (route) => false, // Remove all previous routes
+      (route) => false,
       arguments: {
         'userId': idUser, // Pass userId to Home
       },
     );
-    } catch (e) {
-      _showErrorDialog('Erro', 'Falha ao salvar o relatório');
-    }
+  } catch (e) {
+    _showErrorDialog('Erro', 'Falha ao salvar o relatório');
   }
+}
+
 
   void _showErrorDialog(String title, String message) {
     showDialog(
@@ -285,47 +293,59 @@ class _RelatorioPageState extends State<RelatorioScreen> {
   }
 
   Widget _buildRatingSection(
-      String label, int currentValue, Function(int) onChanged) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 7),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label, style: TextStyle(color: Colors.white, fontSize: 11)),
-          Transform.translate(
-            offset: Offset(-12, -5),
-            child: Row(
-              children: [
-                ...List.generate(4, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 16),
-                    child: IconButton(
-                      iconSize: 15,
-                      padding: EdgeInsets.zero,
-                      constraints: BoxConstraints(),
-                      icon: Icon(
-                        Icons.circle,
-                        color: index + 1 <= currentValue
-                            ? Colors.green
-                            : Colors.grey,
-                      ),
-                      onPressed: () => onChanged(index + 1),
-                    ),
-                  );
-                }),
-                SizedBox(width: 10),
-                Text(
-                  "$currentValue/4",
-                  style: TextStyle(color: Colors.white, fontSize: 11),
-                ),
-              ],
-            ),
+    String label, int currentValue, Function(int) onChanged) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 0), // Adds uniform side padding
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center, // Center text label
+      children: [
+        // Centered Label
+        Align(
+          alignment: Alignment.center,
+          child: Text(
+            label,
+            style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 4),
-        ],
-      ),
-    );
-  }
+        ),
+        SizedBox(height: 6),
+
+        // Rating Row
+        SizedBox(
+          width: double.infinity, // Ensures full width
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center, // Center the row
+            children: [
+              ...List.generate(4, (index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25), // Space between circles
+                  child: IconButton(
+                    iconSize: 18, // Increased size
+                    padding: EdgeInsets.zero,
+                    constraints: BoxConstraints(),
+                    icon: Icon(
+                      Icons.circle,
+                      color: index + 1 <= currentValue ? Colors.green : Colors.grey,
+                    ),
+                    onPressed: () => onChanged(index + 1),
+                  ),
+                );
+              }),
+
+              // Rating Value (Right-aligned)
+              SizedBox(width: 12),
+              Text(
+                "$currentValue/4",
+                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 6), // Extra spacing between sections
+      ],
+    ),
+  );
+}
+
 
   Widget _buildOptionSection(String label, List<String> options,
       String? selectedValue, Function(String) onChanged) {
