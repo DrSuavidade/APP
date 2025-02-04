@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../CSS/addClub.css"; // Certifique-se de criar este arquivo de estilo
 import api from "../api/axios";
+import Cookies from "js-cookie";
 
 const AddClubPage = () => {
   const [name, setName] = useState("");
@@ -15,14 +16,17 @@ const AddClubPage = () => {
     setError("");
   
     try {
-      const response = await api.post("/clube/add", {
-        NOME: name,
-        ABREVIATURA: abreviatura,
-      });
+      const token = Cookies.get("token"); // Obtém o token dos cookies
+  
+      const response = await api.post(
+        "/clube/add",
+        { NOME: name, ABREVIATURA: abreviatura },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
   
       if (response.status === 201) {
         setSuccess(true);
-        navigate("/clubs"); // Redireciona imediatamente após sucesso
+        navigate("/clubs"); // Redireciona após sucesso
       }
     } catch (error) {
       if (error.response) {
@@ -33,7 +37,7 @@ const AddClubPage = () => {
     }
   };
   
-
+  
   return (
     <div className="add-club-container">
       <div className="add-club-box">

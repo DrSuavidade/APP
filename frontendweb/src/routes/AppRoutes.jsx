@@ -25,54 +25,64 @@ import ShadowTeamPage from '../pages/ShadowTeamPage';
 import Navbar from '../components/Navbar';
 import ReportsHistory from '../pages/ReportsHistory';
 
-
 const AppRoutes = () => {
   return (
-    <Router> {/* Agora colocamos o Router aqui! */}
+    <Router>
       <RoutesWithNavbar />
     </Router>
   );
 };
 
-// Componente auxiliar para gerenciar a Navbar
+// Componente auxiliar para gerenciar a Navbar e a Scrollbar
 const RoutesWithNavbar = () => {
-  const location = useLocation(); // useLocation agora está dentro do Router
+  const location = useLocation();
 
   // Rotas onde a Navbar NÃO deve aparecer
   const hideNavbarRoutes = ["/login", "/register", "/register/confirm", "/forgot-password", "/forgot-password-confirm"];
 
   return (
-    <>
+    <div style={{ 
+      display: "flex",
+      flexDirection: "column",
+      height: "100vh",
+      overflowY: "auto" /* Adiciona a scrollbar vertical */
+    }}>
       {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
 
-      <Routes>
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/register/confirm" element={<ConfirmRegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/forgot-password-confirm" element={<ForgotPasswordConfirm />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/reports" element={<ReportsPage />} />
-        <Route path="/reports/history/:ID_JOGADORES" element={<ReportsHistory />} />
-        <Route path="/clubs" element={<ClubsPage />} />
-        <Route path="/scouts" element={<ScoutsViewPage />} />
-        <Route path="/scouts/new" element={<ScoutsCreateEditPage />} />
-        <Route path="/events" element={<EventsViewPage />} />
-        <Route path="/events/AddScoutToEvent" element={<AddScouterToEvent />} />
-        <Route path="/events/AddEventToScout" element={<AddEventToScout />} />
-        <Route path="/events/new" element={<EventsCreatePage />} />
-        <Route path="/players/new" element={<PlayersCreatePage />} />
-        <Route path="/players/:id/edit" element={<PlayersEditPage />} />
-        <Route path="/players/reports" element={<PlayersReportsPage />} />
-        <Route path="/players/add-to-event" element={<PlayersAddToEventPage />} />
-        <Route path="/team" element={<TeamPage />} />
-        <Route path="/team/add-club" element={<AddClubPage />} />
-        <Route path="/team/add" element={<AddTeamPage />} />
-        <Route path="/team/shadow" element={<ShadowTeamPage />} />
-        <Route path="/players" element={<PlayersPage />} />
-        <Route path="/clubs/:ID_USER" element={<ClubsPage />} />
-      </Routes>
-    </>
+      <div style={{
+        flexGrow: 1,
+        overflowY: "auto", /* Garante que a parte do conteúdo tenha scrollbar */
+        padding: "20px"
+      }}>
+          <Routes>
+    <Route path="/register" element={<RegisterPage />} />
+    <Route path="/register/confirm" element={<ConfirmRegisterPage />} />
+    <Route path="/login" element={<LoginPage />} />
+    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+    <Route path="/forgot-password-confirm" element={<ForgotPasswordConfirm />} />
+    <Route path="/home" element={<HomePage />} />
+    <Route path="/reports" element={<ReportsPage />} />
+    <Route path="/reports/history/:ID_JOGADORES" element={<ReportsHistory />} />
+    <Route path="/clubs" element={<ClubsPage />} />
+    <Route path="/scouts" element={<ScoutsViewPage />} />
+    <Route path="/scouts/new" element={<ScoutsCreateEditPage />} />
+    <Route path="/events" element={<EventsViewPage />} />
+    <Route path="/events/AddScoutToEvent" element={<AddScouterToEvent />} />
+    <Route path="/events/AddEventToScout" element={<AddEventToScout />} />
+    <Route path="/events/new" element={<EventsCreatePage />} />
+    <Route path="/players/new" element={<PlayersCreatePage />} />
+    <Route path="/players/:id/edit" element={<PlayersEditPage />} />
+    <Route path="/players/reports" element={<PlayersReportsPage />} />
+    <Route path="/players/add-to-event" element={<PlayersAddToEventPage />} />
+    <Route path="/team" element={<TeamPage />} />
+    <Route path="/team/add-club" element={<AddClubPage />} />
+    <Route path="/team/add" element={<AddTeamPage />} />
+    <Route path="/team/shadow" element={<ShadowTeamPage />} />
+    <Route path="/players" element={<PlayersPage />} />
+    <Route path="/clubs/:ID_USER" element={<ClubsPage />} />
+  </Routes>
+</div>
+    </div>
   );
 };
 
