@@ -12,7 +12,7 @@ class _RelatorioPageState extends State<RelatorioScreen> {
   final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
   int? tecnica, velocidade, atitudeCompetitiva, inteligencia;
   String? altura, morfologia, comentario;
-  late int idRelatorio, idUser;
+  late int idRelatorio, idJogador, idUser;
   late TextEditingController _comentarioController;
 
   Map<String, dynamic>? playerInfo;
@@ -35,13 +35,15 @@ class _RelatorioPageState extends State<RelatorioScreen> {
     final args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     idRelatorio = args['id_relatorio'];
+    idJogador = args['id_jogador'];
     idUser = args['id_user'];
+    print("idRelatorio = $idRelatorio, idJogador = $idJogador, idUser = $idUser");
     _fetchPlayerInfo();
   }
 
   Future<void> _fetchPlayerInfo() async {
     try {
-      final playerResponse = await api.getJogadorById(idRelatorio);
+      final playerResponse = await api.getJogadorById(idJogador);
       setState(() {
         playerInfo = playerResponse;
       });

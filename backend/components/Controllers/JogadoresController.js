@@ -132,28 +132,38 @@ jogadoresController.getPlayersByUser = async (req, res) => {
   const { ID_USER } = req.params;
 
   try {
-
     // Fetch all relatorios for the given user
     const relatorios = await Relatorio.find({ 
       ID_USER, 
-      STATUS: 'Ativo' // Replace 'Ativo' with the desired STATUS filter
-    }).select('ID_JOGADORES');
+      STATUS: 'Ativo'
+    }).select('ID_JOGADORES ID_RELATORIO');  // ✅ Select both ID_JOGADORES and ID_RELATORIO
 
-    const jogadorIds = relatorios.map((relatorio) => relatorio.ID_JOGADORES);
-
-    if (!jogadorIds.length) {
-      console.log('No jogadores IDs found for user:', ID_USER);
+    if (!relatorios.length) {
+      console.log('No relatorios found for user:', ID_USER);
       return res.status(404).json({ message: 'No players found for this user' });
     }
 
+    // Create a map of ID_JOGADORES -> ID_RELATORIO
+    const relatorioMap = {};
+    relatorios.forEach((rel) => {
+      relatorioMap[rel.ID_JOGADORES] = rel.ID_RELATORIO;
+    });
+
     // Fetch jogadores using correct field name
-    const jogadores = await Jogador.find({ ID_JOGADORES: { $in: jogadorIds } });
+    const jogadores = await Jogador.find({ ID_JOGADORES: { $in: Object.keys(relatorioMap) } });
 
     if (!jogadores.length) {
       console.log('No jogadores found for extracted IDs');
+      return res.status(404).json({ message: 'Players not found' });
     }
 
-    res.status(200).json(jogadores);
+    // Attach ID_RELATORIO to each player
+    const jogadoresWithRelatorio = jogadores.map(jogador => ({
+      ...jogador.toObject(),  // Convert Mongoose object to plain JSON
+      ID_RELATORIO: relatorioMap[jogador.ID_JOGADORES] || null, // Attach the correct ID_RELATORIO
+    }));
+
+    res.status(200).json(jogadoresWithRelatorio);
   } catch (error) {
     console.error('Error fetching players:', error);
     res.status(500).json({ error: 'Failed to fetch players' });

@@ -127,7 +127,7 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
               onPressed: () {
                 Navigator.pushReplacementNamed(
                   context,
-                  '/add_player',
+                  '/add_game',
                   arguments: {'userId': widget.userId},
                 );
               },
