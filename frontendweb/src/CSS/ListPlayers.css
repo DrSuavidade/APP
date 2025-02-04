@@ -1,7 +1,9 @@
 /* Nova estilização para a lista de jogadores sem afetar outras tabelas */
 .list-players-container {
     width: 120%;
-    margin: 20px auto;
+    margin-left: 5%; /* Move a lista de jogadores mais para a direita */
+    margin-top: 12%; /* Move o componente para baixo */
+    transition: all 0.3s ease-in-out; /* Suaviza a transição */
     background: #1c1c1c;
     padding: 20px;
     border-radius: 10px;
@@ -143,4 +145,58 @@
 
 .list-players-scroll-container::-webkit-scrollbar-track {
     background: #222;
+}
+
+.search-toolbar {
+  display: flex;
+  flex-direction: column; /* Mantém a estrutura em coluna */
+  align-items: flex-start;
+  margin-bottom: 0; /* Remove qualquer margem extra abaixo */
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 0; /* Remove espaçamento extra */
+}
+
+.icons-container {
+  display: flex;
+  gap: 10px;
+}
+
+.icon {
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon.trash {
+  color: #ff4d4d;
+}
+
+.icon.add {
+  color: #48ff00;
+}
+
+.icon.cancel {
+  color: #ffcc00;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 5px; /* Reduz o espaço entre a pesquisa e os botões */
+  margin-bottom: 0; /* Garante que não haja espaço extra abaixo */
+}
+
+.list-relatorios-scroll-container {
+  margin-top: 15px; /* Ajusta o valor conforme necessário */
 }

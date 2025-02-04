@@ -1,11 +1,14 @@
 .ficha-relatorio-container {
-    background: #1b1b1b;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 350px;
-  }
-  
+  background: #1b1b1b;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 350px; /* Largura fixa */
+  height: 700px; /* Aumenta a altura */
+  min-height: 110%; /* Garante que nunca fique menor que isso */
+  transition: all 0.3s ease-in-out; /* Suaviza o ajuste */
+}
+
   h2 {
     text-align: center;
     font-size: 18px;
@@ -257,7 +260,8 @@
 
 /*Página Reports*/
 
+/* Evita que a seção ReportsPage expanda além do necessário */
 .reports-page .ficha-relatorio-container {
-  width: 100%;
-  max-width: 100%; /* Ajuste conforme necessário */
+  max-width: 350px; /* Mantém um tamanho máximo */
+  max-height: 500px; /* Mantém um tamanho máximo */
 }
