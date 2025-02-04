@@ -9,7 +9,7 @@ class PasswordRecoverScreen extends StatefulWidget {
 }
 
 class _PasswordRecoverScreenState extends State<PasswordRecoverScreen> {
-  final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
+  final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   final TextEditingController _emailController = TextEditingController();
   bool isLoading = false;
 

@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
+  final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   List<dynamic> userGames = [];
   List<dynamic> userPlayers = [];
   bool isLoading = true;

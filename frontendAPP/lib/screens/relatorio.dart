@@ -9,7 +9,7 @@ class RelatorioScreen extends StatefulWidget {
 }
 
 class _RelatorioPageState extends State<RelatorioScreen> {
-  final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
+  final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   int? tecnica, velocidade, atitudeCompetitiva, inteligencia;
   String? altura, morfologia, comentario;
   late int idRelatorio, idJogador, idUser;

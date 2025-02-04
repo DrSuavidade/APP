@@ -12,7 +12,7 @@ class HistoricoScreen extends StatefulWidget {
 }
 
 class _HistoricoScreenState extends State<HistoricoScreen> {
-  final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
+  final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   List<dynamic> relatorios = [];
   bool isLoading = true;
 

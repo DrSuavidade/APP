@@ -5,7 +5,7 @@ import '../api/api_service.dart';
 
 class PerfilScreen extends StatelessWidget {
   final int userId;
-  final ApiService apiService = ApiService(baseUrl: 'http://localhost:3000/api');
+  final ApiService apiService = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
 
   PerfilScreen({Key? key, required this.userId}) : super(key: key);
 

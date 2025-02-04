@@ -14,7 +14,7 @@ class AddPlayerScreen extends StatefulWidget {
 }
 
 class _AddPlayerScreenState extends State<AddPlayerScreen> {
-  final ApiService api = ApiService(baseUrl: 'http://localhost:3000/api');
+  final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   List<dynamic> jogadores = [];
   bool isLoading = true;
 
