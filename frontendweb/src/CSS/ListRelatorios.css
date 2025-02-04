@@ -568,3 +568,36 @@
   flex: 1.5;
   max-width: 40%;
 }
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.icons-container {
+  display: flex;
+  gap: 10px;
+}
+
+.icon {
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon.trash {
+  color: #ff4d4d; /* Vermelho */
+}
+
+.icon.add {
+  color: #6eff64; /* Azul Neon */
+}
+
+.icon.cancel {
+  color: #a61a1afb; /* Amarelo */
+}
+
+.icon:hover {
+  transform: scale(1.1);
+}

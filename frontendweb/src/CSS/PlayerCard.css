@@ -118,7 +118,10 @@ body {
 
 /* 🔹 Seção de detalhes do jogador */
 .player-details-section {
-  flex: 2;
+  flex: 1; /* Mantém a flexibilidade da seção */
+  max-width: 350px; /* Reduz a largura para mover mais à esquerda */
+  margin-left: 150px; /* Move mais para a esquerda */
+  transition: all 0.3s ease-in-out; /* Suaviza a transição */
 }
 
 /* 🔹 PlayersPage: Card com layout horizontal */

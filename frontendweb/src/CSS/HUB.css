@@ -1,47 +1,103 @@
-/* Reset básico para evitar conflitos */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.homepage {
+.home-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding: 20px;
+  margin-top: 80px; /* Aumentado para afastar da navbar */
 }
 
-/* PlayerCard */
-.player-card {
-  width: 100%;
-  max-width: 800px; /* Ajuste conforme necessário */
-  margin-bottom: 20px;
+
+/* Centraliza o título acima dos cards */
+.relatorios-title {
   text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px; /* Ajusta espaçamento */
 }
 
-/* Seção do meio com duas colunas */
-.middle-section {
+/* Ajuste nos cards para ficarem abaixo do título */
+.relatorios-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px; /* Distância do título */
+}
+
+/* ALINHA OS QUADRADOS DO TOPO NA MESMA LINHA */
+.top-section {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+  width: 90%;
+  max-width: 1400px;
+}
+
+/* Mantém o tamanho dos quadrados superiores */
+.top-section .player-card {
+  width: 220px;
+  height: auto;
+  background-color: #1a1a1a;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.top-card {
+  width: 220px; /* Ajuste para manter o tamanho padrão */
+  height: auto;
+  background-color: #1a1a1a;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-container {
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  max-width: 1200px; /* Ajuste conforme necessário */
-  margin-bottom: 20px;
+  width: 90%;
+  max-width: 1300px;
+  margin-top: 80px; /* Afastando mais da navbar */
+  align-items: flex-start;
 }
 
-.left-column {
-  flex: 1; /* Ocupa 1 parte do espaço */
-  margin-right: 10px; /* Espaço entre as colunas */
+.scouters-section,
+.players-section {
+  flex: 1;
+  min-width: 350px;
 }
 
-.center-column {
-  flex: 2; /* Ocupa 2 partes do espaço (maior) */
-}
-
-/* SmallListPlayers na parte inferior */
-.bottom-section {
-  width: 100%;
-  max-width: 1200px; /* Ajuste conforme necessário */
+.events-section {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  margin: 0 60px; /* Aumenta o espaçamento entre os blocos */
+}
+
+.players-section {
+  flex: 1;
+  min-width: 350px;
+  margin-left: -50px; /* Ajusta para ter o mesmo espaçamento que os Scouters */
+}
+
+.list-players-container {
+  width: 100%;
+  min-width: 350px; /* Ajusta o tamanho mínimo */
+  overflow: hidden; /* Evita que os elementos fiquem cortados */
+  flex-grow: 1; /* Permite que a lista cresça */
+}
+
+.list-players-container .list {
+  width: 100%;
+  height: auto;
+  max-height: 400px; /* Define um tamanho máximo para evitar cortes */
+  overflow-y: auto; /* Adiciona rolagem vertical se necessário */
 }

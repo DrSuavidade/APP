@@ -209,6 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         DateTime.parse(player['DATA_NASC'])
                                             .year,
                                     player['NOTA_ADM'],
+                                    player['ID_RELATORIO'],
                                     player['ID_JOGADORES'],
                                     context,
                                   );
@@ -503,7 +504,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _playerCard(String name, int age, int notaAdm, int relatorioId,
+  Widget _playerCard(String name, int age, int notaAdm, int idRelatorio, int idJogador,
       BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -511,7 +512,8 @@ class _HomeScreenState extends State<HomeScreen> {
           context,
           '/relatorio',
           arguments: {
-            'id_relatorio': relatorioId,
+            'id_relatorio': idRelatorio,
+            'id_jogador': idJogador,
             'id_user': widget.userId,
           },
         );

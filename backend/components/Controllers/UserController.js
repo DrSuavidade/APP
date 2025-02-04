@@ -97,6 +97,106 @@ userController.registoweb = async (req, res) => {
 };
 
 //LOGIN
+userController.loginWeb = async (req, res) => {
+  console.log("Iniciando login para a aplicação móvel...");
+  const { EMAIL, PASSWORD } = req.body;
+
+  try {
+    if (!EMAIL || !PASSWORD) {
+      return res.status(400).json({ message: 'E-mail e Password são obrigatórios.' });
+    }
+
+    const user = await User.findOne({ EMAIL });
+
+    if (!user) {
+      return res.status(401).json({ message: 'E-mail ou Password inválidos.' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(PASSWORD, user.PASSWORD);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'E-mail ou Password inválidos.' });
+    }
+
+    // Bloquear login para Scouter
+    if (user.ID_TIPO === 3) {
+      return res.status(403).json({ message: "Acesso negado. Scouters não podem fazer login na web." });
+    }
+
+    console.log("Login da app bem-sucedido. Gerando token...");
+
+    const token = jwt.sign(
+      { id: user._id, ID_USER: user.ID_USER, ID_TIPO: user.ID_TIPO },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    return res.status(200).json({
+      token,
+      USER: {
+        ID_USER: user.ID_USER,
+        NOME: user.NOME,
+        EMAIL: user.EMAIL,
+        ID_TIPO: user.ID_TIPO,
+      },
+      message: 'Login realizado com sucesso.'
+    });
+  } catch (error) {
+    console.error('Erro no processo de login:', error);
+    return res.status(500).json({ message: 'Erro no servidor.' });
+  }
+};
+
+
+userController.login = async (req, res) => {
+  console.log("Iniciando login para a aplicação móvel...");
+  const { EMAIL, PASSWORD } = req.body;
+
+  try {
+    if (!EMAIL || !PASSWORD) {
+      return res.status(400).json({ message: 'E-mail e Password são obrigatórios.' });
+    }
+
+    const user = await User.findOne({ EMAIL });
+
+    if (!user) {
+      return res.status(401).json({ message: 'E-mail ou Password inválidos.' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(PASSWORD, user.PASSWORD);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'E-mail ou Password inválidos.' });
+    }
+
+    // Bloquear login para Scouter
+    if (user.ID_TIPO === 3) {
+      return res.status(403).json({ message: "Acesso negado. Scouters não podem fazer login na web." });
+    }
+
+    console.log("Login da app bem-sucedido. Gerando token...");
+
+    const token = jwt.sign(
+      { id: user._id, ID_USER: user.ID_USER, ID_TIPO: user.ID_TIPO },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    return res.status(200).json({
+      token,
+      USER: {
+        ID_USER: user.ID_USER,
+        NOME: user.NOME,
+        EMAIL: user.EMAIL,
+        ID_TIPO: user.ID_TIPO,
+      },
+      message: 'Login realizado com sucesso.'
+    });
+  } catch (error) {
+    console.error('Erro no processo de login:', error);
+    return res.status(500).json({ message: 'Erro no servidor.' });
+  }
+};
+
+
 userController.login = async (req, res) => {
   console.log("Iniciando processo de login...");
   const { EMAIL, PASSWORD } = req.body;

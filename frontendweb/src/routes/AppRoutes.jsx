@@ -24,25 +24,25 @@ import AddTeamPage from '../pages/AddTeamPage';
 import ShadowTeamPage from '../pages/ShadowTeamPage';
 import Navbar from '../components/Navbar';
 import ReportsHistory from '../pages/ReportsHistory';
-
+import "../CSS/ScrollBar.css";
 
 const AppRoutes = () => {
   return (
-    <Router> {/* Agora colocamos o Router aqui! */}
+    <Router>
       <RoutesWithNavbar />
     </Router>
   );
 };
 
-// Componente auxiliar para gerenciar a Navbar
+// Componente auxiliar para gerenciar a Navbar e a Scrollbar
 const RoutesWithNavbar = () => {
-  const location = useLocation(); // useLocation agora está dentro do Router
+  const location = useLocation();
 
   // Rotas onde a Navbar NÃO deve aparecer
   const hideNavbarRoutes = ["/login", "/register", "/register/confirm", "/forgot-password", "/forgot-password-confirm"];
 
   return (
-    <>
+    <div className="scroll-container"> {/* Aplicando a classe da scrollbar */}
       {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
 
       <Routes>
@@ -72,7 +72,7 @@ const RoutesWithNavbar = () => {
         <Route path="/players" element={<PlayersPage />} />
         <Route path="/clubs/:ID_USER" element={<ClubsPage />} />
       </Routes>
-    </>
+    </div>
   );
 };
 

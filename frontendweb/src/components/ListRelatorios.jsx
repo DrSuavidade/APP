@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "../CSS/ListRelatorios.css";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { FaTrash, FaPlus, FaTimes } from "react-icons/fa";
+
 
 const ListRelatorios = ({ onSelectRelatorio }) => {
   const [relatorios, setRelatorios] = useState([]);
@@ -107,26 +109,25 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
 <div className="list-relatorios-container">
   {/* Cabeçalho fixo */}
   <div className="list-relatorios-header">
-    <div className="search-container">
-      <input
-        type="text"
-        placeholder="Escreva o nome do jogador"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <button className="search-btn">Search</button>
-    </div>
+  <div className="search-toolbar">
+  {/* Barra de pesquisa */}
+  <div className="search-container">
+    <input
+      type="text"
+      placeholder="Escreva o nome do jogador"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+    />
+    <button className="search-btn">Pesquisar</button>
+  </div>
 
-    <div className="actions-container">
-      <button className={`delete-btn ${selectMode ? "active" : ""}`} onClick={toggleSelectMode}>
-        {selectMode ? "Cancelar" : "Selecionar para Eliminar"}
-      </button>
-      {selectMode && (
-        <button className="confirm-delete-btn" onClick={deleteSelected}>
-          Confirmar Eliminação
-        </button>
-      )}
-    </div>
+  {/* Novos botões (movidos para baixo) */}
+  <div className="buttons-container">
+    <FaTrash className="icon trash" onClick={toggleSelectMode} />
+    <FaPlus className="icon add" onClick={() => console.log("Adicionar relatório")} />
+    {selectMode && <FaTimes className="icon cancel" onClick={() => setSelectMode(false)} />}
+  </div>
+</div>
 
     {/* Títulos das colunas */}
     <div className="table-header">

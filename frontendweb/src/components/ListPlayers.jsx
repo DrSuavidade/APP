@@ -3,6 +3,7 @@ import "../CSS/ListRelatorios.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { FaTrash, FaPlus, FaTimes } from "react-icons/fa";
 
 const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
   const [players, setPlayers] = useState([]);
@@ -47,44 +48,37 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
 
   const deleteSelected = async () => {
     if (selectedPlayers.length === 0) {
-      alert("Selecione pelo menos um jogador para excluir.");
+      Swal.fire("Erro", "Selecione pelo menos um jogador para excluir.", "error");
       return;
     }
 
     Swal.fire({
       title: "Tem certeza?",
-      text: "Os dados serão excluídos permanentemente!",
+      text: "Os jogadores serão excluídos permanentemente!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Avançar",
+      confirmButtonText: "Sim, excluir",
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.delete("http://localhost:3000/api/players/delete", {
+          await axios.delete("http://localhost:3000/api/players/delete", {
             data: { playersIds: selectedPlayers },
           });
-
-          console.log("✅ Jogadores excluídos:", response.data);
 
           setPlayers(players.filter((p) => !selectedPlayers.includes(p.ID_JOGADORES)));
           setSelectedPlayers([]);
           setSelectMode(false);
 
-          Swal.fire("Excluído!", "Os jogadores foram excluídos com sucesso.", "success");
+          Swal.fire("Excluído!", "Os jogadores foram removidos com sucesso.", "success");
         } catch (error) {
           console.error("❌ Erro ao excluir jogadores:", error);
           Swal.fire("Erro!", "Não foi possível excluir os jogadores.", "error");
         }
       }
     });
-  };
-
-  const getStars = (nota) => {
-    const stars = "★".repeat(nota) + "☆".repeat(5 - nota);
-    return <span className="stars">{stars}</span>;
   };
 
   return (
@@ -97,79 +91,73 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button className="search-btn">Search</button>
+        <button className="search-btn">Pesquisar</button>
       </div>
 
-      {/* Botão de adicionar */}
-      <button className="list-players-add-btn" onClick={() => navigate("/players/new")}>
-        Adicionar Jogador
-      </button>
-
-      {/* Botão de seleção/eliminação */}
-      <button className={`list-players-delete-btn ${selectMode ? "active" : ""}`} onClick={toggleSelectMode}>
-        {selectMode ? "Cancelar" : "Selecionar para Eliminar"}
-      </button>
-      {selectMode && (
-        <button className="confirm-delete-btn" onClick={deleteSelected}>
-          Confirmar Eliminação
-        </button>
-      )}
+      {/* Botões de Adicionar e Excluir (Substituindo os antigos) */}
+      <div className="toolbar">
+        <div className="icons-container">
+          <FaTrash className="icon trash" onClick={toggleSelectMode} />
+          <FaPlus className="icon add" onClick={() => navigate("/players/new")} />
+          {selectMode && <FaTimes className="icon cancel" onClick={() => setSelectMode(false)} />}
+        </div>
+      </div>
 
       {/* Tabela de jogadores */}
       <div className="list-players-scroll-container">
-      <table className="list-players-table">
-        <thead>
-          <tr>
-            {selectMode && <th></th>}
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Clube</th>
-            <th>Avaliação</th>
-            <th>Gênero</th>
-            <th>Ano Nasc.</th>
-            <th>Nacionalidade</th>
-            <th>Estado</th> {/* Nova coluna para o estado */}
-          </tr>
-        </thead>
-        <tbody>
-          {players
-            .filter((p) => p.NOME.toLowerCase().includes(searchTerm.toLowerCase()))
-            .map((player) => (
-              <tr key={player.ID_JOGADORES} onClick={() => onSelectPlayer(player.ID_JOGADORES)}>
-                {selectMode && (
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={selectedPlayers.includes(player.ID_JOGADORES)}
-                      onChange={() => toggleSelection(player.ID_JOGADORES)}
-                    />
-                  </td>
-                )}
-                <td>{player.ID_JOGADORES}</td>
-                <td>{player.NOME}</td>
-                <td>{player.ABREVIATURA_CLUBE || "--"}</td>
-                <td>{getStars(player.NOTA_ADM)}</td>
-                <td>{player.GENERO}</td>
-                <td>{player.DATA_NASC ? new Date(player.DATA_NASC).getFullYear() : "--"}</td>
-                <td>{player.NACIONALIDADE}</td>
-                <td>
-                  {player.STATUS === "Inactive" && (
-                    <div
-                      style={{
-                        width: "12px",
-                        height: "12px",
-                        borderRadius: "50%",
-                        backgroundColor: "yellow",
-                        display: "inline-block",
-                      }}
-                    ></div>
+        <table className="list-players-table">
+          <thead>
+            <tr>
+              {selectMode && <th></th>}
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Clube</th>
+              <th>Avaliação</th>
+              <th>Gênero</th>
+              <th>Ano Nasc.</th>
+              <th>Nacionalidade</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {players
+              .filter((p) => p.NOME.toLowerCase().includes(searchTerm.toLowerCase()))
+              .map((player) => (
+                <tr key={player.ID_JOGADORES} onClick={() => onSelectPlayer(player.ID_JOGADORES)}>
+                  {selectMode && (
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={selectedPlayers.includes(player.ID_JOGADORES)}
+                        onChange={() => toggleSelection(player.ID_JOGADORES)}
+                      />
+                    </td>
                   )}
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
+                  <td>{player.ID_JOGADORES}</td>
+                  <td>{player.NOME}</td>
+                  <td>{player.ABREVIATURA_CLUBE || "--"}</td>
+                  <td>★ ★ ★ ★ ★</td>
+                  <td>{player.GENERO}</td>
+                  <td>{player.DATA_NASC ? new Date(player.DATA_NASC).getFullYear() : "--"}</td>
+                  <td>{player.NACIONALIDADE}</td>
+                  <td>
+                    {player.STATUS === "Inactive" && (
+                      <div
+                        style={{
+                          width: "12px",
+                          height: "12px",
+                          borderRadius: "50%",
+                          backgroundColor: "yellow",
+                          display: "inline-block",
+                        }}
+                      ></div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
