@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "../CSS/logineregistar.css";
 import api from "../api/axios";
 import { useEffect } from "react";
+import Cookies from "js-cookie";
+
 
 
 const LoginPage = () => {
@@ -14,14 +16,15 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
-
+  
     try {
-      const response = await api.post("/users/login", {
+      const response = await api.post("/users/loginWeb", {
         EMAIL: email,
         PASSWORD: password,
       });
-
-      localStorage.setItem("token", response.data.token);
+  
+      Cookies.set("token", response.data.token, { expires: 1 }); // Expira em 1 dia
+  
       navigate("/home");
     } catch (error) {
       if (error.response) {
@@ -30,7 +33,7 @@ const LoginPage = () => {
         setError("Erro de rede. Verifique sua conexão.");
       }
     }
-  };
+  }
 
   useEffect(() => {
     document.body.classList.add("no-scroll");

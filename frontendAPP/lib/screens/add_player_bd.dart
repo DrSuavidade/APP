@@ -127,7 +127,7 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
               onPressed: () {
                 Navigator.pushReplacementNamed(
                   context,
-                  '/add_player',
+                  '/add_game',
                   arguments: {'userId': widget.userId},
                 );
               },
@@ -306,6 +306,41 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
                                     },
                                   ),
                       ),
+                      SizedBox(height: 10),
+
+// Add New Player Button
+Padding(
+  padding: const EdgeInsets.symmetric(vertical: 10),
+  child: Center(
+    child: SizedBox(
+      width: 200, // Adjusted button width
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            '/add_new_player', // New page for adding a player
+            arguments: {
+              'userId': widget.userId,
+              'idEvento': widget.idEvento,
+            },
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey[700], // Light gray color
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        child: const Text(
+          'Adicionar Novo Jogador',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    ),
+  ),
+),
+
                     ],
                   ),
                 ),
