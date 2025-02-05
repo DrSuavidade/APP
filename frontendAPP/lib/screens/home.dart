@@ -5,13 +5,13 @@ import 'hamburger_menu.dart';
 class HomeScreen extends StatefulWidget {
   final int userId;
 
-  const HomeScreen({Key? key, required this.userId}) : super(key: key);
+  const HomeScreen({super.key, required this.userId});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   List<dynamic> userGames = [];
   List<dynamic> userPlayers = [];
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -77,6 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
       'STATUS': 'EliminadoScouter',
     });
 
+    if (!mounted) return;
+
     setState(() {
       userPlayers.removeWhere((player) => player['ID_RELATORIO'] == idRelatorio);
     });
@@ -85,6 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const SnackBar(content: Text("Relatório removido com sucesso!")),
     );
   } catch (e) {
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Erro ao remover relatório.")),
     );
@@ -151,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer:
           HamburgerMenu(userId: widget.userId), // Use the custom hamburger menu
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Stack(
               children: [
                 // Background Image
@@ -183,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 10),
                       userGames.isEmpty
-                          ? Center(
+                          ? const Center(
                               child: Text(
                                 "Não existem eventos de momento",
                                 style: TextStyle(
@@ -235,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 10),
                       userPlayers.isEmpty
-                          ? Center(
+                          ? const Center(
                               child: Text(
                                 "Não existem jogadores de momento",
                                 style: TextStyle(
@@ -286,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             vertical: 10,
                             horizontal: 20,
                           ),

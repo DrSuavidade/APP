@@ -4,13 +4,13 @@ import 'hamburger_menu.dart';
 
 class CalendarScreen extends StatefulWidget {
   final int userId;
-  const CalendarScreen({Key? key, required this.userId}) : super(key: key);
+  const CalendarScreen({super.key, required this.userId});
 
   @override
-  _CalendarScreenState createState() => _CalendarScreenState();
+  CalendarScreenState createState() => CalendarScreenState();
 }
 
-class _CalendarScreenState extends State<CalendarScreen> {
+class CalendarScreenState extends State<CalendarScreen> {
   final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   List<dynamic> eventos = [];
   bool isLoading = true;
@@ -70,10 +70,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
       child: TextButton(
         onPressed: () => _fetchData(escalao: escalaoFilter),
         style: TextButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           foregroundColor: isSelected ? Colors.white : Colors.grey[500], // Text color only
         ),
-        child: Text(label, style: TextStyle(fontSize: 10)),
+        child: Text(label, style: const TextStyle(fontSize: 10)),
       ),
     );
   }
@@ -103,7 +103,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             "${evento['EQUIPA_CASA']}  vs  ${evento['VISITANTE']}",
             style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             "${evento['DATA']} às ${evento['HORA']} - ${evento['LOCAL']}",
             style: const TextStyle(color: Colors.white70, fontSize: 12),
@@ -147,7 +147,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         children: [
           // Background Image
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/Padrao.png'),
                 fit: BoxFit.cover,
@@ -156,10 +156,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
           Column(
             children: [
-              SizedBox(height: 50), // Adjusted to move content up
+              const SizedBox(height: 50), // Adjusted to move content up
               // Filters Section
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 0),
                 child: Wrap(
                   alignment: WrapAlignment.center,
                   spacing: 2, // Horizontal spacing
@@ -178,8 +178,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 5), // Reduced spacing
-              Text(
+              const SizedBox(height: 5), // Reduced spacing
+              const Text(
                         "PRÓXIMAS PARTIDAS",
                         style: TextStyle(
                           color: Colors.white,
@@ -187,13 +187,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 2),
+                      const SizedBox(height: 2),
 
               // Event List in Smaller Grey Box
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5), // Adjusted to move up
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5), // Adjusted to move up
+                  padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
                   decoration: BoxDecoration(
                     color: Colors.grey[800], // Grey background
                     borderRadius: BorderRadius.circular(12),
@@ -206,9 +206,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       // List of Events
                       Expanded(
                         child: isLoading
-                            ? Center(child: CircularProgressIndicator())
+                            ? const Center(child: CircularProgressIndicator())
                             : eventos.isEmpty
-                                ? Center(
+                                ? const Center(
                                     child: Text(
                                       'Não existem eventos para o filtro selecionado',
                                       style: TextStyle(color: Colors.white),
@@ -225,7 +225,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 100),
+              const SizedBox(height: 100),
             ],
           ),
           // Bottom Navigation Bar inside the Stack (fixes white background issue)

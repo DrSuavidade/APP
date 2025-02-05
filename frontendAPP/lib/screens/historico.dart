@@ -5,13 +5,13 @@ import 'hamburger_menu.dart';
 class HistoricoScreen extends StatefulWidget {
   final int userId;
 
-  const HistoricoScreen({Key? key, required this.userId}) : super(key: key);
+  const HistoricoScreen({super.key, required this.userId});
 
   @override
-  _HistoricoScreenState createState() => _HistoricoScreenState();
+  HistoricoScreenState createState() => HistoricoScreenState();
 }
 
-class _HistoricoScreenState extends State<HistoricoScreen> {
+class HistoricoScreenState extends State<HistoricoScreen> {
   final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   List<dynamic> relatorios = [];
   bool isLoading = true;
@@ -46,7 +46,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),
@@ -79,13 +79,13 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
           children: [
             Builder(
               builder: (context) => IconButton(
-                icon: Icon(Icons.menu, color: Colors.white),
+                icon: const Icon(Icons.menu, color: Colors.white),
                 onPressed: () {
                   Scaffold.of(context).openDrawer();
                 },
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Image.asset(
               'assets/images/Logofinal1.png',
               height: 40,
@@ -98,7 +98,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
         children: [
           // Background Image
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/Padrao.png'),
                 fit: BoxFit.cover,
@@ -110,10 +110,10 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
             child: Column(
               children: [
                 // Grey Box containing the title and list
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                   decoration: BoxDecoration(
                     color: Colors.grey[800], // Main grey box
                     borderRadius: BorderRadius.circular(12),
@@ -122,12 +122,12 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
                     children: [
                       // Title inside Dark Grey Box
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         decoration: BoxDecoration(
                           color: Colors.grey[900], // Dark grey box for title
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             "HISTÓRICO DE AVALIAÇÕES",
                             style: TextStyle(
@@ -140,9 +140,9 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
                       ),
                       // List Items
                       isLoading
-                          ? Center(child: CircularProgressIndicator())
+                          ? const Center(child: CircularProgressIndicator())
                           : relatorios.isEmpty
-                              ? Center(
+                              ? const Center(
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(vertical: 10),
                                     child: Text(
@@ -156,7 +156,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
                                 )
                               : ListView.builder(
                                   shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: relatorios.length,
                                   itemBuilder: (context, index) {
                                     final relatorio = relatorios[index];
@@ -172,7 +172,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
                                           color: Colors.grey[400],
                                           borderRadius: BorderRadius.circular(12),
                                         ),
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             vertical: 10, horizontal: 16),
                                         child: Row(
                                           mainAxisAlignment:
@@ -183,7 +183,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
                                               child: Text(
                                                 playerName,
                                                 style:
-                                                    TextStyle(color: Colors.white, fontSize: 14),
+                                                    const TextStyle(color: Colors.white, fontSize: 14),
                                               ),
                                             ),
                                             // Rating
@@ -197,7 +197,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(width: 10),
+                                            const SizedBox(width: 10),
                                             // Status Indicator
                                             CircleAvatar(
                                               radius: 6,

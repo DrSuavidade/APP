@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import '../api/api_service.dart';
 
 class RelatorioScreen extends StatefulWidget {
-  const RelatorioScreen({Key? key}) : super(key: key);
+  const RelatorioScreen({super.key});
 
   @override
-  _RelatorioPageState createState() => _RelatorioPageState();
+  RelatorioPageState createState() => RelatorioPageState();
 }
 
-class _RelatorioPageState extends State<RelatorioScreen> {
+class RelatorioPageState extends State<RelatorioScreen> {
   final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   int? tecnica, velocidade, atitudeCompetitiva, inteligencia;
   String? altura, morfologia, comentario;
@@ -37,7 +37,6 @@ class _RelatorioPageState extends State<RelatorioScreen> {
     idRelatorio = args['id_relatorio'];
     idJogador = args['id_jogador'];
     idUser = args['id_user'];
-    print("idRelatorio = $idRelatorio, idJogador = $idJogador, idUser = $idUser");
     _fetchPlayerInfo();
   }
 
@@ -71,6 +70,8 @@ class _RelatorioPageState extends State<RelatorioScreen> {
       'DATA': DateTime.now().toIso8601String(),
       'STATUS': 'Avaliado',
     });
+
+    if (!mounted) return;
 
     Navigator.pushNamedAndRemoveUntil(
       context,
@@ -106,19 +107,19 @@ class _RelatorioPageState extends State<RelatorioScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Confirmar Alterações'),
-        content: Text('Tem certeza que deseja aplicar as alterações no relatório?'),
+        title: const Text('Confirmar Alterações'),
+        content: const Text('Tem certeza que deseja aplicar as alterações no relatório?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancelar'),
+            child: const Text('Cancelar'),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
               _saveRelatorio();
             },
-            child: Text('Confirmar'),
+            child: const Text('Confirmar'),
           ),
         ],
       ),
@@ -127,7 +128,7 @@ class _RelatorioPageState extends State<RelatorioScreen> {
 
   Widget _buildPlayerInfo() {
     if (playerInfo == null) {
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     }
 
     final nome = playerInfo!['NOME'];
@@ -135,7 +136,7 @@ class _RelatorioPageState extends State<RelatorioScreen> {
     final notaAdm = playerInfo!['NOTA_ADM'];
 
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.grey[900],
         borderRadius: BorderRadius.circular(10),
@@ -145,16 +146,16 @@ class _RelatorioPageState extends State<RelatorioScreen> {
           CircleAvatar(
             backgroundColor: Colors.grey[700],
             radius: 40,
-            child: Icon(Icons.person, color: Colors.white, size: 40),
+            child: const Icon(Icons.person, color: Colors.white, size: 40),
           ),
-          SizedBox(width: 14),
+          const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'NOME: $nome',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,
                     fontWeight: FontWeight.w300,
@@ -162,16 +163,16 @@ class _RelatorioPageState extends State<RelatorioScreen> {
                 ),
                 Text(
                   'IDADE: ${DateTime.now().year - DateTime.parse(dataNasc).year}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,
                     fontWeight: FontWeight.w300,
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   'NOTA: $notaAdm',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
@@ -194,12 +195,12 @@ class _RelatorioPageState extends State<RelatorioScreen> {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           "RELATÓRIO DO JOGADOR",
           style: TextStyle(
             color: Colors.white,
@@ -213,7 +214,7 @@ class _RelatorioPageState extends State<RelatorioScreen> {
           Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/Padrao.png'),
                 fit: BoxFit.cover,
@@ -225,7 +226,7 @@ class _RelatorioPageState extends State<RelatorioScreen> {
             child: ListView(
               children: [
                 _buildPlayerInfo(),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildRatingSection("TÉCNICA", tecnica ?? 0,
                     (value) => setState(() => tecnica = value)),
                 _buildRatingSection("VELOCIDADE", velocidade ?? 0,
@@ -239,14 +240,14 @@ class _RelatorioPageState extends State<RelatorioScreen> {
                     (value) => setState(() => inteligencia = value)),
                 _buildOptionSection("ALTURA", ["Baixo", "Médio", "Alto"],
                     altura, (value) => setState(() => altura = value)),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 _buildOptionSection(
                   "MORFOLOGIA",
                   ["Hectomorfo", "Mesomorfo", "Endomorfo"],
                   morfologia,
                   (value) => setState(() => morfologia = value),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Stack(
                   children: [
                     Container(
@@ -254,21 +255,21 @@ class _RelatorioPageState extends State<RelatorioScreen> {
                       decoration: BoxDecoration(
                         color: Colors.grey[900],
                       ),
-                      padding: EdgeInsets.only(top: 20, left: 10, right: 10),
+                      padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
                       child: TextField(
                         controller: _comentarioController,
                         onChanged: (value) => comentario = value,
                         maxLines: null,
                         expands: true,
                         textAlignVertical: TextAlignVertical.bottom,
-                        style: TextStyle(color: Colors.white, fontSize: 11),
-                        decoration: InputDecoration(
+                        style: const TextStyle(color: Colors.white, fontSize: 11),
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.zero,
                         ),
                       ),
                     ),
-                    Positioned(
+                    const Positioned(
                       top: 5,
                       left: 10,
                       child: Text(
@@ -278,12 +279,12 @@ class _RelatorioPageState extends State<RelatorioScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: _showConfirmationDialog,
                   child: const Text("CONFIRMAR"),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -304,10 +305,10 @@ class _RelatorioPageState extends State<RelatorioScreen> {
           alignment: Alignment.center,
           child: Text(
             label,
-            style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+            style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
           ),
         ),
-        SizedBox(height: 6),
+        const SizedBox(height: 6),
 
         // Rating Row
         SizedBox(
@@ -321,7 +322,7 @@ class _RelatorioPageState extends State<RelatorioScreen> {
                   child: IconButton(
                     iconSize: 18, // Increased size
                     padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(),
+                    constraints: const BoxConstraints(),
                     icon: Icon(
                       Icons.circle,
                       color: index + 1 <= currentValue ? Colors.green : Colors.grey,
@@ -332,15 +333,15 @@ class _RelatorioPageState extends State<RelatorioScreen> {
               }),
 
               // Rating Value (Right-aligned)
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Text(
                 "$currentValue/4",
-                style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
               ),
             ],
           ),
         ),
-        SizedBox(height: 6), // Extra spacing between sections
+        const SizedBox(height: 6), // Extra spacing between sections
       ],
     ),
   );
@@ -355,8 +356,8 @@ class _RelatorioPageState extends State<RelatorioScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(color: Colors.white, fontSize: 11)),
-          SizedBox(height: 10),
+          Text(label, style: const TextStyle(color: Colors.white, fontSize: 11)),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: options.map((option) {

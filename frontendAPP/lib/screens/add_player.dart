@@ -6,14 +6,13 @@ class AddPlayerScreen extends StatefulWidget {
   final int idEvento;
 
   const AddPlayerScreen(
-      {Key? key, required this.userId, required this.idEvento})
-      : super(key: key);
+      {super.key, required this.userId, required this.idEvento});
 
   @override
-  _AddPlayerScreenState createState() => _AddPlayerScreenState();
+  AddPlayerScreenState createState() => AddPlayerScreenState();
 }
 
-class _AddPlayerScreenState extends State<AddPlayerScreen> {
+class AddPlayerScreenState extends State<AddPlayerScreen> {
   final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   List<dynamic> jogadores = [];
   bool isLoading = true;
@@ -71,8 +70,8 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Sucesso'),
-        content: Text('Relatório criado com sucesso!'),
+        title: const Text('Sucesso'),
+        content: const Text('Relatório criado com sucesso!'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pushNamedAndRemoveUntil(
@@ -139,7 +138,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
         children: [
           // Background Image
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/Padrao.png'),
                 fit: BoxFit.cover,
@@ -149,8 +148,8 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
 
           Column(
             children: [
-              SizedBox(height: 75),
-              Padding(
+              const SizedBox(height: 75),
+              const Padding(
                 padding: EdgeInsets.only(top: 8, bottom: 5),
                 child: Center(
                   child: Text(
@@ -164,8 +163,8 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                   decoration: BoxDecoration(
                     color: Colors.grey[800], // Slightly lighter than before
                     borderRadius: BorderRadius.circular(12),
@@ -175,11 +174,11 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
                     children: [
                       Expanded(
                         child: isLoading
-                            ? Center(
+                            ? const Center(
                                 child: CircularProgressIndicator(
                                     color: Colors.white))
                             : jogadores.isEmpty
-                                ? Center(
+                                ? const Center(
                                     child: Text(
                                       'Nenhum jogador disponível',
                                       style: TextStyle(color: Colors.white),
@@ -192,9 +191,9 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
                                       return GestureDetector(
                                         onTap: () => _createRelatorio(jogador['ID_JOGADORES']),
                                         child: Container(
-                                          margin: EdgeInsets.symmetric(
+                                          margin: const EdgeInsets.symmetric(
                                               vertical: 6, horizontal: 8),
-                                          padding: EdgeInsets.all(12),
+                                          padding: const EdgeInsets.all(12),
                                           decoration: BoxDecoration(
                                             color: Colors.grey[
                                                 900], // Darker player cards
@@ -212,11 +211,11 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
                                                   color: Colors.white
                                                       .withOpacity(0.2),
                                                 ),
-                                                child: Icon(Icons.person,
+                                                child: const Icon(Icons.person,
                                                     color: Colors.white,
                                                     size: 24),
                                               ),
-                                              SizedBox(width: 12),
+                                              const SizedBox(width: 12),
 
                                               // Player Details
                                               Expanded(
@@ -227,14 +226,14 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
                                                     Text(
                                                       jogador['NOME'] ??
                                                           'Sem nome',
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                       ),
                                                     ),
-                                                    SizedBox(height: 2),
+                                                    const SizedBox(height: 2),
                                                     Text(
                                                       _formatDate(
                                                           jogador['DATA_NASC']),
@@ -249,7 +248,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
 
                                               // Admin Rating Badge
                                               Container(
-                                                padding: EdgeInsets.symmetric(
+                                                padding: const EdgeInsets.symmetric(
                                                     horizontal: 10,
                                                     vertical: 4),
                                                 decoration: BoxDecoration(
@@ -261,13 +260,13 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
                                                 child: Text(
                                                   jogador['NOTA_ADM']
                                                       .toString(),
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 14),
                                                 ),
                                               ),
 
-                                              SizedBox(width: 10),
+                                              const SizedBox(width: 10),
 
                                               // Circle Button (Inactive for now)
                                               GestureDetector(
@@ -302,7 +301,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
                                     },
                                   ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       // Add Player Button inside container
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
@@ -338,12 +337,12 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 120),
+              const SizedBox(height: 120),
             ],
           ),
           // Bottom Navigation Bar inside Stack

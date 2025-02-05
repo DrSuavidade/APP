@@ -6,7 +6,7 @@ import '../api/api_service.dart';
 class PerfilPasswordScreen extends StatefulWidget {
   final int userId;
 
-  const PerfilPasswordScreen({Key? key, required this.userId}) : super(key: key);
+  const PerfilPasswordScreen({super.key, required this.userId});
 
   @override
   State<PerfilPasswordScreen> createState() => _PerfilPasswordScreenState();

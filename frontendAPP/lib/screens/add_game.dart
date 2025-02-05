@@ -5,13 +5,13 @@ import 'hamburger_menu.dart';
 class AddGameScreen extends StatefulWidget {
   final int userId;
 
-  const AddGameScreen({Key? key, required this.userId}) : super(key: key);
+  const AddGameScreen({super.key, required this.userId});
 
   @override
-  _AddGameScreenState createState() => _AddGameScreenState();
+  AddGameScreenState createState() => AddGameScreenState();
 }
 
-class _AddGameScreenState extends State<AddGameScreen> {
+class AddGameScreenState extends State<AddGameScreen> {
   final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   List<dynamic> eventos = [];
   bool isLoading = true;
@@ -100,7 +100,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
         children: [
           // Background Image
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/Padrao.png'),
                 fit: BoxFit.cover,
@@ -109,9 +109,9 @@ class _AddGameScreenState extends State<AddGameScreen> {
           ),
           Column(
             children: [
-              SizedBox(height: 75), // Adjusted to move content up
+              const SizedBox(height: 75), // Adjusted to move content up
               // Title at the top
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(top: 8, bottom: 5),
                 child: Center(
                   child: Text(
@@ -126,8 +126,8 @@ class _AddGameScreenState extends State<AddGameScreen> {
 
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                   decoration: BoxDecoration(
                     color: Colors.grey[850], // Now matches event cards
                     borderRadius: BorderRadius.circular(12),
@@ -138,11 +138,11 @@ class _AddGameScreenState extends State<AddGameScreen> {
                       // List of Events
                       Expanded(
                         child: isLoading
-                            ? Center(
+                            ? const Center(
                                 child: CircularProgressIndicator(
                                     color: Colors.white))
                             : eventos.isEmpty
-                                ? Center(
+                                ? const Center(
                                     child: Text(
                                       'Nenhum jogo disponível.',
                                       style: TextStyle(color: Colors.white),
@@ -156,9 +156,9 @@ class _AddGameScreenState extends State<AddGameScreen> {
                                         onTap: () => _navigateToAddPlayer(evento[
                                             'ID_EVENTOS']), // Restored logic
                                         child: Container(
-                                          margin: EdgeInsets.symmetric(
+                                          margin: const EdgeInsets.symmetric(
                                               vertical: 6, horizontal: 8),
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               vertical: 10, horizontal: 16),
                                           decoration: BoxDecoration(
                                             color: Colors.grey[
@@ -172,13 +172,13 @@ class _AddGameScreenState extends State<AddGameScreen> {
                                             children: [
                                               Text(
                                                 '${evento['EQUIPA_CASA']}  vs  ${evento['VISITANTE']}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              SizedBox(height: 6),
+                                              const SizedBox(height: 6),
                                               Text(
                                                 '${_formatDate(evento['DATA'])}  ${evento['HORA']}',
                                                 style: TextStyle(
@@ -197,7 +197,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 120),
+              const SizedBox(height: 120),
             ],
           ),
           // Bottom Navigation Bar inside the Stack (fixes white background issue)

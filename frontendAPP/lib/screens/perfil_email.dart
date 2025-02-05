@@ -6,7 +6,7 @@ import '../api/api_service.dart';
 class PerfilEmailScreen extends StatefulWidget {
   final int userId;
 
-  const PerfilEmailScreen({Key? key, required this.userId}) : super(key: key);
+  const PerfilEmailScreen({super.key, required this.userId});
 
   @override
   State<PerfilEmailScreen> createState() => _PerfilEmailScreenState();

@@ -5,13 +5,13 @@ class ListPlayerScreen extends StatefulWidget {
   final int userId;
   final int idEvento;
 
-  const ListPlayerScreen({Key? key, required this.userId, required this.idEvento}) : super(key: key);
+  const ListPlayerScreen({super.key, required this.userId, required this.idEvento});
 
   @override
-  _ListPlayerScreenState createState() => _ListPlayerScreenState();
+  ListPlayerScreenState createState() => ListPlayerScreenState();
 }
 
-class _ListPlayerScreenState extends State<ListPlayerScreen> {
+class ListPlayerScreenState extends State<ListPlayerScreen> {
   final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   List<dynamic> jogadores = [];
   bool isLoading = true;
@@ -73,7 +73,7 @@ class _ListPlayerScreenState extends State<ListPlayerScreen> {
         children: [
           // Background Image
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/Padrao.png'),
                 fit: BoxFit.cover,
@@ -83,8 +83,8 @@ class _ListPlayerScreenState extends State<ListPlayerScreen> {
 
           Column(
             children: [
-              SizedBox(height: 75),
-              Padding(
+              const SizedBox(height: 75),
+              const Padding(
                 padding: EdgeInsets.only(top: 8, bottom: 5),
                 child: Center(
                   child: Text(
@@ -98,8 +98,8 @@ class _ListPlayerScreenState extends State<ListPlayerScreen> {
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                   decoration: BoxDecoration(
                     color: Colors.grey[800], // Slightly lighter than before
                     borderRadius: BorderRadius.circular(12),
@@ -109,9 +109,9 @@ class _ListPlayerScreenState extends State<ListPlayerScreen> {
                     children: [
                       Expanded(
                         child: isLoading
-                            ? Center(child: CircularProgressIndicator(color: Colors.white))
+                            ? const Center(child: CircularProgressIndicator(color: Colors.white))
                             : jogadores.isEmpty
-                                ? Center(
+                                ? const Center(
                                     child: Text(
                                       'Nenhum jogador disponível',
                                       style: TextStyle(color: Colors.white),
@@ -122,8 +122,8 @@ class _ListPlayerScreenState extends State<ListPlayerScreen> {
                                     itemBuilder: (context, index) {
                                       final jogador = jogadores[index];
                                       return Container(
-                                        margin: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                                        padding: EdgeInsets.all(12),
+                                        margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                                        padding: const EdgeInsets.all(12),
                                         decoration: BoxDecoration(
                                           color: Colors.grey[900], // Darker player cards
                                           borderRadius: BorderRadius.circular(12),
@@ -138,9 +138,9 @@ class _ListPlayerScreenState extends State<ListPlayerScreen> {
                                                 shape: BoxShape.circle,
                                                 color: Colors.white.withOpacity(0.2),
                                               ),
-                                              child: Icon(Icons.person, color: Colors.white, size: 24),
+                                              child: const Icon(Icons.person, color: Colors.white, size: 24),
                                             ),
-                                            SizedBox(width: 12),
+                                            const SizedBox(width: 12),
 
                                             // Player Details
                                             Expanded(
@@ -149,13 +149,13 @@ class _ListPlayerScreenState extends State<ListPlayerScreen> {
                                                 children: [
                                                   Text(
                                                     jogador['NOME'] ?? 'Sem nome',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
-                                                  SizedBox(height: 2),
+                                                  const SizedBox(height: 2),
                                                   Text(
                                                     _formatDate(jogador['DATA_NASC']),
                                                     style: TextStyle(
@@ -169,14 +169,14 @@ class _ListPlayerScreenState extends State<ListPlayerScreen> {
 
                                             // Admin Rating Badge
                                             Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                               decoration: BoxDecoration(
                                                 color: Colors.grey[600], // Light gray rating badge
                                                 borderRadius: BorderRadius.circular(12),
                                               ),
                                               child: Text(
                                                 jogador['NOTA_ADM'].toString(),
-                                                style: TextStyle(color: Colors.white, fontSize: 14),
+                                                style: const TextStyle(color: Colors.white, fontSize: 14),
                                               ),
                                             ),
                                           ],
@@ -189,7 +189,7 @@ class _ListPlayerScreenState extends State<ListPlayerScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 120),
+              const SizedBox(height: 120),
             ],
           ),
 

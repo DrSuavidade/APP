@@ -6,14 +6,13 @@ class AddNewPlayerScreen extends StatefulWidget {
   final int idEvento;
 
   const AddNewPlayerScreen(
-      {Key? key, required this.userId, required this.idEvento})
-      : super(key: key);
+      {super.key, required this.userId, required this.idEvento});
 
   @override
-  _AddNewPlayerScreenState createState() => _AddNewPlayerScreenState();
+  AddNewPlayerScreenState createState() => AddNewPlayerScreenState();
 }
 
-class _AddNewPlayerScreenState extends State<AddNewPlayerScreen> {
+class AddNewPlayerScreenState extends State<AddNewPlayerScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _nationalityController = TextEditingController();
   final api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
@@ -89,8 +88,8 @@ void _showErrorDialog(String title, String message) {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: Text('Sucesso'),
-      content: Text('Relatório criado com sucesso!'),
+      title: const Text('Sucesso'),
+      content: const Text('Relatório criado com sucesso!'),
       actions: [
         TextButton(
           onPressed: () {
@@ -139,7 +138,7 @@ void _showErrorDialog(String title, String message) {
         children: [
           // Background Image
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/Padrao.png'),
                 fit: BoxFit.cover,
@@ -150,10 +149,10 @@ void _showErrorDialog(String title, String message) {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Title
-              Center(
+              const Center(
                 child: Text(
                   "INFORMAÇÕES DO JOGADOR",
                   style: TextStyle(
@@ -163,7 +162,7 @@ void _showErrorDialog(String title, String message) {
                 ),
               ),
 
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
 
               // Profile Picture on Top Left
               Padding(
@@ -175,14 +174,14 @@ void _showErrorDialog(String title, String message) {
                     shape: BoxShape.circle,
                     color: Colors.white.withOpacity(0.2),
                   ),
-                  child: Icon(Icons.person, color: Colors.white, size: 30),
+                  child: const Icon(Icons.person, color: Colors.white, size: 30),
                 ),
               ),
 
               // 🔹 White Line (Divider)
-              Padding(
+              const Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Divider(
                   color: Colors.white, // White line
                   thickness: 1, // Thin but visible
@@ -198,7 +197,7 @@ void _showErrorDialog(String title, String message) {
               // Nacionalidade Field
               _buildTextField("Nacionalidade", _nationalityController),
 
-              Spacer(),
+              const Spacer(),
 
               // Add Player Button
               Center(
@@ -223,7 +222,7 @@ void _showErrorDialog(String title, String message) {
                 ),
               ),
 
-              SizedBox(height: 3), // Push the button down
+              const SizedBox(height: 3), // Push the button down
             ],
           ),
         ],
@@ -237,19 +236,19 @@ void _showErrorDialog(String title, String message) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(color: Colors.white, fontSize: 12)),
-          SizedBox(height: 4),
+          Text(label, style: const TextStyle(color: Colors.white, fontSize: 12)),
+          const SizedBox(height: 4),
           Container(
             height: 35, // Shorter height
-            padding: EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
               color: Colors.grey[800], // Gray background
               borderRadius: BorderRadius.circular(8),
             ),
             child: TextField(
               controller: controller,
-              style: TextStyle(color: Colors.white, fontSize: 13),
-              decoration: InputDecoration(
+              style: const TextStyle(color: Colors.white, fontSize: 13),
+              decoration: const InputDecoration(
                 border: InputBorder.none,
               ),
             ),
@@ -265,11 +264,11 @@ void _showErrorDialog(String title, String message) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(color: Colors.white, fontSize: 12)),
-          SizedBox(height: 4),
+          Text(label, style: const TextStyle(color: Colors.white, fontSize: 12)),
+          const SizedBox(height: 4),
           Container(
             height: 35, // Shorter height
-            padding: EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
               color: Colors.grey[800], // Gray background
               borderRadius: BorderRadius.circular(8),
@@ -278,9 +277,9 @@ void _showErrorDialog(String title, String message) {
               dropdownColor: Colors.black,
               value: selectedGender,
               isExpanded: true,
-              icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-              underline: SizedBox(),
-              style: TextStyle(color: Colors.white, fontSize: 13),
+              icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
+              underline: const SizedBox(),
+              style: const TextStyle(color: Colors.white, fontSize: 13),
               onChanged: (String? newValue) {
                 setState(() {
                   selectedGender = newValue;
