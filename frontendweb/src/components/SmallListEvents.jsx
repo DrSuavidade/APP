@@ -27,7 +27,6 @@ const RecentEvents = () => {
 
   return (
     <div className="recent-events-container">
-      <h2>Eventos Recentes</h2>
       <div className="events-list">
         {events.map((event, index) => (
           <div className="event-info" key={index}>
