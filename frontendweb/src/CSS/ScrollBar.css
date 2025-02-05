@@ -1,36 +1,25 @@
-/* Garante que o conteúdo tenha rolagem e a scrollbar fique isolada na direita */
-.scroll-container {
-    height: 100vh; /* Ocupa toda a altura da tela */
-    overflow-y: auto; /* Habilita a rolagem vertical */
-    padding-right: 15px; /* Adiciona espaço para não encostar no conteúdo */
-  }
-  
-  /* Personaliza a scrollbar para ficar encostada na borda direita */
-  .scroll-container::-webkit-scrollbar {
-    width: 10px; /* Largura da scrollbar */
-    position: absolute;
-    right: 0; /* Alinha totalmente à direita */
-  }
-  
-  /* Fundo da scrollbar */
-  .scroll-container::-webkit-scrollbar-track {
-    background: transparent; /* Deixa o fundo invisível */
-  }
-  
-  /* Cor da scrollbar (barra de rolagem) */
-  .scroll-container::-webkit-scrollbar-thumb {
-    background: #3c3c3c; /* Cor azul neon */
-    border-radius: 5px;
-  }
-  
-  /* Efeito ao passar o mouse na scrollbar */
-  .scroll-container::-webkit-scrollbar-thumb:hover {
-    background: #3c3c3c;
-  }
-  
-  /* Firefox (mantém a scrollbar fina e na direita) */
-  .scroll-container {
-    scrollbar-width: thin;
-    scrollbar-color: #4d4d4d transparent;
-  }
-  
+/* Remove a scrollbar padrão */
+html, body {
+  height: 100%;
+  overflow-y: auto !important; /* Força o scroll */
+  scrollbar-width: thin; /* Para Firefox */
+  scrollbar-color: #313131 #111; /* Cor do scroll no Firefox */
+}
+
+/* Estiliza a scrollbar para Chrome, Edge e Safari */
+::-webkit-scrollbar {
+  width: 8px; /* Largura da barra */
+}
+
+::-webkit-scrollbar-track {
+  background: #111; /* Cor de fundo da barra */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222; /* Cor do scroll */
+  border-radius: 10px; /* Bordas arredondadas */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333; /* Cor do scroll ao passar o mouse */
+}

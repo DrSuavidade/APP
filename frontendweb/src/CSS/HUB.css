@@ -3,10 +3,8 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-top: 80px; /* Afastar da navbar */
-  background-color: #1c1c1c; /* ← ISSO ESTÁ CRIANDO A BOX PRETA */
+  margin-top: 220px; /* Afastar da navbar */
 }
-
 
 /* Centraliza o título acima dos cards */
 .relatorios-title {
@@ -60,12 +58,15 @@
 
 .dashboard-container {
   display: flex;
-  justify-content: space-between;
-  width: 90%;
-  max-width: 1300px;
-  margin-top: 80px; /* Afastando mais da navbar */
+  justify-content: center;
   align-items: flex-start;
+  gap: 30px;
+  margin: 0 auto;
+  max-width: 80%;
+  padding-top: 70px;
+  background: transparent !important; /* Garante que o fundo seja removido */
 }
+
 
 .scouters-section,
 .players-section {
