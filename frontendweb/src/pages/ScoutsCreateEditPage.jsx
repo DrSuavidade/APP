@@ -7,8 +7,7 @@ const ScoutsCreateEditPage = () => {
     NOME: "",
     EMAIL: "",
     PASSWORD: "",
-    ID_TIPO: "",
-    SCOUETER: "", // Adicionado campo Scouter
+    ID_TIPO: "", // Adicionado campo Scouter
   });
 
   const [tipoUtilizadores, setTipoUtilizadores] = useState([]);
@@ -53,7 +52,7 @@ const ScoutsCreateEditPage = () => {
       const response = await api.post("/users/signup", formData);
       if (response.status === 201) {
         setSuccess("Utilizador criado com sucesso!");
-        setFormData({ NOME: "", EMAIL: "", PASSWORD: "", ID_TIPO: "", SCOUETER: "" });
+        setFormData({ NOME: "", EMAIL: "", PASSWORD: "", ID_TIPO: ""});
       }
     } catch (error) {
       setError("Erro ao criar utilizador. Verifique os dados.");
@@ -114,18 +113,6 @@ const ScoutsCreateEditPage = () => {
                 </option>
               ))}
             </select>
-          </div>
-
-          {/* Campo Scouter Adicionado */}
-          <div className="form-group">
-            <label htmlFor="SCOUETER">Scouter</label>
-            <input
-              type="text"
-              id="SCOUETER"
-              value={formData.SCOUETER}
-              onChange={handleChange}
-              required
-            />
           </div>
 
           {error && <p className="error-message">{error}</p>}
