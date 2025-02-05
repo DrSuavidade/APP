@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 const User = require('../Models/User');
 const TipoUtilizador = require('../Models/TipoUtilizador');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
