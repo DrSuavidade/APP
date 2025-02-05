@@ -7,7 +7,7 @@ class PerfilScreen extends StatelessWidget {
   final int userId;
   final ApiService apiService = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
 
-  PerfilScreen({Key? key, required this.userId}) : super(key: key);
+  PerfilScreen({super.key, required this.userId});
 
   void _deleteAccount(BuildContext context) {
     showDialog(
@@ -25,8 +25,10 @@ class PerfilScreen extends StatelessWidget {
               onPressed: () async {
                 try {
                   await apiService.deleteUser(userId);
+                  if (!context.mounted) return;
                   Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
                 } catch (e) {
+                  if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Erro ao apagar a conta")),
                   );

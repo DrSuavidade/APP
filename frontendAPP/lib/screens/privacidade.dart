@@ -36,7 +36,7 @@ class PrivacidadeScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: const [
                   // Title
                   Text(
                     "Política de Privacidade",
@@ -100,7 +100,7 @@ Em caso de dúvidas, preocupações ou para exercer os seus direitos, entre em c
 📧 Email: viseuscouts@gmail.com  
 📍 Endereço: Viseu
 
-📅 **Data da última atualização:** 1\2\2025
+📅 **Data da última atualização:** 1/2/2025
                     """,
                     style: TextStyle(
                       color: Colors.white,

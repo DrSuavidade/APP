@@ -67,7 +67,7 @@ const RoutesWithNavbar = () => {
         <Route path="/players/add-to-event" element={<PlayersAddToEventPage />} />
         <Route path="/team" element={<TeamPage />} />
         <Route path="/team/add-club" element={<AddClubPage />} />
-        <Route path="/team/add" element={<AddTeamPage />} />
+        <Route path="/team/add/:id_clube" element={<AddTeamPage />} />
         <Route path="/team/shadow" element={<ShadowTeamPage />} />
         <Route path="/players" element={<PlayersPage />} />
         <Route path="/clubs/:ID_USER" element={<ClubsPage />} />

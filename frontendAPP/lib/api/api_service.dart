@@ -230,7 +230,6 @@ Future<dynamic> getJogadorById(int jogadorId) async {
   );
 
   if (response.statusCode != 200) {
-    print("DEBUG - Erro ao atualizar relatório: ${response.body}");
     throw Exception('Erro ao atualizar relatório');
   }
 }

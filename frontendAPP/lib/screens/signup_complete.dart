@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import '../api/api_service.dart';
 
 class SignupCompleteScreen extends StatefulWidget {
+  const SignupCompleteScreen({super.key});
+
   @override
-  _SignupCompleteScreenState createState() => _SignupCompleteScreenState();
+  SignupCompleteScreenState createState() => SignupCompleteScreenState();
 }
 
-class _SignupCompleteScreenState extends State<SignupCompleteScreen> {
+class SignupCompleteScreenState extends State<SignupCompleteScreen> {
   final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   bool isRegistering = true;
   String? errorMessage;
@@ -67,28 +69,28 @@ class _SignupCompleteScreenState extends State<SignupCompleteScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center, // Center align everything
                 children: [
-                  SizedBox(height: 45.0),
+                  const SizedBox(height: 45.0),
 
                   // Logo
                   Image.asset(
                     'assets/images/Logofinal1.png',
                     height: 120.0,
                   ),
-                  SizedBox(height: 45.0),
+                  const SizedBox(height: 45.0),
 
                   // Success Message
                   Text(
                     isRegistering
                         ? "Criando conta..."
                         : (errorMessage != null ? "Erro ao criar conta" : "Conta criada com sucesso!"),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 22.0,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
 
                   // Secondary Message
                   Text(
@@ -104,12 +106,12 @@ class _SignupCompleteScreenState extends State<SignupCompleteScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 30.0),
+                  const SizedBox(height: 30.0),
 
                   if (isRegistering)
-                    CircularProgressIndicator(color: Colors.white),
+                    const CircularProgressIndicator(color: Colors.white),
 
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
 
                   // Back to Login Button
                   if (!isRegistering)
@@ -120,12 +122,12 @@ class _SignupCompleteScreenState extends State<SignupCompleteScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey[800],
-                          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
+                          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                         ),
-                        child: Text("Voltar", style: TextStyle(color: Colors.white)),
+                        child: const Text("Voltar", style: TextStyle(color: Colors.white)),
                       ),
                     ),
                 ],

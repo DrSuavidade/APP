@@ -3,21 +3,23 @@ import 'package:flutter/material.dart';
 class SignupNameScreen extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
 
+  SignupNameScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final email = args['EMAIL'];
 
-    void _showErrorDialog(BuildContext context, String message) {
+    void showErrorDialog(BuildContext context, String message) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Erro"),
+        title: const Text("Erro"),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text("OK"),
+            child: const Text("OK"),
           ),
         ],
       ),
@@ -45,7 +47,7 @@ class SignupNameScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start, // Align labels and inputs
                 children: [
-                  SizedBox(height: 45.0),
+                  const SizedBox(height: 45.0),
 
                   // Logo
                   Center(
@@ -54,10 +56,10 @@ class SignupNameScreen extends StatelessWidget {
                       height: 120.0,
                     ),
                   ),
-                  SizedBox(height: 45.0),
+                  const SizedBox(height: 45.0),
 
                   // Title
-                  Center(
+                  const Center(
                     child: Text(
                       "Crie a sua conta",
                       style: TextStyle(
@@ -68,7 +70,7 @@ class SignupNameScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  SizedBox(height: 35.0),
+                  const SizedBox(height: 35.0),
 
                   // Progress Indicator (Fixed Alignment)
                   Center(
@@ -78,12 +80,12 @@ class SignupNameScreen extends StatelessWidget {
                         Column(
                           children: [
                             CircleAvatar(radius: 10, backgroundColor: Colors.grey[600]),
-                            SizedBox(height: 4),
-                            Text("email", style: TextStyle(color: Colors.white, fontSize: 10)),
+                            const SizedBox(height: 4),
+                            const Text("email", style: TextStyle(color: Colors.white, fontSize: 10)),
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsets.only(bottom: 15), // Moves the line slightly up
+                          padding: const EdgeInsets.only(bottom: 15), // Moves the line slightly up
                           child: Container(
                             height: 2, // Line height
                             width: 32, // Line width
@@ -93,19 +95,19 @@ class SignupNameScreen extends StatelessWidget {
                         Column(
                           children: [
                             CircleAvatar(radius: 10, backgroundColor: Colors.grey[600]),
-                            SizedBox(height: 4),
-                            Text("nome", style: TextStyle(color: Colors.white, fontSize: 10)),
+                            const SizedBox(height: 4),
+                            const Text("nome", style: TextStyle(color: Colors.white, fontSize: 10)),
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsets.only(bottom: 15), // Moves the line slightly up
+                          padding: const EdgeInsets.only(bottom: 15), // Moves the line slightly up
                           child: Container(
                             height: 2, // Line height
                             width: 32, // Line width
                             color: Colors.white,
                           ),
                         ),
-                        Column(
+                        const Column(
                           children: [
                             CircleAvatar(radius: 10, backgroundColor: Colors.white),
                             SizedBox(height: 4),
@@ -115,26 +117,26 @@ class SignupNameScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 25.0),
+                  const SizedBox(height: 25.0),
 
                   // Name Label
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 6.0),
                     child: Text(
                       "Nome Completo",
                       style: TextStyle(color: Colors.white, fontSize: 14.0),
                     ),
                   ),
-                  SizedBox(height: 6.0),
+                  const SizedBox(height: 6.0),
 
                   // Name Input Field
                   SizedBox(
                     height: 40.0,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
                       child: TextField(
                         controller: _nameController,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: 'Insira o seu nome aqui',
                           hintStyle: TextStyle(color: Colors.grey[300], fontSize: 14.0, fontWeight: FontWeight.w300),
@@ -144,12 +146,12 @@ class SignupNameScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 30.0),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 30.0),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 24.0),
+                  const SizedBox(height: 24.0),
 
                   // Continue Button
                   Center(
@@ -157,7 +159,7 @@ class SignupNameScreen extends StatelessWidget {
                       onPressed: () {
                         final name = _nameController.text.trim();
                         if (name.isEmpty) {
-                          _showErrorDialog(context, "O nome não pode estar vazio!");
+                          showErrorDialog(context, "O nome não pode estar vazio!");
                           return;
                         }
 
@@ -172,24 +174,24 @@ class SignupNameScreen extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[800],
-                        padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 60.0),
+                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 60.0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
-                      child: Text("Continuar", style: TextStyle(color: Colors.white)),
+                      child: const Text("Continuar", style: TextStyle(color: Colors.white)),
                     ),
                   ),
-                  SizedBox(height: 80.0),
+                  const SizedBox(height: 80.0),
 
                   // Divider Line
-                  Divider(color: Colors.grey),
+                  const Divider(color: Colors.grey),
 
                   // "Já tens uma conta?" Button
                   Center(
                     child: TextButton(
                       onPressed: () => Navigator.pushNamed(context, '/'),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(

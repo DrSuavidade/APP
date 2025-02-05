@@ -5,6 +5,8 @@ class SignupPasswordScreen extends StatelessWidget {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
+  SignupPasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final args =
@@ -35,7 +37,7 @@ class SignupPasswordScreen extends StatelessWidget {
                 crossAxisAlignment:
                     CrossAxisAlignment.start, // Align labels and inputs
                 children: [
-                  SizedBox(height: 45.0),
+                  const SizedBox(height: 45.0),
 
                   // Logo
                   Center(
@@ -44,10 +46,10 @@ class SignupPasswordScreen extends StatelessWidget {
                       height: 120.0,
                     ),
                   ),
-                  SizedBox(height: 45.0),
+                  const SizedBox(height: 45.0),
 
                   // Title
-                  Center(
+                  const Center(
                     child: Text(
                       "Crie a sua conta",
                       style: TextStyle(
@@ -58,7 +60,7 @@ class SignupPasswordScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  SizedBox(height: 35.0),
+                  const SizedBox(height: 35.0),
 
                   // Progress Indicator (Fixed Alignment)
                   Center(
@@ -69,14 +71,14 @@ class SignupPasswordScreen extends StatelessWidget {
                           children: [
                             CircleAvatar(
                                 radius: 10, backgroundColor: Colors.grey[600]),
-                            SizedBox(height: 4),
-                            Text("email",
+                            const SizedBox(height: 4),
+                            const Text("email",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 10)),
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               bottom: 15), // Moves the line slightly up
                           child: Container(
                             height: 2, // Line height
@@ -88,14 +90,14 @@ class SignupPasswordScreen extends StatelessWidget {
                           children: [
                             CircleAvatar(
                                 radius: 10, backgroundColor: Colors.grey[600]),
-                            SizedBox(height: 4),
-                            Text("nome",
+                            const SizedBox(height: 4),
+                            const Text("nome",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 10)),
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               bottom: 15), // Moves the line slightly up
                           child: Container(
                             height: 2, // Line height
@@ -107,8 +109,8 @@ class SignupPasswordScreen extends StatelessWidget {
                           children: [
                             CircleAvatar(
                                 radius: 10, backgroundColor: Colors.grey[600]),
-                            SizedBox(height: 4),
-                            Text("pass",
+                            const SizedBox(height: 4),
+                            const Text("pass",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 10)),
                           ],
@@ -116,27 +118,27 @@ class SignupPasswordScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 25.0),
+                  const SizedBox(height: 25.0),
 
                   // Password Label
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 6.0),
                     child: Text(
                       "Password",
                       style: TextStyle(color: Colors.white, fontSize: 14.0),
                     ),
                   ),
-                  SizedBox(height: 6.0),
+                  const SizedBox(height: 6.0),
 
                   // Password Input Field
                   SizedBox(
                     height: 40.0,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
                       child: TextField(
                         controller: _passwordController,
                         obscureText: true,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: 'Digite sua senha',
                           hintStyle: TextStyle(
@@ -149,33 +151,33 @@ class SignupPasswordScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 2.0, horizontal: 30.0),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
 
                   // Confirm Password Label
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 6.0),
                     child: Text(
                       "Confirmar Password",
                       style: TextStyle(color: Colors.white, fontSize: 14.0),
                     ),
                   ),
-                  SizedBox(height: 6.0),
+                  const SizedBox(height: 6.0),
 
                   // Confirm Password Input Field
                   SizedBox(
                     height: 40.0,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
                       child: TextField(
                         controller: _confirmPasswordController,
                         obscureText: true,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: 'Repita sua senha',
                           hintStyle: TextStyle(
@@ -188,13 +190,13 @@ class SignupPasswordScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 2.0, horizontal: 30.0),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 24.0),
+                  const SizedBox(height: 24.0),
 
                   // Continue Button
                   Center(
@@ -208,13 +210,13 @@ class SignupPasswordScreen extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                              title: Text('Erro'),
-                              content: Text(
+                              title: const Text('Erro'),
+                              content: const Text(
                                   'Os campos de senha não podem estar vazios.'),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),
-                                  child: Text('OK'),
+                                  child: const Text('OK'),
                                 ),
                               ],
                             ),
@@ -228,13 +230,13 @@ class SignupPasswordScreen extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                              title: Text('Erro'),
-                              content: Text(
+                              title: const Text('Erro'),
+                              content: const Text(
                                   'A senha deve conter pelo menos uma letra maiúscula e um número.'),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),
-                                  child: Text('OK'),
+                                  child: const Text('OK'),
                                 ),
                               ],
                             ),
@@ -246,12 +248,12 @@ class SignupPasswordScreen extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                              title: Text('Erro'),
-                              content: Text('As senhas não coincidem.'),
+                              title: const Text('Erro'),
+                              content: const Text('As senhas não coincidem.'),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),
-                                  child: Text('OK'),
+                                  child: const Text('OK'),
                                 ),
                               ],
                             ),
@@ -271,17 +273,17 @@ class SignupPasswordScreen extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[800],
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                             vertical: 4.0, horizontal: 60.0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
-                      child: Text("Continuar",
+                      child: const Text("Continuar",
                           style: TextStyle(color: Colors.white)),
                     ),
                   ),
-                  SizedBox(height: 80.0),
+                  const SizedBox(height: 80.0),
                 ],
               ),
             ),

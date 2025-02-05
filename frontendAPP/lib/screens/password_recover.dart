@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import '../api/api_service.dart';
 
 class PasswordRecoverScreen extends StatefulWidget {
-  const PasswordRecoverScreen({Key? key}) : super(key: key);
+  const PasswordRecoverScreen({super.key});
 
   @override
-  _PasswordRecoverScreenState createState() => _PasswordRecoverScreenState();
+  PasswordRecoverScreenState createState() => PasswordRecoverScreenState();
 }
 
-class _PasswordRecoverScreenState extends State<PasswordRecoverScreen> {
+class PasswordRecoverScreenState extends State<PasswordRecoverScreen> {
   final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   final TextEditingController _emailController = TextEditingController();
   bool isLoading = false;
@@ -17,6 +17,7 @@ class _PasswordRecoverScreenState extends State<PasswordRecoverScreen> {
     try {
       setState(() => isLoading = true);
       await api.sendRecoveryEmail(_emailController.text.trim());
+      if (!mounted) return;
       Navigator.pushNamed(context, '/password_recover_confirm'); // Navigate to confirm screen
     } catch (e) {
       _showErrorDialog('Erro', 'Falha ao enviar o e-mail de recuperação.');
@@ -64,7 +65,7 @@ class _PasswordRecoverScreenState extends State<PasswordRecoverScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start, // Align text fields
                 children: [
-                  SizedBox(height: 45.0),
+                  const SizedBox(height: 45.0),
 
                   // Logo
                   Center(
@@ -73,10 +74,10 @@ class _PasswordRecoverScreenState extends State<PasswordRecoverScreen> {
                       height: 120.0,
                     ),
                   ),
-                  SizedBox(height: 45.0),
+                  const SizedBox(height: 45.0),
 
                   // Title
-                  Center(
+                  const Center(
                     child: Text(
                       "Recupere a sua conta",
                       style: TextStyle(
@@ -87,26 +88,26 @@ class _PasswordRecoverScreenState extends State<PasswordRecoverScreen> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  SizedBox(height: 35.0),
+                  const SizedBox(height: 35.0),
 
                   // Email Label
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 6.0),
                     child: Text(
                       "Email",
                       style: TextStyle(color: Colors.white, fontSize: 14.0),
                     ),
                   ),
-                  SizedBox(height: 6.0),
+                  const SizedBox(height: 6.0),
 
                   // Email Input Field
                   SizedBox(
                     height: 40.0,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
                       child: TextField(
                         controller: _emailController,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: 'acviseu@exemplo.com',
                           hintStyle: TextStyle(color: Colors.grey[300], fontSize: 14.0, fontWeight: FontWeight.w300),
@@ -116,12 +117,12 @@ class _PasswordRecoverScreenState extends State<PasswordRecoverScreen> {
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 30.0),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 30.0),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 24.0),
+                  const SizedBox(height: 24.0),
 
                   // Continue Button
                   Center(
@@ -129,26 +130,26 @@ class _PasswordRecoverScreenState extends State<PasswordRecoverScreen> {
                       onPressed: isLoading ? null : _sendRecoveryEmail,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[800],
-                        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
                       child: isLoading
-                          ? CircularProgressIndicator(color: Colors.white)
-                          : Text("Continuar", style: TextStyle(color: Colors.white)),
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text("Continuar", style: TextStyle(color: Colors.white)),
                     ),
                   ),
-                  SizedBox(height: 130.0),
+                  const SizedBox(height: 130.0),
 
                   // Divider Line
-                  Divider(color: Colors.grey),
+                  const Divider(color: Colors.grey),
 
                   // "Já tens uma conta?" Button
                   Center(
                     child: TextButton(
                       onPressed: () => Navigator.pushNamed(context, '/'),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(

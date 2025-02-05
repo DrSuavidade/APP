@@ -5,13 +5,13 @@ import 'hamburger_menu.dart';
 class HomeScreen extends StatefulWidget {
   final int userId;
 
-  const HomeScreen({Key? key, required this.userId}) : super(key: key);
+  const HomeScreen({super.key, required this.userId});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   List<dynamic> userGames = [];
   List<dynamic> userPlayers = [];
@@ -63,13 +63,61 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
       },
     );
   }
+
+  void _deleteRelatorio(int idRelatorio) async {
+  try {
+    await api.put('relatorio/edit/$idRelatorio', {
+      'STATUS': 'EliminadoScouter',
+    });
+
+    if (!mounted) return;
+
+    setState(() {
+      userPlayers.removeWhere((player) => player['ID_RELATORIO'] == idRelatorio);
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Relatório removido com sucesso!")),
+    );
+  } catch (e) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Erro ao remover relatório.")),
+    );
+  }
+}
+
+
+  void _confirmDeleteRelatorio(int idRelatorio) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text("Confirmar Exclusão"),
+      content: const Text("Tem certeza que deseja remover este relatório?"),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text("Cancelar"),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog
+            _deleteRelatorio(idRelatorio);
+          },
+          child: const Text("Confirmar", style: TextStyle(color: Colors.red)),
+        ),
+      ],
+    ),
+  );
+}
+
 
   String _formatDate(String isoDate) {
     DateTime date = DateTime.parse(isoDate);
@@ -106,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer:
           HamburgerMenu(userId: widget.userId), // Use the custom hamburger menu
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Stack(
               children: [
                 // Background Image
@@ -138,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 10),
                       userGames.isEmpty
-                          ? Center(
+                          ? const Center(
                               child: Text(
                                 "Não existem eventos de momento",
                                 style: TextStyle(
@@ -190,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 10),
                       userPlayers.isEmpty
-                          ? Center(
+                          ? const Center(
                               child: Text(
                                 "Não existem jogadores de momento",
                                 style: TextStyle(
@@ -241,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             vertical: 10,
                             horizontal: 20,
                           ),
@@ -504,71 +552,80 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _playerCard(String name, int age, int notaAdm, int idRelatorio, int idJogador,
-      BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          '/relatorio',
-          arguments: {
-            'id_relatorio': idRelatorio,
-            'id_jogador': idJogador,
-            'id_user': widget.userId,
-          },
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 6), // Space between cards
-        padding:
-            const EdgeInsets.only(left: 50, right: 40, top: 15, bottom: 15),
-        width: double.infinity,
-        height: 60,
-        decoration: BoxDecoration(
-          color: Colors.grey[900],
-          borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(10),
-            bottomRight: Radius.circular(10),
-          ),
+  Widget _playerCard(String name, int age, int notaAdm, int idRelatorio, int idJogador, BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.pushNamed(
+        context,
+        '/relatorio',
+        arguments: {
+          'id_relatorio': idRelatorio,
+          'id_jogador': idJogador,
+          'id_user': widget.userId,
+        },
+      );
+    },
+    child: Container(
+      margin: const EdgeInsets.only(bottom: 6), // Space between cards
+      padding: const EdgeInsets.only(left: 50, right: 10, top: 15, bottom: 15),
+      width: double.infinity,
+      height: 60,
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(10),
+          bottomRight: Radius.circular(10),
         ),
-        child: Row(
-          children: [
-            const CircleAvatar(
-              backgroundColor: Color.fromARGB(255, 49, 49, 49),
-              child: Icon(Icons.person, color: Colors.white),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "NOME: $name",
-                    style: const TextStyle(color: Colors.white, fontSize: 9),
-                  ),
-                  Text(
-                    "IDADE: $age",
-                    style: const TextStyle(color: Colors.grey, fontSize: 8),
-                  ),
-                ],
-              ),
-            ),
-            Row(
+      ),
+      child: Row(
+        children: [
+          const CircleAvatar(
+            backgroundColor: Color.fromARGB(255, 49, 49, 49),
+            child: Icon(Icons.person, color: Colors.white),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "$notaAdm", // Display NOTA_ADM here
-                  style: const TextStyle(color: Colors.white, fontSize: 18),
+                  "NOME: $name",
+                  style: const TextStyle(color: Colors.white, fontSize: 9),
                 ),
-                const Icon(
-                  Icons.star,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  size: 20,
+                Text(
+                  "IDADE: $age",
+                  style: const TextStyle(color: Colors.grey, fontSize: 8),
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+          Row(
+            children: [
+              Text(
+                "$notaAdm",
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              const Icon(
+                Icons.star,
+                color: Colors.white,
+                size: 20,
+              ),
+            ],
+          ),
+          const SizedBox(width: 8),
+          // Trash Icon to Delete Relatorio
+          GestureDetector(
+            onTap: () => _confirmDeleteRelatorio(idRelatorio),
+            child: const Icon(
+              Icons.delete,
+              color: Color.fromARGB(255, 77, 77, 77),
+              size: 20,
+            ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 }

@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import '../api/api_service.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  LoginPageState createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<LoginScreen> {
+class LoginPageState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
@@ -32,6 +34,8 @@ class _LoginPageState extends State<LoginScreen> {
         setState(() {
           _isLoading = false;
         });
+
+        if (!mounted) return;
 
         // Pass id_user to the /home route
         Navigator.pushNamed(
@@ -232,7 +236,7 @@ class _LoginPageState extends State<LoginScreen> {
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text(
                             "Não tens conta? ",
                             style: TextStyle(color: Colors.white),

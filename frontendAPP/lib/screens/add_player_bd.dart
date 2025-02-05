@@ -6,14 +6,13 @@ class AddPlayerBDScreen extends StatefulWidget {
   final int idEvento;
 
   const AddPlayerBDScreen(
-      {Key? key, required this.userId, required this.idEvento})
-      : super(key: key);
+      {super.key, required this.userId, required this.idEvento});
 
   @override
-  _AddPlayerBDScreenState createState() => _AddPlayerBDScreenState();
+  AddPlayerBDScreenState createState() => AddPlayerBDScreenState();
 }
 
-class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
+class AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
   final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
   List<dynamic> jogadores = [];
   bool isLoading = true;
@@ -75,7 +74,7 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),
@@ -86,8 +85,8 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Sucesso'),
-        content: Text('Relatório criado com sucesso!'),
+        title: const Text('Sucesso'),
+        content: const Text('Relatório criado com sucesso!'),
         actions: [
           TextButton(
             onPressed: () {
@@ -144,7 +143,7 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
         children: [
           // Background Image
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/Padrao.png'),
                 fit: BoxFit.cover,
@@ -154,8 +153,8 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
 
           Column(
             children: [
-              SizedBox(height: 75),
-              Padding(
+              const SizedBox(height: 75),
+              const Padding(
                 padding: EdgeInsets.only(top: 8, bottom: 5),
                 child: Center(
                   child: Text(
@@ -169,8 +168,8 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                   decoration: BoxDecoration(
                     color: Colors.grey[800], // Slightly lighter than before
                     borderRadius: BorderRadius.circular(12),
@@ -179,11 +178,11 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
                     children: [
                       Expanded(
                         child: isLoading
-                            ? Center(
+                            ? const Center(
                                 child: CircularProgressIndicator(
                                     color: Colors.white))
                             : jogadores.isEmpty
-                                ? Center(
+                                ? const Center(
                                     child: Text(
                                       'Nenhum jogador disponível',
                                       style: TextStyle(color: Colors.white),
@@ -196,9 +195,9 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
                                       return GestureDetector(
                                         onTap: () => _createRelatorio(jogador['ID_JOGADORES']),
                                         child: Container(
-                                          margin: EdgeInsets.symmetric(
+                                          margin: const EdgeInsets.symmetric(
                                               vertical: 6, horizontal: 8),
-                                          padding: EdgeInsets.all(12),
+                                          padding: const EdgeInsets.all(12),
                                           decoration: BoxDecoration(
                                             color: Colors.grey[
                                                 900], // Darker player cards
@@ -216,11 +215,11 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
                                                   color: Colors.white
                                                       .withOpacity(0.2),
                                                 ),
-                                                child: Icon(Icons.person,
+                                                child: const Icon(Icons.person,
                                                     color: Colors.white,
                                                     size: 24),
                                               ),
-                                              SizedBox(width: 12),
+                                              const SizedBox(width: 12),
 
                                               // Player Details
                                               Expanded(
@@ -231,14 +230,14 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
                                                     Text(
                                                       jogador['NOME'] ??
                                                           'Sem nome',
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                       ),
                                                     ),
-                                                    SizedBox(height: 2),
+                                                    const SizedBox(height: 2),
                                                     Text(
                                                       _formatDate(
                                                           jogador['DATA_NASC']),
@@ -253,7 +252,7 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
 
                                               // Admin Rating Badge
                                               Container(
-                                                padding: EdgeInsets.symmetric(
+                                                padding: const EdgeInsets.symmetric(
                                                     horizontal: 10,
                                                     vertical: 4),
                                                 decoration: BoxDecoration(
@@ -265,13 +264,13 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
                                                 child: Text(
                                                   jogador['NOTA_ADM']
                                                       .toString(),
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 14),
                                                 ),
                                               ),
 
-                                              SizedBox(width: 10),
+                                              const SizedBox(width: 10),
 
                                               // Circle Button (Inactive for now)
                                               GestureDetector(
@@ -306,7 +305,7 @@ class _AddPlayerBDScreenState extends State<AddPlayerBDScreen> {
                                     },
                                   ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
 // Add New Player Button
 Padding(
@@ -345,7 +344,7 @@ Padding(
                   ),
                 ),
               ),
-              SizedBox(height: 120),
+              const SizedBox(height: 120),
             ],
           ),
           // Bottom Navigation Bar inside Stack

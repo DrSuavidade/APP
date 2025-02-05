@@ -15,25 +15,28 @@ import 'screens/add_game.dart';
 import 'screens/add_player.dart';
 import 'screens/add_player_bd.dart';
 import 'screens/add_new_player.dart';
+import 'screens/list_player.dart';
 import 'screens/privacidade.dart';
 import 'screens/password_recover.dart';
 import 'screens/password_recover_confirm.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => LoginScreen(),
+        '/': (context) => const LoginScreen(),
         '/signup_email': (context) => SignupEmailScreen(),
         '/signup_name': (context) => SignupNameScreen(),
         '/signup_password': (context) => SignupPasswordScreen(),
-        '/signup_complete': (context) => SignupCompleteScreen(),
+        '/signup_complete': (context) => const SignupCompleteScreen(),
         '/home': (context) {
           final arguments = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
@@ -56,7 +59,7 @@ class MyApp extends StatelessWidget {
               as Map<String, dynamic>;
           return PerfilPasswordScreen(userId: args['userId']);
         },
-        '/relatorio': (context) => RelatorioScreen(),
+        '/relatorio': (context) => const RelatorioScreen(),
         '/calendar': (context) {
           final arguments = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
@@ -71,6 +74,14 @@ class MyApp extends StatelessWidget {
           final arguments = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
           return AddGameScreen(userId: arguments['userId']);
+        },
+        '/list_player': (context) {
+          final arguments = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          return ListPlayerScreen(
+            userId: arguments['userId'],
+            idEvento: arguments['idEvento'],
+          );
         },
         '/add_player': (context) {
           final arguments = ModalRoute.of(context)!.settings.arguments
@@ -90,10 +101,10 @@ class MyApp extends StatelessWidget {
           return AddNewPlayerScreen(
               userId: arguments['userId'], idEvento: arguments['idEvento']);
         },
-        '/privacidade': (context) => PrivacidadeScreen(),
-        '/password_recover': (context) => PasswordRecoverScreen(),
+        '/privacidade': (context) => const PrivacidadeScreen(),
+        '/password_recover': (context) => const PasswordRecoverScreen(),
         '/password_recover_confirm': (context) =>
-            PasswordRecoverConfirmScreen(),
+            const PasswordRecoverConfirmScreen(),
       },
     );
   }

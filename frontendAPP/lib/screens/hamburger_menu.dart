@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class HamburgerMenu extends StatelessWidget {
   final int userId;
 
-  const HamburgerMenu({Key? key, required this.userId}) : super(key: key);
+  const HamburgerMenu({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
