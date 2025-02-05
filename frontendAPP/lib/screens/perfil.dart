@@ -5,7 +5,7 @@ import '../api/api_service.dart';
 
 class PerfilScreen extends StatelessWidget {
   final int userId;
-  final ApiService apiService = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
+  final ApiService apiService = ApiService(baseUrl: 'https://backendscout-cx6c.onrender.com/api');
 
   PerfilScreen({super.key, required this.userId});
 

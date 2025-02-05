@@ -15,7 +15,7 @@ class PerfilPasswordScreen extends StatefulWidget {
 class _PerfilPasswordScreenState extends State<PerfilPasswordScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
-  final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
+  final ApiService api = ApiService(baseUrl: 'https://backendscout-cx6c.onrender.com/api');
 
   Future<void> _updatePassword() async {
   String password = _passwordController.text.trim();

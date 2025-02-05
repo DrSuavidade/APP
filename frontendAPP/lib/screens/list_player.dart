@@ -12,7 +12,7 @@ class ListPlayerScreen extends StatefulWidget {
 }
 
 class ListPlayerScreenState extends State<ListPlayerScreen> {
-  final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
+  final ApiService api = ApiService(baseUrl: 'https://backendscout-cx6c.onrender.com/api');
   List<dynamic> jogadores = [];
   bool isLoading = true;
 

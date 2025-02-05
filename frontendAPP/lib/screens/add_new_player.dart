@@ -15,7 +15,7 @@ class AddNewPlayerScreen extends StatefulWidget {
 class AddNewPlayerScreenState extends State<AddNewPlayerScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _nationalityController = TextEditingController();
-  final api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
+  final api = ApiService(baseUrl: 'https://backendscout-cx6c.onrender.com/api');
   String? selectedGender;
 
   void _addPlayer() async {

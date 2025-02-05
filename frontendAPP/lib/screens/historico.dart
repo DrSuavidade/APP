@@ -12,7 +12,7 @@ class HistoricoScreen extends StatefulWidget {
 }
 
 class HistoricoScreenState extends State<HistoricoScreen> {
-  final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
+  final ApiService api = ApiService(baseUrl: 'https://backendscout-cx6c.onrender.com/api');
   List<dynamic> relatorios = [];
   bool isLoading = true;
 

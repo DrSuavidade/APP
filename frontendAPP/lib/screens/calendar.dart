@@ -11,7 +11,7 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class CalendarScreenState extends State<CalendarScreen> {
-  final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
+  final ApiService api = ApiService(baseUrl: 'https://backendscout-cx6c.onrender.com/api');
   List<dynamic> eventos = [];
   bool isLoading = true;
   String? selectedEscalao;

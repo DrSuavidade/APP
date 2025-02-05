@@ -13,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 class LoginPageState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
+  final ApiService api = ApiService(baseUrl: 'https://backendscout-cx6c.onrender.com/api');
   bool _isLoading = false;
 
   void _login() async {

@@ -15,7 +15,7 @@ class PerfilEmailScreen extends StatefulWidget {
 class _PerfilEmailScreenState extends State<PerfilEmailScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _confirmEmailController = TextEditingController();
-  final ApiService api = ApiService(baseUrl: 'http://10.0.2.2:3000/api');
+  final ApiService api = ApiService(baseUrl: 'https://backendscout-cx6c.onrender.com/api');
 
   Future<void> _updateEmail() async {
   String email = _emailController.text.trim();
