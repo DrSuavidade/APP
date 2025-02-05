@@ -112,6 +112,31 @@ eventosController.deleteEvento = async (req, res) => {
   }
 };
 
+// Delete multiple events
+eventosController.deleteMultipleEventos = async (req, res) => {
+  let { eventosIds } = req.body;
+
+  if (!eventosIds || !Array.isArray(eventosIds) || eventosIds.length === 0) {
+    return res.status(400).json({ error: "Lista de eventos inválida." });
+  }
+
+  try {
+    eventosIds = eventosIds.map(id => Number(id)); // Converter para número, se necessário
+
+    const deletedEventos = await Evento.deleteMany({ ID_EVENTOS: { $in: eventosIds } });
+
+    if (deletedEventos.deletedCount === 0) {
+      return res.status(404).json({ message: "Nenhum evento encontrado para exclusão." });
+    }
+
+    res.status(200).json({ message: `${deletedEventos.deletedCount} eventos deletados com sucesso!` });
+  } catch (error) {
+    console.error("Erro ao deletar múltiplos eventos:", error);
+    res.status(500).json({ error: "Erro ao deletar eventos." });
+  }
+};
+
+
 // Fetch games related to a specific user
 eventosController.getGamesByUser = async (req, res) => {
   const { ID_USER } = req.params;
@@ -185,6 +210,7 @@ eventosController.listEventosRecentes = async (req, res) => {
     const eventosFormatados = eventos.map(evento => ({
       EQUIPA_CASA: evento.EQUIPA_CASA,
       VISITANTE: evento.VISITANTE,
+      ID_EVENTOS: evento.ID_EVENTOS,
       DATA: evento.DATA,
       HORA: evento.HORA,
       LOCAL: evento.LOCAL,

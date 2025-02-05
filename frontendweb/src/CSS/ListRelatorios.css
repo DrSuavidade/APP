@@ -601,3 +601,49 @@
 .icon:hover {
   transform: scale(1.1);
 }
+
+
+/* Estilos específicos para a página de visualização de eventos */
+.events-view-container {
+  width: 100%;
+  padding: 20px;
+  color: white;
+}
+
+.events-content {
+  display: flex;
+  gap: 20px; /* Espaçamento entre os componentes */
+  max-width: 1200px; /* Largura máxima do conteúdo */
+  margin: 0 auto; /* Centraliza o conteúdo */
+}
+
+/* Estilo para o container da ListaEventos */
+.lista-eventos-wrapper {
+  flex: 2; /* Ocupa mais espaço */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* Estilo para o container das ProximasPartidas */
+.proximas-partidas-wrapper {
+  flex: 1; /* Ocupa menos espaço */
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 30px;
+}
+
+/* Ajustes para a ListaEventos */
+.lista-eventos-container {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+}
+
+/* Ajustes para as ProximasPartidas */
+.proximas-partidas-container {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+}
