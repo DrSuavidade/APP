@@ -66,20 +66,31 @@ class _CalendarScreenState extends State<CalendarScreen> {
     bool isSelected = selectedEscalao == escalaoFilter;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      padding: const EdgeInsets.symmetric(horizontal: 0.0),
       child: TextButton(
         onPressed: () => _fetchData(escalao: escalaoFilter),
         style: TextButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           foregroundColor: isSelected ? Colors.white : Colors.grey[500], // Text color only
         ),
-        child: Text(label, style: TextStyle(fontSize: 12)),
+        child: Text(label, style: TextStyle(fontSize: 10)),
       ),
     );
   }
 
   Widget _eventoCard(dynamic evento) {
-    return Container(
+  return GestureDetector(
+    onTap: () {
+      Navigator.pushNamed(
+        context,
+        '/list_player',
+        arguments: {
+          'userId': widget.userId,
+          'idEvento': evento['ID_EVENTOS'],
+        },
+      );
+    },
+    child: Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       decoration: BoxDecoration(
@@ -99,8 +110,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -146,11 +159,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
               SizedBox(height: 50), // Adjusted to move content up
               // Filters Section
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
                 child: Wrap(
                   alignment: WrapAlignment.center,
-                  spacing: 10, // Horizontal spacing
-                  runSpacing: 4, // Vertical spacing
+                  spacing: 2, // Horizontal spacing
+                  runSpacing: -10, // Vertical spacing
                   children: [
                     _filterButton("Todos", null),
                     _filterButton("Sub-10", "Sub-10"),
@@ -212,7 +225,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 120),
+              SizedBox(height: 100),
             ],
           ),
           // Bottom Navigation Bar inside the Stack (fixes white background issue)

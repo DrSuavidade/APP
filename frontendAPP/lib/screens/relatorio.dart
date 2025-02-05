@@ -317,7 +317,7 @@ class _RelatorioPageState extends State<RelatorioScreen> {
             children: [
               ...List.generate(4, (index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25), // Space between circles
+                  padding: const EdgeInsets.symmetric(horizontal: 8), // Space between circles
                   child: IconButton(
                     iconSize: 18, // Increased size
                     padding: EdgeInsets.zero,

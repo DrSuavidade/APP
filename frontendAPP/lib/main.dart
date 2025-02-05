@@ -15,6 +15,7 @@ import 'screens/add_game.dart';
 import 'screens/add_player.dart';
 import 'screens/add_player_bd.dart';
 import 'screens/add_new_player.dart';
+import 'screens/list_player.dart';
 import 'screens/privacidade.dart';
 import 'screens/password_recover.dart';
 import 'screens/password_recover_confirm.dart';
@@ -71,6 +72,14 @@ class MyApp extends StatelessWidget {
           final arguments = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
           return AddGameScreen(userId: arguments['userId']);
+        },
+        '/list_player': (context) {
+          final arguments = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          return ListPlayerScreen(
+            userId: arguments['userId'],
+            idEvento: arguments['idEvento'],
+          );
         },
         '/add_player': (context) {
           final arguments = ModalRoute.of(context)!.settings.arguments
