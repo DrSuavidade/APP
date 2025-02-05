@@ -16,13 +16,12 @@ const ClubsList = ({ setSelectedClub }) => {
   const navigate = useNavigate();
 
   const [userID, setUserID] = useState(null);
-  
-    useEffect(() => {
-      // Aguarda a leitura correta do cookie
-      const storedID = Cookies.get("ID_USER");
-      setUserID(storedID);
-    }, []);
-  
+
+  useEffect(() => {
+    // Aguarda a leitura correta do cookie
+    const storedID = Cookies.get("ID_USER");
+    setUserID(storedID);
+  }, []);
 
   useEffect(() => {
     const fetchClubes = async () => {
@@ -37,7 +36,7 @@ const ClubsList = ({ setSelectedClub }) => {
 
     const fetchFavoriteClubes = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/favorito/list/${userID}`); 
+        const response = await axios.get(`http://localhost:3000/api/favorito/list/${userID}`);
         setFavoriteClubes(response.data.map(fav => fav.ID_CLUBE));
       } catch (error) {
         console.error("Erro ao buscar favoritos:", error);
@@ -83,9 +82,17 @@ const ClubsList = ({ setSelectedClub }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
+          // Excluir clubes da API
           await axios.delete('http://localhost:3000/api/clubes/delete-multiple', {
             data: { clubesIds: selectedClubes }
           });
+
+          // Remover os clubes excluídos também da lista de favoritos
+          await Promise.all(
+            selectedClubes.map(async (clubeId) => {
+              await axios.delete(`http://localhost:3000/api/favorito/delete/${clubeId}/${userID}`);
+            })
+          );
 
           setClubes(clubes.filter((clube) => !selectedClubes.includes(clube.id_clube)));
           setSelectedClubes([]);
@@ -121,7 +128,7 @@ const ClubsList = ({ setSelectedClub }) => {
       });
       setFavoriteClubes([...favoriteClubes, clubeId]);
       Swal.fire("Sucesso!", "Clube adicionado aos favoritos.", "success");
-      window.location.reload()
+      window.location.reload();
     } catch (error) {
       console.error('Erro ao adicionar favorito:', error);
       Swal.fire("Erro!", "Não foi possível adicionar o clube aos favoritos.", "error");
@@ -150,20 +157,18 @@ const ClubsList = ({ setSelectedClub }) => {
       </div>
 
       <div className="toolbar">
-  <button className="favorite-button" onClick={toggleFavoriteMode}>
-    {isFavoriteMode ? "✅ Favoritos" : "Favoritos"}
-  </button>
-  <div className="icons-container">
-    <FaTrash className="icon trash" onClick={handleDelete} />
-    <FaPlus className="icon add" onClick={() => navigate('/team/add-club')} />
-    {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
-  </div>
-</div>
-
-
+        <button className="favorite-button" onClick={toggleFavoriteMode}>
+          {isFavoriteMode ? "✅ Favoritos" : "Favoritos"}
+        </button>
+        <div className="icons-container">
+          <FaTrash className="icon trash" onClick={handleDelete} />
+          <FaPlus className="icon add" onClick={() => navigate('/team/add-club')} />
+          {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
+        </div>
+      </div>
 
       <div className="team-header">
-        <span>ID Clube</span>
+        <span>{showCheckboxes ? <input type="checkbox" disabled /> : "ID Clube"}</span>
         <span>Nome Clube</span>
         <span>Abreviatura</span>
         <span>Nº Equipas</span>
@@ -176,9 +181,18 @@ const ClubsList = ({ setSelectedClub }) => {
             <li
               key={index}
               className={`team-item ${isFavoriteMode && favoriteClubes.includes(clube.id_clube) ? 'selected' : ''}`}
-              onClick={() => handleClubClick(clube)}
+              onClick={() => !showCheckboxes && handleClubClick(clube)}
             >
-              <span>{clube.id_clube}</span>
+              {showCheckboxes ? (
+                <input
+                  type="checkbox"
+                  checked={selectedClubes.includes(clube.id_clube)}
+                  onChange={() => toggleClubeSelection(clube.id_clube)}
+                  onClick={(e) => e.stopPropagation()}
+                />
+              ) : (
+                <span>{clube.id_clube}</span>
+              )}
               <span>{clube.nome}</span>
               <span>{clube.abreviatura}</span>
               <span>{clube.totalEquipas}</span>
