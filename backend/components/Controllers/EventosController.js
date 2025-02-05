@@ -26,11 +26,11 @@ eventosController.addEvento = async (req, res) => {
   };
   
   eventosController.addEventoWeb = async (req, res) => {
-    const { DATA, HORA, EQUIPA_CASA, VISITANTE, LOCAL } = req.body;
+    const { DATA, HORA, EQUIPA_CASA, VISITANTE, LOCAL, ID_USER } = req.body;
   
     try {
       // Validação dos campos obrigatórios
-      if (!DATA || !HORA || !EQUIPA_CASA || !VISITANTE || !LOCAL) {
+      if (!DATA || !HORA || !EQUIPA_CASA || !VISITANTE || !LOCAL || !ID_USER) {
         return res.status(400).json({ message: "Todos os campos são obrigatórios." });
       }
   
@@ -46,6 +46,7 @@ eventosController.addEvento = async (req, res) => {
         EQUIPA_CASA,
         VISITANTE,
         LOCAL,
+        ID_USER,
       });
   
       // Salvar no banco de dados
@@ -56,7 +57,8 @@ eventosController.addEvento = async (req, res) => {
       console.error("Erro ao criar evento:", error);
       res.status(500).json({ message: "Erro no servidor." });
     }
-  };
+};
+
 
 // List all events
 eventosController.listEvento = async (req, res) => {
