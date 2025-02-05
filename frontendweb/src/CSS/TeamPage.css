@@ -4,9 +4,9 @@ body {
     color: white;
 }
 
-/* ==============================
-   SEARCH BAR
-   ============================== */
+/* ============================== */
+/* SEARCH BAR */
+/* ============================== */
 .search-container {
     display: flex;
     width: 100%;
@@ -16,7 +16,6 @@ body {
 
 .search-input {
     flex: 4;
-    /* Agora ocupa mais espaço */
     padding: 14px;
     border-radius: 5px;
     border: none;
@@ -26,7 +25,6 @@ body {
 
 .search-button {
     flex: 1;
-    /* Reduzi ainda mais o botão */
     padding: 12px;
     background-color: #629F49;
     color: white;
@@ -57,13 +55,13 @@ body {
    ============================== */
    .main-container {
     display: flex;
-    flex-direction: row; /* Garante que os componentes fiquem lado a lado */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: flex-start; /* Mantém alinhado ao topo */
-    gap: 40px; /* Mantém um espaçamento adequado */
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
     max-width: 1400px;
     width: 100%;
-    margin: 0 auto; /* Garante centralização */
+    margin: 0 auto;
 }
 
 .team-page {
@@ -72,8 +70,9 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    padding-top: 5%; /* Aumenta o espaço abaixo da navbar */
+    padding-top: 5%;
 }
+
 
 /* ==============================
    FILTRO E DROPDOWN
@@ -95,41 +94,42 @@ body {
     color: white;
 }
 
-
 /* ==========================
    🔹 GARANTINDO CENTRALIZAÇÃO DOS CARDS 🔹
    ========================== */
    .players-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Centraliza os cards dentro do painel */
+    justify-content: center; /* Alinha ao centro */
     align-items: center;
-    gap: 15px; /* Espaçamento entre os cards */
+    gap: 20px;
     width: 100%;
-    max-width: 100%;
+    padding: 20px;
 }
 
 .players-wrapper {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 colunas */
-    gap: 10px; /* Espaço entre os cards */
-    justify-content: center; /* Mantém os cards centralizados */
-    max-width: 100%;
-    padding: 20px 50px; /* Ajuste de margem para manter centralizado */
-    padding-left: 450px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajustável para diferentes tamanhos */
+    gap: 20px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
 /* 🔹 Ajusta o card para que fique corretamente dentro do container */
 .player-card {
-    display: flex;
-    align-items: center;
-    background-color: #1e1e1e;
+    background: #1e1e1e;
     border-radius: 10px;
     padding: 15px;
-    width: 100%; /* Ajusta o tamanho ao container */
-    min-width: 250px; /* Define um tamanho mínimo */
-    max-width: 300px; /* Define um tamanho máximo */
-    gap: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s;
+    width: 100%;
+    max-width: 250px;
+}
+
+.player-card:hover {
+    transform: scale(1.05);
 }
 
 /* 🔹 Avatar do jogador */
@@ -143,7 +143,7 @@ body {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    margin-right: 12px;
+    margin: auto;
 }
 
 .player-card img {
@@ -151,7 +151,6 @@ body {
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    margin-right: 15px;
 }
 
 /* 🔹 Ajusta as informações */
@@ -373,3 +372,4 @@ body {
         font-size: 12px;
     }
 }
+

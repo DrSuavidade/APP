@@ -25,8 +25,6 @@ const PlayerCard = ({ onSelectRelatorio }) => {
 
   return (
     <div className="player-cards-container">
-      <h2>RELATÓRIOS AVALIADOS</h2>
-
       {playerCards.length > 0 ? (
         playerCards.map((report) => (
           <div 

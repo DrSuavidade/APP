@@ -3,7 +3,8 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-top: 80px; /* Aumentado para afastar da navbar */
+  margin-top: 80px; /* Afastar da navbar */
+  background-color: #1c1c1c; /* ← ISSO ESTÁ CRIANDO A BOX PRETA */
 }
 
 
@@ -80,6 +81,11 @@
   justify-content: center;
   text-align: center;
   margin: 0 60px; /* Aumenta o espaçamento entre os blocos */
+}
+
+.events-list {
+    overflow-x: hidden; /* Remove a barra de rolagem horizontal */
+    overflow-y: auto; /* Mantém a rolagem vertical */
 }
 
 .players-section {
