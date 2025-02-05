@@ -3,7 +3,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { FaTrash, FaPlus, FaTimes } from "react-icons/fa";
-import "../CSS/ListRelatorios.css";
 
 const ListaEventos = () => {
   const [eventos, setEventos] = useState([]);
@@ -28,15 +27,15 @@ const ListaEventos = () => {
   const toggleSelectMode = () => {
     setSelectMode(!selectMode);
     if (!selectMode) {
-      setSelectedEventos([]);
+      setSelectedEventos([]); // Limpa as seleções ao ativar o modo de seleção
     }
   };
 
-  const toggleSelection = (data) => {
-    if (selectedEventos.includes(data)) {
-      setSelectedEventos(selectedEventos.filter((e) => e !== data));
+  const toggleSelection = (eventoId) => {
+    if (selectedEventos.includes(eventoId)) {
+      setSelectedEventos(selectedEventos.filter((id) => id !== eventoId));
     } else {
-      setSelectedEventos([...selectedEventos, data]);
+      setSelectedEventos([...selectedEventos, eventoId]);
     }
   };
 
@@ -58,11 +57,11 @@ const ListaEventos = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete("http://localhost:3000/api/eventos/delete", {
+          await axios.delete("http://localhost:3000/api/eventos/delete-multiple", {
             data: { eventosIds: selectedEventos },
           });
 
-          setEventos(eventos.filter((e) => !selectedEventos.includes(e.DATA)));
+          setEventos(eventos.filter((evento) => !selectedEventos.includes(evento.ID_EVENTOS)));
           setSelectedEventos([]);
           setSelectMode(false);
 
@@ -73,6 +72,12 @@ const ListaEventos = () => {
         }
       }
     });
+  };
+
+  // Função para formatar a data no formato dd/mm/yyyy
+  const formatarData = (dataString) => {
+    const data = new Date(dataString);
+    return data.toLocaleDateString("pt-PT"); // Formata a data para dd/mm/yyyy
   };
 
   return (
@@ -89,9 +94,20 @@ const ListaEventos = () => {
         </div>
         <div className="lista-eventos-buttons-container">
           <div className="lista-eventos-icons-container">
-            <FaTrash className="icon trash" onClick={toggleSelectMode} />
-            <FaPlus className="icon add" onClick={() => navigate("/evento/add")} />
-            {selectMode && <FaTimes className="icon cancel" onClick={() => setSelectMode(false)} />}
+            <FaTrash
+              className="icon trash"
+              onClick={selectMode ? deleteSelected : toggleSelectMode} // Só executa deleteSelected se o modo de seleção estiver ativo
+            />
+            <FaPlus className="icon add" onClick={() => navigate("/events/new")} />
+            {selectMode && (
+              <FaTimes
+                className="icon cancel"
+                onClick={() => {
+                  setSelectMode(false);
+                  setSelectedEventos([]); // Limpa as seleções ao cancelar o modo de seleção
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -102,6 +118,7 @@ const ListaEventos = () => {
           <thead>
             <tr>
               {selectMode && <th></th>}
+              <th>ID</th> {/* Nova coluna para o ID do evento */}
               <th>Jogo</th>
               <th>Scouter</th>
               <th>Data</th>
@@ -115,19 +132,20 @@ const ListaEventos = () => {
                 `${e.EQUIPA_CASA} vs ${e.VISITANTE}`.toLowerCase().includes(searchTerm.toLowerCase())
               )
               .map((evento) => (
-                <tr key={evento.DATA}>
+                <tr key={evento.ID_EVENTOS}>
                   {selectMode && (
                     <td>
                       <input
                         type="checkbox"
-                        checked={selectedEventos.includes(evento.DATA)}
-                        onChange={() => toggleSelection(evento.DATA)}
+                        checked={selectedEventos.includes(evento.ID_EVENTOS)}
+                        onChange={() => toggleSelection(evento.ID_EVENTOS)}
                       />
                     </td>
                   )}
+                  <td>{evento.ID_EVENTOS}</td> {/* Exibe o ID do evento */}
                   <td>{evento.EQUIPA_CASA} vs {evento.VISITANTE}</td>
                   <td>{evento.NOME_USER || "Sem Scout Associado"}</td>
-                  <td>{evento.DATA}</td>
+                  <td>{formatarData(evento.DATA)}</td> {/* Formata a data */}
                   <td>{evento.HORA}</td>
                   <td>{evento.LOCAL}</td>
                 </tr>
