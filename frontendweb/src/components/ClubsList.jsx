@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaTrash, FaPlus, FaTimes } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+import Cookies from "js-cookie";
 
 const ClubsList = ({ setSelectedClub }) => {
   const [clubes, setClubes] = useState([]);
@@ -13,6 +14,15 @@ const ClubsList = ({ setSelectedClub }) => {
   const [favoriteClubes, setFavoriteClubes] = useState([]);
   const [isFavoriteMode, setIsFavoriteMode] = useState(false);
   const navigate = useNavigate();
+
+  const [userID, setUserID] = useState(null);
+  
+    useEffect(() => {
+      // Aguarda a leitura correta do cookie
+      const storedID = Cookies.get("ID_USER");
+      setUserID(storedID);
+    }, []);
+  
 
   useEffect(() => {
     const fetchClubes = async () => {
@@ -27,7 +37,7 @@ const ClubsList = ({ setSelectedClub }) => {
 
     const fetchFavoriteClubes = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/favorito/list/${1}`); // Substitua 1 pelo ID do usuário logado
+        const response = await axios.get(`http://localhost:3000/api/favorito/list/${userID}`); 
         setFavoriteClubes(response.data.map(fav => fav.ID_CLUBE));
       } catch (error) {
         console.error("Erro ao buscar favoritos:", error);
@@ -36,7 +46,7 @@ const ClubsList = ({ setSelectedClub }) => {
 
     fetchClubes();
     fetchFavoriteClubes();
-  }, []);
+  }, [userID]);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -103,7 +113,7 @@ const ClubsList = ({ setSelectedClub }) => {
   };
 
   const handleAddFavorito = async (clubeId) => {
-    const ID_USER = 1; // Substitua pelo ID do usuário logado
+    const ID_USER = userID; // Substitua pelo ID do usuário logado
     try {
       await axios.post('http://localhost:3000/api/favorito/add', {
         ID_CLUBE: clubeId,
@@ -111,6 +121,7 @@ const ClubsList = ({ setSelectedClub }) => {
       });
       setFavoriteClubes([...favoriteClubes, clubeId]);
       Swal.fire("Sucesso!", "Clube adicionado aos favoritos.", "success");
+      window.location.reload()
     } catch (error) {
       console.error('Erro ao adicionar favorito:', error);
       Swal.fire("Erro!", "Não foi possível adicionar o clube aos favoritos.", "error");

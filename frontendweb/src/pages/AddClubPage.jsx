@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../CSS/addClub.css"; // Certifique-se de criar este arquivo de estilo
+import "../CSS/addClub.css";
 import api from "../api/axios";
 import Cookies from "js-cookie";
 

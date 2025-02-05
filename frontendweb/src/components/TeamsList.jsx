@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Importe o useNavigate
+import { useNavigate } from "react-router-dom";
 
-const TeamsList = ({ selectedClub, favorites, toggleFavorite }) => {
+const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
   const [teams, setTeams] = useState([]);
-  const navigate = useNavigate(); // Inicialize o hook useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTeams = async () => {
@@ -21,10 +21,14 @@ const TeamsList = ({ selectedClub, favorites, toggleFavorite }) => {
     fetchTeams();
   }, [selectedClub]);
 
-  // Função para redirecionar para a página /team com idClube
   const handleManageTeams = () => {
     if (!selectedClub) return;
     navigate("/team", { state: { idClube: selectedClub.id_clube } });
+  };
+
+  const handleCreateTeam = () => {
+    if (!selectedClub) return;
+    navigate(`/team/add/${selectedClub.id_clube}`);
   };
 
   return (
@@ -45,9 +49,8 @@ const TeamsList = ({ selectedClub, favorites, toggleFavorite }) => {
                 key={index} 
                 className="squad-item" 
                 onClick={() => navigate("/team", { state: { idClube: selectedClub.id_clube, idEquipa: team.ID_EQUIPA } })}
-                style={{ cursor: "pointer" }} // Garante que pareça clicável
+                style={{ cursor: "pointer" }}
               >
-                {/* Lado Esquerdo: ID_EQUIPA, NOME e ESCALAO */}
                 <div className="team-info-left">
                   <span className="team-id">{team.ID_EQUIPA}</span>
                   <div className="team-name-escalao">
@@ -55,8 +58,6 @@ const TeamsList = ({ selectedClub, favorites, toggleFavorite }) => {
                     <span className="team-escalao">{team.ESCALAO}</span>
                   </div>
                 </div>
-
-                {/* Lado Direito: Número de jogadores */}
                 <div className="team-info-right">
                   <span className="team-players">{team.NUMERO_JOGADORES} jogadores</span>
                 </div>
@@ -68,14 +69,12 @@ const TeamsList = ({ selectedClub, favorites, toggleFavorite }) => {
         </div>
       </div>
 
-      {/* Botão "Gerir Equipas" com redirecionamento */}
       <button className="manage-teams" onClick={handleManageTeams}>
         Gerir Equipas
       </button>
-
-      <button className="create-team">Criar Equipa</button>
+      <button className="create-team" onClick={handleCreateTeam}>Criar Equipa</button>
     </div>
   );
 };
 
-export default TeamsList;
+export default TeamList;
