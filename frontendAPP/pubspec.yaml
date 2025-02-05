@@ -36,6 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   http: ^1.2.2
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -59,11 +60,19 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/Logofinal1.png
     - assets/images/Padrao.png
+    - assets/images/v687_776.png
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/v687_776.png" # Path to your app icon
+  adaptive_icon_foreground: "assets/images/v687_776.png"
+  adaptive_icon_background: "#ffffff" # Change this if needed
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -95,3 +104,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+

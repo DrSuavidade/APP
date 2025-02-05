@@ -224,3 +224,105 @@ body {
     max-width: 600px;
   }
 }
+
+
+/* Estilos específicos para o componente ProximasPartidas */
+/* Estilos específicos para o componente ProximasPartidas */
+.eventos-escalao-container {
+  padding: 20px;
+  background-color: #2c2c2c; /* Fundo escuro */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  color: #fff; /* Texto branco */
+  max-width: 350px; /* Largura máxima */
+  margin: 0 auto; /* Centralizar */
+}
+
+.eventos-escalao-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  border-bottom: 2px solid #629F49; /* Linha verde */
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Ajuste para os botões de escalão em grelha */
+.eventos-escalao-list-escaloes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+  gap: 8px; /* Espaçamento entre os botões */
+  margin-bottom: 20px;
+}
+
+.eventos-escalao-escalao-btn {
+  padding: 6px 10px; /* Botões menores */
+  background-color: #444; /* Botão cinza */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 12px; /* Texto menor */
+  text-align: center;
+}
+
+.eventos-escalao-escalao-btn.active {
+  background-color: #629F49; /* Botão verde quando ativo */
+}
+
+.eventos-escalao-escalao-btn:hover {
+  background-color: #555; /* Efeito hover */
+}
+
+.eventos-escalao-list-eventos {
+  list-style: none;
+  padding: 0;
+}
+
+.eventos-escalao-item {
+  background-color: #3a3a3a; /* Fundo escuro para os itens */
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.eventos-escalao-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.eventos-escalao-equipa {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.eventos-escalao-vs {
+  color: #666;
+  margin: 0 10px;
+}
+
+.eventos-escalao-details {
+  font-size: 13px;
+  color: #aaa; /* Texto mais claro para detalhes */
+}
+
+.eventos-escalao-data,
+.eventos-escalao-hora,
+.eventos-escalao-local {
+  display: block;
+  margin: 4px 0;
+}
+
+.eventos-escalao-loading,
+.eventos-escalao-error {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  padding: 20px;
+}

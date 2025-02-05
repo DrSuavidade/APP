@@ -549,6 +549,24 @@ body {
   gap: 10px; /* Espaço entre os ícones */
 }
 
+.team-info-right {
+  display: flex;
+  justify-content: flex-end; /* Alinha à direita */
+  align-items: center; /* Alinha verticalmente */
+}
+
+.trash-icon {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.trash-icon:hover {
+  color: darkred;
+}
+
 
 
 

@@ -200,3 +200,99 @@
 .list-relatorios-scroll-container {
   margin-top: 15px; /* Ajusta o valor conforme necessário */
 }
+
+/* Estilos específicos para o componente ListaEventos */
+.lista-eventos-container {
+  width: 90%;
+  margin: 5% auto;
+  padding: 20px;
+  background: #1c1c1c;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.lista-eventos-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.lista-eventos-search-container {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.lista-eventos-search-container input {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: #333;
+  color: white;
+  border-radius: 5px;
+}
+
+.lista-eventos-buttons-container {
+  display: flex;
+  align-items: center;
+}
+
+.lista-eventos-icons-container {
+  display: flex;
+  gap: 10px;
+}
+
+.lista-eventos-icons-container .icon {
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.lista-eventos-icons-container .icon.trash {
+  color: #ff4d4d;
+}
+
+.lista-eventos-icons-container .icon.add {
+  color: #48ff00;
+}
+
+.lista-eventos-icons-container .icon.cancel {
+  color: #ffcc00;
+}
+
+.lista-eventos-icons-container .icon:hover {
+  transform: scale(1.1);
+}
+
+.lista-eventos-scroll-container {
+  max-height: 450px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 10px;
+  padding-right: 5px;
+}
+
+.lista-eventos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.lista-eventos-table th,
+.lista-eventos-table td {
+  padding: 12px;
+  text-align: center;
+}
+
+.lista-eventos-table thead {
+  background: #333;
+}
+
+.lista-eventos-table tbody tr {
+  background: #2a2a2a;
+  transition: background 0.3s;
+}
+
+.lista-eventos-table tbody tr:hover {
+  background: #3a3a3a;
+}
