@@ -17,9 +17,11 @@ const ClubsCards = ({ ID_USER, setSelectedClub, toggleFavorite }) => {
           setTeams(favoriteClubs); // Atualiza o estado com os favoritos apenas se houver dados
         } else {
           console.warn("Nenhum clube retornado pela API.");
+          setTeams([]); // Limpa a lista se não houver clubes
         }
       } catch (error) {
         console.error("Erro ao buscar os clubes favoritos:", error);
+        setTeams([]); // Limpa a lista em caso de erro
       }
     };
 
