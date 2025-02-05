@@ -15,7 +15,6 @@ const relationship11Controller = require('../Controllers/Relationship_11Controll
 const relationship12Controller = require('../Controllers/Relationship_12Controller');
 const { autenticarJWT, verificarAdmin } = require('../Middleware/authMiddleware')
 const multer = require("multer");
-const proximasPartidasController = require('../Controllers/ProximasPartidasController');
 
 const upload = multer(); // Configura o multer para processar multipart/form-data
 
@@ -59,11 +58,6 @@ router.put('/evento/edit/:ID_EVENTOS', eventosController.editEvento);
 router.delete('/evento/delete/:ID_EVENTOS', eventosController.deleteEvento);
 router.get('/eventos/recentes', eventosController.listEventosRecentes);
 router.get('/eventos/escalao/:ESCALAO', eventosController.listEventosByEscalao);
-
-//router.get('/proximas-partidas', proximasPartidasController.listarProximasPartidas);
-
-
-
 
 
 // Jogadores Routes
