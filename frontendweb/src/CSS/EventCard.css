@@ -1,45 +1,63 @@
+.event-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
 .event-card {
     background-color: #a0a0a0;
-    padding: 24px;
-    border-radius: 16px;
+    /* Cor de fundo igual à imagem */
+    border-radius: 15px;
+    /* Bordas arredondadas */
+    padding: 15px;
+    width: 300px;
+    /* Ajusta a largura do cartão */
     text-align: center;
-    color: black;
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    border: 2px solid #007bff;
+    /* Borda azul */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.date {
-    font-size: 1.2rem;
+.event-date {
+    font-size: 14px;
     font-weight: bold;
 }
 
-.event-details {
+.event-teams {
     display: flex;
     justify-content: space-between;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.home-team,
-.away-team {
-    text-transform: uppercase;
-}
-
-.time {
-    font-size: 1rem;
-    font-weight: normal;
-}
-
-.location {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    font-size: 1rem;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
 }
 
-.location .material-icons {
+.event-time {
+    font-size: 14px;
+}
+
+.team-name {
+    flex: 1;
+    text-align: center;
+}
+
+.event-location {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.location-icon {
     margin-right: 5px;
+    color: black;
+}
+
+.error-message,
+.no-events {
+    text-align: center;
+    font-size: 14px;
+    color: red;
 }

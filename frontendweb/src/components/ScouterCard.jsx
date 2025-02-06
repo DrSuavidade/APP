@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "../api/axios"; // Importando a instância do axios
+import api from "../api/axios"; 
 import "../CSS/ScouterCard.css";
 
 function ScouterCard({ onSelectScouter }) {
@@ -10,7 +10,7 @@ function ScouterCard({ onSelectScouter }) {
   useEffect(() => {
     const fetchScouters = async () => {
       try {
-        const response = await api.get("/users/tipo/3"); // Obtém a lista de scouters
+        const response = await api.get("/users/tipo/3");
         setScouters(response.data);
         setLoading(false);
       } catch (error) {
@@ -38,13 +38,12 @@ function ScouterCard({ onSelectScouter }) {
           <div
             key={scouter.ID_USER}
             className="scouter-card"
-            onClick={() => onSelectScouter(scouter.ID_USER)}
+            onClick={() => onSelectScouter(scouter)}
           >
             <div className="scouter-avatar"></div>
             <div className="scouter-info">
               <span className="name">{scouter.NOME}</span>
               <span className="role">Scouter</span>
-              <span className="email">{scouter.EMAIL}</span>
             </div>
           </div>
         ))

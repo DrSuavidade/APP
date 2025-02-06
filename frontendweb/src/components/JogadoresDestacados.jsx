@@ -2,17 +2,15 @@ import React, { useEffect, useState } from "react";
 import api from "../api/axios"; // Importando a instância do axios
 import "../CSS/JogadoresDestacados.css"; // Arquivo de estilos
 
-const JogadoresDestacados = ({ ID_USER }) => {
+const JogadoresDestacados = () => {
   const [jogadores, setJogadores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!ID_USER) return;
-
     const fetchJogadores = async () => {
       try {
-        const response = await api.get(`/jogador/list/${ID_USER}`);
+        const response = await api.get(`/jogador/list`); // Busca todos os jogadores
         setJogadores(response.data);
         setLoading(false);
       } catch (err) {
@@ -23,7 +21,7 @@ const JogadoresDestacados = ({ ID_USER }) => {
     };
 
     fetchJogadores();
-  }, [ID_USER]);
+  }, []); // Executa apenas uma vez ao carregar a página
 
   const calcularIdade = (dataNasc) => {
     const nascimento = new Date(dataNasc);

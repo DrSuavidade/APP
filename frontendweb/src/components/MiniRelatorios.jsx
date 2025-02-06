@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import api from "../api/axios"; // Importa a instância centralizada do axios
 import "../CSS/MiniRelatorios.css"; // Arquivo de estilo
 
-const MiniRelatorios = () => {
+const MiniRelatorios = ({ ID_USER }) => {
   const [relatorios, setRelatorios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!ID_USER) return; // Evita chamada desnecessária à API
+
     const fetchRelatorios = async () => {
       try {
-        const response = await api.get("http://localhost:3000/api/relatorios-merged");
+        const response = await api.get(`http://localhost:3000/api/relatorio/historico/${ID_USER}`);
         setRelatorios(response.data);
         setLoading(false);
       } catch (err) {
@@ -21,7 +23,7 @@ const MiniRelatorios = () => {
     };
 
     fetchRelatorios();
-  }, []);
+  }, [ID_USER]); // Atualiza sempre que `ID_USER` mudar
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -50,12 +52,12 @@ const MiniRelatorios = () => {
 
   return (
     <div className="mini-relatorios-container">
-      <h2>Hsitorico avaliaçoes</h2><br></br>
+      <h2>Histórico de Avaliações</h2><br />
       {relatorios.length > 0 ? (
         relatorios.map((report) => (
           <div key={report.ID_RELATORIO} className="mini-relatorio-item">
             <div>{report.JOGADOR_NOME}</div>
-            <div className="estrelas">{getStars(report.NOTA_ADM)}</div>
+            <div className="estrelas">{getStars(report.NOTA)}</div>
             <div>
               <span
                 className="status-circle"

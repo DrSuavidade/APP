@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../CSS/ScoutsViewPage.css";
-import ScouterCard from "../components/ScouterCard"; 
+import ScouterCard from "../components/ScouterCard";
 import MiniRelatorios from "../components/MiniRelatorios";
 import ProximasPartidasByScouter from "../components/ProximasPartidasByScouter";
-import JogadoresDestacados from "../components/JogadoresDestacados"; // Importando o novo componente
+import JogadoresDestacados from "../components/JogadoresDestacados";
 
 function SearchScouter() {
     return (
@@ -20,25 +21,58 @@ function SearchScouter() {
 
 function ScoutsViewPage() {
     const [selectedScouter, setSelectedScouter] = useState(null);
+    const navigate = useNavigate();
+
+    const handleSelectScouter = (scouter) => {
+        setSelectedScouter(scouter);
+        localStorage.setItem("selectedScouter", JSON.stringify(scouter));
+        window.dispatchEvent(new Event("storage"));
+    };
+
+    const handleAssignEvent = () => {
+        if (selectedScouter) {
+            navigate("../events/AddEventToScout", { state: { selectedScouter } });
+        }
+    };
+
+    const handleAddPlayer = () => {
+        if (selectedScouter) {
+            navigate("../players/add-to-event", { state: { selectedScouter } });
+        }
+    };
 
     return (
         <div className="main-container">
             <div className="content-container">
-                {/* Área esquerda com a lista de scouters */}
                 <div className="left-container">
                     <SearchScouter />
-                    <ScouterCard onSelectScouter={setSelectedScouter} />
+                    <ScouterCard onSelectScouter={handleSelectScouter} />
                 </div>
 
-                {/* Área direita com detalhes do scouter selecionado */}
-                {selectedScouter && (
-                    <div className="right-container">
-                        <MiniRelatorios ID_USER={selectedScouter} />
-                        <ProximasPartidasByScouter ID_USER={selectedScouter} />
-                        <JogadoresDestacados ID_USER={selectedScouter} /> 
-                        <button className="assign-event-button">Atribuir Evento</button>
-                    </div>
-                )}
+                <div className="right-container">
+                    <MiniRelatorios ID_USER={selectedScouter?.ID_USER} />
+                    <ProximasPartidasByScouter ID_USER={selectedScouter?.ID_USER} />
+                    <button 
+                        className={`assign-event-button ${!selectedScouter ? "disabled" : ""}`} 
+                        onClick={handleAssignEvent} 
+                        disabled={!selectedScouter}
+                    >
+                        Atribuir Evento
+                    </button>
+                    {selectedScouter ? (
+                        <>
+                            <JogadoresDestacados ID_USER={selectedScouter?.ID_USER} />
+                            <button 
+                                className="add-player-button" 
+                                onClick={handleAddPlayer}
+                            >
+                                Adicionar Jogador
+                            </button>
+                        </>
+                    ) : (
+                        <p>Selecione um Scouter para ver os detalhes.</p>
+                    )}
+                </div>
             </div>
         </div>
     );
