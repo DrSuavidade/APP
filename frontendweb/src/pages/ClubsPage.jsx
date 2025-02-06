@@ -18,15 +18,22 @@ const ClubsPage = () => {
   };
 
   return (
-    <div className="page-container">
+    <div className="page-container pushed-down"> {/* Ajuste para mover tudo para a esquerda */}
       {/* Passando ID_USER corretamente para ClubsCards */}
-      <ClubsCards ID_USER={parseInt(ID_USER, 10)} setSelectedClub={setSelectedClub} toggleFavorite={toggleFavorite} />
+      <div className="clubs-card-container shift-left"> 
+        <ClubsCards ID_USER={parseInt(ID_USER, 10)} setSelectedClub={setSelectedClub} toggleFavorite={toggleFavorite} />
+      </div>
       <div className="main-content">
-        <ClubsList setSelectedClub={setSelectedClub} />
-        <TeamsList selectedClub={selectedClub} favorites={favorites} toggleFavorite={toggleFavorite} />
+        <div className="clubs-container compact-table stretch-left no-gap">
+          <ClubsList setSelectedClub={setSelectedClub} />
+          <div className="teams-container move-right"> {/* Movendo a secção da direita para a esquerda */}
+            <TeamsList selectedClub={selectedClub} favorites={favorites} toggleFavorite={toggleFavorite} />
+          </div>
+        </div>
       </div>
     </div>
   );
 };
+
 
 export default ClubsPage;

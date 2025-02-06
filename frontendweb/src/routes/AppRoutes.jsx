@@ -16,7 +16,6 @@ import EventsCreatePage from '../pages/EventsCreatePage';
 import PlayersPage from '../pages/PlayersPage';
 import PlayersCreatePage from '../pages/PlayersCreatePage';
 import PlayersEditPage from '../pages/PlayersEditPage';
-import PlayersReportsPage from '../pages/PlayersReportsPage';
 import PlayersAddToEventPage from '../pages/PlayersAddToEventPage';
 import TeamPage from '../pages/TeamPage';
 import AddClubPage from '../pages/AddClubPage';
@@ -63,7 +62,6 @@ const RoutesWithNavbar = () => {
         <Route path="/events/new" element={<EventsCreatePage />} />
         <Route path="/players/new" element={<PlayersCreatePage />} />
         <Route path="/players/:id/edit" element={<PlayersEditPage />} />
-        <Route path="/players/reports" element={<PlayersReportsPage />} />
         <Route path="/players/add-to-event" element={<PlayersAddToEventPage />} />
         <Route path="/team" element={<TeamPage />} />
         <Route path="/team/add-club" element={<AddClubPage />} />

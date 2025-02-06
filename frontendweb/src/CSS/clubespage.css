@@ -9,13 +9,13 @@ body {
   width: 100%;
 }
 
-.clubs-cards-container {
-  width: 100%;
+.clubs-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 180px; /* Mantém o espaço reservado */
-  margin-bottom: 20px; /* Espaço abaixo dos cards */
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  gap: 10px; /* Espaçamento reduzido */
 }
 
 .clube-card {
@@ -119,10 +119,9 @@ body {
   box-shadow: none;
 }
 
-
-
 /* Garante que o main-content fique centralizado */
 .main-content {
+  position: relative;
   display: flex;
   justify-content: center; /* Centraliza os elementos */
   align-items: flex-start; /* Alinha ao topo */
@@ -594,3 +593,95 @@ body {
     grid-template-columns: 2fr 1fr 1fr;
   }
 }
+
+
+.teams-list {
+  max-width: 400px; /* Ajusta a largura máxima do bloco de equipas */
+}
+
+.fixed-height {
+  min-height: 500px; /* Ajuste conforme necessário */
+}
+
+.teams-list {
+  min-height: 400px; /* Mantém a mesma altura para todas as listas de equipes */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pushed-down {
+  margin-top: 17%; /* Ajuste conforme necessário para descer o conteúdo abaixo da navbar */
+}
+
+.shift-left {
+  width: 180%;
+  max-width: 180%; /* Ajuste conforme necessário */
+}
+
+.clubs-card-container {
+  margin-left: 30%; /* Ajuste conforme necessário para mover para a esquerda */
+}
+
+.raised-section {
+  margin-top: -50px; /* Ajuste conforme necessário para subir a secção */
+}
+
+.pushed-down {
+  margin-top: 15%; /* Ajuste conforme necessário para descer o conteúdo abaixo da navbar */
+}
+
+.teams-container.raised {
+  margin-top: -50px; /* Ajuste este valor conforme necessário */
+}
+
+
+.teams-container {
+  max-width: 400px; /* Limita o tamanho da seção de equipes */
+}
+
+.move-right {
+  margin-left: 10px; /* Ajuste conforme necessário */
+}
+
+.stretch-left {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Faz a lista ocupar mais espaço que a secção da direita */
+  gap: 1px;
+  width: 200%;
+}
+
+.balanced-width {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.balanced-width > * {
+  flex: 1;
+  max-width: 48%; /* Mantém ambos visíveis sem ocupar 100% */
+}
+
+.no-gap {
+  gap: 1px !important; /* Remove qualquer espaço entre os elementos */
+}
+
+.compact-table {
+  width: 250%; /* Reduzindo um pouco a largura sem afetar a estrutura */
+  max-width: 200%;
+  gap: 0; /* Remove o espaçamento entre os elementos */
+  margin: 0; /* Remove margens externas */
+}
+
+.compact-table table {
+  border-spacing: 0; /* Remove o espaçamento entre as células */
+}
+
+.compact-table th, 
+.compact-table td {
+  padding: 0; /* Remove o padding interno das células */
+  text-align: center;
+}
+
+
+
