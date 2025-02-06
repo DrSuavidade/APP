@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/ScoutsCreateEditPage.css";
 import api from "../api/axios";
+import Cookies from "js-cookie";
+import { useNavigate } from 'react-router-dom';
 
 const ScoutsCreateEditPage = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +16,7 @@ const ScoutsCreateEditPage = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTipoUtilizadores = async () => {
@@ -24,6 +27,11 @@ const ScoutsCreateEditPage = () => {
         setError("Erro ao carregar os tipos de utilizadores.");
       }
     };
+
+   const token = Cookies.get('token');
+     if (!token) {
+       navigate('/login'); // Redireciona para a página de login se não houver token
+     }
 
     const fetchUsers = async () => {
       try {
@@ -36,7 +44,7 @@ const ScoutsCreateEditPage = () => {
 
     fetchTipoUtilizadores();
     fetchUsers();
-  }, []);
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;

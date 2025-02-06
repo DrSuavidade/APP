@@ -23,6 +23,7 @@ import AddTeamPage from '../pages/AddTeamPage';
 import ShadowTeamPage from '../pages/ShadowTeamPage';
 import Navbar from '../components/Navbar';
 import ReportsHistory from '../pages/ReportsHistory';
+import ProtectedRoute from '../components/ProtectedRoute'; // Importe o componente de rota protegida
 import "../CSS/ScrollBar.css";
 
 const AppRoutes = () => {
@@ -41,34 +42,170 @@ const RoutesWithNavbar = () => {
   const hideNavbarRoutes = ["/login", "/register", "/register/confirm", "/forgot-password", "/forgot-password-confirm"];
 
   return (
-    <div className="scroll-container"> {/* Aplicando a classe da scrollbar */}
+    <div className="scroll-container">
       {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
 
       <Routes>
+        {/* Rotas públicas (não protegidas) */}
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/register/confirm" element={<ConfirmRegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/forgot-password-confirm" element={<ForgotPasswordConfirm />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/reports" element={<ReportsPage />} />
-        <Route path="/reports/history/:ID_JOGADORES" element={<ReportsHistory />} />
-        <Route path="/clubs" element={<ClubsPage />} />
-        <Route path="/scouts" element={<ScoutsViewPage />} />
-        <Route path="/scouts/new" element={<ScoutsCreateEditPage />} />
-        <Route path="/events" element={<EventsViewPage />} />
-        <Route path="/events/AddScoutToEvent" element={<AddScouterToEvent />} />
-        <Route path="/events/AddEventToScout" element={<AddEventToScout />} />
-        <Route path="/events/new" element={<EventsCreatePage />} />
-        <Route path="/players/new" element={<PlayersCreatePage />} />
-        <Route path="/players/:id/edit" element={<PlayersEditPage />} />
-        <Route path="/players/add-to-event" element={<PlayersAddToEventPage />} />
-        <Route path="/team" element={<TeamPage />} />
-        <Route path="/team/add-club" element={<AddClubPage />} />
-        <Route path="/team/add/:id_clube" element={<AddTeamPage />} />
-        <Route path="/team/shadow" element={<ShadowTeamPage />} />
-        <Route path="/players" element={<PlayersPage />} />
-        <Route path="/clubs/:ID_USER" element={<ClubsPage />} />
+
+        {/* Rotas protegidas */}
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reports"
+          element={
+            <ProtectedRoute>
+              <ReportsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reports/history/:ID_JOGADORES"
+          element={
+            <ProtectedRoute>
+              <ReportsHistory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/clubs"
+          element={
+            <ProtectedRoute>
+              <ClubsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/scouts"
+          element={
+            <ProtectedRoute>
+              <ScoutsViewPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/scouts/new"
+          element={
+            <ProtectedRoute>
+              <ScoutsCreateEditPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/events"
+          element={
+            <ProtectedRoute>
+              <EventsViewPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/events/AddScoutToEvent"
+          element={
+            <ProtectedRoute>
+              <AddScouterToEvent />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/events/AddEventToScout"
+          element={
+            <ProtectedRoute>
+              <AddEventToScout />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/events/new"
+          element={
+            <ProtectedRoute>
+              <EventsCreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/players/new"
+          element={
+            <ProtectedRoute>
+              <PlayersCreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/players/:id/edit"
+          element={
+            <ProtectedRoute>
+              <PlayersEditPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/players/add-to-event"
+          element={
+            <ProtectedRoute>
+              <PlayersAddToEventPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/team"
+          element={
+            <ProtectedRoute>
+              <TeamPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/team/add-club"
+          element={
+            <ProtectedRoute>
+              <AddClubPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/team/add/:id_clube"
+          element={
+            <ProtectedRoute>
+              <AddTeamPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/team/shadow"
+          element={
+            <ProtectedRoute>
+              <ShadowTeamPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/players"
+          element={
+            <ProtectedRoute>
+              <PlayersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/clubs/:ID_USER"
+          element={
+            <ProtectedRoute>
+              <ClubsPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </div>
   );
