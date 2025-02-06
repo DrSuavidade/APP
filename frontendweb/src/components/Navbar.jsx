@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/Navbar.css";
 import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [userID, setUserID] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Aguarda a leitura correta do cookie
     const storedID = Cookies.get("ID_USER");
     setUserID(storedID);
   }, []);
+
+  const handleLogout = () => {
+    // Limpa os cookies
+    Cookies.remove("token");
+    Cookies.remove("ID_USER");
+    // Redireciona para a página de login
+    navigate("/login");
+  };
 
   return (
     <nav className="bg-black text-white flex items-center justify-between px-6 py-3">
@@ -41,6 +50,9 @@ const Navbar = () => {
         </li>
         <li className="cursor-pointer hover:opacity-80">
           <Link to="/reports" className="nav-link">RELATÓRIOS</Link>
+        </li>
+        <li className="cursor-pointer hover:opacity-80" onClick={handleLogout}>
+          <span className="nav-link">Sair ou Mudar de Conta</span>
         </li>
       </ul>
     </nav>

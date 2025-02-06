@@ -4,11 +4,20 @@ import ListRelatorios from "../components/ListRelatorios";
 import FichaRelatorio from "../components/FichaRelatorio";
 import axios from "axios";
 import "../CSS/ReportsPage.css"; // Importe o CSS específico para a ReportsPage
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+
 
 const ReportsPage = () => {
-  const [selectedRelatorio, setSelectedRelatorio] = useState(null);
+const [selectedRelatorio, setSelectedRelatorio] = useState(null);
+const navigate = useNavigate();
 
   useEffect(() => {
+    // Verifica se o token existe nos cookies
+  const token = Cookies.get('token');
+  if (!token) {
+    navigate('/login'); // Redireciona para a página de login se não houver token
+  }
     const fetchRelatorios = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/relatorios-merged");
@@ -21,7 +30,7 @@ const ReportsPage = () => {
     };
 
     fetchRelatorios();
-  }, []);
+  }, [navigate]);
 
   return (
       <div className="reports-page">

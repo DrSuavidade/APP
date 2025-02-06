@@ -5,19 +5,25 @@ import ClubsCards from "./../components/ClubsCards";
 import ClubsList from "./../components/ClubsList";
 import TeamsList from "./../components/TeamsList";
 import Cookies from "js-cookie";
+import { useNavigate } from 'react-router-dom';
 
 const ClubsPage = () => {
   const { ID_USER } = useParams();
   const [userId, setUserId] = useState(ID_USER);
   const [selectedClub, setSelectedClub] = useState(null);
   const [favorites, setFavorites] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const token = Cookies.get('token');
+      if (!token) {
+        navigate('/login'); // Redireciona para a página de login se não houver token
+      }
     if (!ID_USER) {
       const cookieUserId = Cookies.get("ID_USER");
       setUserId(cookieUserId);
     }
-  }, [ID_USER]);
+  }, [navigate, ID_USER]);
 
   const toggleFavorite = (clubName) => {
     setFavorites((prevFavorites) => ({
