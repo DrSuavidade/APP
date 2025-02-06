@@ -11,7 +11,7 @@ body {
 }
 
 .page-container {
-  background-color: #1e1e1e; /* Fundo para diferenciar páginas */
+  background-color: transparent; /* Fundo para diferenciar páginas */
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -21,7 +21,7 @@ body {
 
 .App-header {
   /* Apenas afeta o cabeçalho, se existir */
-  background-color: #282c34;
+  background-color: #342828;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

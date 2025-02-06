@@ -44,7 +44,7 @@ const LoginPage = () => {
   }, []);
 
   return (
-    <div className="login-container">
+    <div className="login-container login-page">
       <div className="login-box">
         <div className="login-logo">
         <img src="/logo.png" alt="Logo" className="h-10" />
