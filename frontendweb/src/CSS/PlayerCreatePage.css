@@ -14,10 +14,6 @@ html, body {
   background-color: #121212;
 }
 
-.form-container {
-  margin-top: 80px; /* Adiciona um espaçamento extra */
-}
-
 /* Define o layout principal */
 .main-container {
   display: flex;
@@ -26,6 +22,7 @@ html, body {
   gap: 40px; /* Espaço maior entre os elementos */
   width: 80%;
   max-width: 1100px;
+  background: none;
 }
 
 /* Ajustes do formulário */
