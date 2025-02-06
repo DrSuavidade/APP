@@ -175,14 +175,6 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
           disabled={!editMode}
           onChange={(e) => setPlayer({ ...player, DADOS_ENC: e.target.value })}
         />
-
-        {playerAverages ? (
-          <PlayerRadarChart playerDetails={playerAverages} />
-        ) : (
-          <p style={{ color: "red", textAlign: "center" }}>
-            ❌ Nenhum dado carregado.
-          </p>
-        )}
       </div>
 
       <div className="actions">
@@ -214,8 +206,15 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
           </button>
         </div>
       )}
-
       <p>Total de Relatórios: {player.TOTAL_RELATORIOS}</p>
+
+      {playerAverages ? (
+          <PlayerRadarChart playerDetails={playerAverages} />
+        ) : (
+          <p style={{ color: "red", textAlign: "center" }}>
+            ❌ Nenhum dado carregado.
+          </p>
+        )}
     </div>
   );
 };
