@@ -83,29 +83,39 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
 
   return (
     <div className="list-players-container">
-      {/* Barra de pesquisa */}
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Escreva o nome do jogador"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button className="search-btn">Pesquisar</button>
-      </div>
-
-      {/* Botões de Adicionar e Excluir (Substituindo os antigos) */}
-      <div className="toolbar">
-        <div className="icons-container">
-          <FaTrash className="icon trash" onClick={toggleSelectMode} />
-          <FaPlus className="icon add" onClick={() => navigate("/players/new")} />
-          {selectMode && <FaTimes className="icon cancel" onClick={() => setSelectMode(false)} />}
+      {/* Barra de pesquisa e botões */}
+      <div className="lista-eventos-toolbar">
+        <div className="lista-eventos-search-container">
+          <input
+            type="text"
+            placeholder="Pesquisar jogador"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <div className="lista-eventos-buttons-container">
+          <div className="lista-eventos-icons-container">
+            <FaTrash
+              className="icon trash"
+              onClick={selectMode ? deleteSelected : toggleSelectMode}
+            />
+            <FaPlus className="icon add" onClick={() => navigate("/players/new")} />
+            {selectMode && (
+              <FaTimes
+                className="icon cancel"
+                onClick={() => {
+                  setSelectMode(false);
+                  setSelectedPlayers([]);
+                }}
+              />
+            )}
+          </div>
         </div>
       </div>
 
       {/* Tabela de jogadores */}
-      <div className="list-players-scroll-container">
-        <table className="list-players-table">
+      <div className="lista-eventos-scroll-container">
+        <table className="lista-eventos-table">
           <thead>
             <tr>
               {selectMode && <th></th>}
@@ -141,15 +151,20 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
                   <td>{player.DATA_NASC ? new Date(player.DATA_NASC).getFullYear() : "--"}</td>
                   <td>{player.NACIONALIDADE}</td>
                   <td>
-                    {player.STATUS === "Inactive" && (
+                    {player.STATUS === "Active" ? (
                       <div
-                        style={{
-                          width: "12px",
-                          height: "12px",
-                          borderRadius: "50%",
-                          backgroundColor: "yellow",
-                          display: "inline-block",
-                        }}
+                        className="status-circle"
+                        style={{ backgroundColor: "green" }}
+                      ></div>
+                    ) : player.STATUS === "Inactive" ? (
+                      <div
+                        className="status-circle"
+                        style={{ backgroundColor: "yellow" }}
+                      ></div>
+                    ) : (
+                      <div
+                        className="status-circle"
+                        style={{ backgroundColor: "red" }}
                       ></div>
                     )}
                   </td>

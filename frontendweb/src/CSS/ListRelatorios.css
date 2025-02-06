@@ -647,3 +647,33 @@
   border-radius: 10px;
   color: white;
 }
+
+/* Nova classe para o container da lista de jogadores */
+.list-players-container {
+  width: 100%;
+  background: #1c1c1c;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  max-height: 70vh; /* Altura máxima ajustável */
+  overflow-y: auto; /* Scrollbar vertical */
+}
+
+/* Personalização da scrollbar */
+.list-players-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.list-players-container::-webkit-scrollbar-track {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+
+.list-players-container::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+.list-players-container::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
