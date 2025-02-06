@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Adiciona useNavigate
 import axios from "axios";
 import "../CSS/addClub.css";
 
@@ -8,6 +8,7 @@ const CreateTeamPage = () => {
   const [nome, setNome] = useState("");
   const [escalao, setEscalao] = useState("Sub-13");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate(); // Use o hook useNavigate para navegação
 
   const escaloes = [
     "Sub-13", "Sub-14", "Sub-15", "Sub-16", "Sub-18", "Sub-19", "Sub-23", "Profissional"
@@ -33,6 +34,10 @@ const CreateTeamPage = () => {
     }
   };
 
+  const handleBack = () => {
+    navigate(-1); // Volta para a página anterior no histórico
+  };
+
   return (
     <div className="add-club-container">
       <div className="add-club-box">
@@ -52,6 +57,7 @@ const CreateTeamPage = () => {
             </select>
           </div>
           <button type="submit" className="add-club-button">Adicionar</button>
+          <button onClick={handleBack} className="add-club-button">Voltar</button>
         </form>
       </div>
     </div>
