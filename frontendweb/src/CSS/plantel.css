@@ -516,6 +516,20 @@ body {
   color: red;
 }
 
+/****** Remover Scrollbar da página Plantel ******/
+
+body.plantel-page {
+  overflow: hidden !important; /* Remove a scrollbar */
+}
+
+/* Se precisar remover apenas a vertical */
+body.plantel-page::-webkit-scrollbar {
+  display: none; /* Esconde scrollbar no Chrome, Edge e Safari */
+}
+
+body.plantel-page {
+  scrollbar-width: none; /* Esconde scrollbar no Firefox */
+}
 
 
 

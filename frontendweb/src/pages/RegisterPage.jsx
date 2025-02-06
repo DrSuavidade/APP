@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../CSS/logineregistar.css";
 import api from "../api/axios";
@@ -11,6 +11,15 @@ const RegisterPage = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.body.classList.add("login-page");
+  
+    return () => {
+      document.body.classList.remove("login-page"); // Remove a classe ao sair da página
+    };
+  }, []);
+  
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -40,8 +49,11 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="register-container">
+    <div className="login-container login-page">
       <div className="register-box">
+      <div className="login-logo">
+        <img src="/logo.png" alt="Logo" className="h-10" />
+        </div>
         <h1>Registrar</h1>
         <form onSubmit={handleRegister}>
           <div className="form-group">

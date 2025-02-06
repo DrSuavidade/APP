@@ -1,3 +1,18 @@
+    /****** Remover Scrollbar da página Login ******/
+
+    body.login-page {
+      overflow: hidden !important; /* Remove a scrollbar */
+    }
+    
+    /* Se precisar remover apenas a vertical */
+    body.login-page::-webkit-scrollbar {
+      display: none; /* Esconde scrollbar no Chrome, Edge e Safari */
+    }
+    
+    body.login-page {
+      scrollbar-width: none; /* Esconde scrollbar no Firefox */
+    }
+
 body {
   margin: 0;
   padding: 0;
@@ -115,13 +130,23 @@ body {
 
 /* CSS REGISTAR*/
 
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: url("../img/FundoLogin.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
 body {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
-  background: url("../img/FundoSite2.png") no-repeat center center fixed;
+  background: url("../img/FundoSite.png") no-repeat center center fixed;
   background-size: cover;
 }
   
@@ -226,3 +251,10 @@ body {
       text-decoration: none;
       margin: 3px 0;
     }
+
+    /****** Remover Scrollbar da página Register ******/
+
+    body {
+      overflow: hidden; /* Remove a barra de rolagem */
+    }
+

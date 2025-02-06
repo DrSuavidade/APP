@@ -23,3 +23,23 @@ html, body {
 ::-webkit-scrollbar-thumb:hover {
   background: #333; /* Cor do scroll ao passar o mouse */
 }
+
+/* Garante que a página Plantel não tenha scrollbar, mesmo com a sidebar aberta */
+body.plantel-page.sidebar-open {
+  overflow: hidden !important; /* Mantém a página fixa sem scroll */
+}
+
+/****** Remover Scrollbar da página Plantel ******/
+
+body.plantel-page {
+  overflow: hidden !important; /* Remove a scrollbar */
+}
+
+/* Se precisar remover apenas a vertical */
+body.plantel-page::-webkit-scrollbar {
+  display: none; /* Esconde scrollbar no Chrome, Edge e Safari */
+}
+
+body.plantel-page {
+  scrollbar-width: none; /* Esconde scrollbar no Firefox */
+}

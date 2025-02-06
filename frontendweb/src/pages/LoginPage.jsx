@@ -38,9 +38,10 @@ const LoginPage = () => {
   }
 
   useEffect(() => {
-    document.body.classList.add("no-scroll");
+    document.body.classList.add("login-page");
+  
     return () => {
-      document.body.classList.remove("no-scroll");
+      document.body.classList.remove("login-page"); // Remove a classe ao sair da página
     };
   }, []);
 
