@@ -7,7 +7,6 @@ import { faEdit, faHistory, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import PlayerRadarChart from "./PlayerRadarChart";
 
-
 const FichaPlayer = ({ ID_JOGADORES }) => {
   const [player, setPlayer] = useState(null);
   const [playerAverages, setPlayerAverages] = useState(null);
@@ -25,7 +24,6 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
           console.error("Erro ao buscar jogador:", error);
         });
   
-      // ✅ Fetch Player Averages (Copied from ShadowTeamPage)
       axios
         .get(`http://localhost:3000/api/jogador/details/${ID_JOGADORES}`)
         .then((response) => {
@@ -37,8 +35,6 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
         });
     }
   }, [ID_JOGADORES]);
-  
-  
 
   const handleEdit = () => {
     setEditMode(true);
@@ -66,14 +62,13 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
   };
 
   const handleCancel = () => {
-    setEditMode(false); // Cancela a edição
+    setEditMode(false);
   };
 
   const handleActivatePlayer = async (ID_JOGADORES) => {
     try {
       const response = await axios.put(`http://localhost:3000/api/player/activate/${ID_JOGADORES}`);
       Swal.fire("Sucesso!", response.data.message, "success");
-      // Atualizar o estado do jogador após a ativação
       setPlayer({ ...player, STATUS: "Active" });
     } catch (error) {
       Swal.fire("Erro!", error.response?.data?.error || "Erro ao ativar jogador.", "error");
@@ -91,12 +86,12 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
       confirmButtonText: "Sim, excluir!",
       cancelButtonText: "Cancelar",
     });
-  
+
     if (confirm.isConfirmed) {
       try {
         const response = await axios.delete(`http://localhost:3000/api/player/reject/${ID_JOGADORES}`);
         Swal.fire("Sucesso!", response.data.message, "success");
-        navigate("/players"); // Redirecionar para a lista de jogadores
+        navigate("/players");
       } catch (error) {
         Swal.fire("Erro!", error.response?.data?.error || "Erro ao rejeitar jogador.", "error");
       }
@@ -109,11 +104,21 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
     return "orange";
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      return dateString;
+    }
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   if (!player) {
     return <div>Carregando...</div>;
   }
 
-  
   return (
     <div className="ficha-relatorio-container">
       <div className="header">
@@ -134,7 +139,7 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
         <label>Data de Nascimento:</label>
         <input
           type="text"
-          value={new Date(player.DATA_NASC).toLocaleDateString("pt-PT")}
+          value={formatDate(player.DATA_NASC)}
           disabled={!editMode}
           onChange={(e) => setPlayer({ ...player, DATA_NASC: e.target.value })}
         />
@@ -171,16 +176,13 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
           onChange={(e) => setPlayer({ ...player, DADOS_ENC: e.target.value })}
         />
 
-{/* ✅ Render PlayerRadarChart Only If Data Exists */}
-{playerAverages ? (
-  <PlayerRadarChart playerDetails={playerAverages} />
-) : (
-  <p style={{ color: "red", textAlign: "center" }}>
-    ❌ Nenhum dado carregado.
-  </p>
-)}
-
-
+        {playerAverages ? (
+          <PlayerRadarChart playerDetails={playerAverages} />
+        ) : (
+          <p style={{ color: "red", textAlign: "center" }}>
+            ❌ Nenhum dado carregado.
+          </p>
+        )}
       </div>
 
       <div className="actions">
@@ -197,12 +199,11 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
             </button>
           </>
         )}
-        <button className="icon-btn" onClick={() => navigate("/player/history")}>
+        <button className="icon-btn" onClick={() => navigate(`/reports/history/${ID_JOGADORES}`)}>
           <FontAwesomeIcon icon={faHistory} />
         </button>
       </div>
 
-      {/* Botões de Ativar e Rejeitar Jogador (apenas para jogadores Inativos) */}
       {player.STATUS === "Inactive" && (
         <div className="player-actions">
           <button className="activate-btn" onClick={() => handleActivatePlayer(player.ID_JOGADORES)}>

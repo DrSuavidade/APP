@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../CSS/ListRelatorios.css";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FaTrash, FaPlus, FaTimes } from "react-icons/fa";
+import { FaTrash, FaTimes } from "react-icons/fa";
 
 const ReportsHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
   const [relatorios, setRelatorios] = useState([]);

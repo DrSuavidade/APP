@@ -302,6 +302,7 @@ relationship11Controller.fichaReports = async (req, res) => {
       ID_RELATORIO: relatorio.ID_RELATORIO,
       DATA: dataFormatada, // Data formatada corretamente
       JOGADOR_NOME: jogador.NOME,
+      ID_JOGADORES: jogador.ID_JOGADORES,
       IDADE: calcularIdade(jogador.DATA_NASC),
       ANO_NASCIMENTO: anoNascimento,
       NOTA: relatorio.NOTA,

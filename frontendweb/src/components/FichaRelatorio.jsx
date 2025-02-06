@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import "../CSS/FichaRelatorio.css";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHistory } from "@fortawesome/free-solid-svg-icons"; // Adicionado ícone de histórico
 
 const FichaRelatorio = ({ ID_RELATORIO }) => {
   const [relatorio, setRelatorio] = useState(null);
   const [notaADM, setNotaADM] = useState(0);
   const [comentarioADM, setComentarioADM] = useState("");
   const [status, setStatus] = useState("");
+  const [ID_JOGADORES, setID_JOGADORES] = useState(null); // Novo estado para armazenar o ID do jogador
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (ID_RELATORIO) {
@@ -18,6 +23,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
           setNotaADM(response.data.NOTA_ADM);
           setComentarioADM(response.data.COMENTARIO_ADM);
           setStatus(response.data.STATUS);
+          setID_JOGADORES(response.data.ID_JOGADORES); // Definir o ID do jogador a partir da resposta
         })
         .catch((error) => {
           console.error("Erro ao buscar relatório:", error);
@@ -45,7 +51,6 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
       <span key={index} className={index < valor ? "circle filled" : "circle"}>●</span>
     ));
   };
-
 
   const handleUpdate = (novoStatus) => {
     axios
@@ -149,6 +154,13 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
           </button>
         </div>
       )}
+
+      {/* Botão de Histórico */}
+      <div className="history-button">
+        <button className="icon-btn" onClick={() => navigate(`/reports/history/${ID_JOGADORES}`)}>
+          <FontAwesomeIcon icon={faHistory} /> {/* Adicionado ícone de histórico */}
+        </button>
+      </div>
     </div>
   );
 };
