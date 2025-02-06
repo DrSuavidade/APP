@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-const ListaJogadoresEqp = ({ selectedYear, addedPlayers, idEquipa, onPlayerRemoved }) => {
+const ListaJogadoresEqp = ({addedPlayers, onPlayerRemoved }) => {
     const location = useLocation();
+    const { idEquipa } = location.state || {};  // Acessa o ID da equipa da navegação anterior
     const idClube = location.state?.idClube;
     const [clube, setClube] = useState({ nome: "Carregando...", abreviatura: "" });
     const [equipas, setEquipas] = useState([]);
-    const [selectedEquipa, setSelectedEquipa] = useState("");
+    const [selectedEquipa,] = useState(idEquipa || ""); // Define a equipa automaticamente
     const [registeredPlayers, setRegisteredPlayers] = useState([]);
     const [selectedPlayers, setSelectedPlayers] = useState([]);
 
@@ -36,6 +37,10 @@ const ListaJogadoresEqp = ({ selectedYear, addedPlayers, idEquipa, onPlayerRemov
             try {
                 const response = await axios.get(`http://localhost:3000/api/equipas/${idClube}`);
                 setEquipas(response.data);
+                // Se a equipa já foi recebida do estado, busca seus jogadores
+                if (idEquipa) {
+                    fetchPlayers(idEquipa);
+                }
             } catch (error) {
                 console.error("❌ Erro ao buscar equipas:", error);
                 setEquipas([]);
@@ -43,23 +48,19 @@ const ListaJogadoresEqp = ({ selectedYear, addedPlayers, idEquipa, onPlayerRemov
         };
 
         fetchTeams();
-    }, [idClube]);
+    }, [idClube, idEquipa]);
 
     // 🔹 Buscar jogadores da equipa selecionada
-    useEffect(() => {
-        if (!selectedEquipa) return;
+    const fetchPlayers = async (idEquipa) => {
+        if (!idEquipa) return;
 
-        const fetchPlayers = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3000/api/jogador/equipa/${selectedEquipa}`);
-                setRegisteredPlayers(response.data || []);
-            } catch (error) {
-                console.error("❌ Erro ao buscar jogadores:", error);
-            }
-        };
-
-        fetchPlayers();
-    }, [selectedEquipa]);
+        try {
+            const response = await axios.get(`http://localhost:3000/api/jogador/equipa/${idEquipa}`);
+            setRegisteredPlayers(response.data || []);
+        } catch (error) {
+            console.error("❌ Erro ao buscar jogadores:", error);
+        }
+    };
 
     // 🔹 Adicionar jogadores manualmente à equipa
     useEffect(() => {
@@ -110,27 +111,9 @@ const ListaJogadoresEqp = ({ selectedYear, addedPlayers, idEquipa, onPlayerRemov
         <div className="right-panel">
             <h2 className="club-name">{clube.NOME || "Nome Indisponível"}</h2>
             <p className="club-abbreviation">{clube.ABREVIATURA || ""}</p>
-            
 
-            {/* 🔹 Dropdown de equipas */}
-            <select 
-                className="team-dropdown" 
-                value={selectedEquipa}
-                onChange={(e) => setSelectedEquipa(e.target.value)}
-            >
-                {equipas.length > 0 ? (
-                    <>
-                        <option value="" disabled>Selecione uma equipa</option>
-                        {equipas.map(equipa => (
-                            <option key={equipa.ID_EQUIPA} value={equipa.ID_EQUIPA}>
-                                {equipa.NOME}
-                            </option>
-                        ))}
-                    </>
-                ) : (
-                    <option value="" disabled>Não existe nenhuma equipa para este clube</option>
-                )}
-            </select>
+            {/* 🔹 Exibição da equipa única */}
+            <p className="team-name">{equipas.find(equipa => equipa.ID_EQUIPA === selectedEquipa)?.NOME || "Carregando equipa..."}</p>
 
             <p className="player-count">Jogadores: {registeredPlayers.length}</p>
 
