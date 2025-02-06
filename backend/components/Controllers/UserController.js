@@ -168,8 +168,8 @@ userController.login = async (req, res) => {
     }
 
     // Bloquear login para Scouter
-    if (user.ID_TIPO === 3) {
-      return res.status(403).json({ message: "Acesso negado. Scouters não podem fazer login na web." });
+    if (user.ID_TIPO === 1) {
+      return res.status(403).json({ message: "Acesso negado. Viewew não podem fazer login na APP." });
     }
 
     console.log("Login da app bem-sucedido. Gerando token...");
