@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/PlayerCard.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const PlayerCard = ({ onSelectRelatorio }) => {
   const [playerCards, setPlayerCards] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPlayerCards = async () => {
@@ -23,6 +25,19 @@ const PlayerCard = ({ onSelectRelatorio }) => {
     return nota <= 2 ? "orange" : "green";
   };
 
+  const handleCardClick = (idRelatorio) => {
+    try {
+      if (onSelectRelatorio) {
+        onSelectRelatorio(idRelatorio);
+      } else {
+        throw new Error("onSelectRelatorio não está definido");
+      }
+    } catch (error) {
+      console.error("❌ Erro ao selecionar relatório:", error);
+      navigate("/reports");
+    }
+  };
+
   return (
     <div className="player-cards-container">
       {playerCards.length > 0 ? (
@@ -30,7 +45,7 @@ const PlayerCard = ({ onSelectRelatorio }) => {
           <div 
             key={report.ID_RELATORIO} 
             className="player-card" 
-            onClick={() => onSelectRelatorio(report.ID_RELATORIO)} 
+            onClick={() => handleCardClick(report.ID_RELATORIO)} 
             style={{ cursor: "pointer" }}
           >
             <div className="status-dot"></div>

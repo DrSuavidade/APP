@@ -255,34 +255,30 @@ body {
    ============================== */
 
 /* Garante que o container ocupa toda a largura disponível */
-.player-list {
-    width: 100%;
-    background: #2b2b2b;
-    padding: 10px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    /* Espaço uniforme entre jogadores */
-}
-
-/* Faz cada jogador ocupar toda a linha */
+/* Ajuste a altura da barra do jogador para o dobro */
 .player-entry {
     display: flex;
     justify-content: space-between;
-    /* Nome à esquerda, estrelas à direita */
     align-items: center;
-    padding: 15px;
+    padding: 15px; /* Mantém o padding original */
     background: #333;
     border-radius: 5px;
     color: white;
-
     width: 100%;
-    /* Usa toda a largura disponível */
-    flex: 1;
-    /* Faz cada item ocupar a linha inteira */
+    height: 80px; /* Dobro da altura original (40px -> 80px) */
     box-sizing: border-box;
-    /* Evita que padding/margins afetem a largura */
+}
+
+/* Garantir que o container da lista de jogadores se adapte ao conteúdo */
+/* Aumentar o espaçamento entre os cards dos jogadores */
+.player-list {
+    width: 100%;
+    background: #2b2b2b;
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Aumentar o espaçamento entre os jogadores */
 }
 
 /* Nome do jogador ocupa todo o espaço disponível */

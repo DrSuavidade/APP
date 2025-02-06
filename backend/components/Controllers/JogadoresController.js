@@ -35,6 +35,7 @@ jogadoresController.addPlayerPage = async (req, res) => {
     const ID_JOGADOR = maxJogador ? maxJogador.ID_JOGADORES + 1 : 1;
 
     const STATUS = "Active";
+    const NOTA_ADM = 0; // Define automaticamente a nota como 0
 
     const jogador = new Jogadores({
       NOME,
@@ -44,6 +45,7 @@ jogadoresController.addPlayerPage = async (req, res) => {
       NACIONALIDADE,
       STATUS,
       ID_JOGADORES: ID_JOGADOR,
+      NOTA_ADM, // Agora sempre será 0 na criação
     });
 
     await jogador.save();
@@ -54,6 +56,7 @@ jogadoresController.addPlayerPage = async (req, res) => {
     res.status(500).json({ error: 'Erro ao adicionar jogador' });
   }
 };
+
 
 
 // List all players

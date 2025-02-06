@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom"; // Importando o hook para acessar o ID_EQUIPA da navegação
 
 const DropboxJogadores = ({ onRegisterPlayer }) => {
+    const location = useLocation();
+    const { idEquipa } = location.state || {};  // Acessa o ID da equipa da navegação anterior
     const [selectedYear, setSelectedYear] = useState('');
     const [players, setPlayers] = useState([]);
     const [selectedPlayers, setSelectedPlayers] = useState([]); // Novo estado para jogadores selecionados
-    const [allSelected, setAllSelected] = useState(false);
     const [availableYears, setAvailableYears] = useState([]);
 
     // Gerar anos de 1970 a 2025
@@ -44,12 +46,21 @@ const DropboxJogadores = ({ onRegisterPlayer }) => {
 
     // Confirmar jogadores e enviá-los para a equipa
     const handleConfirm = async () => {
+        if (!idEquipa) {
+            console.error("❌ ID da equipa não encontrado!");
+            return;
+        }
+
+        console.log("ID da equipa selecionada:", idEquipa); // Verificar se o ID da equipa está correto
+        console.log("Jogadores selecionados:", selectedPlayers); // Verificar se os jogadores foram selecionados corretamente
+
         try {
             for (const player of selectedPlayers) {
-                await axios.post("http://localhost:3000/api/jogador/adicionar", {
+                const response = await axios.post("http://localhost:3000/api/jogador/adicionar", {
                     ID_JOGADORES: player.ID_JOGADORES,
-                    ID_EQUIPA: 1, // Para testes
+                    ID_EQUIPA: idEquipa, // Usando o ID da equipa dinamicamente
                 });
+                console.log("Resposta do backend:", response.data); // Verificar a resposta da API
             }
     
             // 🔹 Remove os jogadores confirmados da dropbox sem afetar o restante do código
@@ -67,7 +78,6 @@ const DropboxJogadores = ({ onRegisterPlayer }) => {
             console.error("❌ Erro ao adicionar jogadores à equipa:", error);
         }
     };
-    
 
     return (
         <div className="left-panel">

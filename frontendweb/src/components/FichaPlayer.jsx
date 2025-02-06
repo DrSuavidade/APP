@@ -5,9 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faHistory, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
+import PlayerRadarChart from "./PlayerRadarChart";
+
 
 const FichaPlayer = ({ ID_JOGADORES }) => {
   const [player, setPlayer] = useState(null);
+  const [playerAverages, setPlayerAverages] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const navigate = useNavigate();
 
@@ -21,8 +24,21 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
         .catch((error) => {
           console.error("Erro ao buscar jogador:", error);
         });
+  
+      // ✅ Fetch Player Averages (Copied from ShadowTeamPage)
+      axios
+        .get(`http://localhost:3000/api/jogador/details/${ID_JOGADORES}`)
+        .then((response) => {
+          console.log("🚀 Player Averages Fetched:", response.data); // ✅ Debugging
+          setPlayerAverages(response.data);
+        })
+        .catch((error) => {
+          console.error("Erro ao buscar médias dos relatórios:", error);
+        });
     }
   }, [ID_JOGADORES]);
+  
+  
 
   const handleEdit = () => {
     setEditMode(true);
@@ -154,6 +170,17 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
           disabled={!editMode}
           onChange={(e) => setPlayer({ ...player, DADOS_ENC: e.target.value })}
         />
+
+{/* ✅ Render PlayerRadarChart Only If Data Exists */}
+{playerAverages ? (
+  <PlayerRadarChart playerDetails={playerAverages} />
+) : (
+  <p style={{ color: "red", textAlign: "center" }}>
+    ❌ Nenhum dado carregado.
+  </p>
+)}
+
+
       </div>
 
       <div className="actions">
