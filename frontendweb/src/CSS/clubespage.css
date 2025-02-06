@@ -335,6 +335,7 @@ body {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
+  background-color: #1e1e1e;
 }
 
 .search-container input {
@@ -343,19 +344,6 @@ body {
   border-radius: 5px;
   border: 1px solid #ccc;
   margin-right: 10px;
-}
-
-.search-btn {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.search-btn:hover {
-  background-color: #45a049;
 }
 
 /* Estilos para a barra de ferramentas */

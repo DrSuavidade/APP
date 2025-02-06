@@ -83,7 +83,7 @@ const ReportsHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
       case "Avaliado_ADM":
         return "transparent";
       case "Ativo":
-        return "green";
+        return "white";
       default:
         return "red";
     }

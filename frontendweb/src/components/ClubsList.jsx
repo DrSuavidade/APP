@@ -145,7 +145,6 @@ const ClubsList = ({ setSelectedClub }) => {
 
   return (
     <div className="left-menu">
-      <h2>Clubes</h2>
       <div className="search-container">
         <input
           type="text"
@@ -153,7 +152,6 @@ const ClubsList = ({ setSelectedClub }) => {
           value={searchTerm}
           onChange={handleSearch}
         />
-        <button className="search-btn">Pesquisar</button>
       </div>
 
       <div className="toolbar">

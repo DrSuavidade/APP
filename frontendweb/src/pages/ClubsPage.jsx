@@ -1,14 +1,23 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom"; // Importando useParams para capturar o ID_USER da URL
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import "./../CSS/clubespage.css";
 import ClubsCards from "./../components/ClubsCards";
 import ClubsList from "./../components/ClubsList";
 import TeamsList from "./../components/TeamsList";
+import Cookies from "js-cookie";
 
 const ClubsPage = () => {
-  const { ID_USER } = useParams(); // Captura o ID_USER da URL
+  const { ID_USER } = useParams();
+  const [userId, setUserId] = useState(ID_USER);
   const [selectedClub, setSelectedClub] = useState(null);
   const [favorites, setFavorites] = useState({});
+
+  useEffect(() => {
+    if (!ID_USER) {
+      const cookieUserId = Cookies.get("ID_USER");
+      setUserId(cookieUserId);
+    }
+  }, [ID_USER]);
 
   const toggleFavorite = (clubName) => {
     setFavorites((prevFavorites) => ({
@@ -18,15 +27,14 @@ const ClubsPage = () => {
   };
 
   return (
-    <div className="page-container pushed-down"> {/* Ajuste para mover tudo para a esquerda */}
-      {/* Passando ID_USER corretamente para ClubsCards */}
-      <div className="clubs-card-container shift-left"> 
-        <ClubsCards ID_USER={parseInt(ID_USER, 10)} setSelectedClub={setSelectedClub} toggleFavorite={toggleFavorite} />
+    <div className="page-container pushed-down">
+      <div className="clubs-card-container shift-left">
+        <ClubsCards ID_USER={parseInt(userId, 10)} setSelectedClub={setSelectedClub} toggleFavorite={toggleFavorite} />
       </div>
       <div className="main-content">
         <div className="clubs-container compact-table stretch-left no-gap">
           <ClubsList setSelectedClub={setSelectedClub} />
-          <div className="teams-container move-right"> {/* Movendo a secção da direita para a esquerda */}
+          <div className="teams-container move-right">
             <TeamsList selectedClub={selectedClub} favorites={favorites} toggleFavorite={toggleFavorite} />
           </div>
         </div>
@@ -34,6 +42,5 @@ const ClubsPage = () => {
     </div>
   );
 };
-
 
 export default ClubsPage;
