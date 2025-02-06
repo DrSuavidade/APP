@@ -4,12 +4,12 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { FaTrash, FaPlus, FaTimes } from "react-icons/fa";
 
-
 const ListRelatorios = ({ onSelectRelatorio }) => {
   const [relatorios, setRelatorios] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [selectMode, setSelectMode] = useState(false);
   const [selectedRelatorios, setSelectedRelatorios] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
 
   useEffect(() => {
     const fetchRelatorios = async () => {
@@ -33,16 +33,16 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
   };
 
   const toggleSelection = (id) => {
-    if (selectedRelatorios.includes(id)) {
-      setSelectedRelatorios(selectedRelatorios.filter((r) => r !== id));
-    } else {
-      setSelectedRelatorios([...selectedRelatorios, id]);
-    }
+    setSelectedRelatorios((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((r) => r !== id)
+        : [...prevSelected, id]
+    );
   };
 
   const deleteSelected = async () => {
     if (selectedRelatorios.length === 0) {
-      alert("Selecione pelo menos um relatório para excluir.");
+      Swal.fire("Erro", "Selecione pelo menos um relatório para excluir.", "error");
       return;
     }
 
@@ -53,18 +53,16 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
       showCancelButton: true,
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Avançar",
-      cancelButtonText: "Cancelar"
+      confirmButtonText: "Sim, excluir",
+      cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.delete("http://localhost:3000/api/relatorios/delete", {
-            data: { relatoriosIds: selectedRelatorios }
+          await axios.delete("http://localhost:3000/api/relatorios/delete", {
+            data: { relatoriosIds: selectedRelatorios },
           });
 
-          console.log("✅ Relatórios excluídos:", response.data);
-
-          setRelatorios(relatorios.filter(r => !selectedRelatorios.includes(r.ID_RELATORIO)));
+          setRelatorios(relatorios.filter((r) => !selectedRelatorios.includes(r.ID_RELATORIO)));
           setSelectedRelatorios([]);
           setSelectMode(false);
 
@@ -82,92 +80,91 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
       case "Avaliado":
         return "yellow";
       case "Avaliado_ADM":
+        return "transparent";
+      case "Ativo":
         return "green";
       default:
         return "red";
     }
   };
 
-  const getStars = (nota) => {
-    const stars = "★".repeat(nota) + "☆".repeat(5 - nota);
-    return <span className="stars">{stars}</span>;
-  };
-
-  const formatDate = (dateString) => {
-    if (!dateString) return "Data desconhecida";
-    
-    const date = new Date(dateString);
-    
-    const dia = String(date.getUTCDate()).padStart(2, "0");
-    const mes = String(date.getUTCMonth() + 1).padStart(2, "0");
-    const ano = date.getUTCFullYear();
-  
-    return `${dia}/${mes}/${ano}`;
-  };
+  const getStars = (nota) => "★".repeat(nota) + "☆".repeat(5 - nota);
 
   return (
-<div className="list-relatorios-container">
-  {/* Cabeçalho fixo */}
-  <div className="list-relatorios-header">
-  <div className="search-toolbar">
-  {/* Barra de pesquisa */}
-  <div className="search-container">
-    <input
-      type="text"
-      placeholder="Escreva o nome do jogador"
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-    />
-    <button className="search-btn">Pesquisar</button>
-  </div>
-
-  {/* Novos botões (movidos para baixo) */}
-  <div className="buttons-container">
-    <FaTrash className="icon trash" onClick={toggleSelectMode} />
-    <FaPlus className="icon add" onClick={() => console.log("Adicionar relatório")} />
-    {selectMode && <FaTimes className="icon cancel" onClick={() => setSelectMode(false)} />}
-  </div>
-</div>
-
-    {/* Títulos das colunas */}
-    <div className="table-header">
-      <div>ID</div>
-      <div>Jogador</div>
-      <div>Clube</div>
-      <div>Avaliação</div>
-      <div>Scouter</div>
-      <div>Data</div>
-      <div>Status</div>
+    <div className="list-relatorios-container">
+    <div className="lista-eventos-toolbar">
+      <div className="lista-eventos-search-container">
+        <input
+          type="text"
+          placeholder="Pesquisar relatório"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+      <div className="lista-eventos-icons-container">
+        <FaTrash className="icon trash" onClick={selectMode ? deleteSelected : toggleSelectMode} />
+        {selectMode && (
+          <FaTimes
+            className="icon cancel"
+            onClick={() => {
+              setSelectMode(false);
+              setSelectedRelatorios([]);
+            }}
+          />
+        )}
+      </div>
     </div>
-  </div>
 
-  {/* Conteúdo rolável */}
-  <div className="table-content">
-    {relatorios
-      .filter((r) => r.JOGADOR_NOME.toLowerCase().includes(searchTerm.toLowerCase()))
-      .map((report) => (
-        <div
-          key={report.ID_RELATORIO}
-          className="table-row"
-          onClick={() => onSelectRelatorio(report.ID_RELATORIO)}
-        >
-          <div>{report.ID_RELATORIO}</div>
-          <div>{report.JOGADOR_NOME}</div>
-          <div>{report.ABREVIATURA_CLUBE}</div>
-          <div>{getStars(report.NOTA_ADM)}</div>
-          <div>{report.NOME_USER} (ID: {report.ID_USER})</div>
-          <div>{formatDate(report.DATA)}</div>
-          <div>
-            <span
-              className="status-circle"
-              style={{ backgroundColor: getStatusColor(report.STATUS) }}
-              title={report.STATUS}
-            ></span>
-          </div>
-        </div>
-      ))}
-  </div>
-</div>
+
+      <div className="lista-eventos-scroll-container">
+        <table className="lista-eventos-table">
+          <thead>
+            <tr>
+              {selectMode && <th></th>}
+              <th>ID</th>
+              <th>Jogador</th>
+              <th>Clube</th>
+              <th>Avaliação</th>
+              <th>Scouter</th>
+              <th>Data</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+          {relatorios
+            .filter((report) =>
+              report.JOGADOR_NOME.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              report.ABREVIATURA_CLUBE.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            .map((report) => (
+              <tr key={report.ID_RELATORIO} onClick={() => onSelectRelatorio(report.ID_RELATORIO)}>
+                {selectMode && (
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedRelatorios.includes(report.ID_RELATORIO)}
+                      onChange={() => toggleSelection(report.ID_RELATORIO)}
+                    />
+                  </td>
+                )}
+                <td>{report.ID_RELATORIO}</td>
+                <td>{report.JOGADOR_NOME}</td>
+                <td>{report.ABREVIATURA_CLUBE}</td>
+                <td>{getStars(report.NOTA_ADM)}</td>
+                <td>{report.NOME_USER} (ID: {report.ID_USER})</td>
+                <td>{new Date(report.DATA).toLocaleDateString()}</td>
+                <td>
+                  <div
+                    className="status-circle"
+                    style={{ backgroundColor: getStatusColor(report.STATUS) }}
+                  ></div>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 
