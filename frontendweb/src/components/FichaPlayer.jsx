@@ -23,7 +23,7 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
         .catch((error) => {
           console.error("Erro ao buscar jogador:", error);
         });
-  
+
       axios
         .get(`http://localhost:3000/api/jogador/details/${ID_JOGADORES}`)
         .then((response) => {
@@ -138,8 +138,8 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
       <div className="player-fields">
         <label>Data de Nascimento:</label>
         <input
-          type="text"
-          value={formatDate(player.DATA_NASC)}
+          type={editMode ? "date" : "text"} // Alterar o tipo para "date" em modo de edição
+          value={editMode ? player.DATA_NASC.split('T')[0] : formatDate(player.DATA_NASC)}
           disabled={!editMode}
           onChange={(e) => setPlayer({ ...player, DATA_NASC: e.target.value })}
         />
