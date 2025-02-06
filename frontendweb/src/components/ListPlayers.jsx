@@ -81,6 +81,12 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
     });
   };
 
+  // Função para gerar as estrelas com base na avaliação
+  const getStars = (nota) => {
+    const stars = "★".repeat(nota) + "☆".repeat(5 - nota);
+    return <span className="stars">{stars}</span>;
+  };
+
   return (
     <div className="list-players-container">
       {/* Barra de pesquisa e botões */}
@@ -146,7 +152,7 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
                   <td>{player.ID_JOGADORES}</td>
                   <td>{player.NOME}</td>
                   <td>{player.ABREVIATURA_CLUBE || "--"}</td>
-                  <td>★ ★ ★ ★ ★</td>
+                  <td>{getStars(player.NOTA_ADM || 0)}</td> {/* Usando a função getStars */}
                   <td>{player.GENERO}</td>
                   <td>{player.DATA_NASC ? new Date(player.DATA_NASC).getFullYear() : "--"}</td>
                   <td>{player.NACIONALIDADE}</td>
