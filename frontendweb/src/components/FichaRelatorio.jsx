@@ -4,14 +4,14 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHistory } from "@fortawesome/free-solid-svg-icons"; // Adicionado ícone de histórico
+import { faHistory, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 const FichaRelatorio = ({ ID_RELATORIO }) => {
   const [relatorio, setRelatorio] = useState(null);
   const [notaADM, setNotaADM] = useState(0);
   const [comentarioADM, setComentarioADM] = useState("");
   const [status, setStatus] = useState("");
-  const [ID_JOGADORES, setID_JOGADORES] = useState(null); // Novo estado para armazenar o ID do jogador
+  const [ID_JOGADORES, setID_JOGADORES] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,11 +19,16 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
       axios
         .get(`http://localhost:3000/api/relatorio/ficha/${ID_RELATORIO}`)
         .then((response) => {
-          setRelatorio(response.data);
-          setNotaADM(response.data.NOTA_ADM);
-          setComentarioADM(response.data.COMENTARIO_ADM);
-          setStatus(response.data.STATUS);
-          setID_JOGADORES(response.data.ID_JOGADORES); // Definir o ID do jogador a partir da resposta
+          const data = response.data;
+          setRelatorio(data);
+          setNotaADM(data.NOTA_ADM);
+          setComentarioADM(data.COMENTARIO_ADM);
+          setStatus(data.STATUS);
+          setID_JOGADORES(data.ID_JOGADORES);
+
+          // Calcular a média dos campos de avaliação
+          const media = Math.round((data.TECNICA + data.VELOCIDADE + data.COMPETITIVA + data.INTELIGENCIA) / 4);
+          setRelatorio(prev => ({ ...prev, NOTA: media }));
         })
         .catch((error) => {
           console.error("Erro ao buscar relatório:", error);
@@ -58,7 +63,8 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
         ID_RELATORIO,
         NOTA_ADM: notaADM,
         COMENTARIO_ADM: comentarioADM,
-        STATUS: novoStatus
+        STATUS: novoStatus,
+        NOTA: relatorio.NOTA // Incluindo a nota do relatório
       })
       .then((response) => {
         console.log("✅ Relatório atualizado:", response.data);
@@ -99,6 +105,13 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
     });
   };
 
+  const handleNotaChange = (delta) => {
+    if (status === "Avaliado") {
+      const newNota = Math.max(0, Math.min(4, relatorio.NOTA + delta));
+      setRelatorio({ ...relatorio, NOTA: newNota });
+    }
+  };
+
   if (!relatorio) {
     return <div>Carregando...</div>;
   }
@@ -113,13 +126,21 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
           <p>{relatorio.IDADE} anos • {relatorio.ANO_NASCIMENTO}</p>
           <p>{relatorio.NOME_EQUIPA} ({relatorio.ABREVIATURA_CLUBE})</p>
         </div>
-        <div 
-            className={`nota-circle ${relatorio.NOTA <= 2 ? "nota-baixa" : "nota-alta"}`}
-            >
-            {relatorio.NOTA}/4
+        <div className={`nota-circle ${relatorio.NOTA <= 2 ? "nota-baixa" : "nota-alta"}`}>
+          {relatorio.NOTA}/4
+          {status === "Avaliado" && (
+            <div className="nota-controls">
+               <button onClick={() => handleNotaChange(1)}>
+                <FontAwesomeIcon icon={faChevronUp} />
+              </button>
+              <button onClick={() => handleNotaChange(-1)}>
+                <FontAwesomeIcon icon={faChevronDown} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
-  
+
       <div className="attributes">
         {["TECNICA", "VELOCIDADE", "COMPETITIVA", "INTELIGENCIA"].map((attr) => (
           <div className="attribute-circle" key={attr}>
@@ -128,13 +149,14 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
           </div>
         ))}
       </div>
-  
+
+      <h4>ALTURA: {relatorio.ALTURA}</h4>
       <h4>MORFOLOGIA: {relatorio.MORFOLOGIA}</h4>
-  
+
       <div className="comments">
         <h4>COMENTÁRIO SCOUTER</h4>
         <p>{relatorio.COMENTARIO_SCOUTTER}</p>
-  
+
         <h4>COMENTÁRIO ADMIN</h4>
         <textarea
           value={comentarioADM}
@@ -142,10 +164,10 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
           disabled={status !== "Avaliado"}
         />
       </div>
-  
+
       <h4>AVALIAÇÃO GLOBAL</h4>
       <div className="stars">{getStars()}</div>
-  
+
       {status === "Avaliado" && (
         <div className="buttons">
           <button className="reject-btn" onClick={handleReject}>Rejeitar</button>
@@ -155,10 +177,9 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
         </div>
       )}
 
-      {/* Botão de Histórico */}
       <div className="history-button">
         <button className="icon-btn" onClick={() => navigate(`/reports/history/${ID_JOGADORES}`)}>
-          <FontAwesomeIcon icon={faHistory} /> {/* Adicionado ícone de histórico */}
+          <FontAwesomeIcon icon={faHistory} />
         </button>
       </div>
     </div>

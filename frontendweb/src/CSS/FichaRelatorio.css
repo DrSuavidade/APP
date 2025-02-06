@@ -273,3 +273,27 @@
   max-width: 350px; /* Mantém um tamanho máximo */
   max-height: 500px; /* Mantém um tamanho máximo */
 }
+
+.nota-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 5px;
+  margin-left: 3px;
+}
+
+.nota-controls button {
+  background-color: #323232;
+  color: white;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nota-controls button:hover {
+  background-color: #434343;
+}
