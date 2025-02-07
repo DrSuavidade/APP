@@ -3,12 +3,14 @@ import "../CSS/ListRelatorios.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FaTrash, FaTimes } from "react-icons/fa";
+import Cookies from "js-cookie";
 
 const ListRelatorios = ({ onSelectRelatorio }) => {
   const [relatorios, setRelatorios] = useState([]);
   const [selectMode, setSelectMode] = useState(false);
   const [selectedRelatorios, setSelectedRelatorios] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
 
   useEffect(() => {
     const fetchRelatorios = async () => {
@@ -24,6 +26,9 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
     };
 
     fetchRelatorios();
+
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    setUserType(ID_TIPO);
   }, []);
 
   const toggleSelectMode = () => {
@@ -113,7 +118,6 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
       </span>
     );
   };
-  
 
   return (
     <div className="list-relatorios-container">
@@ -126,21 +130,23 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="lista-eventos-icons-container">
-          <FaTrash
-            className="icon trash"
-            onClick={selectMode ? deleteSelected : toggleSelectMode}
-          />
-          {selectMode && (
-            <FaTimes
-              className="icon cancel"
-              onClick={() => {
-                setSelectMode(false);
-                setSelectedRelatorios([]);
-              }}
+        {userType !== "1" && (
+          <div className="lista-eventos-icons-container">
+            <FaTrash
+              className="icon trash"
+              onClick={selectMode ? deleteSelected : toggleSelectMode}
             />
-          )}
-        </div>
+            {selectMode && (
+              <FaTimes
+                className="icon cancel"
+                onClick={() => {
+                  setSelectMode(false);
+                  setSelectedRelatorios([]);
+                }}
+              />
+            )}
+          </div>
+        )}
       </div>
 
       <div className="lista-eventos-scroll-container">

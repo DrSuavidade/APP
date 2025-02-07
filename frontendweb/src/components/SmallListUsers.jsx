@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import "../CSS/ListRelatorios.css";
 import { FaTrash, FaPlus, FaTimes } from 'react-icons/fa';
 import Swal from 'sweetalert2';
@@ -11,10 +12,13 @@ const SmallListUsers = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [showCheckboxes, setShowCheckboxes] = useState(false);
   const [showScrollbar, setShowScrollbar] = useState(false); // Controla a exibição da scrollbar
+  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchUsers();
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    setUserType(ID_TIPO);
   }, []);
 
   const fetchUsers = async () => {
@@ -99,11 +103,13 @@ const SmallListUsers = () => {
         <button className="search-btn">Search</button>
       </div>
 
-      <div className="toolbar">
-        <FaTrash className="icon trash" onClick={handleDelete} />
-        {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
-        <FaPlus className="icon add" onClick={() => navigate('/scouts/new')} />
-      </div>
+      {userType !== "1" && (
+        <div className="toolbar">
+          <FaTrash className="icon trash" onClick={handleDelete} />
+          {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
+          <FaPlus className="icon add" onClick={() => navigate('/scouts/new')} />
+        </div>
+      )}
 
       <div className={`user-list ${showScrollbar ? "with-scrollbar" : "without-scrollbar"}`}>
         {filteredUsers.slice(0, showScrollbar ? filteredUsers.length : 6).map((user) => (

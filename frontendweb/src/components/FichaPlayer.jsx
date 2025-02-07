@@ -6,11 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faHistory, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import PlayerRadarChart from "./PlayerRadarChart";
+import Cookies from "js-cookie"; // Importar a biblioteca js-cookie
 
 const FichaPlayer = ({ ID_JOGADORES }) => {
   const [player, setPlayer] = useState(null);
   const [playerAverages, setPlayerAverages] = useState(null);
   const [editMode, setEditMode] = useState(false);
+  const [userType, setUserType] = useState(null); // Adicionar estado para armazenar ID_TIPO
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,6 +36,9 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
           console.error("Erro ao buscar médias dos relatórios:", error);
         });
     }
+
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    setUserType(ID_TIPO);
   }, [ID_JOGADORES]);
 
   const handleEdit = () => {
@@ -130,10 +135,10 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
       <div className="header">
         <h2>Informações do Jogador</h2>
         <div 
-  className="status-circle" 
-  data-tooltip={getStatusText()} 
-  style={{ background: getStatusColor() }}
-></div>
+          className="status-circle" 
+          data-tooltip={getStatusText()} 
+          style={{ background: getStatusColor() }}
+        ></div>
       </div>
 
       <div className="player-info">
@@ -188,9 +193,11 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
       </div>
 
       <div className="actions">
-        <button className="icon-btn" onClick={handleEdit} disabled={editMode}>
-          <FontAwesomeIcon icon={faEdit} />
-        </button>
+        {userType !== "1" && (
+          <button className="icon-btn" onClick={handleEdit} disabled={editMode}>
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
+        )}
         {editMode && (
           <>
             <button className="icon-btn cancel-btn" onClick={handleCancel}>
@@ -206,7 +213,7 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
         </button>
       </div>
 
-      {player.STATUS === "Inactive" && (
+      {player.STATUS === "Inactive" && userType !== "1" && (
         <div className="player-actions">
           <button className="activate-btn" onClick={() => handleActivatePlayer(player.ID_JOGADORES)}>
             Ativar Jogador

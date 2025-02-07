@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../CSS/ListRelatorios.css'; // Reutilizando o CSS existente
+import Cookies from 'js-cookie';
 
 const RecentEvents = () => {
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
+  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
 
   useEffect(() => {
     const fetchRecentEvents = async () => {
@@ -18,6 +20,9 @@ const RecentEvents = () => {
     };
 
     fetchRecentEvents();
+
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    setUserType(ID_TIPO);
   }, []);
 
   const formatDate = (dateString) => {
@@ -37,12 +42,14 @@ const RecentEvents = () => {
           </div>
         ))}
       </div>
-      <button
-        className="add-event-btn"
-        onClick={() => navigate('/events/new')}
-      >
-        Adicionar Evento
-      </button>
+      {userType !== "1" && (
+        <button
+          className="add-event-btn"
+          onClick={() => navigate('/events/new')}
+        >
+          Adicionar Evento
+        </button>
+      )}
     </div>
   );
 };

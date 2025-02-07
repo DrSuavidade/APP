@@ -3,19 +3,22 @@ import "../CSS/ListRelatorios.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FaTrash, FaTimes } from "react-icons/fa";
+import Cookies from "js-cookie";
 
 const ReportsHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
   const [relatorios, setRelatorios] = useState([]);
   const [selectMode, setSelectMode] = useState(false);
   const [selectedRelatorios, setSelectedRelatorios] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
 
   useEffect(() => {
     if (!ID_JOGADORES) return;
     const fetchRelatorios = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/player/reports/${ID_JOGADORES}`);
+        const response = await axios.get(
+          `http://localhost:3000/api/player/reports/${ID_JOGADORES}`
+        );
         console.log("📌 Relatórios recebidos:", response.data);
         setRelatorios(response.data);
       } catch (error) {
@@ -24,6 +27,9 @@ const ReportsHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
     };
 
     fetchRelatorios();
+
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    setUserType(ID_TIPO);
   }, [ID_JOGADORES]);
 
   const toggleSelectMode = () => {
@@ -43,7 +49,11 @@ const ReportsHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
 
   const deleteSelected = async () => {
     if (selectedRelatorios.length === 0) {
-      Swal.fire("Erro", "Selecione pelo menos um relatório para excluir.", "error");
+      Swal.fire(
+        "Erro",
+        "Selecione pelo menos um relatório para excluir.",
+        "error"
+      );
       return;
     }
 
@@ -63,14 +73,26 @@ const ReportsHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
             data: { relatoriosIds: selectedRelatorios },
           });
 
-          setRelatorios(relatorios.filter((r) => !selectedRelatorios.includes(r.ID_RELATORIO)));
+          setRelatorios(
+            relatorios.filter(
+              (r) => !selectedRelatorios.includes(r.ID_RELATORIO)
+            )
+          );
           setSelectedRelatorios([]);
           setSelectMode(false);
 
-          Swal.fire("Excluído!", "Os relatórios foram excluídos com sucesso.", "success");
+          Swal.fire(
+            "Excluído!",
+            "Os relatórios foram excluídos com sucesso.",
+            "success"
+          );
         } catch (error) {
           console.error("❌ Erro ao excluir relatórios:", error);
-          Swal.fire("Erro!", "Não foi possível excluir os relatórios.", "error");
+          Swal.fire(
+            "Erro!",
+            "Não foi possível excluir os relatórios.",
+            "error"
+          );
         }
       }
     });
@@ -97,33 +119,36 @@ const ReportsHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
       </span>
     );
   };
-  
 
   return (
     <div className="list-relatorios-container">
-    <div className="lista-eventos-toolbar">
-      <div className="lista-eventos-search-container">
-        <input
-          type="text"
-          placeholder="Pesquisar relatório"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      <div className="lista-eventos-icons-container">
-        <FaTrash className="icon trash" onClick={selectMode ? deleteSelected : toggleSelectMode} />
-        {selectMode && (
-          <FaTimes
-            className="icon cancel"
-            onClick={() => {
-              setSelectMode(false);
-              setSelectedRelatorios([]);
-            }}
+      <div className="lista-eventos-toolbar">
+        <div className="lista-eventos-search-container">
+          <input
+            type="text"
+            placeholder="Pesquisar relatório"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
+        </div>
+        {userType !== "1" && (
+          <div className="lista-eventos-icons-container">
+            <FaTrash
+              className="icon trash"
+              onClick={selectMode ? deleteSelected : toggleSelectMode}
+            />
+            {selectMode && (
+              <FaTimes
+                className="icon cancel"
+                onClick={() => {
+                  setSelectMode(false);
+                  setSelectedRelatorios([]);
+                }}
+              />
+            )}
+          </div>
         )}
       </div>
-    </div>
-
 
       <div className="lista-eventos-scroll-container">
         <table className="lista-eventos-table">
@@ -140,41 +165,48 @@ const ReportsHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
             </tr>
           </thead>
           <tbody>
-          {relatorios
-            .filter((report) =>
-              report.JOGADOR_NOME.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              report.ABREVIATURA_CLUBE.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-            .map((report) => (
-              <tr key={report.ID_RELATORIO} onClick={() => onSelectRelatorio(report.ID_RELATORIO)}>
-                {selectMode && (
+            {relatorios
+              .filter(
+                (report) =>
+                  report.JOGADOR_NOME.toLowerCase().includes(
+                    searchTerm.toLowerCase()
+                  ) ||
+                  report.ABREVIATURA_CLUBE.toLowerCase().includes(
+                    searchTerm.toLowerCase()
+                  )
+              )
+              .map((report) => (
+                <tr
+                  key={report.ID_RELATORIO}
+                  onClick={() => onSelectRelatorio(report.ID_RELATORIO)}
+                >
+                  {selectMode && (
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={selectedRelatorios.includes(
+                          report.ID_RELATORIO
+                        )}
+                        onChange={() => toggleSelection(report.ID_RELATORIO)}
+                      />
+                    </td>
+                  )}
+                  <td>{report.ID_RELATORIO}</td>
+                  <td>{report.JOGADOR_NOME}</td>
+                  <td>{report.ABREVIATURA_CLUBE}</td>
+                  <td>{getStars(report.NOTA_ADM)}</td>
+                  <td>{report.NOME_USER} (ID: {report.ID_USER})</td>
+                  <td>{new Date(report.DATA).toLocaleDateString()}</td>
                   <td>
-                    <input
-                      type="checkbox"
-                      checked={selectedRelatorios.includes(report.ID_RELATORIO)}
-                      onChange={() => toggleSelection(report.ID_RELATORIO)}
-                    />
+                    <div
+                      className="status-circle"
+                      data-tooltip={report.STATUS || "Sem status"}
+                      style={{ backgroundColor: getStatusColor(report.STATUS) }}
+                    ></div>
                   </td>
-                )}
-                <td>{report.ID_RELATORIO}</td>
-                <td>{report.JOGADOR_NOME}</td>
-                <td>{report.ABREVIATURA_CLUBE}</td>
-                <td>{getStars(report.NOTA_ADM)}</td>
-                <td>{report.NOME_USER} (ID: {report.ID_USER})</td>
-                <td>{new Date(report.DATA).toLocaleDateString()}</td>
-                <td>
-                <td>
-  <div
-    className="status-circle"
-    data-tooltip={report.STATUS || "Sem status"}
-    style={{ backgroundColor: getStatusColor(report.STATUS) }}
-  ></div>
-</td>
-
-                </td>
-              </tr>
-            ))}
-        </tbody>
+                </tr>
+              ))}
+          </tbody>
         </table>
       </div>
     </div>

@@ -4,12 +4,14 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { FaTrash, FaPlus, FaTimes } from "react-icons/fa";
+import Cookies from "js-cookie";
 
 const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
   const [players, setPlayers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectMode, setSelectMode] = useState(false);
   const [selectedPlayers, setSelectedPlayers] = useState([]);
+  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +33,9 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
     };
 
     fetchPlayers();
+
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    setUserType(ID_TIPO);
   }, [onPlayersLoaded, players.length]);
 
   const toggleSelectMode = () => {
@@ -116,27 +121,29 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="lista-eventos-buttons-container">
-          <div className="lista-eventos-icons-container">
-            <FaTrash
-              className="icon trash"
-              onClick={selectMode ? deleteSelected : toggleSelectMode}
-            />
-            <FaPlus
-              className="icon add"
-              onClick={() => navigate("/players/new")}
-            />
-            {selectMode && (
-              <FaTimes
-                className="icon cancel"
-                onClick={() => {
-                  setSelectMode(false);
-                  setSelectedPlayers([]);
-                }}
+        {userType !== "1" && (
+          <div className="lista-eventos-buttons-container">
+            <div className="lista-eventos-icons-container">
+              <FaTrash
+                className="icon trash"
+                onClick={selectMode ? deleteSelected : toggleSelectMode}
               />
-            )}
+              <FaPlus
+                className="icon add"
+                onClick={() => navigate("/players/new")}
+              />
+              {selectMode && (
+                <FaTimes
+                  className="icon cancel"
+                  onClick={() => {
+                    setSelectMode(false);
+                    setSelectedPlayers([]);
+                  }}
+                />
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Tabela de jogadores */}

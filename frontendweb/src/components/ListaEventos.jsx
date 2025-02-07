@@ -3,12 +3,14 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { FaTrash, FaPlus, FaTimes } from "react-icons/fa";
+import Cookies from "js-cookie";
 
 const ListaEventos = () => {
   const [eventos, setEventos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectMode, setSelectMode] = useState(false);
   const [selectedEventos, setSelectedEventos] = useState([]);
+  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,6 +24,9 @@ const ListaEventos = () => {
     };
 
     fetchEventos();
+
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    setUserType(ID_TIPO);
   }, []);
 
   const toggleSelectMode = () => {
@@ -92,24 +97,26 @@ const ListaEventos = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="lista-eventos-buttons-container">
-          <div className="lista-eventos-icons-container">
-            <FaTrash
-              className="icon trash"
-              onClick={selectMode ? deleteSelected : toggleSelectMode} // Só executa deleteSelected se o modo de seleção estiver ativo
-            />
-            <FaPlus className="icon add" onClick={() => navigate("/events/new")} />
-            {selectMode && (
-              <FaTimes
-                className="icon cancel"
-                onClick={() => {
-                  setSelectMode(false);
-                  setSelectedEventos([]); // Limpa as seleções ao cancelar o modo de seleção
-                }}
+        {userType !== "1" && (
+          <div className="lista-eventos-buttons-container">
+            <div className="lista-eventos-icons-container">
+              <FaTrash
+                className="icon trash"
+                onClick={selectMode ? deleteSelected : toggleSelectMode} // Só executa deleteSelected se o modo de seleção estiver ativo
               />
-            )}
+              <FaPlus className="icon add" onClick={() => navigate("/events/new")} />
+              {selectMode && (
+                <FaTimes
+                  className="icon cancel"
+                  onClick={() => {
+                    setSelectMode(false);
+                    setSelectedEventos([]); // Limpa as seleções ao cancelar o modo de seleção
+                  }}
+                />
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Tabela de eventos */}
