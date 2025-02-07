@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../CSS/AddEventToScout.css";
 import EventCard from "../components/EventCard"; 
 import ListaEventos2 from "../components/ListaEventos2"; 
+import JogadoresDestacados from "../components/JogadoresDestacados"; // Importação do componente
 
 const MainPage = () => {
     const location = useLocation();
@@ -66,6 +67,10 @@ const MainPage = () => {
                                 <p className="scouter-role">Scouter</p>
                                 <p>{selectedScouter.AVALIACOES} Avaliações</p>
                             </div>
+
+                            {/* Jogadores Destacados do Scouter Selecionado */}
+                            <JogadoresDestacados ID_USER={selectedScouter.ID_USER} />
+
                             <button 
                                 className="add-player-button" 
                                 onClick={handleAddPlayer}

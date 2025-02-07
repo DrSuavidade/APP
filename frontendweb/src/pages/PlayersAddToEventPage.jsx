@@ -38,88 +38,79 @@ const PlayersAddToEventPage = () => {
     setSelectedPlayers(players);
   };
 
-  // PlayersAddToEventPage.jsx - Código corrigido
-const handleCriarRelatorio = async () => {
-  if (!selectedPlayers.length || !selectedEventId || !selectedScouter) {
-    alert("Selecione jogadores, um evento e um scouter antes de criar relatórios.");
-    return;
-  }
-
-  try {
-    const resultados = [];
-    const scouterId = Number(selectedScouter.ID_USER);
-    const eventId = Number(selectedEventId);
-
-    // Verificação básica de IDs
-    if (isNaN(scouterId) || isNaN(eventId)) {
-      throw new Error("IDs inválidos do evento/scouter");
+  const handleCriarRelatorio = async () => {
+    if (!selectedPlayers.length || !selectedEventId || !selectedScouter) {
+      alert("Selecione jogadores, um evento e um scouter antes de criar relatórios.");
+      return;
     }
 
-    // Processar jogadores sequencialmente
-    for (const jogador of selectedPlayers) {
-      try {
-        const playerId = Number(jogador.ID_JOGADORES);
-        
-        // Validação local
-        if (isNaN(playerId)) {
-          resultados.push({ jogador: jogador.NOME, status: "Erro: ID inválido" });
-          continue;
-        }
+    try {
+      const resultados = [];
+      const scouterId = Number(selectedScouter.ID_USER);
+      const eventId = Number(selectedEventId);
 
-        // Tentar criar relatório diretamente
-        const relatorioData = {
-          TECNICA: 0,
-          VELOCIDADE: 0,
-          COMPETITIVA: 0,
-          INTELIGENCIA: 0,
-          ALTURA: "Não informado",
-          MORFOLOGIA: "Não informado",
-          STATUS: "Ativo",
-          ID_USER: scouterId,
-          ID_JOGADORES: playerId,
-          ID_EVENTOS: eventId,
-          COMENTARIO: "",
-          DATA: new Date(),
-          NOTA: 0
-        };
-
-        // Tentativa de criação
-        await axios.post("http://localhost:3000/api/relatorio/add", relatorioData);
-        
-        // Criar relação (opcionalmente com tratamento de erro)
-        try {
-          await axios.post("http://localhost:3000/api/r12/add", {
-            ID_JOGADORES: playerId,
-            ID_EVENTOS: eventId
-          });
-        } catch (r12Error) {
-          console.warn("Erro na relação R12:", r12Error);
-        }
-
-        resultados.push({ jogador: jogador.NOME, status: "Sucesso" });
-
-      } catch (error) {
-        // Capturar erros específicos do backend
-        const erroMessage = error.response?.data?.error.includes("Não pode ter vários relatórios") 
-          ? "Relatório já existe" 
-          : "Erro desconhecido";
-
-        resultados.push({
-          jogador: jogador.NOME,
-          status: `Erro: ${erroMessage}`
-        });
+      if (isNaN(scouterId) || isNaN(eventId)) {
+        throw new Error("IDs inválidos do evento/scouter");
       }
+
+      for (const jogador of selectedPlayers) {
+        try {
+          const playerId = Number(jogador.ID_JOGADORES);
+
+          if (isNaN(playerId)) {
+            resultados.push({ jogador: jogador.NOME, status: "Erro: ID inválido" });
+            continue;
+          }
+
+          const relatorioData = {
+            TECNICA: 0,
+            VELOCIDADE: 0,
+            COMPETITIVA: 0,
+            INTELIGENCIA: 0,
+            ALTURA: "Não informado",
+            MORFOLOGIA: "Não informado",
+            STATUS: "Ativo",
+            ID_USER: scouterId,
+            ID_JOGADORES: playerId,
+            ID_EVENTOS: eventId,
+            COMENTARIO: "",
+            DATA: new Date(),
+            NOTA: 0
+          };
+
+          await axios.post("http://localhost:3000/api/relatorio/add", relatorioData);
+
+          try {
+            await axios.post("http://localhost:3000/api/r12/add", {
+              ID_JOGADORES: playerId,
+              ID_EVENTOS: eventId
+            });
+          } catch (r12Error) {
+            console.warn("Erro na relação R12:", r12Error);
+          }
+
+          resultados.push({ jogador: jogador.NOME, status: "Sucesso" });
+
+        } catch (error) {
+          const erroMessage = error.response?.data?.error.includes("Não pode ter vários relatórios") 
+            ? "Relatório já existe" 
+            : "Erro desconhecido";
+
+          resultados.push({
+            jogador: jogador.NOME,
+            status: `Erro: ${erroMessage}`
+          });
+        }
+      }
+
+      const mensagem = resultados.map(r => `• ${r.jogador}: ${r.status}`).join('\n');
+      alert(`Resultado:\n${mensagem}`);
+
+    } catch (error) {
+      console.error("Erro global:", error);
+      alert("Falha crítica no processo");
     }
-
-    // Feedback detalhado
-    const mensagem = resultados.map(r => `• ${r.jogador}: ${r.status}`).join('\n');
-    alert(`Resultado:\n${mensagem}`);
-
-  } catch (error) {
-    console.error("Erro global:", error);
-    alert("Falha crítica no processo");
-  }
-};
+  };
 
   return (
     <div className="main-page">
@@ -141,19 +132,22 @@ const handleCriarRelatorio = async () => {
           )}
 
           {selectedScouter ? (
-            <div className="scouter-info-card">
-              <h3>Scouter</h3>
-              <div className="scouter-avatar"></div>
-              <p><strong>{selectedScouter.NOME}</strong></p>
-              <p className="scouter-role">Scouter</p>
-              <p>{selectedScouter.AVALIACOES} Avaliações</p>
-            </div>
+            <>
+              <div className="scouter-info-card">
+                <h3>Scouter</h3>
+                <div className="scouter-avatar"></div>
+                <p><strong>{selectedScouter.NOME}</strong></p>
+                <p className="scouter-role">Scouter</p>
+                <p>{selectedScouter.AVALIACOES} Avaliações</p>
+              </div>
+
+              {/* Jogadores Destacados do Scouter Selecionado */}
+              <JogadoresDestacados ID_USER={selectedScouter.ID_USER} />
+
+            </>
           ) : (
             <p className="text-center text-gray-300">Nenhum Scouter Selecionado</p>
           )}
-
-          {/* Exibir Jogadores Destacados */}
-          <JogadoresDestacados jogadores={selectedPlayers} />
         </div>
       </div>
     </div>

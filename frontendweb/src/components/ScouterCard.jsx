@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FaTrash, FaPlus, FaTimes } from "react-icons/fa";
@@ -9,14 +10,17 @@ function ScouterCard({ onSelectScouter }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedScouters, setSelectedScouters] = useState([]);
   const [showCheckboxes, setShowCheckboxes] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchScouters = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/users/tipo/3"); // Endpoint correto do UserController
-        setScouters(response.data);
+        const response = await axios.get("http://localhost:3000/api/users/tipo/3");
+        // Ordenar para listar primeiro os usuários com ID_TIPO = 3 (Scouters)
+        const sortedUsers = response.data.sort((a, b) => (b.ID_TIPO === 3 ? 1 : -1));
+        setScouters(sortedUsers);
       } catch (error) {
-        console.error("Erro ao buscar scouters:", error);
+        console.error("Erro ao buscar usuários:", error);
       }
     };
 
@@ -27,12 +31,8 @@ function ScouterCard({ onSelectScouter }) {
     setSearchTerm(event.target.value);
   };
 
-  const toggleScouterSelection = (scouterId) => {
-    setSelectedScouters((prevSelected) =>
-      prevSelected.includes(scouterId)
-        ? prevSelected.filter((id) => id !== scouterId)
-        : [...prevSelected, scouterId]
-    );
+  const handleAddScouter = () => {
+    navigate("/scouts/new"); // Redireciona para a página de criação de scouter
   };
 
   const handleDelete = async () => {
@@ -42,13 +42,13 @@ function ScouterCard({ onSelectScouter }) {
     }
 
     if (selectedScouters.length === 0) {
-      Swal.fire("Erro", "Selecione pelo menos um scouter para excluir.", "error");
+      Swal.fire("Erro", "Selecione pelo menos um usuário para excluir.", "error");
       return;
     }
 
     Swal.fire({
       title: "Tem certeza?",
-      text: "Os scouters selecionados serão excluídos permanentemente!",
+      text: "Os usuários selecionados serão excluídos permanentemente!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
@@ -66,22 +66,13 @@ function ScouterCard({ onSelectScouter }) {
           setSelectedScouters([]);
           setShowCheckboxes(false);
 
-          Swal.fire("Excluído!", "Os scouters foram removidos com sucesso.", "success");
+          Swal.fire("Excluído!", "Os usuários foram removidos com sucesso.", "success");
         } catch (error) {
-          console.error("Erro ao deletar scouters:", error);
-          Swal.fire("Erro!", "Não foi possível excluir os scouters.", "error");
+          console.error("Erro ao deletar usuários:", error);
+          Swal.fire("Erro!", "Não foi possível excluir os usuários.", "error");
         }
       }
     });
-  };
-
-  const handleCancelSelection = () => {
-    setSelectedScouters([]);
-    setShowCheckboxes(false);
-  };
-
-  const handleScouterClick = (scouter) => {
-    onSelectScouter(scouter);
   };
 
   return (
@@ -91,7 +82,7 @@ function ScouterCard({ onSelectScouter }) {
         <div className="scouter-search-container">
           <input
             type="text"
-            placeholder="Pesquisar scouter"
+            placeholder="Pesquisar usuário"
             value={searchTerm}
             onChange={handleSearch}
           />
@@ -99,35 +90,26 @@ function ScouterCard({ onSelectScouter }) {
         <div className="scouter-buttons-container">
           <div className="scouter-icons-container">
             <FaTrash className="icon trash" onClick={handleDelete} />
-            <FaPlus className="icon add" onClick={() => Swal.fire("Adicionar Scouter", "Funcionalidade a implementar.", "info")} />
-            {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
+            <FaPlus className="icon add" onClick={handleAddScouter} /> {/* Redireciona para ScoutsCreateEditPage */}
+            {showCheckboxes && <FaTimes className="icon cancel" onClick={() => setShowCheckboxes(false)} />}
           </div>
         </div>
       </div>
 
-      {/* Lista de Scouters */}
+      {/* Lista de Usuários */}
       <div className="scouter-list">
         {scouters
           .filter((scouter) => scouter.NOME.toLowerCase().includes(searchTerm.toLowerCase()))
           .map((scouter) => (
             <div
               key={scouter.ID_USER}
-              className={`scouter-card ${showCheckboxes && selectedScouters.includes(scouter.ID_USER) ? "selected" : ""}`}
-              onClick={() => !showCheckboxes && handleScouterClick(scouter)}
+              className="scouter-card"
+              onClick={() => onSelectScouter(scouter)}
             >
-              {showCheckboxes ? (
-                <input
-                  type="checkbox"
-                  checked={selectedScouters.includes(scouter.ID_USER)}
-                  onChange={() => toggleScouterSelection(scouter.ID_USER)}
-                  onClick={(e) => e.stopPropagation()}
-                />
-              ) : (
-                <div className="scouter-avatar"></div>
-              )}
+              <div className="scouter-avatar"></div>
               <div className="scouter-info">
                 <span className="name">{scouter.NOME}</span>
-                <span className="role">Scouter</span>
+                <span className="role">{scouter.ID_TIPO === 3 ? "Scouter" : scouter.ID_TIPO === 2 ? "Admin" : "Viewer"}</span>
               </div>
             </div>
           ))}

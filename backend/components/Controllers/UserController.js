@@ -425,19 +425,20 @@ userController.deleteMultipleUsers = async (req, res) => {
 
 userController.getUserByTipo = async (req, res) => {
   try {
-    // Busca os usuários onde ID_TIPO é 3
-    const users = await User.find({ ID_TIPO: 3 });
+    // Buscar todos os usuários sem filtrar pelo ID_TIPO
+    const users = await User.find();
 
     if (!users || users.length === 0) {
-      return res.status(404).json({ message: 'Nenhum usuário encontrado com ID_TIPO 3.' });
+      return res.status(404).json({ message: 'Nenhum usuário encontrado.' });
     }
 
     res.status(200).json(users);
   } catch (error) {
-    console.error('Erro ao buscar usuários por ID_TIPO:', error);
+    console.error('Erro ao buscar usuários:', error);
     res.status(500).json({ message: 'Erro no servidor ao buscar usuários.' });
   }
 };
+
 
 
 

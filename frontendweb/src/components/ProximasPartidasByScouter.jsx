@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "../api/axios";
+import axios from "axios";
 import "../CSS/ProximasPartidasByScouter.css";
 
 const ProximasPartidasByScouter = ({ ID_USER }) => {
@@ -12,19 +12,12 @@ const ProximasPartidasByScouter = ({ ID_USER }) => {
 
     const fetchPartidas = async () => {
       try {
-        const response = await api.get(`/evento/list`); // Chamada para listEvento
-        const todasPartidas = response.data;
-
-        // Filtrar apenas as partidas do ID_USER selecionado
-        const partidasFiltradas = todasPartidas.filter(
-          (partida) => partida.ID_USER === ID_USER
-        );
-
-        setPartidas(partidasFiltradas);
-        setLoading(false);
+        const response = await axios.get(`http://localhost:3000/api/evento/list/${ID_USER}`); // Chama getGamesByUser
+        setPartidas(response.data);
       } catch (err) {
         console.error("Erro ao buscar partidas:", err);
-        setError(err.response?.data?.message || "Erro ao carregar os dados.");
+        setError("Erro ao carregar os dados.");
+      } finally {
         setLoading(false);
       }
     };
@@ -49,9 +42,7 @@ const ProximasPartidasByScouter = ({ ID_USER }) => {
         {partidas.length > 0 ? (
           partidas.map((partida) => (
             <div key={partida.ID_EVENTOS} className="partida-item">
-              <p className="data-hora">
-                {formatDate(partida.DATA, partida.HORA)}
-              </p>
+              <p className="data-hora">{formatDate(partida.DATA, partida.HORA)}</p>
               <div className="equipes">
                 <strong>{partida.EQUIPA_CASA}</strong>
                 <span className="vs">VS</span>
