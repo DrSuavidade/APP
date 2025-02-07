@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHistory } from "@fortawesome/free-solid-svg-icons";
+import Cookies from "js-cookie";
 
 const FichaRelatorio = ({ ID_RELATORIO }) => {
   const [relatorio, setRelatorio] = useState(null);
@@ -12,6 +13,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
   const [comentarioADM, setComentarioADM] = useState("");
   const [status, setStatus] = useState("");
   const [ID_JOGADORES, setID_JOGADORES] = useState(null);
+  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,6 +36,9 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
           console.error("Erro ao buscar relatório:", error);
         });
     }
+
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    setUserType(ID_TIPO);
   }, [ID_RELATORIO]);
 
   const getStars = () => {
@@ -127,21 +132,20 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
           <p>{relatorio.NOME_EQUIPA} ({relatorio.ABREVIATURA_CLUBE})</p>
         </div>
         <div className="nota-container">
-  <div
-    className={`triangle-up ${status === "Avaliado" ? (relatorio.NOTA === 4 ? "disabled" : "visible") : "hidden"}`}
-    onClick={() => status === "Avaliado" && relatorio.NOTA < 4 && handleNotaChange(1)}
-  ></div>
+          <div
+            className={`triangle-up ${status === "Avaliado" ? (relatorio.NOTA === 4 ? "disabled" : "visible") : "hidden"}`}
+            onClick={() => status === "Avaliado" && relatorio.NOTA < 4 && handleNotaChange(1)}
+          ></div>
 
-  <div className={`nota-circle ${relatorio.NOTA <= 2 ? "nota-baixa" : "nota-alta"}`}>
-    {relatorio.NOTA}/4
-  </div>
+          <div className={`nota-circle ${relatorio.NOTA <= 2 ? "nota-baixa" : "nota-alta"}`}>
+            {relatorio.NOTA}/4
+          </div>
 
-  <div
-    className={`triangle-down ${status === "Avaliado" ? (relatorio.NOTA === 0 ? "disabled" : "visible") : "hidden"}`}
-    onClick={() => status === "Avaliado" && relatorio.NOTA > 0 && handleNotaChange(-1)}
-  ></div>
-</div>
-
+          <div
+            className={`triangle-down ${status === "Avaliado" ? (relatorio.NOTA === 0 ? "disabled" : "visible") : "hidden"}`}
+            onClick={() => status === "Avaliado" && relatorio.NOTA > 0 && handleNotaChange(-1)}
+          ></div>
+        </div>
       </div>
 
       <div className="attributes">
@@ -171,7 +175,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
       <h4>AVALIAÇÃO GLOBAL</h4>
       <div className="stars">{getStars()}</div>
 
-      {status === "Avaliado" && (
+      {status === "Avaliado" && userType !== "1" && (
         <div className="buttons">
           <button className="reject-btn" onClick={handleReject}>Rejeitar</button>
           <button className="confirm-btn" onClick={() => handleUpdate("Avaliado_ADM")}>
