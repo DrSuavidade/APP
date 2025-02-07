@@ -9,6 +9,16 @@
   transition: all 0.3s ease-in-out; /* Suaviza o ajuste */
 }
 
+.player-card-new:hover {
+  background-color: #3f3f3f; /* Slightly lighter background on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+  transform: scale(1.05); /* Slightly lift the card */
+}
+
+.player-card-new {
+  margin-top: 10px;
+}
+
   h2 {
     text-align: center;
     font-size: 18px;
