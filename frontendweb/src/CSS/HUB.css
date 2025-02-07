@@ -6,12 +6,16 @@
   margin-top: 220px; /* Afastar da navbar */
 }
 
+.section-title {
+  padding-bottom: 20px;
+}
+
 /* Centraliza o título acima dos cards */
 .relatorios-title {
   text-align: center;
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 15px; /* Ajusta espaçamento */
+  margin-top: 60px; /* Ajusta espaçamento */
 }
 
 /* Ajuste nos cards para ficarem abaixo do título */
@@ -36,7 +40,8 @@
 /* Mantém o tamanho dos quadrados superiores */
 .top-section .player-card {
   width: 220px;
-  height: auto;
+  height: 250px; /* Adjust this value as needed */
+  min-height: 250px; /* Ensure it doesn't shrink below this height */
   background-color: #1a1a1a;
   padding: 10px;
   border-radius: 8px;

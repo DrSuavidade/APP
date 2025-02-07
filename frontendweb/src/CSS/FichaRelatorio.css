@@ -30,6 +30,20 @@
     line-height: 40px;
     border-radius: 50%;
   }
+
+  .nota-circle2 {
+    width: 40px;
+    height: 40px;
+    background: green;
+    color: white;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 15%;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1;
+  }
   
   .attribute-circle {
     text-align: center;

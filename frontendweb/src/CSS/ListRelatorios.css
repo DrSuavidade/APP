@@ -294,6 +294,7 @@
   max-height: 400px; /* Aumentando a altura para mostrar mais listas */
   overflow-y: auto; /* Adiciona barra de scroll vertical */
   padding-right: 10px; /* Espaço para a barra de scroll */
+  margin-top: -41px;
 }
 
 /* Estilo específico para os cartões de eventos */
@@ -318,7 +319,7 @@
   display: flex;
   flex-direction: column;
   max-height: 373px; /* Aumentando a altura para mostrar mais listas */
-  max-width: 350px;
+  max-height: 420px;
   overflow-y: auto; /* Adiciona barra de scroll vertical */
   padding-right: 10px; /* Espaço para a barra de scroll */
 }

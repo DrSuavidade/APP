@@ -42,26 +42,34 @@ const PlayerCard = ({ onSelectRelatorio }) => {
     <div className="player-cards-container">
       {playerCards.length > 0 ? (
         playerCards.map((report) => (
-          <div 
-            key={report.ID_RELATORIO} 
-            className="player-card" 
-            onClick={() => handleCardClick(report.ID_RELATORIO)} 
+          <div
+            key={report.ID_RELATORIO}
+            className="player-card-new" // Changed to match CardPlayersPendents
+            onClick={() => handleCardClick(report.ID_RELATORIO)}
             style={{ cursor: "pointer" }}
           >
-            <div className="status-dot" data-tooltip={report.STATUS || "Sem status"}></div>
-            <div className="profile-icon">👤</div>
-            <h3 className="player-name">{report.JOGADOR_NOME || "Nome não disponível"}</h3>
-            <p className="player-age">
-              {report.DATA_NASC ? `${new Date().getFullYear() - new Date(report.DATA_NASC).getFullYear()} anos` : "Idade não informada"}{" "}
-              {report.DATA_NASC ? new Date(report.DATA_NASC).getFullYear() : ""}
-            </p>
-            <p className="team-name">
-              {report.ABREVIATURA_CLUBE} - {report.NOME_EQUIPA}
-            </p>
+            <div className="profile-icon">👤</div> {/* Moved to the left */}
+            
+            <div className="player-info"> {/* Group player information */}
+              <h3 className="player-name">{report.JOGADOR_NOME || "Nome não disponível"}</h3>
+              <p className="player-age-year">
+                {report.DATA_NASC ? `${new Date().getFullYear() - new Date(report.DATA_NASC).getFullYear()} anos` : "Idade não informada"}{" "}
+                {report.DATA_NASC ? new Date(report.DATA_NASC).getFullYear() : ""}
+              </p>
+              <p className="player-nationality">{report.NACIONALIDADE || "Nacionalidade não informada"}</p>
+              <p className="player-team">
+                {report.ABREVIATURA_CLUBE} - {report.NOME_EQUIPA}
+              </p>
+            </div>
+
+            <div
+              className="status-dot"
+              data-tooltip={report.STATUS || "Sem status"}
+            ></div> {/* Status dot in the top-right corner */}
 
             {/* Exibição da NOTA no círculo */}
-            <div 
-              className="nota-circle"
+            <div
+              className="nota-circle2"
               style={{ backgroundColor: getNotaColor(report.NOTA) }}
             >
               {report.NOTA}/4
