@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import "../CSS/ListRelatorios.css";
 import { FaTrash, FaPlus, FaTimes } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+import Cookies from 'js-cookie'; // Importar a biblioteca js-cookie
 
 const SmallListPlayers = () => {
   const [players, setPlayers] = useState([]);
@@ -11,10 +12,13 @@ const SmallListPlayers = () => {
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [showCheckboxes, setShowCheckboxes] = useState(false);
   const [showScrollbar, setShowScrollbar] = useState(false); // Controla a exibição da scrollbar
+  const [userType, setUserType] = useState(null); // Adicionar estado para armazenar ID_TIPO
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchPlayers();
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    setUserType(ID_TIPO);
   }, []);
 
   const fetchPlayers = async () => {
@@ -114,11 +118,13 @@ const SmallListPlayers = () => {
         <button className="search-btn">Search</button>
       </div>
 
-      <div className="toolbar">
-        <FaTrash className="icon trash" onClick={handleDelete} />
-        {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
-        <FaPlus className="icon add" onClick={() => navigate('/players/new')} />
-      </div>
+      {userType !== "1" && (
+        <div className="toolbar">
+          <FaTrash className="icon trash" onClick={handleDelete} />
+          {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
+          <FaPlus className="icon add" onClick={() => navigate('/players/new')} />
+        </div>
+      )}
 
       <div className={`user-list ${showScrollbar ? "with-scrollbar" : "without-scrollbar"}`}>
         {filteredPlayers.slice(0, showScrollbar ? filteredPlayers.length : 6).map((player) => (
