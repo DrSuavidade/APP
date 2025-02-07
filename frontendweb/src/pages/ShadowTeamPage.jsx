@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import api from "../api/axios"; // Axios instance for backend calls
 import "../CSS/plantel.css";
 import PlayerRadarChart from "../components/PlayerRadarChart";
-import Cookies from "js-cookie"; 
+import Cookies from "js-cookie";
 
 const Plantel = () => {
   const [positions, setPositions] = useState({}); // Store positions by row
@@ -14,14 +14,15 @@ const Plantel = () => {
   const [selectedPlayer, setSelectedPlayer] = useState(null); // Store clicked player
   const [playerDetails, setPlayerDetails] = useState(null); // Store detailed player info
   const [shadowTeams, setShadowTeams] = useState([]); // Store all teams for the user
-  const [selectedShadowTeam, setSelectedShadowTeam] = useState(1); // Default to ID_SOMBRA = 1
+  const [selectedShadowTeam, setSelectedShadowTeam] = useState(null); // Default to ID_SOMBRA = 1
   const [selectedFormation, setSelectedFormation] = useState("2-5-5-5"); // Default
-  
+  const [hasShadowTeam, setHasShadowTeam] = useState(false);
+
   const fetchPositions = async () => {
     try {
       const response = await api.get("/posicao/list");
       const positionsList = response.data;
-      
+
       let formation = {};
 
       if (selectedFormation === "2-5-5-5") {
@@ -70,12 +71,12 @@ const Plantel = () => {
 
   useEffect(() => {
     document.body.classList.add("plantel-page");
-  
+
     return () => {
       document.body.classList.remove("plantel-page"); // Remove a classe ao sair da página
     };
   }, []);
-    
+
   // Use useEffect to trigger fetchPositions when selectedFormation changes
   useEffect(() => {
     fetchPositions();
@@ -83,26 +84,30 @@ const Plantel = () => {
   }, [selectedFormation]);
 
   // Define fetchShadowTeams outside of useEffect so it can be reused
-  const fetchShadowTeams = async () => {
-    const userID = Cookies.get("ID_USER"); // Obtém o ID_USER do cookie
-      if (!userID) {
-        console.error("Erro: ID_USER não encontrado nos cookies.");
-        return;
-      }
+  const fetchShadowTeams = useCallback(async () => {
+    const userID = Cookies.get("ID_USER"); // Get ID_USER from cookies
+    if (!userID) {
+      console.error("Erro: ID_USER não encontrado nos cookies.");
+      return;
+    }
 
     try {
-      const response = await api.get(
-        `/sombra/listByUser?ID_USER=${userID}`
-      );
+      const response = await api.get(`/sombra/listByUser?ID_USER=${userID}`);
       setShadowTeams(response.data);
+      setHasShadowTeam(response.data.length > 0); // Set hasShadowTeam based on whether the user has any EQUIPA_SOMBRA
+      if (response.data.length > 0 && !selectedShadowTeam) {
+        setSelectedShadowTeam(response.data[0].ID_SOMBRA);
+      }
     } catch (error) {
       console.error("Erro ao buscar equipas sombra:", error);
+      setHasShadowTeam(false); // Assume no EQUIPA_SOMBRA if there's an error
     }
-  };
+  }, [selectedShadowTeam]); // Add dependencies if needed
 
+  // Use useEffect with fetchShadowTeams in the dependency array
   useEffect(() => {
     fetchShadowTeams(); // Call it inside useEffect
-  }, []);
+  }, [fetchShadowTeams]);
 
   // Fetch players for the selected position
   const fetchPlayersForPosition = async (ID_POSICAO) => {
@@ -147,7 +152,7 @@ const Plantel = () => {
 
   // Handle player selection and add to RELACAOSOMBRA
   const addPlayerToPosition = async (player) => {
-    if (!selectedPosition) return;
+    if (!selectedPosition || !hasShadowTeam) return; // Prevent adding if no EQUIPA_SOMBRA exists
 
     try {
       const response = await api.post("/resombra/add", {
@@ -172,7 +177,7 @@ const Plantel = () => {
   };
 
   const removePlayerFromPosition = async (player) => {
-    if (!selectedPosition) return;
+    if (!selectedPosition || !hasShadowTeam) return; // Prevent removing if no EQUIPA_SOMBRA exists
 
     try {
       await api.delete("/resombra/remove", {
@@ -192,22 +197,27 @@ const Plantel = () => {
 
   const addNewShadowTeam = async () => {
     const teamName = prompt("Digite o nome da nova Equipa Sombra:");
-    const userID = Cookies.get("ID_USER"); // Obtém o ID_USER do cookie
-      if (!userID) {
-        console.error("Erro: ID_USER não encontrado nos cookies.");
-        return;
-      }
-
+    const userID = Cookies.get("ID_USER"); // Get ID_USER from cookies
+    if (!userID) {
+      console.error("Erro: ID_USER não encontrado nos cookies.");
+      return;
+    }
+  
     if (!teamName) return; // If the user cancels, do nothing
-
+  
     try {
       const response = await api.post("/sombra/add", {
-        ID_USER: userID, // Logged user ID (static for testing)
+        ID_USER: userID, // Logged user ID
         NOME: teamName,
       });
-
+  
       if (response.status === 201) {
-        fetchShadowTeams(); // Refresh the dropdown after adding
+        // Refresh the list of shadow teams
+        await fetchShadowTeams();
+  
+        // Set the newly created team as the selected team
+        const newTeam = response.data; // Assuming the response contains the new team data
+        setSelectedShadowTeam(newTeam.ID_SOMBRA);
       }
     } catch (error) {
       console.error("Erro ao adicionar nova equipa sombra:", error);
@@ -216,28 +226,40 @@ const Plantel = () => {
 
   const deleteShadowTeam = async () => {
     if (!selectedShadowTeam) return;
-
+  
+    // Check if the user has only one shadow team
+    if (shadowTeams.length === 1) {
+      alert("Esta é a sua última Equipa Sombra. Você não pode removê-la.");
+      return; // Exit the function early
+    }
+  
     const confirmDelete = window.confirm(
       "Tem certeza que deseja remover esta Equipa Sombra?"
     );
     if (!confirmDelete) return;
-
+  
     try {
+      // Step 1: Delete all RELACAO SOMBRA entries associated with the shadow team
+      await api.delete(`/resombra/deleteByShadowTeam/${selectedShadowTeam}`);
+  
+      // Step 2: Delete the shadow team itself
       await api.delete(`/sombra/delete/${selectedShadowTeam}`);
-
-      // Refresh the list after deletion
-      fetchShadowTeams();
-
-      // If the deleted team was selected, switch to another one
+  
+      // Step 3: Refresh the list after deletion
+      await fetchShadowTeams();
+  
+      // Step 4: If the deleted team was selected, switch to another one
       if (shadowTeams.length > 1) {
-        setSelectedShadowTeam(shadowTeams[0].ID_SOMBRA);
+        setSelectedShadowTeam(shadowTeams[0].ID_SOMBRA); // Set the first team as selected
       } else {
-        setSelectedShadowTeam(null);
+        setSelectedShadowTeam(null); // No teams left
       }
-
-      setSidebarOpen(false); // Hide the sidebar
+  
+      // Step 5: Hide the sidebar
+      setSidebarOpen(false);
     } catch (error) {
       console.error("Erro ao remover equipa sombra:", error);
+      alert("Erro ao remover equipa sombra. Por favor, tente novamente.");
     }
   };
 
@@ -371,15 +393,25 @@ const Plantel = () => {
                   <p>Nenhum jogador encontrado.</p>
                 )}
               </div>
-              <button
-                className="add-btn"
-                onClick={() => {
-                  setIsAddingPlayer(true);
-                  fetchAllPlayers();
-                }}
-              >
-                Adicionar
-              </button>
+              <div className="add-btn-wrapper">
+                <button
+                  className="add-btn"
+                  onClick={() => {
+                    if (hasShadowTeam) {
+                      setIsAddingPlayer(true);
+                      fetchAllPlayers();
+                    }
+                  }}
+                  disabled={!hasShadowTeam} // Disable the button if no EQUIPA_SOMBRA exists
+                >
+                  Adicionar
+                </button>
+                {!hasShadowTeam && (
+                  <div className="tooltip">
+                    Precisa de criar uma Equipa Sombra primeiro.
+                  </div>
+                )}
+              </div>
             </>
           ) : selectedPosition && isAddingPlayer ? (
             <>

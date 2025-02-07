@@ -132,4 +132,22 @@ relacaoSombraController.removeRelacaoSombra = async (req, res) => {
   }
 };
 
+relacaoSombraController.deleteRelacaoSombraByShadowTeam = async (req, res) => {
+  const { ID_SOMBRA } = req.params;
+
+  try {
+    // Delete all relations that match the given ID_SOMBRA
+    const result = await RelacaoSombra.deleteMany({ ID_SOMBRA });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Nenhuma relação encontrada para esta Equipa Sombra." });
+    }
+
+    res.status(200).json({ message: "Relações removidas com sucesso!", deletedCount: result.deletedCount });
+  } catch (error) {
+    console.error("Erro ao remover relações sombra:", error);
+    res.status(500).json({ error: "Erro ao remover relações sombra." });
+  }
+};
+
 module.exports = relacaoSombraController;

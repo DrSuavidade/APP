@@ -123,6 +123,7 @@ router.get('/resombra/posicao/list', relacaoSombraController.listPlayersByPositi
 router.put('/resombra/edit/:ID_RELACAO', relacaoSombraController.editRelacaoSombra);
 router.delete('/resombra/delete/:ID_RELACAO', relacaoSombraController.deleteRelacaoSombra);
 router.delete('/resombra/remove', relacaoSombraController.removeRelacaoSombra);
+router.delete('/resombra/deleteByShadowTeam/:ID_SOMBRA', relacaoSombraController.deleteRelacaoSombraByShadowTeam);
 
 // Relationship_11 Routes
 router.post('/r11/add', relationship11Controller.addRelationship11);
