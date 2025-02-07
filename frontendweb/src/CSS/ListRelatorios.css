@@ -83,17 +83,43 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
+    position: relative;
+  }
+
+  .status-circle::after {
+    content: attr(data-tooltip);
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    text-align: center;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    transition: opacity 0.2s;
+    opacity: 0;
+    pointer-events: none;
   }
   
-  /* Estilização de estrelas */
-  .stars {
-    color: gold;
-    font-size: 14px;
+  .status-circle:hover::after {
+    visibility: visible;
+    opacity: 1;
+  }
+
+
+  .filled-stars {
+    color: gold; /* Regular filled stars */
   }
   
-
-
-
+  .gray-stars {
+    color: gray; /* Gray stars for the remaining ones */
+  }
+  
+  
 
 /* Estilos para o SmallListUsers */
 .small-list-users-container {

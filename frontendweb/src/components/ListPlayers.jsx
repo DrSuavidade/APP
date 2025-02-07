@@ -15,7 +15,9 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
   useEffect(() => {
     const fetchPlayers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/all-players");
+        const response = await axios.get(
+          "http://localhost:3000/api/all-players"
+        );
         console.log("📌 Jogadores recebidos:", response.data);
         setPlayers(response.data);
 
@@ -48,7 +50,11 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
 
   const deleteSelected = async () => {
     if (selectedPlayers.length === 0) {
-      Swal.fire("Erro", "Selecione pelo menos um jogador para excluir.", "error");
+      Swal.fire(
+        "Erro",
+        "Selecione pelo menos um jogador para excluir.",
+        "error"
+      );
       return;
     }
 
@@ -68,11 +74,17 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
             data: { playersIds: selectedPlayers },
           });
 
-          setPlayers(players.filter((p) => !selectedPlayers.includes(p.ID_JOGADORES)));
+          setPlayers(
+            players.filter((p) => !selectedPlayers.includes(p.ID_JOGADORES))
+          );
           setSelectedPlayers([]);
           setSelectMode(false);
 
-          Swal.fire("Excluído!", "Os jogadores foram removidos com sucesso.", "success");
+          Swal.fire(
+            "Excluído!",
+            "Os jogadores foram removidos com sucesso.",
+            "success"
+          );
         } catch (error) {
           console.error("❌ Erro ao excluir jogadores:", error);
           Swal.fire("Erro!", "Não foi possível excluir os jogadores.", "error");
@@ -83,9 +95,14 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
 
   // Função para gerar as estrelas com base na avaliação
   const getStars = (nota) => {
-    const stars = "★".repeat(nota) + "☆".repeat(5 - nota);
-    return <span className="stars">{stars}</span>;
+    return (
+      <span className="stars">
+        <span className="filled-stars">{"★".repeat(nota)}</span>
+        <span className="gray-stars">{"★".repeat(5 - nota)}</span>
+      </span>
+    );
   };
+  
 
   return (
     <div className="list-players-container">
@@ -105,7 +122,10 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
               className="icon trash"
               onClick={selectMode ? deleteSelected : toggleSelectMode}
             />
-            <FaPlus className="icon add" onClick={() => navigate("/players/new")} />
+            <FaPlus
+              className="icon add"
+              onClick={() => navigate("/players/new")}
+            />
             {selectMode && (
               <FaTimes
                 className="icon cancel"
@@ -137,9 +157,14 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
           </thead>
           <tbody>
             {players
-              .filter((p) => p.NOME.toLowerCase().includes(searchTerm.toLowerCase()))
+              .filter((p) =>
+                p.NOME.toLowerCase().includes(searchTerm.toLowerCase())
+              )
               .map((player) => (
-                <tr key={player.ID_JOGADORES} onClick={() => onSelectPlayer(player.ID_JOGADORES)}>
+                <tr
+                  key={player.ID_JOGADORES}
+                  onClick={() => onSelectPlayer(player.ID_JOGADORES)}
+                >
                   {selectMode && (
                     <td>
                       <input
@@ -152,24 +177,32 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
                   <td>{player.ID_JOGADORES}</td>
                   <td>{player.NOME}</td>
                   <td>{player.ABREVIATURA_CLUBE || "--"}</td>
-                  <td>{getStars(player.NOTA_ADM || 0)}</td> {/* Usando a função getStars */}
+                  <td>{getStars(player.NOTA_ADM || 0)}</td>{" "}
+                  {/* Usando a função getStars */}
                   <td>{player.GENERO}</td>
-                  <td>{player.DATA_NASC ? new Date(player.DATA_NASC).getFullYear() : "--"}</td>
+                  <td>
+                    {player.DATA_NASC
+                      ? new Date(player.DATA_NASC).getFullYear()
+                      : "--"}
+                  </td>
                   <td>{player.NACIONALIDADE}</td>
                   <td>
                     {player.STATUS === "Active" ? (
                       <div
                         className="status-circle"
+                        data-tooltip="Active"
                         style={{ backgroundColor: "green" }}
                       ></div>
                     ) : player.STATUS === "Inactive" ? (
                       <div
                         className="status-circle"
+                        data-tooltip="Inactive"
                         style={{ backgroundColor: "yellow" }}
                       ></div>
                     ) : (
                       <div
                         className="status-circle"
+                        data-tooltip="Unknown"
                         style={{ backgroundColor: "red" }}
                       ></div>
                     )}

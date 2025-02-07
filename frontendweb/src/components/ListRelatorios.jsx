@@ -10,11 +10,12 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
   const [selectedRelatorios, setSelectedRelatorios] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-
   useEffect(() => {
     const fetchRelatorios = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/relatorios-merged");
+        const response = await axios.get(
+          "http://localhost:3000/api/relatorios-merged"
+        );
         console.log("📌 Relatórios recebidos:", response.data);
         setRelatorios(response.data);
       } catch (error) {
@@ -42,7 +43,11 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
 
   const deleteSelected = async () => {
     if (selectedRelatorios.length === 0) {
-      Swal.fire("Erro", "Selecione pelo menos um relatório para excluir.", "error");
+      Swal.fire(
+        "Erro",
+        "Selecione pelo menos um relatório para excluir.",
+        "error"
+      );
       return;
     }
 
@@ -62,14 +67,26 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
             data: { relatoriosIds: selectedRelatorios },
           });
 
-          setRelatorios(relatorios.filter((r) => !selectedRelatorios.includes(r.ID_RELATORIO)));
+          setRelatorios(
+            relatorios.filter(
+              (r) => !selectedRelatorios.includes(r.ID_RELATORIO)
+            )
+          );
           setSelectedRelatorios([]);
           setSelectMode(false);
 
-          Swal.fire("Excluído!", "Os relatórios foram excluídos com sucesso.", "success");
+          Swal.fire(
+            "Excluído!",
+            "Os relatórios foram excluídos com sucesso.",
+            "success"
+          );
         } catch (error) {
           console.error("❌ Erro ao excluir relatórios:", error);
-          Swal.fire("Erro!", "Não foi possível excluir os relatórios.", "error");
+          Swal.fire(
+            "Erro!",
+            "Não foi possível excluir os relatórios.",
+            "error"
+          );
         }
       }
     });
@@ -88,33 +105,43 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
     }
   };
 
-  const getStars = (nota) => "★".repeat(nota) + "☆".repeat(5 - nota);
+  const getStars = (nota) => {
+    return (
+      <span className="stars">
+        <span className="filled-stars">{"★".repeat(nota)}</span>
+        <span className="gray-stars">{"★".repeat(5 - nota)}</span>
+      </span>
+    );
+  };
+  
 
   return (
     <div className="list-relatorios-container">
-    <div className="lista-eventos-toolbar">
-      <div className="lista-eventos-search-container">
-        <input
-          type="text"
-          placeholder="Pesquisar relatório"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      <div className="lista-eventos-icons-container">
-        <FaTrash className="icon trash" onClick={selectMode ? deleteSelected : toggleSelectMode} />
-        {selectMode && (
-          <FaTimes
-            className="icon cancel"
-            onClick={() => {
-              setSelectMode(false);
-              setSelectedRelatorios([]);
-            }}
+      <div className="lista-eventos-toolbar">
+        <div className="lista-eventos-search-container">
+          <input
+            type="text"
+            placeholder="Pesquisar relatório"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-        )}
+        </div>
+        <div className="lista-eventos-icons-container">
+          <FaTrash
+            className="icon trash"
+            onClick={selectMode ? deleteSelected : toggleSelectMode}
+          />
+          {selectMode && (
+            <FaTimes
+              className="icon cancel"
+              onClick={() => {
+                setSelectMode(false);
+                setSelectedRelatorios([]);
+              }}
+            />
+          )}
+        </div>
       </div>
-    </div>
-
 
       <div className="lista-eventos-scroll-container">
         <table className="lista-eventos-table">
@@ -131,37 +158,50 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
             </tr>
           </thead>
           <tbody>
-          {relatorios
-            .filter((report) =>
-              report.JOGADOR_NOME.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              report.ABREVIATURA_CLUBE.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-            .map((report) => (
-              <tr key={report.ID_RELATORIO} onClick={() => onSelectRelatorio(report.ID_RELATORIO)}>
-                {selectMode && (
+            {relatorios
+              .filter(
+                (report) =>
+                  report.JOGADOR_NOME.toLowerCase().includes(
+                    searchTerm.toLowerCase()
+                  ) ||
+                  report.ABREVIATURA_CLUBE.toLowerCase().includes(
+                    searchTerm.toLowerCase()
+                  )
+              )
+              .map((report) => (
+                <tr
+                  key={report.ID_RELATORIO}
+                  onClick={() => onSelectRelatorio(report.ID_RELATORIO)}
+                >
+                  {selectMode && (
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={selectedRelatorios.includes(
+                          report.ID_RELATORIO
+                        )}
+                        onChange={() => toggleSelection(report.ID_RELATORIO)}
+                      />
+                    </td>
+                  )}
+                  <td>{report.ID_RELATORIO}</td>
+                  <td>{report.JOGADOR_NOME}</td>
+                  <td>{report.ABREVIATURA_CLUBE}</td>
+                  <td>{getStars(report.NOTA_ADM)}</td>
                   <td>
-                    <input
-                      type="checkbox"
-                      checked={selectedRelatorios.includes(report.ID_RELATORIO)}
-                      onChange={() => toggleSelection(report.ID_RELATORIO)}
-                    />
+                    {report.NOME_USER} (ID: {report.ID_USER})
                   </td>
-                )}
-                <td>{report.ID_RELATORIO}</td>
-                <td>{report.JOGADOR_NOME}</td>
-                <td>{report.ABREVIATURA_CLUBE}</td>
-                <td>{getStars(report.NOTA_ADM)}</td>
-                <td>{report.NOME_USER} (ID: {report.ID_USER})</td>
-                <td>{new Date(report.DATA).toLocaleDateString()}</td>
-                <td>
-                  <div
-                    className="status-circle"
-                    style={{ backgroundColor: getStatusColor(report.STATUS) }}
-                  ></div>
-                </td>
-              </tr>
-            ))}
-        </tbody>
+                  <td>{new Date(report.DATA).toLocaleDateString()}</td>
+                  <td>
+                    <div
+                      className="status-circle"
+                      data-tooltip={report.STATUS || "Sem status"}
+                      style={{ backgroundColor: getStatusColor(report.STATUS) }}
+                    ></div>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
         </table>
       </div>
     </div>

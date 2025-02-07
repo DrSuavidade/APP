@@ -89,7 +89,15 @@ const ReportsHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
     }
   };
 
-  const getStars = (nota) => "★".repeat(nota) + "☆".repeat(5 - nota);
+  const getStars = (nota) => {
+    return (
+      <span className="stars">
+        <span className="filled-stars">{"★".repeat(nota)}</span>
+        <span className="gray-stars">{"★".repeat(5 - nota)}</span>
+      </span>
+    );
+  };
+  
 
   return (
     <div className="list-relatorios-container">
@@ -155,10 +163,14 @@ const ReportsHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
                 <td>{report.NOME_USER} (ID: {report.ID_USER})</td>
                 <td>{new Date(report.DATA).toLocaleDateString()}</td>
                 <td>
-                  <div
-                    className="status-circle"
-                    style={{ backgroundColor: getStatusColor(report.STATUS) }}
-                  ></div>
+                <td>
+  <div
+    className="status-circle"
+    data-tooltip={report.STATUS || "Sem status"}
+    style={{ backgroundColor: getStatusColor(report.STATUS) }}
+  ></div>
+</td>
+
                 </td>
               </tr>
             ))}

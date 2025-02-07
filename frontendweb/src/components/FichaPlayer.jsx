@@ -104,6 +104,12 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
     return "orange";
   };
 
+  const getStatusText = () => {
+    if (player?.STATUS === "Inactive") return "Inactive";
+    if (player?.STATUS === "Active") return "Active";
+    return "Unknown";
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     if (isNaN(date.getTime())) {
@@ -123,7 +129,11 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
     <div className="ficha-relatorio-container">
       <div className="header">
         <h2>Informações do Jogador</h2>
-        <div className="status-circle" style={{ background: getStatusColor() }}></div>
+        <div 
+  className="status-circle" 
+  data-tooltip={getStatusText()} 
+  style={{ background: getStatusColor() }}
+></div>
       </div>
 
       <div className="player-info">
