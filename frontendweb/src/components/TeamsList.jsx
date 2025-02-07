@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaTrash, FaTimes, FaCog } from 'react-icons/fa'; // Importe os ícones necessários
-import Swal from 'sweetalert2'; // Para exibir alertas
-import axios from "axios"; // Para fazer chamadas à API
-import Cookies from "js-cookie"; // Importar a biblioteca js-cookie
+import { FaTrash, FaTimes, FaCog, FaPlus } from 'react-icons/fa'; // Importe o ícone FaPlus
+import Swal from 'sweetalert2';
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
   const [teams, setTeams] = useState([]);
-  const [showCheckboxes, setShowCheckboxes] = useState(false); // Controla a exibição dos checkboxes
-  const [selectedTeams, setSelectedTeams] = useState([]); // Armazena as equipas selecionadas
-  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
+  const [showCheckboxes, setShowCheckboxes] = useState(false);
+  const [selectedTeams, setSelectedTeams] = useState([]);
+  const [userType, setUserType] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,7 +55,6 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
         axios.put(`http://localhost:3000/api/clube/edit/${selectedClub.id_clube}`, { NOME: nome, ABREVIATURA: abreviatura })
           .then(response => {
             Swal.fire('Sucesso!', 'Clube atualizado com sucesso.', 'success').then(() => {
-              // Recarrega a página para atualizar as informações
               window.location.reload();
             });
           })
@@ -104,11 +103,9 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
       if (result.isConfirmed) {
         try {
           for (const teamId of selectedTeams) {
-            // Alteração aqui: chamando a rota que remove a relação dos jogadores também
             await axios.delete(`http://localhost:3000/api/equipa/delete-all/${teamId}`);
           }
 
-          // Filtra as equipas deletadas da lista local
           setTeams(teams.filter((team) => !selectedTeams.includes(team.ID_EQUIPA)));
           setSelectedTeams([]);
           setShowCheckboxes(false);
@@ -140,6 +137,7 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
           <div className="toolbar">
             <FaTrash className="icon trash" onClick={handleDeleteTeams} />
             {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
+            <FaPlus className="icon plus" onClick={handleCreateTeam} />
           </div>
         )}
         <div id="team-details-container">
@@ -176,10 +174,6 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
           )}
         </div>
       </div>
-
-      {userType !== "1" && (
-        <button className="create-team" onClick={handleCreateTeam}>Criar Equipa</button>
-      )}
     </div>
   );
 };

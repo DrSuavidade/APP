@@ -622,3 +622,7 @@ body {
   padding: 0;
   text-align: center;
 }
+
+.icon.plus {
+  color: #4CAF50;
+}
