@@ -5,8 +5,11 @@
   padding: 10px;
   border-radius: 10px;
   color: white;
-  max-height: 65vh; /* Ajusta conforme necessário */
+  max-height: none; /* Remove qualquer limitação */
+  height: 480px; /* Ajusta manualmente para expandir */
+  min-height: 480px; /* Garante que não fique menor */
   overflow: hidden; /* Remove a scrollbar externa */
+  top: 100px; /* Empurra a tabela para baixo */
 }
   
   /* Barra de pesquisa */
@@ -706,10 +709,11 @@
 }
 
 .lista-eventos-scroll-container {
-  max-height: 55vh; /* Ajusta conforme necessário */
-  overflow-y: auto;
-  position: relative;
+  max-height: none;
+  height: 100%; /* Ocupa toda a altura disponível */
+  min-height: 400px; /* Garante um tamanho mínimo */
 }
+
 
 .lista-eventos-table thead {
   position: sticky;
@@ -718,10 +722,6 @@
   z-index: 10; /* Mantém acima do conteúdo */
 }
 
-.lista-eventos-scroll-container {
-  max-height: 55vh; /* Ajusta conforme necessário */
-  overflow-y: auto; /* Ativa a rolagem apenas dentro da tabela */
-}
 
 .lista-eventos-scroll-container::-webkit-scrollbar {
   display: block; /* Garante que a scrollbar interna apareça */

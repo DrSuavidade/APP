@@ -10,8 +10,8 @@ const renderStars = (rating) => {
 
   // Cria as estrelas cheias e vazias
   const stars = [
-    ...Array(filledStars).fill(<span className="filled-star">⭐</span>),
-    ...Array(emptyStars).fill(<span className="empty-star">☆</span>)
+    ...Array(filledStars).fill(<span className="filled-star">★</span>),
+    ...Array(emptyStars).fill(<span className="filled-stars">★</span>)
   ];
   return stars;
 };

@@ -156,3 +156,9 @@ button:hover {
 .back-button:hover {
     background: rgba(40, 40, 40, 1);
 }
+
+input[type="date"],
+input[type="time"] {
+    background-color: black !important; /* Fundo preto */
+    color: #b0b0b0 !important; /* Texto cinza */
+}
