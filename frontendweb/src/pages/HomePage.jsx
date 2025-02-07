@@ -21,7 +21,7 @@ const HomePage = () => {
   return (
     <div className="home-container">
       {/* Restante do código da Home Page */}
-      <h2 className="relatorios-title">RELATÓRIOS AVALIADOS</h2>
+      <h2 className="relatorios-title">RELATÓRIOS PENDENTES</h2>
       <div className="top-section">
         <PlayerCard />
       </div>
