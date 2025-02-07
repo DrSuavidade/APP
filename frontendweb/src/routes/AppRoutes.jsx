@@ -23,7 +23,9 @@ import AddTeamPage from '../pages/AddTeamPage';
 import ShadowTeamPage from '../pages/ShadowTeamPage';
 import Navbar from '../components/Navbar';
 import ReportsHistory from '../pages/ReportsHistory';
-import ProtectedRoute from '../components/ProtectedRoute'; // Importe o componente de rota protegida
+import Microsite from '../pages/Microsite';
+
+import ProtectedRoute from '../components/ProtectedRoute'; 
 import "../CSS/ScrollBar.css";
 
 const AppRoutes = () => {
@@ -39,7 +41,7 @@ const RoutesWithNavbar = () => {
   const location = useLocation();
 
   // Rotas onde a Navbar NÃO deve aparecer
-  const hideNavbarRoutes = ["/login", "/register", "/register/confirm", "/forgot-password", "/forgot-password-confirm"];
+  const hideNavbarRoutes = ["/login", "/register", "/register/confirm", "/forgot-password", "/forgot-password-confirm", "/microsite"];
 
   return (
     <div className="scroll-container">
@@ -52,6 +54,7 @@ const RoutesWithNavbar = () => {
         <Route path="/register/confirm" element={<ConfirmRegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/forgot-password-confirm" element={<ForgotPasswordConfirm />} />
+        <Route path="/microsite" element={<Microsite />} />
 
         {/* Rotas protegidas */}
         <Route
