@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import api from "../api/axios"; // Axios instance for backend calls
 import "../CSS/plantel.css";
 import PlayerRadarChart from "../components/PlayerRadarChart";
+import Cookies from "js-cookie"; 
 
 const Plantel = () => {
   const [positions, setPositions] = useState({}); // Store positions by row
@@ -15,12 +16,12 @@ const Plantel = () => {
   const [shadowTeams, setShadowTeams] = useState([]); // Store all teams for the user
   const [selectedShadowTeam, setSelectedShadowTeam] = useState(1); // Default to ID_SOMBRA = 1
   const [selectedFormation, setSelectedFormation] = useState("2-5-5-5"); // Default
-
+  
   const fetchPositions = async () => {
     try {
       const response = await api.get("/posicao/list");
       const positionsList = response.data;
-
+      
       let formation = {};
 
       if (selectedFormation === "2-5-5-5") {
@@ -83,8 +84,16 @@ const Plantel = () => {
 
   // Define fetchShadowTeams outside of useEffect so it can be reused
   const fetchShadowTeams = async () => {
+    const userID = Cookies.get("ID_USER"); // Obtém o ID_USER do cookie
+      if (!userID) {
+        console.error("Erro: ID_USER não encontrado nos cookies.");
+        return;
+      }
+
     try {
-      const response = await api.get("/sombra/listByUser?ID_USER=1");
+      const response = await api.get(
+        `/sombra/listByUser?ID_USER=${userID}`
+      );
       setShadowTeams(response.data);
     } catch (error) {
       console.error("Erro ao buscar equipas sombra:", error);
@@ -183,11 +192,17 @@ const Plantel = () => {
 
   const addNewShadowTeam = async () => {
     const teamName = prompt("Digite o nome da nova Equipa Sombra:");
+    const userID = Cookies.get("ID_USER"); // Obtém o ID_USER do cookie
+      if (!userID) {
+        console.error("Erro: ID_USER não encontrado nos cookies.");
+        return;
+      }
+
     if (!teamName) return; // If the user cancels, do nothing
 
     try {
       const response = await api.post("/sombra/add", {
-        ID_USER: 1, // Logged user ID (static for testing)
+        ID_USER: userID, // Logged user ID (static for testing)
         NOME: teamName,
       });
 
