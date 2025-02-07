@@ -91,7 +91,7 @@ const SmallListPlayers = () => {
   
     return (
       <span className="stars">
-        <span className="filled-stars">{"★".repeat(notaNumber)}</span>
+        <span className="filled-star">{"★".repeat(notaNumber)}</span>
         <span className="gray-stars">{"★".repeat(5 - notaNumber)}</span>
       </span>
     );

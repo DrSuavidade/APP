@@ -44,3 +44,9 @@
   .download-button:hover {
     background-color: #1e7531;
   }
+
+  /****** Remover Scrollbar da página MicroSite ******/
+
+  html, body {
+    overflow: hidden !important;
+}

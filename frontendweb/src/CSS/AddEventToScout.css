@@ -124,3 +124,7 @@ body {
     margin-right: 5px;
     color: white;
 }
+
+.content-wrapper {
+    padding-top: 20%; /* Ajuste o valor conforme necessário */
+}

@@ -114,7 +114,7 @@ const ReportsHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
   const getStars = (nota) => {
     return (
       <span className="stars">
-        <span className="filled-stars">{"★".repeat(nota)}</span>
+        <span className="filled-star">{"★".repeat(nota)}</span>
         <span className="gray-stars">{"★".repeat(5 - nota)}</span>
       </span>
     );

@@ -41,7 +41,7 @@ const MainPage = () => {
     };
 
     return (
-        <div className="main-page">
+        <div className="main-page content-wrapper">
             <div className="grid-container">
                 {/* Seção Esquerda: Lista de Eventos */}
                 <div className="left-section">
