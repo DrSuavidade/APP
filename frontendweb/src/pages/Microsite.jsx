@@ -11,7 +11,7 @@ function DownloadPage() {
           rel="noopener noreferrer"
           className="download-button"
         >
-          Baixar Arquivo
+          Download App
         </a>
       </div>
     </div>
