@@ -65,7 +65,7 @@ const LoginPage = () => {
             />
           </div>
           <div className="form-group">
-            <p className ="text" >Password</p>
+            <p className ="text" >Senha</p>
             <input
               type="password"
               placeholder="Password"
@@ -76,11 +76,11 @@ const LoginPage = () => {
           </div>
           {error && <p className="error-message">{error}</p>}
           <button type="submit" className="login-button">
-            Log in
+            Login
           </button>
         </form>
         <div className="login-footer">
-          <a className ="text" href="/forgot-password">Esqueceste-te da password?</a>
+          <a className ="text" href="/forgot-password">Esqueceste-te da Senha?</a>
           <p className="bottom">
             Não tens conta? <a href="/register">Registrar</a>
           </p>
