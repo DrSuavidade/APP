@@ -15,7 +15,6 @@ import AddEventToScout from '../pages/AddEventToScout';
 import EventsCreatePage from '../pages/EventsCreatePage';
 import PlayersPage from '../pages/PlayersPage';
 import PlayersCreatePage from '../pages/PlayersCreatePage';
-import PlayersEditPage from '../pages/PlayersEditPage';
 import PlayersAddToEventPage from '../pages/PlayersAddToEventPage';
 import TeamPage from '../pages/TeamPage';
 import AddClubPage from '../pages/AddClubPage';
@@ -23,6 +22,8 @@ import AddTeamPage from '../pages/AddTeamPage';
 import ShadowTeamPage from '../pages/ShadowTeamPage';
 import Navbar from '../components/Navbar';
 import ReportsHistory from '../pages/ReportsHistory';
+import Page401 from '../pages/Page401';
+
 import Microsite from '../pages/Microsite';
 
 import ProtectedRoute from '../components/ProtectedRoute'; 
@@ -41,7 +42,7 @@ const RoutesWithNavbar = () => {
   const location = useLocation();
 
   // Rotas onde a Navbar NÃO deve aparecer
-  const hideNavbarRoutes = ["/login", "/register", "/register/confirm", "/forgot-password", "/forgot-password-confirm", "/microsite"];
+  const hideNavbarRoutes = ["/login", "/register", "/register/confirm", "/forgot-password", "/forgot-password-confirm", "/microsite", "/erro401"];
 
   return (
     <div className="scroll-container">
@@ -55,6 +56,7 @@ const RoutesWithNavbar = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/forgot-password-confirm" element={<ForgotPasswordConfirm />} />
         <Route path="/microsite" element={<Microsite />} />
+        <Route path="/erro401" element={<Page401 />} />
 
         {/* Rotas protegidas */}
         <Route
@@ -142,14 +144,6 @@ const RoutesWithNavbar = () => {
           element={
             <ProtectedRoute>
               <PlayersCreatePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/players/:id/edit"
-          element={
-            <ProtectedRoute>
-              <PlayersEditPage />
             </ProtectedRoute>
           }
         />

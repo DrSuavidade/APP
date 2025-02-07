@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../CSS/addClub.css";
 import api from "../api/axios";
@@ -10,6 +10,13 @@ const AddClubPage = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    if (ID_TIPO === "1") {
+      navigate('/erro401'); // Redireciona para a página de erro 401 se o ID_TIPO for 1
+    }
+  }, [navigate]);
 
   const handleAddClub = async (e) => {
     e.preventDefault();
@@ -36,7 +43,6 @@ const AddClubPage = () => {
       }
     }
   };
-  
   
   return (
     <div className="add-club-container">

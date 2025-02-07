@@ -5,7 +5,7 @@ import ProximasPartidas from "../components/Proximaspartidas.jsx";
 import ListaEventos from "../components/ListaEventos.jsx";
 import "../CSS/ListRelatorios.css";
 
-  const EventsViewPage = () => {
+const EventsViewPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,6 +13,12 @@ import "../CSS/ListRelatorios.css";
     const token = Cookies.get('token');
     if (!token) {
       navigate('/login'); // Redireciona para a página de login se não houver token
+    }
+
+    // Verifica se o ID_TIPO das cookies é 1
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    if (ID_TIPO === "1") {
+      navigate('/erro401'); // Redireciona para a página de erro 401 se o ID_TIPO for 1
     }
   }, [navigate]);
 

@@ -4,6 +4,7 @@ import "../CSS/AddEventToScout.css";
 import EventCard from "../components/EventCard"; 
 import ListaEventos2 from "../components/ListaEventos2"; 
 import JogadoresDestacados from "../components/JogadoresDestacados"; // Importação do componente
+import Cookies from "js-cookie"; // Importar a biblioteca js-cookie
 
 const MainPage = () => {
     const location = useLocation();
@@ -12,6 +13,12 @@ const MainPage = () => {
     const [selectedScouter, setSelectedScouter] = useState(null);
 
     useEffect(() => {
+        // Verifica se o ID_TIPO existe nos cookies
+        const ID_TIPO = Cookies.get("ID_TIPO");
+        if (ID_TIPO === "1") {
+            navigate('/erro401'); // Redireciona para a página de erro 401 se o ID_TIPO for 1
+        }
+
         const updateSelectedData = () => {
             const storedEventId = localStorage.getItem("selectedEvent");
             setSelectedEventId(storedEventId);
@@ -32,7 +39,7 @@ const MainPage = () => {
         return () => {
             window.removeEventListener("storage", updateSelectedData);
         };
-    }, [location.state]);
+    }, [location.state, navigate]);
 
     const handleAddPlayer = () => {
         if (selectedScouter) {
