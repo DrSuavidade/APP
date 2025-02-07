@@ -1,5 +1,6 @@
 const Clube = require('../Models/Clube');
 const Equipa = require('../Models/Equipa');
+const Relationship11 = require('../Models/Relationship_11');
 const clubeController = {};
 
 // Add a new club
@@ -139,6 +140,52 @@ clubeController.getClubeById = async (req, res) => {
     res.status(500).json({ error: "Erro ao buscar informações do clube." });
   }
 };
+
+clubeController.deleteClubeAndRemoveTeams = async (req, res) => {
+  const { ID_CLUBE } = req.params;
+
+  try {
+    // Buscar as equipas do clube
+    const equipas = await Equipa.find({ ID_CLUBE });
+
+    if (equipas.length === 0) {
+      // Se não houver equipas associadas ao clube, apagamos apenas o clube
+      const deletedClube = await Clube.findOneAndDelete({ ID_CLUBE });
+      if (!deletedClube) {
+        return res.status(404).json({ message: 'Clube não encontrado' });
+      }
+      return res.status(200).json({
+        message: 'Clube deletado com sucesso, sem equipas associadas.',
+        clube: deletedClube
+      });
+    }
+
+    // Apagar as relações e equipas
+    for (let equipa of equipas) {
+      // Deletar as relações na Relationship_11
+      await Relationship11.deleteMany({ ID_EQUIPA: equipa.ID_EQUIPA });
+
+      // Deletar a equipa
+      await Equipa.findOneAndDelete({ ID_EQUIPA: equipa.ID_EQUIPA });
+    }
+
+    // Agora, deletamos o clube
+    const deletedClube = await Clube.findOneAndDelete({ ID_CLUBE });
+    if (!deletedClube) {
+      return res.status(404).json({ message: 'Clube não encontrado' });
+    }
+
+    res.status(200).json({
+      message: 'Clube e suas equipas, incluindo as relações de jogadores, deletados com sucesso!',
+      clube: deletedClube,
+      deletedEquipas: equipas.length
+    });
+  } catch (error) {
+    console.error('Erro ao deletar clube e equipas:', error);
+    res.status(500).json({ error: 'Erro ao deletar clube e equipas' });
+  }
+};
+
 
 
 module.exports = clubeController;

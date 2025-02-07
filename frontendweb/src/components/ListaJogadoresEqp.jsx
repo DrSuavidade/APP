@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { FaCog } from 'react-icons/fa'; // Importe o ícone de roldana
+import Swal from 'sweetalert2'; // Para exibir alertas
 
-const ListaJogadoresEqp = ({addedPlayers, onPlayerRemoved }) => {
+const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
     const location = useLocation();
     const { idEquipa } = location.state || {};  // Acessa o ID da equipa da navegação anterior
     const idClube = location.state?.idClube;
@@ -11,6 +13,9 @@ const ListaJogadoresEqp = ({addedPlayers, onPlayerRemoved }) => {
     const [selectedEquipa,] = useState(idEquipa || ""); // Define a equipa automaticamente
     const [registeredPlayers, setRegisteredPlayers] = useState([]);
     const [selectedPlayers, setSelectedPlayers] = useState([]);
+
+    // Lista de escalões disponíveis
+    const escaloes = ["Sub-7", "Sub-9", "Sub-11", "Sub-13", "Sub-15", "Sub-17", "Sub-19", "Sénior"];
 
     // 🔹 Buscar informações do clube
     useEffect(() => {
@@ -92,19 +97,55 @@ const ListaJogadoresEqp = ({addedPlayers, onPlayerRemoved }) => {
     const handleRemovePlayers = async () => {
         try {
             const playersIds = selectedPlayers.map((player) => player.ID_JOGADORES);
-    
+
             await axios.delete(`http://localhost:3000/api/relationship11/${playersIds.join(",")}`);
-    
+
             setRegisteredPlayers((prevPlayers) =>
                 prevPlayers.filter((p) => !selectedPlayers.some(sel => sel.ID_JOGADORES === p.ID_JOGADORES))
             );
 
             selectedPlayers.forEach(onPlayerRemoved);
             setSelectedPlayers([]);
-    
+
         } catch (error) {
             console.error("❌ Erro ao remover jogadores da equipa:", error);
         }
+    };
+
+    // 🔹 Função para editar a equipa
+    const handleEditEquipa = () => {
+        const equipaAtual = equipas.find(equipa => equipa.ID_EQUIPA === selectedEquipa);
+
+        Swal.fire({
+            title: 'Editar Equipa',
+            html:
+                `<input id="swal-input1" class="swal2-input" placeholder="Novo Nome" value="${equipaAtual?.NOME || ''}">` +
+                `<select id="swal-input2" class="swal2-input">
+                    ${escaloes.map(escalao => `<option value="${escalao}" ${escalao === equipaAtual?.ESCALAO ? 'selected' : ''}>${escalao}</option>`).join('')}
+                </select>`,
+            focusConfirm: false,
+            preConfirm: () => {
+                return {
+                    nome: document.getElementById('swal-input1').value,
+                    escalao: document.getElementById('swal-input2').value
+                };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const { nome, escalao } = result.value;
+                axios.put(`http://localhost:3000/api/equipa/edit/${selectedEquipa}`, { NOME: nome, ESCALAO: escalao })
+                    .then(response => {
+                        Swal.fire('Sucesso!', 'Equipa atualizada com sucesso.', 'success').then(() => {
+                            // Recarrega a página para atualizar as informações
+                            window.location.reload();
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Erro ao atualizar equipa:', error);
+                        Swal.fire('Erro!', 'Não foi possível atualizar a equipa.', 'error');
+                    });
+            }
+        });
     };
 
     return (
@@ -112,8 +153,18 @@ const ListaJogadoresEqp = ({addedPlayers, onPlayerRemoved }) => {
             <h2 className="club-name">{clube.NOME || "Nome Indisponível"}</h2>
             <p className="club-abbreviation">{clube.ABREVIATURA || ""}</p>
 
-            {/* 🔹 Exibição da equipa única */}
-            <p className="team-name">{equipas.find(equipa => equipa.ID_EQUIPA === selectedEquipa)?.NOME || "Carregando equipa..."}</p>
+            {/* 🔹 Exibição da equipa única com ícone de edição */}
+            <div className="team-info">
+                <div>
+                    <p className="team-name">
+                        {equipas.find(equipa => equipa.ID_EQUIPA === selectedEquipa)?.NOME || "Carregando equipa..."}
+                    </p>
+                    <p className="team-escalao">
+                        {equipas.find(equipa => equipa.ID_EQUIPA === selectedEquipa)?.ESCALAO || "Escalão não definido"}
+                    </p>
+                </div>
+                <FaCog className="icon cog" onClick={handleEditEquipa} />
+            </div>
 
             <p className="player-count">Jogadores: {registeredPlayers.length}</p>
 

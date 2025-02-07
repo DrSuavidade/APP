@@ -64,15 +64,15 @@ const ClubsList = ({ setSelectedClub }) => {
       setShowCheckboxes(true);
       return;
     }
-
+  
     if (selectedClubes.length === 0) {
       Swal.fire("Erro", "Selecione pelo menos um clube para excluir.", "error");
       return;
     }
-
+  
     Swal.fire({
       title: "Tem certeza?",
-      text: "Os clubes selecionados serão excluídos permanentemente!",
+      text: "Os clubes selecionados serão excluídos permanentemente, incluindo as suas equipas e relações!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
@@ -82,23 +82,17 @@ const ClubsList = ({ setSelectedClub }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          // Excluir clubes da API
-          await axios.delete('http://localhost:3000/api/clubes/delete-multiple', {
-            data: { clubesIds: selectedClubes }
-          });
-
-          // Remover os clubes excluídos também da lista de favoritos
-          await Promise.all(
-            selectedClubes.map(async (clubeId) => {
-              await axios.delete(`http://localhost:3000/api/favorito/delete/${clubeId}/${userID}`);
-            })
-          );
-
+          for (const clubeId of selectedClubes) {
+            // Chama a API para excluir o clube, as equipas e as relações
+            await axios.delete(`http://localhost:3000/api/clube/delete-all/${clubeId}`);
+          }
+  
+          // Atualiza a lista de clubes removendo os clubes excluídos
           setClubes(clubes.filter((clube) => !selectedClubes.includes(clube.id_clube)));
           setSelectedClubes([]);
           setShowCheckboxes(false);
-
-          Swal.fire("Excluído!", "Os clubes foram removidos com sucesso.", "success");
+  
+          Swal.fire("Excluído!", "Os clubes e suas equipas foram removidos com sucesso.", "success");
         } catch (error) {
           console.error('Erro ao deletar clubes:', error);
           Swal.fire("Erro!", "Não foi possível excluir os clubes.", "error");
@@ -106,6 +100,7 @@ const ClubsList = ({ setSelectedClub }) => {
       }
     });
   };
+  
 
   const handleCancelSelection = () => {
     setSelectedClubes([]);
