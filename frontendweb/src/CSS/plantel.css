@@ -10,7 +10,7 @@ body {
   display: flex;
   flex-direction: row;
   height: 100vh;
-  width: 100vw;
+  width: 115vw;
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
 }
@@ -176,7 +176,7 @@ body {
 .sidebar {
   position: fixed;
   top: 60px;
-  right: -200px;
+  right: 42px;
   max-width: 400px;
   width: 400px;
   height: calc(100vh - 60px);
@@ -236,12 +236,13 @@ body {
   min-height: 60vh;
   max-height: 60vh; /* Prevents overflow */
   overflow-y: auto; /* Enables scrolling */
+  overflow-x: hidden;
   padding: 0 10px;
 }
 
 .player-card {
   display: flex;
-  align-items: center;
+  align-items: left;
   background-color: #1e1e1e;
   border-radius: 8px;
   padding: 8px;
@@ -251,13 +252,11 @@ body {
   position: relative;
   transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
   border: 1px solid #333;
-  transform: translateX(220px);
 }
 
 .player-card:hover {
   background-color: #333;
   transform: scale(1.02);
-  transform: translateX(220px);
 }
 
 .player-info {
@@ -442,7 +441,7 @@ body {
 }
 
 .radar-chart-container {
-  margin-top: 20px;
+  margin-top: -5px;
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
