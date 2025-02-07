@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../CSS/ListRelatorios.css'; // Reutilizando o CSS existente
 import Cookies from 'js-cookie';
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const RecentEvents = () => {
   const [events, setEvents] = useState([]);
@@ -36,9 +37,10 @@ const RecentEvents = () => {
         {events.map((event, index) => (
           <div className="event-info" key={index}>
             <div className="event-scout">{event.NOME_USER || "Sem Scout Associado"}</div>
-            <div className="event-date-time">{formatDate(event.DATA)} {event.HORA}</div>
-            <div className="event-teams">{event.EQUIPA_CASA} vs {event.VISITANTE}</div>
-            <div className="event-location">{event.LOCAL}</div>
+            <div className="event-teams">{event.EQUIPA_CASA} <div className="event-date-time">{formatDate(event.DATA)} {event.HORA}</div> {event.VISITANTE}</div>
+            <div className="event-location">
+             <FaMapMarkerAlt className="location-icon" />
+              {event.LOCAL}</div>
           </div>
         ))}
       </div>

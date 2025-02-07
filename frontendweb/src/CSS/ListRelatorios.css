@@ -328,13 +328,13 @@
 }
 
 .recent-events-container .event-info {
-  display: flex;
+  display: center;
   flex-direction: column;
   background-color: #218838;
   width: 300px;
   height: 120px;
   margin-bottom: 1px;
-  border-radius: 5%;
+  border-radius: 2%;
   padding: 2%;
 }
 
@@ -352,6 +352,7 @@
 .recent-events-container .event-teams {
   font-size: 1.0em;
   color: #fff; /* Cor branca para as equipes */
+  padding: 5%;
 }
 
 .recent-events-container .event-location {
@@ -359,9 +360,14 @@
   color: #e0e0e0; /* Cor clara para o local */
 }
 
+.event-location .location-icon {
+  margin-right: 5px;
+  color: rgb(255, 255, 255);
+}
+
 .recent-events-container .add-event-btn {
-  background: #28a745; /* Botão verde */
-  color: white;
+  background: #66ff66; /* Botão verde */
+  color: rgb(0, 0, 0);
   border: none;
   padding: 10px 15px;
   border-radius: 5px;
@@ -372,7 +378,7 @@
 }
 
 .recent-events-container .add-event-btn:hover {
-  background: #218838; /* Verde mais escuro ao passar o mouse */
+  background: #58de58; /* Verde mais escuro ao passar o mouse */
   transform: translateY(-2px); /* Efeito de flutuação ao passar o mouse */
 }
 
