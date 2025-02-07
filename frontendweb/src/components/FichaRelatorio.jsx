@@ -4,7 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHistory, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faHistory } from "@fortawesome/free-solid-svg-icons";
 
 const FichaRelatorio = ({ ID_RELATORIO }) => {
   const [relatorio, setRelatorio] = useState(null);
@@ -126,19 +126,22 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
           <p>{relatorio.IDADE} anos • {relatorio.ANO_NASCIMENTO}</p>
           <p>{relatorio.NOME_EQUIPA} ({relatorio.ABREVIATURA_CLUBE})</p>
         </div>
-        <div className={`nota-circle ${relatorio.NOTA <= 2 ? "nota-baixa" : "nota-alta"}`}>
-          {relatorio.NOTA}/4
-          {status === "Avaliado" && (
-            <div className="nota-controls">
-               <button onClick={() => handleNotaChange(1)}>
-                <FontAwesomeIcon icon={faChevronUp} />
-              </button>
-              <button onClick={() => handleNotaChange(-1)}>
-                <FontAwesomeIcon icon={faChevronDown} />
-              </button>
-            </div>
-          )}
-        </div>
+        <div className="nota-container">
+  <div
+    className={`triangle-up ${status === "Avaliado" ? (relatorio.NOTA === 4 ? "disabled" : "visible") : "hidden"}`}
+    onClick={() => status === "Avaliado" && relatorio.NOTA < 4 && handleNotaChange(1)}
+  ></div>
+
+  <div className={`nota-circle ${relatorio.NOTA <= 2 ? "nota-baixa" : "nota-alta"}`}>
+    {relatorio.NOTA}/4
+  </div>
+
+  <div
+    className={`triangle-down ${status === "Avaliado" ? (relatorio.NOTA === 0 ? "disabled" : "visible") : "hidden"}`}
+    onClick={() => status === "Avaliado" && relatorio.NOTA > 0 && handleNotaChange(-1)}
+  ></div>
+</div>
+
       </div>
 
       <div className="attributes">
