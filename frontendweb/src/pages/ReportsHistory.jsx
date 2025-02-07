@@ -4,6 +4,7 @@ import CardHistory from "../components/CardHistory";
 import ListHistory from "../components/ListHistory";
 import FichaRelatorio from "../components/FichaRelatorio";
 import axios from "axios";
+import "../CSS/ReportsPage.css"; // Importando o mesmo CSS da ReportsPage
 
 const ReportsHistory = () => {
   const { ID_JOGADORES } = useParams(); // Pegando o ID do jogador pela URL
@@ -25,15 +26,16 @@ const ReportsHistory = () => {
   }, [ID_JOGADORES]); // Atualiza sempre que o ID do jogador mudar
 
   return (
-    <div>
-      <h1>Histórico de Relatórios</h1>
-
-      {/* Passando o ID recebido via URL */}
-      <CardHistory ID_JOGADORES={ID_JOGADORES} onSelectRelatorio={setSelectedRelatorio} />
-      <ListHistory ID_JOGADORES={ID_JOGADORES} onSelectRelatorio={setSelectedRelatorio} />
-
-      {/* Somente exibir FichaRelatorio se houver um relatório selecionado */}
-      {selectedRelatorio && <FichaRelatorio ID_RELATORIO={selectedRelatorio} />}
+    <div className="reports-page"> 
+      <div className="reports-left">
+        <div className="player-cards-container">
+          <CardHistory ID_JOGADORES={ID_JOGADORES} onSelectRelatorio={setSelectedRelatorio} />
+        </div>
+        <ListHistory ID_JOGADORES={ID_JOGADORES} onSelectRelatorio={setSelectedRelatorio} />
+      </div>
+      <div className="reports-right">
+        {selectedRelatorio && <FichaRelatorio ID_RELATORIO={selectedRelatorio} />}
+      </div>
     </div>
   );
 };

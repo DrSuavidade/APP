@@ -23,9 +23,10 @@ const LoginPage = () => {
         PASSWORD: password,
       });
   
-      Cookies.set("token", response.data.token, { expires: 1 }); // Expira em 1 dia
+      Cookies.set("token", response.data.token, { expires: 1 });
       Cookies.set("ID_USER", response.data.USER.ID_USER, { expires: 1 });
       Cookies.set("USER_NAME", response.data.USER.NOME, { expires: 1 });
+      Cookies.set("ID_TIPO", response.data.USER.ID_TIPO, { expires: 1 });
   
       navigate("/home");
     } catch (error) {
@@ -38,9 +39,10 @@ const LoginPage = () => {
   }
 
   useEffect(() => {
-    document.body.classList.add("no-scroll");
+    document.body.classList.add("login-page");
+  
     return () => {
-      document.body.classList.remove("no-scroll");
+      document.body.classList.remove("login-page"); // Remove a classe ao sair da página
     };
   }, []);
 

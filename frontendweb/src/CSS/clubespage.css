@@ -15,25 +15,26 @@ body {
   align-items: flex-start;
   width: 100%;
   max-width: 1200px;
-  gap: 10px; /* Espaçamento reduzido */
+  gap: 5px; /* Espaçamento reduzido */
 }
 
 .clube-card {
   background-color: #222;
   color: #fff;
-  padding: 20px;
+  padding: 10px; /* Reduzir o padding */
   border-radius: 10px;
   text-align: center;
   flex: 1;
-  min-width: 150px;
-  max-width: 300px;
-  height: 100px;
+  min-width: 120px; /* Reduzir a largura mínima */
+  max-width: 200px; /* Reduzir a largura máxima */
+  height: 80px; /* Reduzir a altura */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s, width 0.3s, height 0.3s;
+  font-size: 14px; /* Reduzir o tamanho da fonte */
 }
 
 .clube-card:hover {
@@ -41,139 +42,129 @@ body {
 }
 
 .clube-info h3 {
-  font-size: 18px;
+  font-size: 16px; /* Reduzir o tamanho da fonte */
   font-weight: bold;
   margin-bottom: 5px;
 }
 
 .clube-info p {
-  font-size: 16px;
+  font-size: 14px; /* Reduzir o tamanho da fonte */
   font-weight: normal;
   color: #ccc;
 }
 
 .clubes-cards-row {
-  min-height: 200px; /* Ajuste conforme necessário */
+  min-height: 150px; /* Ajuste conforme necessário */
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
+  gap: 10px; /* Reduzir o espaçamento */
+  padding: 10px; /* Reduzir o padding */
   width: 100%;
 }
-
 
 .club-cards-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  gap: 15px;
-  padding: 20px;
+  gap: 10px; /* Reduzir o espaçamento */
+  padding: 10px; /* Reduzir o padding */
 }
 
 .club-card {
   position: relative;
-  width: 250px;
-  height: 120px; /* Antes estava menor, agora é mais alto */
+  width: 200px; /* Reduzir a largura */
+  height: 100px; /* Reduzir a altura */
   background-color: #222;
   border-radius: 10px;
   text-align: center;
   color: white;
-  padding: 20px;
+  padding: 10px; /* Reduzir o padding */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Centraliza o conteúdo */
+  justify-content: center;
   transition: 0.3s;
+  font-size: 14px; /* Reduzir o tamanho da fonte */
 }
 
-/* Ajusta o ícone de favorito corretamente */
 .favorite-icon {
   position: absolute;
-  bottom: 8px; /* Posiciona na parte inferior */
-  right: 8px; /* Alinha à direita */
+  bottom: 8px;
+  right: 8px;
   background: none;
   border: none;
-  font-size: 18px; /* Garante que tenha o tamanho de uma estrela */
+  font-size: 14px; /* Reduzir o tamanho do ícone */
   cursor: pointer;
   color: #888;
   transition: color 0.3s, transform 0.2s;
-  width: auto; /* Remove qualquer largura forçada */
-  height: auto; /* Remove altura excessiva */
+  width: auto;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0; /* Remove padding extra */
+  padding: 0;
 }
 
-/* Ajuste para quando o favorito estiver ativo */
 .favorite-icon.active {
-  color: #ffcc00; /* Estrela amarela quando favorita */
+  color: #ffcc00;
 }
 
-/* Previne que o botão de favorito afete o layout do card */
 .favorite-icon:focus,
 .favorite-icon:active {
   outline: none;
   box-shadow: none;
 }
 
-/* Garante que o main-content fique centralizado */
 .main-content {
   position: relative;
   display: flex;
-  justify-content: center; /* Centraliza os elementos */
-  align-items: flex-start; /* Alinha ao topo */
-  gap: 50px; /* Espaço entre os elementos */
-  max-width: 1400px; /* Define um tamanho máximo para não ficar muito largo */
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px; /* Reduzir o espaçamento */
+  max-width: 1400px;
   width: 100%;
 }
 
-/* Centraliza todo o conteúdo da página */
 .page-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   min-height: 100vh;
-  padding-top: 50px; /* Ajusta o espaço superior */
+  padding-top: 30px; /* Reduzir o espaço superior */
 }
 
 .left-menu {
-  flex-grow: 2; /* Faz o elemento crescer dentro do flex container */
-  width: 70vw; /* Usa uma largura relativa à viewport */
-  max-width: 1100px; /* Evita que fique exageradamente grande */
+  flex-grow: 2;
+  width: 40vw;
+  max-width: 1100px;
   background-color: #252525;
-  padding: 20px;
+  padding: 5px; /* Reduzir o padding */
   border-radius: 10px;
   margin-left: 0;
-  
 }
 
-/* Ajusta a barra de pesquisa */
-/* Ajusta a barra de pesquisa */
 .search-bar {
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 10px; /* Espaço entre o input e o botão */
+  gap: 10px;
 }
 
-/* Torna o input maior */
 .search-bar input {
-  flex-grow: 1; /* Faz com que ocupe todo o espaço disponível */
-  padding: 15px; /* Aumenta a altura */
-  font-size: 18px; /* Torna o texto mais visível */
+  flex-grow: 1;
+  padding: 8px; /* Reduzir o padding */
+  font-size: 14px; /* Reduzir o tamanho da fonte */
   border-radius: 5px;
   border: 1px solid #ccc;
 }
 
-/* Torna o botão menor */
 .search-bar button {
-  width: 120px; /* Reduz a largura */
-  padding: 12px 15px;
-  font-size: 14px; /* Texto menor */
+  width: 100px; /* Reduzir a largura */
+  padding: 8px 10px; /* Reduzir o padding */
+  font-size: 12px; /* Reduzir o tamanho da fonte */
   background-color: #4CAF50;
   color: white;
   border: none;
@@ -185,9 +176,6 @@ body {
 .search-bar button:hover {
   background-color: #45a049;
 }
-
-
-
 
 .team-list {
   list-style: none;
@@ -204,17 +192,17 @@ body {
 
 .team-item {
   display: grid;
-  grid-template-columns: 3fr 1fr 1fr; /* O nome ocupa mais espaço */
+  grid-template-columns: 50px 1fr 1fr 1fr;
   align-items: center;
   text-align: center;
   background-color: #444;
   color: white;
-  padding: 15px;
+  padding: 50px; /* Reduzir o padding */
   border-bottom: 1px solid #555;
   cursor: pointer;
   width: 100%;
-  height: 50px;
-  font-size: 16px;
+  height: 30px; /* Reduzir a altura */
+  font-size: 14px; /* Reduzir o tamanho da fonte */
 }
 
 .team-item:hover {
@@ -223,24 +211,22 @@ body {
 }
 
 .right-menu {
-  flex-grow: 2; /* Permite que ocupe mais espaço dentro do container */
-  width: 40vw; /* Usa 40% da largura da viewport */
-  max-width: 500px; /* Define um limite para não ficar exagerado */
+  flex-grow: 2;
+  width: 40vw;
+  max-width: 500px;
   background-color: #2a2a2a;
-  padding: 20px;
+  padding: 10px; /* Reduzir o padding */
   border-radius: 10px;
   transition: all 0.3s ease-in-out;
 }
 
-
 .right-menu {
-  min-height: 450px; /* Ajuste conforme necessário */
+  min-height: 400px; /* Ajuste conforme necessário */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: all 0.3s ease-in-out;
 }
-
 
 .right-menu.active .team-details {
   display: block;
@@ -249,7 +235,7 @@ body {
 .selected-club-info {
   text-align: center;
   padding: 10px 0;
-  margin-bottom: 30px;
+  margin-bottom: 20px; /* Reduzir o espaçamento */
   position: relative;
 }
 
@@ -261,11 +247,11 @@ body {
   color: white;
   font-weight: bold;
   border: none;
-  padding: 8px 15px;
+  padding: 6px 12px; /* Reduzir o padding */
   border-radius: 5px;
   cursor: pointer;
-  margin: 10px auto;
-  width: 120px;
+  margin: 8px auto; /* Reduzir o espaçamento */
+  width: 100px; /* Reduzir a largura */
   transition: background-color 0.3s;
 }
 
@@ -277,34 +263,23 @@ body {
 .favorite-button:hover {
   background-color: #e6b800;
 }
+
 .selected-club-info h3 {
-  font-size: 20px;
+  font-size: 18px; /* Reduzir o tamanho da fonte */
   font-weight: bold;
   margin-bottom: 5px;
 }
 
 .selected-club-info h4 {
-  font-size: 16px;
+  font-size: 14px; /* Reduzir o tamanho da fonte */
   font-weight: normal;
-  margin-bottom: 25px;
+  margin-bottom: 20px; /* Reduzir o espaçamento */
 }
 
 .team-details {
-  min-height: 200px; /* Mantém um espaço fixo para os detalhes */
+  min-height: 150px; /* Reduzir a altura */
 }
 
-.squad-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #444;
-  padding: 10px 15px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  color: white;
-  font-size: 16px;
-  font-weight: normal;
-}
 
 .squad-item span {
   flex: 1;
@@ -314,10 +289,9 @@ body {
   text-align: right;
 }
 
-
 .buttons-container {
   margin-top: auto;
-  padding-top: 20px;
+  padding-top: 15px; /* Reduzir o espaçamento */
 }
 
 .manage-teams, .create-team {
@@ -325,38 +299,36 @@ body {
   background-color: #4CAF50;
   color: white;
   border: none;
-  padding: 10px 15px;
+  padding: 8px 12px; /* Reduzir o padding */
   border-radius: 5px;
   cursor: pointer;
 }
 
-/* Estilos para a barra de pesquisa */
 .search-container {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 10px; /* Reduzir o espaçamento */
   background-color: #1e1e1e;
 }
 
 .search-container input {
   flex: 1;
-  padding: 8px;
+  padding: 8px; /* Reduzir o padding */
   border-radius: 5px;
   border: 1px solid #ccc;
   margin-right: 10px;
 }
 
-/* Estilos para a barra de ferramentas */
 .toolbar {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 15px;
+  margin-bottom: 10px; /* Reduzir o espaçamento */
 }
 
 .icon {
-  font-size: 20px;
+  font-size: 16px; /* Reduzir o tamanho do ícone */
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 8px; /* Reduzir o espaçamento */
 }
 
 .trash {
@@ -383,14 +355,12 @@ body {
   color: limegreen;
 }
 
-
-/* Ajuste para o cabeçalho da tabela */
 .team-header {
   display: grid;
-  grid-template-columns: 80px 3fr 1fr 1fr; /* Ajuste para o layout original */
+  grid-template-columns: 80px 1fr 1fr 1fr;
   background-color: #1e1e1e;
   color: white;
-  padding: 12px;
+  padding: 15px; /* Reduzir o padding */
   border-radius: 5px;
   font-weight: bold;
   text-align: center;
@@ -398,104 +368,92 @@ body {
 
 .team-item {
   display: grid;
-  grid-template-columns: 80px 3fr 1fr 1fr; /* Ajuste para o layout original */
+  grid-template-columns: 80px 1fr 1fr 1fr;
   align-items: center;
   text-align: center;
   background-color: #444;
   color: white;
-  padding: 15px;
+  padding: 10px; /* Reduzir o padding */
   border-bottom: 1px solid #555;
   cursor: pointer;
   width: 100%;
-  height: 50px;
-  font-size: 16px;
+  height: 40px; /* Reduzir a altura */
+  font-size: 14px; /* Reduzir o tamanho da fonte */
 }
 
-/* Centraliza a checkbox com a palavra "Favoritos" */
 .team-header span:first-child {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-
-
-/* Estilo para a checkbox */
 .team-item input[type="checkbox"] {
   cursor: pointer;
-  width: 16px; /* Tamanho da checkbox */
-  height: 16px; /* Tamanho da checkbox */
-  margin: 0 auto; /* Centraliza horizontalmente */
-  justify-self: center; /* Centraliza na célula */
-  align-self: center; /* Centraliza verticalmente */
+  width: 12px; /* Reduzir o tamanho da checkbox */
+  height: 12px; /* Reduzir o tamanho da checkbox */
+  margin: 0 auto;
+  justify-self: center;
+  align-self: center;
 }
 
 .team-item span:first-child {
-  text-align: left; /* Alinha o ID do clube à esquerda */
-  padding-left: 20px; /* Adiciona um pequeno espaço à esquerda */
+  text-align: left;
+  padding-left: 15px; /* Reduzir o espaçamento */
 }
 
-/* Estilo para o container de informações da equipa */
-/* Estilo para o container de informações da equipa */
 .squad-item {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Centraliza verticalmente */
+  align-items: center;
   background-color: #444;
-  padding: 15px;
+  padding: 10px; /* Reduzir o padding */
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 8px; /* Reduzir o espaçamento */
   color: white;
-  font-size: 16px;
+  font-size: 14px; /* Reduzir o tamanho da fonte */
   font-weight: normal;
 }
 
-/* Lado Esquerdo: ID_EQUIPA, NOME e ESCALAO */
 .team-info-left {
   display: flex;
-  align-items: center; /* Centraliza verticalmente */
-  gap: 10px; /* Espaço entre o ID e o nome/escalão */
+  align-items: center;
+  gap: 8px; /* Reduzir o espaçamento */
 }
 
 .team-id {
   font-weight: bold;
-  color: #ffcc00; /* Cor destacada para o ID */
-  font-size: 18px;
-  min-width: 30px; /* Largura fixa para o ID */
-  text-align: center; /* Centraliza o texto */
+  color: #ffcc00;
+  font-size: 16px; /* Reduzir o tamanho da fonte */
+  min-width: 25px; /* Reduzir a largura */
+  text-align: center;
 }
 
 .team-name-escalao {
   display: flex;
-  flex-direction: column; /* Nome acima, escalão abaixo */
-  gap: 5px; /* Espaço entre nome e escalão */
+  flex-direction: column;
+  gap: 4px; /* Reduzir o espaçamento */
 }
 
 .team-name {
-  font-size: 16px;
+  font-size: 14px; /* Reduzir o tamanho da fonte */
   font-weight: bold;
 }
 
 .team-escalao {
-  font-size: 14px;
-  color: #ccc; /* Cor mais suave para o escalão */
+  font-size: 12px; /* Reduzir o tamanho da fonte */
+  color: #ccc;
 }
 
-/* Lado Direito: Número de jogadores */
 .team-info-right {
   display: flex;
-  align-items: center; /* Centraliza verticalmente */
+  align-items: center;
 }
 
 .team-players {
-  font-size: 16px;
+  font-size: 14px; /* Reduzir o tamanho da fonte */
   font-weight: bold;
-  color: #4CAF50; /* Cor destacada para o número de jogadores */
+  color: #4CAF50;
 }
-
-/* Adicione estas regras ao arquivo CSS existente */
-
-/* Adicione estas regras ao arquivo CSS existente */
 
 .favorite-button {
   display: flex;
@@ -503,10 +461,10 @@ body {
   background-color: #4CAF50;
   color: white;
   border: none;
-  padding: 8px 15px;
+  padding: 6px 12px; /* Reduzir o padding */
   border-radius: 5px;
   cursor: pointer;
-  margin-right: 10px;
+  margin-right: 8px; /* Reduzir o espaçamento */
   transition: background-color 0.3s;
 }
 
@@ -515,31 +473,31 @@ body {
 }
 
 .team-item.selected {
-  background-color: #555; /* Cor de fundo para clubes favoritos */
-  border-left: 4px solid #4CAF50; /* Borda esquerda verde para destacar */
+  background-color: #555;
+  border-left: 4px solid #4CAF50;
 }
 
 .toolbar {
   display: flex;
-  justify-content: space-between; /* Faz com que os itens fiquem nos extremos */
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 10px; /* Reduzir o espaçamento */
 }
 
 .toolbar .favorite-button {
-  margin-left: 0; /* Garante que fique colado à esquerda */
+  margin-left: 0;
 }
 
 .icons-container {
   display: flex;
-  gap: 10px; /* Espaço entre os ícones */
+  gap: 8px; /* Reduzir o espaçamento */
 }
 
 .team-info-right {
   display: flex;
-  justify-content: flex-end; /* Alinha à direita */
-  align-items: center; /* Alinha verticalmente */
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .trash-icon {
@@ -547,22 +505,17 @@ body {
   border: none;
   color: red;
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 8px; /* Reduzir o espaçamento */
 }
 
 .trash-icon:hover {
   color: darkred;
 }
 
-
-
-
-
-
 @media (max-width: 1024px) {
   .clube-card {
-    min-width: 120px;
-    height: 90px;
+    min-width: 100px; /* Reduzir a largura mínima */
+    height: 70px; /* Reduzir a altura */
   }
   .main-content {
     flex-direction: column;
@@ -574,67 +527,65 @@ body {
 
 @media (max-width: 768px) {
   .clube-card {
-    min-width: 100px;
-    height: 80px;
+    min-width: 80px; /* Reduzir a largura mínima */
+    height: 60px; /* Reduzir a altura */
   }
   .team-header, .team-item {
     grid-template-columns: 2fr 1fr 1fr;
   }
 }
 
-
 .teams-list {
-  max-width: 400px; /* Ajusta a largura máxima do bloco de equipas */
+  max-width: 400px;
 }
 
 .fixed-height {
-  min-height: 500px; /* Ajuste conforme necessário */
+  min-height: 400px; /* Reduzir a altura */
 }
 
 .teams-list {
-  min-height: 400px; /* Mantém a mesma altura para todas as listas de equipes */
+  min-height: 300px; /* Reduzir a altura */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .pushed-down {
-  margin-top: 17%; /* Ajuste conforme necessário para descer o conteúdo abaixo da navbar */
+  margin-top: 10%; /* Ajuste conforme necessário */
 }
 
 .shift-left {
   width: 180%;
-  max-width: 180%; /* Ajuste conforme necessário */
+  max-width: 180%;
 }
 
 .clubs-card-container {
-  margin-left: 30%; /* Ajuste conforme necessário para mover para a esquerda */
+  margin-left: 30%;
 }
 
 .raised-section {
-  margin-top: -50px; /* Ajuste conforme necessário para subir a secção */
+  margin-top: -40px; /* Reduzir o espaçamento */
 }
 
 .pushed-down {
-  margin-top: 15%; /* Ajuste conforme necessário para descer o conteúdo abaixo da navbar */
+  margin-top: 5%;
 }
 
 .teams-container.raised {
-  margin-top: -50px; /* Ajuste este valor conforme necessário */
+  margin-top: -40px; /* Reduzir o espaçamento */
 }
 
-
 .teams-container {
-  max-width: 400px; /* Limita o tamanho da seção de equipes */
+  max-width: 400px;
 }
 
 .move-right {
-  margin-left: 10px; /* Ajuste conforme necessário */
+  margin-left: 8px; /* Reduzir o espaçamento */
 }
 
 .stretch-left {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* Faz a lista ocupar mais espaço que a secção da direita */
+  grid-template-columns: 2fr 1fr;
   gap: 1px;
   width: 200%;
 }
@@ -647,29 +598,26 @@ body {
 
 .balanced-width > * {
   flex: 1;
-  max-width: 48%; /* Mantém ambos visíveis sem ocupar 100% */
+  max-width: 48%;
 }
 
 .no-gap {
-  gap: 1px !important; /* Remove qualquer espaço entre os elementos */
+  gap: 1px !important;
 }
 
 .compact-table {
-  width: 250%; /* Reduzindo um pouco a largura sem afetar a estrutura */
+  width: 250%;
   max-width: 200%;
-  gap: 0; /* Remove o espaçamento entre os elementos */
-  margin: 0; /* Remove margens externas */
+  gap: 0;
+  margin: 0;
 }
 
 .compact-table table {
-  border-spacing: 0; /* Remove o espaçamento entre as células */
+  border-spacing: 0;
 }
 
 .compact-table th, 
 .compact-table td {
-  padding: 0; /* Remove o padding interno das células */
+  padding: 0;
   text-align: center;
 }
-
-
-

@@ -82,11 +82,17 @@ const SmallListPlayers = () => {
   };
 
   const getStars = (nota) => {
-    // Verifica se a nota é 0, null, undefined ou "Sem nota"
+    // Ensure nota is a valid number, default to 0 if it's invalid
     const notaNumber = nota === "Sem nota" || nota === null || nota === undefined ? 0 : nota;
-    const stars = "★".repeat(notaNumber) + "☆".repeat(5 - notaNumber);
-    return <span className="stars">{stars}</span>;
+  
+    return (
+      <span className="stars">
+        <span className="filled-stars">{"★".repeat(notaNumber)}</span>
+        <span className="gray-stars">{"★".repeat(5 - notaNumber)}</span>
+      </span>
+    );
   };
+  
 
   const filteredPlayers = players.filter((player) =>
     player.NOME.toLowerCase().includes(searchTerm.toLowerCase())

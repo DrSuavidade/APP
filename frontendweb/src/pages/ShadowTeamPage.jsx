@@ -67,6 +67,14 @@ const Plantel = () => {
     }
   };
 
+  useEffect(() => {
+    document.body.classList.add("plantel-page");
+  
+    return () => {
+      document.body.classList.remove("plantel-page"); // Remove a classe ao sair da página
+    };
+  }, []);
+    
   // Use useEffect to trigger fetchPositions when selectedFormation changes
   useEffect(() => {
     fetchPositions();

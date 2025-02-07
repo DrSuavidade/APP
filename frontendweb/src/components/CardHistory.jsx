@@ -38,7 +38,7 @@ const CardHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
             onClick={() => onSelectRelatorio(report.ID_RELATORIO)} 
             style={{ cursor: "pointer" }}
           >
-            <div className="status-dot"></div>
+            <div className="status-dot" data-tooltip={report.STATUS || "Sem status"}></div>
             <div className="profile-icon">📄</div>
             <h3 className="player-name">{report.JOGADOR_NOME || "Nome não disponível"}</h3>
             <p className="player-age">

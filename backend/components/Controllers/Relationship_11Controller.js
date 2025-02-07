@@ -310,6 +310,7 @@ relationship11Controller.fichaReports = async (req, res) => {
       VELOCIDADE: relatorio.VELOCIDADE,
       COMPETITIVA: relatorio.COMPETITIVA,
       INTELIGENCIA: relatorio.INTELIGENCIA,
+      ALTURA: relatorio.ALTURA,
       MORFOLOGIA: relatorio.MORFOLOGIA,
       COMENTARIO_SCOUTTER: relatorio.COMENTARIO,
       COMENTARIO_ADM: relatorio.COMENTARIO_ADM || "",
@@ -329,16 +330,16 @@ relationship11Controller.fichaReports = async (req, res) => {
 //Updadte atraves da ficha tecnicas de relatorios
 relationship11Controller.updateRelatorioADM = async (req, res) => {
   try {
-    const { ID_RELATORIO, NOTA_ADM, COMENTARIO_ADM } = req.body;
+    const { ID_RELATORIO, NOTA_ADM, COMENTARIO_ADM, NOTA } = req.body;
 
     if (!ID_RELATORIO) {
       return res.status(400).json({ error: "ID do relatório não fornecido." });
     }
 
-    // Atualizar o relatório com o novo STATUS e COMENTARIO_ADM
+    // Atualizar o relatório com o novo STATUS, COMENTARIO_ADM e NOTA
     const relatorioAtualizado = await Relatorio.findOneAndUpdate(
       { ID_RELATORIO },
-      { STATUS: "Avaliado_ADM", COMENTARIO_ADM },
+      { STATUS: "Avaliado_ADM", COMENTARIO_ADM, NOTA },
       { new: true }
     );
 
@@ -398,6 +399,7 @@ relationship11Controller.cardsPlayersPendents = async (req, res) => {
           IDADE: new Date().getFullYear() - new Date(jogador.DATA_NASC).getFullYear(),
           ANO_NASCIMENTO: new Date(jogador.DATA_NASC).getFullYear(),
           NACIONALIDADE: jogador.NACIONALIDADE,
+          STATUS: jogador.STATUS,
           NOME_EQUIPA: nomeEquipa,
           ABREVIATURA_CLUBE: abreviaturaClube,
         };

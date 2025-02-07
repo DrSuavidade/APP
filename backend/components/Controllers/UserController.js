@@ -168,8 +168,8 @@ userController.login = async (req, res) => {
     }
 
     // Bloquear login para Scouter
-    if (user.ID_TIPO === 3) {
-      return res.status(403).json({ message: "Acesso negado. Scouters não podem fazer login na web." });
+    if (user.ID_TIPO === 1) {
+      return res.status(403).json({ message: "Acesso negado. Viewew não podem fazer login na APP." });
     }
 
     console.log("Login da app bem-sucedido. Gerando token...");
@@ -196,7 +196,7 @@ userController.login = async (req, res) => {
   }
 };
 
-
+/*
 userController.login = async (req, res) => {
   console.log("Iniciando processo de login...");
   const { EMAIL, PASSWORD } = req.body;
@@ -249,7 +249,7 @@ userController.login = async (req, res) => {
     console.error('Erro no processo de login:', error);
     return res.status(500).json({ message: 'Erro no servidor.' });
   }
-};
+};*/
 
 userController.recuperarSenha = async (req, res) => {
   const { EMAIL } = req.body;

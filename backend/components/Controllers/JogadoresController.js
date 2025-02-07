@@ -343,6 +343,48 @@ jogadoresController.getJogadorDetails = async (req, res) => {
   }
 };
 
+jogadoresController.listPlayersWithoutTeamByYear = async (req, res) => {
+  try {
+      console.log(`📌 Buscando anos disponíveis para jogadores sem equipe`);
+
+      // Buscar todos os jogadores com equipe atribuída na tabela Relationship11
+      const jogadoresComEquipa = await Relationship11.find({}, { ID_JOGADORES: 1 });
+
+      // Extrair os IDs dos jogadores com equipe
+      const idsComEquipa = jogadoresComEquipa.map(rel => rel.ID_JOGADORES);
+
+      console.log(`🔎 IDs de jogadores já atribuídos a equipas:`, idsComEquipa);
+
+      // Buscar todos os jogadores na tabela Jogadores
+      const todosJogadores = await Jogadores.find({});
+      console.log(`📌 Jogadores encontrados:`, todosJogadores);
+
+      // Filtrar jogadores que NÃO estão na lista de jogadores com equipe
+      const jogadoresSemEquipa = todosJogadores.filter(player => {
+          // Obter o ano de nascimento a partir de DATA_NASC
+          const anoNascimento = new Date(player.DATA_NASC).getFullYear();
+          return !idsComEquipa.includes(player.ID_JOGADORES);
+      });
+
+      // Extrair os anos únicos dos jogadores sem equipe
+      const anosDisponiveis = [...new Set(jogadoresSemEquipa.map(player => new Date(player.DATA_NASC).getFullYear()))];
+
+      console.log(`📌 Anos disponíveis:`, anosDisponiveis);
+
+      // Se não houver anos disponíveis
+      if (!anosDisponiveis.length) {
+          return res.status(404).json({ message: "Nenhum jogador sem equipe encontrado." });
+      }
+
+      // Retornar a lista de anos
+      res.status(200).json(anosDisponiveis);
+  } catch (error) {
+      console.error('❌ Erro ao buscar anos de jogadores sem equipe:', error);
+      res.status(500).json({ message: 'Erro ao buscar anos de jogadores sem equipe.' });
+  }
+};
+
+
 
 
 

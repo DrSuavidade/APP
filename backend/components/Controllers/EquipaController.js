@@ -114,6 +114,35 @@ equipaController.listTeamsByClub = async (req, res) => {
   }
 };
 
+// Delete a team and its associated players in Relationship_11
+// Delete a team and its associated players in Relationship_11
+equipaController.deleteEquipaAndRemovePlayers = async (req, res) => {
+  const { ID_EQUIPA } = req.params;
+  console.log(`Deletando equipa com ID: ${ID_EQUIPA}`);  // Verifique se o ID está sendo capturado corretamente
+
+  try {
+    // Remover as relações na Relationship_11
+    const deletedRelations = await Relationship11.deleteMany({ ID_EQUIPA });
+
+    // Remover a equipa
+    const deletedEquipa = await Equipa.findOneAndDelete({ ID_EQUIPA });
+
+    if (!deletedEquipa) {
+      return res.status(404).json({ message: 'Equipa não encontrada' });
+    }
+
+    res.status(200).json({
+      message: 'Equipa e suas relações de jogadores deletadas com sucesso!',
+      equipa: deletedEquipa,
+      relationsDeleted: deletedRelations.deletedCount
+    });
+  } catch (error) {
+    console.error('Erro ao deletar equipa e relações:', error);
+    res.status(500).json({ error: 'Erro ao deletar equipa e relações' });
+  }
+};
+
+
 
 
 module.exports = equipaController;

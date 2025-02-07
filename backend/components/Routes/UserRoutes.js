@@ -13,7 +13,7 @@ const equipaSombraController = require('../Controllers/EquipaSombraController');
 const relacaoSombraController = require('../Controllers/RelacaoSombraController');
 const relationship11Controller = require('../Controllers/Relationship_11Controller');
 const relationship12Controller = require('../Controllers/Relationship_12Controller');
-const { autenticarJWT, verificarAdmin } = require('../Middleware/authMiddleware')
+const { autenticarJWT, verificarViewer } = require('../Middleware/authMiddleware')
 const multer = require("multer");
 
 const upload = multer(); // Configura o multer para processar multipart/form-data
@@ -32,13 +32,15 @@ router.delete('/users/delete-multiple', userController.deleteMultipleUsers);
 router.get('/users/tipo/3', userController.getUserByTipo);
 
 // Clube Routes
-router.post('/clube/add', autenticarJWT, verificarAdmin, clubeController.addClube);  // Add club
+router.post('/clube/add', autenticarJWT, verificarViewer, clubeController.addClube);  // Add club
 router.get('/clube/list', clubeController.listClube); // List clubs
 router.put('/clube/edit/:ID_CLUBE', clubeController.editClube); // Edit club
 router.delete('/clube/delete/:ID_CLUBE', clubeController.deleteClube); // Delete club
 router.get("/clubes/com-equipas", clubeController.listClubesWithTeams); // list club with team
 router.delete("/clubes/delete-multiple", clubeController.deleteSelectedClubes); // Delete a todos os selecionados
 router.get("/clube/:ID_CLUBE", clubeController.getClubeById);
+// Adiciona a nova rota para deletar o clube e suas equipas
+router.delete('/clube/delete-all/:ID_CLUBE', clubeController.deleteClubeAndRemoveTeams);
 
 // Equipa Routes
 router.post('/equipa/add', equipaController.addEquipa); // Add team
@@ -46,6 +48,7 @@ router.get('/equipa/list', equipaController.listEquipa); // List teams
 router.put('/equipa/edit/:ID_EQUIPA', equipaController.editEquipa); // Edit team
 router.delete('/equipa/delete/:ID_EQUIPA', equipaController.deleteEquipa); // Delete team
 router.get("/equipas/:ID_CLUBE", equipaController.listTeamsByClub); // Listar equipa by club
+router.delete('/equipa/delete-all/:ID_EQUIPA', equipaController.deleteEquipaAndRemovePlayers);
 
 
 // Eventos Routes
@@ -74,7 +77,7 @@ router.delete('/jogador/delete/:ID_JOGADORES', jogadoresController.deleteJogador
 router.get('/jogador/equipa/:idEquipa', jogadoresController.listJogadoresByEquipa);
 router.get('/jogador/ano/:year', jogadoresController.listJogadoresByAge);
 router.get('/jogador/details/:ID_JOGADORES', jogadoresController.getJogadorDetails);
-
+router.get('/jogador/semEquipa/ano', jogadoresController.listPlayersWithoutTeamByYear);
 
 
 // Posicao Routes
