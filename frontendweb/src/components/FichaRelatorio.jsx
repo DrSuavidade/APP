@@ -29,8 +29,14 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
           setID_JOGADORES(data.ID_JOGADORES);
 
           // Calcular a média dos campos de avaliação
-          const media = Math.round((data.TECNICA + data.VELOCIDADE + data.COMPETITIVA + data.INTELIGENCIA) / 4);
-          setRelatorio(prev => ({ ...prev, NOTA: media }));
+          const media = Math.round(
+            (data.TECNICA +
+              data.VELOCIDADE +
+              data.COMPETITIVA +
+              data.INTELIGENCIA) /
+              4
+          );
+          setRelatorio((prev) => ({ ...prev, NOTA: media }));
         })
         .catch((error) => {
           console.error("Erro ao buscar relatório:", error);
@@ -58,7 +64,9 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
 
   const getAttributeCircles = (valor) => {
     return [...Array(4)].map((_, index) => (
-      <span key={index} className={index < valor ? "circle filled" : "circle"}>●</span>
+      <span key={index} className={index < valor ? "circle filled" : "circle"}>
+        ●
+      </span>
     ));
   };
 
@@ -69,7 +77,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
         NOTA_ADM: notaADM,
         COMENTARIO_ADM: comentarioADM,
         STATUS: novoStatus,
-        NOTA: relatorio.NOTA // Incluindo a nota do relatório
+        NOTA: relatorio.NOTA, // Incluindo a nota do relatório
       })
       .then((response) => {
         console.log("✅ Relatório atualizado:", response.data);
@@ -77,7 +85,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
           title: "Sucesso!",
           text: `O relatório foi atualizado para ${novoStatus}.`,
           icon: "success",
-          confirmButtonText: "OK"
+          confirmButtonText: "OK",
         }).then(() => {
           window.location.href = "/reports";
         });
@@ -88,7 +96,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
           title: "Erro!",
           text: "Houve um erro ao atualizar o relatório.",
           icon: "error",
-          confirmButtonText: "OK"
+          confirmButtonText: "OK",
         });
       });
   };
@@ -102,7 +110,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Sim, rejeitar",
-      cancelButtonText: "Cancelar"
+      cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
         handleUpdate("Rejeitado");
@@ -128,33 +136,53 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
         <div className="avatar-placeholder"></div>
         <div className="player-details">
           <h3>{relatorio.JOGADOR_NOME}</h3>
-          <p>{relatorio.IDADE} anos • {relatorio.ANO_NASCIMENTO}</p>
-          <p>{relatorio.NOME_EQUIPA} ({relatorio.ABREVIATURA_CLUBE})</p>
+          <p>
+            {relatorio.IDADE} anos • {relatorio.ANO_NASCIMENTO}
+          </p>
+          <p>
+            {relatorio.NOME_EQUIPA} ({relatorio.ABREVIATURA_CLUBE})
+          </p>
         </div>
         <div className="nota-container">
-          <div
-            className={`triangle-up ${status === "Avaliado" ? (relatorio.NOTA === 4 ? "disabled" : "visible") : "hidden"}`}
-            onClick={() => status === "Avaliado" && relatorio.NOTA < 4 && handleNotaChange(1)}
-          ></div>
+          {status === "Avaliado" && (
+            <div
+              className={`triangle-up ${
+                relatorio.NOTA === 4 ? "disabled" : "visible"
+              }`}
+              onClick={() => relatorio.NOTA < 4 && handleNotaChange(1)}
+            ></div>
+          )}
 
-          <div className={`nota-circle ${relatorio.NOTA <= 2 ? "nota-baixa" : "nota-alta"}`}>
+          <div
+            className={`nota-circle ${
+              relatorio.NOTA <= 2 ? "nota-baixa" : "nota-alta"
+            }`}
+          >
             {relatorio.NOTA}/4
           </div>
 
-          <div
-            className={`triangle-down ${status === "Avaliado" ? (relatorio.NOTA === 0 ? "disabled" : "visible") : "hidden"}`}
-            onClick={() => status === "Avaliado" && relatorio.NOTA > 0 && handleNotaChange(-1)}
-          ></div>
+          {status === "Avaliado" && (
+            <div
+              className={`triangle-down ${
+                relatorio.NOTA === 0 ? "disabled" : "visible"
+              }`}
+              onClick={() => relatorio.NOTA > 0 && handleNotaChange(-1)}
+            ></div>
+          )}
         </div>
       </div>
 
       <div className="attributes">
-        {["TECNICA", "VELOCIDADE", "COMPETITIVA", "INTELIGENCIA"].map((attr) => (
-          <div className="attribute-circle" key={attr}>
-            <h4>{attr}</h4>
-            <div className="circle-group">{getAttributeCircles(relatorio[attr])}</div>
-          </div>
-        ))}
+        {["TECNICA", "VELOCIDADE", "COMPETITIVA", "INTELIGENCIA"].map(
+          (attr) => (
+            <div className="attribute-circle" key={attr}>
+              <h4>{attr}</h4>
+              <div className="circle-group">
+                {getAttributeCircles(relatorio[attr])}
+              </div>
+            </div>
+          )
+        )}
       </div>
 
       <h4>ALTURA: {relatorio.ALTURA}</h4>
@@ -177,15 +205,23 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
 
       {status === "Avaliado" && userType !== "1" && (
         <div className="buttons">
-          <button className="reject-btn" onClick={handleReject}>Rejeitar</button>
-          <button className="confirm-btn" onClick={() => handleUpdate("Avaliado_ADM")}>
+          <button className="reject-btn" onClick={handleReject}>
+            Rejeitar
+          </button>
+          <button
+            className="confirm-btn"
+            onClick={() => handleUpdate("Avaliado_ADM")}
+          >
             Confirmar
           </button>
         </div>
       )}
 
       <div className="history-button">
-        <button className="icon-btn" onClick={() => navigate(`/reports/history/${ID_JOGADORES}`)}>
+        <button
+          className="icon-btn"
+          onClick={() => navigate(`/reports/history/${ID_JOGADORES}`)}
+        >
           <FontAwesomeIcon icon={faHistory} />
         </button>
       </div>

@@ -298,7 +298,7 @@
 
 /* Estilo específico para os cartões de eventos */
 .recent-events-container {
-  width: 260px;
+  width: 360px;
   margin: 20px auto;
   padding: 20px;
   color: white;
@@ -327,28 +327,31 @@
   display: flex;
   flex-direction: column;
   background-color: #218838;
-  width: 200px;
-  margin-bottom: 2px;
+  width: 300px;
+  height: 120px;
+  margin-bottom: 1px;
+  border-radius: 5%;
+  padding: 2%;
 }
 
 .recent-events-container .event-scout {
-  font-size: 0.9em;
+  font-size: 0.7em;
   color: #e0e0e0; /* Cor clara para o texto do scout */
 }
 
 .recent-events-container .event-date-time {
-  font-size: 1em;
+  font-size: 0.8em;
   font-weight: bold;
   color: #fff; /* Cor branca para a data e hora */
 }
 
 .recent-events-container .event-teams {
-  font-size: 1.1em;
+  font-size: 1.0em;
   color: #fff; /* Cor branca para as equipes */
 }
 
 .recent-events-container .event-location {
-  font-size: 0.9em;
+  font-size: 0.7em;
   color: #e0e0e0; /* Cor clara para o local */
 }
 

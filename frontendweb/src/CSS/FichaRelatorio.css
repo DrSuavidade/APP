@@ -100,7 +100,7 @@
   align-items: center;
   justify-content: center;
   position: relative; /* Permite mover o botão */
-  top: -10px; /* Move o botão ligeiramente para cima */
+  right: 150px;
 }
 
 .reject-btn {
