@@ -5,8 +5,8 @@
   padding: 10px;
   border-radius: 10px;
   color: white;
-  max-height: 65vh;
-  overflow-y: auto;
+  max-height: 65vh; /* Ajusta conforme necessário */
+  overflow: hidden; /* Remove a scrollbar externa */
 }
   
   /* Barra de pesquisa */
@@ -415,17 +415,6 @@
   background-color: #000000;
 }
 
-/* Container da lista de relatórios */
-.list-relatorios-container {
-  max-height: 70vh; /* Altura máxima */
-  overflow-y: auto; /* Scrollbar vertical */
-  padding: 10px; /* Espaçamento interno */
-  border: 1px solid #444; /* Borda escura */
-  border-radius: 8px; /* Bordas arredondadas */
-  background-color: #1c1c1c; /* Fundo escuro */
-  color: white; /* Cor do texto */
-}
-
 /* Personalização da scrollbar */
 .list-relatorios-container::-webkit-scrollbar {
   width: 8px;
@@ -443,17 +432,6 @@
 
 .list-relatorios-container::-webkit-scrollbar-thumb:hover {
   background: #777;
-}
-
-/* Container da lista de relatórios */
-.list-relatorios-container {
-  max-height: 70vh; /* Altura máxima */
-  overflow-y: auto; /* Scrollbar vertical */
-  padding: 10px; /* Espaçamento interno */
-  border: 1px solid #444; /* Borda escura */
-  border-radius: 8px; /* Bordas arredondadas */
-  background-color: #1c1c1c; /* Fundo escuro */
-  color: white; /* Cor do texto */
 }
 
 /* Cabeçalho fixo */
@@ -722,3 +700,58 @@
   color: white;
 }
 
+.lista-eventos-scroll-container::-webkit-scrollbar {
+  display: none; /* Oculta a scrollbar no Chrome, Safari e Edge */
+}
+
+.lista-eventos-scroll-container {
+  max-height: 55vh; /* Ajusta conforme necessário */
+  overflow-y: auto;
+  position: relative;
+}
+
+.lista-eventos-table thead {
+  position: sticky;
+  top: 0;
+  background-color: #1c1c1c; /* Cor de fundo igual à da tabela */
+  z-index: 10; /* Mantém acima do conteúdo */
+}
+
+.lista-eventos-scroll-container {
+  max-height: 55vh; /* Ajusta conforme necessário */
+  overflow-y: auto; /* Ativa a rolagem apenas dentro da tabela */
+}
+
+.lista-eventos-scroll-container::-webkit-scrollbar {
+  display: block; /* Garante que a scrollbar interna apareça */
+}
+
+.lista-eventos-table thead {
+  position: sticky;
+  top: 0;
+  background-color: #1c1c1c; /* Mantém o cabeçalho fixo */
+  z-index: 10;
+}
+
+.players-page-container .list-players-container {
+  margin-top: 20px; /* Ajuste conforme necessário */
+}
+
+.players-page-container .lista-eventos-scroll-container {
+  max-height: 400px; /* Define a altura máxima da tabela */
+  overflow-y: auto; /* Adiciona a barra de rolagem vertical */
+}
+
+/* Estilizando a scrollbar */
+.players-page-container .lista-eventos-scroll-container::-webkit-scrollbar {
+  width: 8px; /* Define a largura da scrollbar */
+}
+
+.players-page-container .lista-eventos-scroll-container::-webkit-scrollbar-thumb {
+  background: #555; /* Cor da scrollbar */
+  border-radius: 4px;
+}
+
+.players-page-container .lista-eventos-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #777; /* Cor mais clara ao passar o mouse */
+}

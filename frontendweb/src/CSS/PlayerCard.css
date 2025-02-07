@@ -236,3 +236,7 @@ body {
   height: 30px;
   font-size: 12px;
 }
+
+.players-page-container .report-section {
+  margin-top: 80px; /* Ajuste conforme necessário */
+}

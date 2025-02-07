@@ -4,8 +4,8 @@
   padding: 20px;
   border-radius: 10px;
   width: 350px; /* Largura fixa */
-  height: 700px; /* Aumenta a altura */
-  min-height: 110%; /* Garante que nunca fique menor que isso */
+  height: 750px; /* Aumenta a altura */
+  min-height: 120%; /* Garante que nunca fique menor que isso */
   transition: all 0.3s ease-in-out; /* Suaviza o ajuste */
 }
 
@@ -343,3 +343,8 @@
 .nota-controls button:hover {
   background-color: #434343;
 }
+
+.players-page-container .ficha-relatorio-container {
+  margin-top: 100px; /* Ajuste conforme necessário */
+}
+
