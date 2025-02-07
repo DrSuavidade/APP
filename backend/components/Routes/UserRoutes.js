@@ -13,7 +13,7 @@ const equipaSombraController = require('../Controllers/EquipaSombraController');
 const relacaoSombraController = require('../Controllers/RelacaoSombraController');
 const relationship11Controller = require('../Controllers/Relationship_11Controller');
 const relationship12Controller = require('../Controllers/Relationship_12Controller');
-const { autenticarJWT, verificarAdmin } = require('../Middleware/authMiddleware')
+const { autenticarJWT, verificarViewer } = require('../Middleware/authMiddleware')
 const multer = require("multer");
 
 const upload = multer(); // Configura o multer para processar multipart/form-data
@@ -32,7 +32,7 @@ router.delete('/users/delete-multiple', userController.deleteMultipleUsers);
 router.get('/users/tipo/3', userController.getUserByTipo);
 
 // Clube Routes
-router.post('/clube/add', autenticarJWT, verificarAdmin, clubeController.addClube);  // Add club
+router.post('/clube/add', autenticarJWT, verificarViewer, clubeController.addClube);  // Add club
 router.get('/clube/list', clubeController.listClube); // List clubs
 router.put('/clube/edit/:ID_CLUBE', clubeController.editClube); // Edit club
 router.delete('/clube/delete/:ID_CLUBE', clubeController.deleteClube); // Delete club

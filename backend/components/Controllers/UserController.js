@@ -196,7 +196,7 @@ userController.login = async (req, res) => {
   }
 };
 
-
+/*
 userController.login = async (req, res) => {
   console.log("Iniciando processo de login...");
   const { EMAIL, PASSWORD } = req.body;
@@ -249,7 +249,7 @@ userController.login = async (req, res) => {
     console.error('Erro no processo de login:', error);
     return res.status(500).json({ message: 'Erro no servidor.' });
   }
-};
+};*/
 
 userController.recuperarSenha = async (req, res) => {
   const { EMAIL } = req.body;

@@ -26,6 +26,7 @@ const LoginPage = () => {
       Cookies.set("token", response.data.token, { expires: 1 });
       Cookies.set("ID_USER", response.data.USER.ID_USER, { expires: 1 });
       Cookies.set("USER_NAME", response.data.USER.NOME, { expires: 1 });
+      Cookies.set("ID_TIPO", response.data.USER.ID_TIPO, { expires: 1 });
   
       navigate("/home");
     } catch (error) {
