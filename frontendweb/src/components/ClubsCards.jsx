@@ -53,8 +53,8 @@ const ClubsCards = ({ ID_USER, setSelectedClub, toggleFavorite }) => {
   return (
     <section className="clubes-cards-row">
       <div className="club-cards-container">
-        {teams.length === 0 && <p style={{ color: "red" }}>Nenhum clube encontrado.</p>} {/* DEBUG VISUAL */}
-        {teams.map((team, index) => (
+      {teams.length === 0 && <p className="no-clubs-message">Nenhum clube encontrado.</p>}
+      {teams.map((team, index) => (
           <div key={index} className="club-card" onClick={() => setSelectedClub(team)}>
             <h4>{team.nome || "Nome não encontrado"}</h4> {/* Exibe nome corretamente */}
             <p>{team.abreviatura || "Sem abreviação"}</p> {/* Exibe a abreviação corretamente */}
