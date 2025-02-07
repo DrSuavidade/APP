@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { FaCog } from 'react-icons/fa'; // Importe o ícone de roldana
 import Swal from 'sweetalert2'; // Para exibir alertas
+import Cookies from "js-cookie"; // Importar a biblioteca js-cookie
 
 const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
     const location = useLocation();
@@ -13,11 +14,12 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
     const [selectedEquipa,] = useState(idEquipa || ""); // Define a equipa automaticamente
     const [registeredPlayers, setRegisteredPlayers] = useState([]);
     const [selectedPlayers, setSelectedPlayers] = useState([]);
+    const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
 
     // Lista de escalões disponíveis
-    const escaloes = ["Sub-7", "Sub-9", "Sub-11", "Sub-13", "Sub-15", "Sub-17", "Sub-19", "Sénior"];
+    const escaloes = ["Sub-10", "Sub-11", "Sub-13", "Sub-15", "Sub-17", "Sub-19", "Profissional"];
 
-    // 🔹 Buscar informações do clube
+    // Buscar informações do clube
     useEffect(() => {
         if (!idClube) return;
 
@@ -32,9 +34,12 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
         };
 
         fetchClubInfo();
+
+        const ID_TIPO = Cookies.get("ID_TIPO");
+        setUserType(ID_TIPO);
     }, [idClube]);
 
-    // 🔹 Buscar equipas do clube
+    // Buscar equipas do clube
     useEffect(() => {
         if (!idClube) return;
 
@@ -55,7 +60,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
         fetchTeams();
     }, [idClube, idEquipa]);
 
-    // 🔹 Buscar jogadores da equipa selecionada
+    // Buscar jogadores da equipa selecionada
     const fetchPlayers = async (idEquipa) => {
         if (!idEquipa) return;
 
@@ -67,7 +72,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
         }
     };
 
-    // 🔹 Adicionar jogadores manualmente à equipa
+    // Adicionar jogadores manualmente à equipa
     useEffect(() => {
         if (addedPlayers && addedPlayers.length > 0) {
             setRegisteredPlayers(prevPlayers => {
@@ -84,7 +89,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
         }
     }, [addedPlayers]);
 
-    // 🔹 Selecionar ou desselecionar jogadores
+    // Selecionar ou desselecionar jogadores
     const handlePlayerClick = (player) => {
         setSelectedPlayers((prev) =>
             prev.includes(player)
@@ -93,7 +98,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
         );
     };
 
-    // 🔹 Remover jogadores selecionados
+    // Remover jogadores selecionados
     const handleRemovePlayers = async () => {
         try {
             const playersIds = selectedPlayers.map((player) => player.ID_JOGADORES);
@@ -112,7 +117,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
         }
     };
 
-    // 🔹 Função para editar a equipa
+    // Função para editar a equipa
     const handleEditEquipa = () => {
         const equipaAtual = equipas.find(equipa => equipa.ID_EQUIPA === selectedEquipa);
 
@@ -153,7 +158,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
             <h2 className="club-name">{clube.NOME || "Nome Indisponível"}</h2>
             <p className="club-abbreviation">{clube.ABREVIATURA || ""}</p>
 
-            {/* 🔹 Exibição da equipa única com ícone de edição */}
+            {/* Exibição da equipa única com ícone de edição */}
             <div className="team-info">
                 <div>
                     <p className="team-name">
@@ -163,7 +168,9 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
                         {equipas.find(equipa => equipa.ID_EQUIPA === selectedEquipa)?.ESCALAO || "Escalão não definido"}
                     </p>
                 </div>
-                <FaCog className="icon cog" onClick={handleEditEquipa} />
+                {userType !== "1" && (
+                    <FaCog className="icon cog" onClick={handleEditEquipa} />
+                )}
             </div>
 
             <p className="player-count">Jogadores: {registeredPlayers.length}</p>
@@ -187,7 +194,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
                 )}
             </div>
 
-            {selectedPlayers.length > 0 && (
+            {selectedPlayers.length > 0 && userType !== "1" && (
                 <button className="remove-button" onClick={handleRemovePlayers}>
                     Remover Jogadores ({selectedPlayers.length})
                 </button>

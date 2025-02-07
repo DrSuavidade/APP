@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { FaTrash, FaTimes, FaCog } from 'react-icons/fa'; // Importe os ícones necessários
 import Swal from 'sweetalert2'; // Para exibir alertas
 import axios from "axios"; // Para fazer chamadas à API
+import Cookies from "js-cookie"; // Importar a biblioteca js-cookie
 
 const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
   const [teams, setTeams] = useState([]);
   const [showCheckboxes, setShowCheckboxes] = useState(false); // Controla a exibição dos checkboxes
   const [selectedTeams, setSelectedTeams] = useState([]); // Armazena as equipas selecionadas
+  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +26,9 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
     };
 
     fetchTeams();
+
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    setUserType(ID_TIPO);
   }, [selectedClub]);
 
   const handleCreateTeam = () => {
@@ -80,12 +85,12 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
       setShowCheckboxes(true);
       return;
     }
-  
+
     if (selectedTeams.length === 0) {
       Swal.fire("Erro", "Selecione pelo menos uma equipa para excluir.", "error");
       return;
     }
-  
+
     Swal.fire({
       title: "Tem certeza?",
       text: "As equipas selecionadas serão excluídas permanentemente, incluindo suas relações com os jogadores!",
@@ -102,12 +107,12 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
             // Alteração aqui: chamando a rota que remove a relação dos jogadores também
             await axios.delete(`http://localhost:3000/api/equipa/delete-all/${teamId}`);
           }
-  
+
           // Filtra as equipas deletadas da lista local
           setTeams(teams.filter((team) => !selectedTeams.includes(team.ID_EQUIPA)));
           setSelectedTeams([]);
           setShowCheckboxes(false);
-  
+
           Swal.fire("Excluído!", "As equipas e suas relações de jogadores foram removidas com sucesso.", "success");
         } catch (error) {
           console.error('Erro ao deletar equipas:', error);
@@ -116,7 +121,6 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
       }
     });
   };
-  
 
   return (
     <div className={`right-menu ${selectedClub ? 'active' : ''}`}>
@@ -124,16 +128,20 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
         <div className="selected-club-info">
           <h3>{selectedClub.nome}</h3>
           <h4>{selectedClub.abreviatura}</h4>
-          <FaCog className="icon cog" onClick={handleEditClub} />
+          {userType !== "1" && (
+            <FaCog className="icon cog" onClick={handleEditClub} />
+          )}
         </div>
       )}
 
       <div className="team-details">
         <h3>Equipas</h3>
-        <div className="toolbar">
-          <FaTrash className="icon trash" onClick={handleDeleteTeams} />
-          {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
-        </div>
+        {userType !== "1" && (
+          <div className="toolbar">
+            <FaTrash className="icon trash" onClick={handleDeleteTeams} />
+            {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
+          </div>
+        )}
         <div id="team-details-container">
           {teams.length > 0 ? (
             teams.map((team, index) => (
@@ -169,7 +177,9 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
         </div>
       </div>
 
-      <button className="create-team" onClick={handleCreateTeam}>Criar Equipa</button>
+      {userType !== "1" && (
+        <button className="create-team" onClick={handleCreateTeam}>Criar Equipa</button>
+      )}
     </div>
   );
 };

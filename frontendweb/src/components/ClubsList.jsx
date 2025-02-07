@@ -13,14 +13,17 @@ const ClubsList = ({ setSelectedClub }) => {
   const [showCheckboxes, setShowCheckboxes] = useState(false);
   const [favoriteClubes, setFavoriteClubes] = useState([]);
   const [isFavoriteMode, setIsFavoriteMode] = useState(false);
+  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
   const navigate = useNavigate();
 
   const [userID, setUserID] = useState(null);
 
   useEffect(() => {
-    // Aguarda a leitura correta do cookie
     const storedID = Cookies.get("ID_USER");
     setUserID(storedID);
+
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    setUserType(ID_TIPO);
   }, []);
 
   useEffect(() => {
@@ -28,6 +31,9 @@ const ClubsList = ({ setSelectedClub }) => {
       try {
         const response = await axios.get("http://localhost:3000/api/clubes/com-equipas");
         setClubes(response.data);
+        if (response.data.length > 0) {
+          setSelectedClub(response.data[0]);
+        }
       } catch (error) {
         console.error("Erro ao buscar clubes:", error);
         setErro("Erro ao buscar clubes");
@@ -64,12 +70,12 @@ const ClubsList = ({ setSelectedClub }) => {
       setShowCheckboxes(true);
       return;
     }
-  
+
     if (selectedClubes.length === 0) {
       Swal.fire("Erro", "Selecione pelo menos um clube para excluir.", "error");
       return;
     }
-  
+
     Swal.fire({
       title: "Tem certeza?",
       text: "Os clubes selecionados serão excluídos permanentemente, incluindo as suas equipas e relações!",
@@ -86,12 +92,12 @@ const ClubsList = ({ setSelectedClub }) => {
             // Chama a API para excluir o clube, as equipas e as relações
             await axios.delete(`http://localhost:3000/api/clube/delete-all/${clubeId}`);
           }
-  
+
           // Atualiza a lista de clubes removendo os clubes excluídos
           setClubes(clubes.filter((clube) => !selectedClubes.includes(clube.id_clube)));
           setSelectedClubes([]);
           setShowCheckboxes(false);
-  
+
           Swal.fire("Excluído!", "Os clubes e suas equipas foram removidos com sucesso.", "success");
         } catch (error) {
           console.error('Erro ao deletar clubes:', error);
@@ -100,7 +106,6 @@ const ClubsList = ({ setSelectedClub }) => {
       }
     });
   };
-  
 
   const handleCancelSelection = () => {
     setSelectedClubes([]);
@@ -149,16 +154,18 @@ const ClubsList = ({ setSelectedClub }) => {
         />
       </div>
 
-      <div className="toolbar">
-        <button className="favorite-button" onClick={toggleFavoriteMode}>
-          {isFavoriteMode ? "✅ Favoritos" : "Favoritos"}
-        </button>
-        <div className="icons-container">
-          <FaTrash className="icon trash" onClick={handleDelete} />
-          <FaPlus className="icon add" onClick={() => navigate('/team/add-club')} />
-          {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
+      {userType !== "1" && (
+        <div className="toolbar">
+          <button className="favorite-button" onClick={toggleFavoriteMode}>
+            {isFavoriteMode ? "✅ Favoritos" : "Favoritos"}
+          </button>
+          <div className="icons-container">
+            <FaTrash className="icon trash" onClick={handleDelete} />
+            <FaPlus className="icon add" onClick={() => navigate('/team/add-club')} />
+            {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="team-header">
         <span>{showCheckboxes ? <input type="checkbox" disabled /> : "ID Clube"}</span>
