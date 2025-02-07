@@ -169,7 +169,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
                     </p>
                 </div>
                 {userType !== "1" && (
-                    <FaCog className="icon cog" onClick={handleEditEquipa} />
+                    <FaCog className="icon-cog" onClick={handleEditEquipa} />
                 )}
             </div>
 
@@ -185,8 +185,11 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
                         >
                             <span className="player-name">{player.NOME}</span>
                             <span className="player-stars">
-                                {`★`.repeat(player.NOTA_ADM || 0) + `☆`.repeat(5 - (player.NOTA_ADM || 0))}
-                            </span>
+  {`★`.repeat(player.NOTA_ADM || 0)}
+  <span className="empty-star">
+    {`★`.repeat(5 - (player.NOTA_ADM || 0))}
+  </span>
+</span>
                         </div>
                     ))
                 ) : (

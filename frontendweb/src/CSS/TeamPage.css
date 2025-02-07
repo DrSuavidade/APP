@@ -45,6 +45,12 @@ body {
     cursor: pointer;
 }
 
+.icon-cog {
+    position: relative;
+    left: 150px;
+    bottom: 110px;
+}
+
 .select-all-button.deselected {
     background-color: #D9534F;
     /* Vermelho para indicar desseleção */
@@ -62,6 +68,7 @@ body {
     max-width: 1400px;
     width: 100%;
     margin: 0 auto;
+    padding-top: 60px;
 }
 
 .team-page {
@@ -303,7 +310,16 @@ body {
     flex-shrink: 0;
     /* Garante que as estrelas não diminuam */
 }
-
+  
+  .player-stars .empty-star {
+    color: gray; /* Color for unfilled stars */
+    font-size: 18px;
+    text-align: right;
+    min-width: 60px;
+    /* Mantém um espaço fixo para as estrelas */
+    flex-shrink: 0;
+    /* Garante que as estrelas não diminuam */
+  }
 
 
 

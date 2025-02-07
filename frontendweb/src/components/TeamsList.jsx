@@ -126,7 +126,7 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
           <h3>{selectedClub.nome}</h3>
           <h4>{selectedClub.abreviatura}</h4>
           {userType !== "1" && (
-            <FaCog className="icon cog" onClick={handleEditClub} />
+            <FaCog className="icon-cog2" onClick={handleEditClub} />
           )}
         </div>
       )}

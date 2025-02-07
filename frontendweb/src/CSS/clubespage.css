@@ -90,6 +90,12 @@ body {
   font-size: 14px; /* Reduzir o tamanho da fonte */
 }
 
+.icon-cog2 {
+  position: relative;
+  left: 150px;
+  bottom: 60px;
+}
+
 .favorite-icon {
   position: absolute;
   bottom: 8px;
