@@ -86,6 +86,7 @@ body {
   align-items: center;
   justify-content: center;
   transition: 0.3s;
+  right: -285px;
   font-size: 14px; /* Reduzir o tamanho da fonte */
 }
 
