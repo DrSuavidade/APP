@@ -25,6 +25,10 @@ const ListaEventos2 = () => {
     window.dispatchEvent(new Event("storage")); // Força a atualização da página
   };
 
+  const handleConfirm = () => {
+    alert("Eventos confirmados com sucesso!"); // Pode ser alterado para uma ação real
+  };
+
   return (
     <div className="lista-eventos-container">
       <div className="lista-eventos-toolbar">
@@ -64,6 +68,11 @@ const ListaEventos2 = () => {
             ))}
         </tbody>
       </table>
+
+      {/* Botão Confirmar */}
+      <button className="confirm-button" onClick={handleConfirm}>
+        Confirmar
+      </button>
     </div>
   );
 };

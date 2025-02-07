@@ -1,0 +1,77 @@
+.jogadores-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.jogadores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    max-width: 800px;
+    justify-content: center;
+}
+
+.jogador-card {
+    background-color: #1e1e1e;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.jogador-card:hover {
+    transform: scale(1.05);
+}
+
+.jogador-card.selected {
+    background-color: #333;
+    border: 2px solid #4CAF50;
+}
+
+.jogador-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: url('../img/v219_657.png') no-repeat center;
+    background-size: contain;
+    margin-bottom: 10px;
+}
+
+.jogador-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nome {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.equipa {
+    color: #6ab04c;
+    font-size: 12px;
+}
+
+.confirmar-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.confirmar-btn:hover {
+    background-color: #45a049;
+}

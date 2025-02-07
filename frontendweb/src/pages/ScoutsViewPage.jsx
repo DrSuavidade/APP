@@ -6,19 +6,6 @@ import MiniRelatorios from "../components/MiniRelatorios";
 import ProximasPartidasByScouter from "../components/ProximasPartidasByScouter";
 import JogadoresDestacados from "../components/JogadoresDestacados";
 
-function SearchScouter() {
-    return (
-        <div className="search-scouter">
-            <input type="text" placeholder="Escreva o nome do clube ou da equipa" />
-            <button className="search-button">Pesquisar</button>
-            <label className="select-all">
-                <input type="checkbox" /> Selecionar Todos
-            </label>
-            <button className="add-button">Adicionar</button>
-        </div>
-    );
-}
-
 function ScoutsViewPage() {
     const [selectedScouter, setSelectedScouter] = useState(null);
     const navigate = useNavigate();
@@ -35,17 +22,10 @@ function ScoutsViewPage() {
         }
     };
 
-    const handleAddPlayer = () => {
-        if (selectedScouter) {
-            navigate("../players/add-to-event", { state: { selectedScouter } });
-        }
-    };
-
     return (
         <div className="main-container">
             <div className="content-container">
                 <div className="left-container">
-                    <SearchScouter />
                     <ScouterCard onSelectScouter={handleSelectScouter} />
                 </div>
 
@@ -60,15 +40,7 @@ function ScoutsViewPage() {
                         Atribuir Evento
                     </button>
                     {selectedScouter ? (
-                        <>
-                            <JogadoresDestacados ID_USER={selectedScouter?.ID_USER} />
-                            <button 
-                                className="add-player-button" 
-                                onClick={handleAddPlayer}
-                            >
-                                Adicionar Jogador
-                            </button>
-                        </>
+                        <JogadoresDestacados ID_USER={selectedScouter?.ID_USER} />
                     ) : (
                         <p>Selecione um Scouter para ver os detalhes.</p>
                     )}

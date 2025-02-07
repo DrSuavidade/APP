@@ -1,6 +1,7 @@
+/* Manter estilos originais do ScouterCard */
 .scouter-card {
     background-color: #1e1e1e;
-    color: #1e1e1e;
+    color: white;
     padding: 20px;
     border-radius: 12px;
     display: flex;
@@ -10,6 +11,11 @@
     height: 200px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.scouter-card:hover {
+    transform: scale(1.05);
 }
 
 .scouter-avatar {
@@ -34,11 +40,102 @@
 
 .role {
     color: #6ab04c;
-    /* Verde como na imagem */
     font-size: 12px;
 }
 
 .reviews {
     font-size: 12px;
-    color: #1e1e1e;
+    color: #ccc;
+}
+
+/* Adicionar estilos da ClubesPage.css APENAS para os novos elementos */
+.scouter-list-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    gap: 10px;
+}
+
+/* Barra de pesquisa e botões */
+.scouter-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color: #1e1e1e;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.scouter-search-container input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.scouter-buttons-container {
+    display: flex;
+    gap: 10px;
+}
+
+.scouter-icons-container .icon {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.scouter-icons-container .trash {
+    color: red;
+}
+
+.scouter-icons-container .trash:hover {
+    color: darkred;
+}
+
+.scouter-icons-container .add {
+    color: green;
+}
+
+.scouter-icons-container .add:hover {
+    color: limegreen;
+}
+
+.scouter-icons-container .cancel {
+    color: white;
+}
+
+.scouter-icons-container .cancel:hover {
+    color: gray;
+}
+
+/* Estilos para seleção de Scouters */
+.scouter-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 10px;
+    justify-content: center;
+}
+
+.scouter-card.selected {
+    background-color: #444;
+    border-left: 4px solid #4CAF50;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .scouter-card {
+        min-width: 120px;
+        height: 90px;
+    }
+}
+
+@media (max-width: 768px) {
+    .scouter-card {
+        min-width: 100px;
+        height: 80px;
+    }
 }
