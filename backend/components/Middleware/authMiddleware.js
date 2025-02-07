@@ -24,15 +24,15 @@ const autenticarJWT = (req, res, next) => {
     }
 };
 
-// Middleware para verificar se é Admin
-const verificarAdmin = (req, res, next) => {
-    if (!req.permissoes.isAdmin) {
-        return res.status(403).json({ message: "Acesso negado. Apenas administradores podem realizar esta ação." });
+// Middleware para verificar se é Viewer
+const verificarViewer = (req, res, next) => {
+    if (!req.permissoes.isViewer) {
+        return res.status(403).json({ message: "Acesso negado. Contas Viewer não têm permissão" });
     }
     next();
 };
 
 module.exports = {
     autenticarJWT,
-    verificarAdmin
+    verificarViewer
 };

@@ -399,6 +399,7 @@ relationship11Controller.cardsPlayersPendents = async (req, res) => {
           IDADE: new Date().getFullYear() - new Date(jogador.DATA_NASC).getFullYear(),
           ANO_NASCIMENTO: new Date(jogador.DATA_NASC).getFullYear(),
           NACIONALIDADE: jogador.NACIONALIDADE,
+          STATUS: jogador.STATUS,
           NOME_EQUIPA: nomeEquipa,
           ABREVIATURA_CLUBE: abreviaturaClube,
         };

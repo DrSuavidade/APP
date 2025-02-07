@@ -45,9 +45,13 @@ nav {
   }
   
   nav img {
-    height: 40px;
+    height: 60px; /* Increase size */
     width: auto;
-  }
+    position: relative;
+    top: 20px; /* Move it upwards */
+    z-index: 10; /* Ensure it's above the navbar */
+}
+
   
   nav ul li:not(:last-child) {
     border-right: 1px solid rgba(255, 255, 255, 0.2);

@@ -35,7 +35,11 @@ const CardPlayersPendents = ({ setSelectedPlayerId }) => {
         <p className="player-team">{player.ABREVIATURA_CLUBE} - {player.NOME_EQUIPA}</p>
       </div>
 
-      <div className="status-dot"></div> {/* Ponto de status mantido no canto superior direito */}
+      <div 
+  className="status-dot" 
+  data-tooltip={player.STATUS || "Sem status"}
+></div>
+ {/* Ponto de status mantido no canto superior direito */}
     </div>
   ))
 ) : (
