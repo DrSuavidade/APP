@@ -1,39 +1,37 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/Navbar.css";
 import Cookies from "js-cookie";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
 import Swal from "sweetalert2"; // Importa o SweetAlert
 
 const Navbar = () => {
+  const location = useLocation(); // Obtém a URL atual
   const [userName, setUserName] = useState("");
-  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
-  const [showDropdown, setShowDropdown] = useState(false); // Estado para controlar o dropdown
+  const [userType, setUserType] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Busca o ID, nome e tipo do usuário dos cookies
-    const storedName = Cookies.get("USER_NAME"); // Adicione o nome do usuário ao cookie no login
-    const storedType = Cookies.get("ID_TIPO"); // Adicione o ID_TIPO ao cookie no login
-    setUserName(storedName || "Usuário"); // Fallback para "Usuário" se o nome não estiver disponível
-    setUserType(storedType); // Definindo o tipo de usuário
+    const storedName = Cookies.get("USER_NAME");
+    const storedType = Cookies.get("ID_TIPO");
+    setUserName(storedName || "Usuário");
+    setUserType(storedType);
   }, []);
 
   const handleLogout = () => {
     Swal.fire({
-      title: 'Tem certeza que deseja sair?',
-      icon: 'warning',
+      title: "Tem certeza que deseja sair?",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: 'Sim, sair',
-      cancelButtonText: 'Cancelar'
+      confirmButtonText: "Sim, sair",
+      cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Limpa os cookies
         Cookies.remove("token");
         Cookies.remove("ID_USER");
         Cookies.remove("user");
         Cookies.remove("ID_TIPO");
-        // Redireciona para a página de login
         navigate("/login");
       }
     });
@@ -47,27 +45,25 @@ const Navbar = () => {
         </Link>
       </div>
       <ul className="flex space-x-6 text-white">
-        <li className="cursor-pointer hover:opacity-80">
+        <li className={location.pathname === "/team/shadow" ? "active" : ""}>
           <Link to="/team/shadow" className="nav-link">PLANTEL</Link>
         </li>
-        <li className="cursor-pointer hover:opacity-80">
+        <li className={location.pathname === "/players" ? "active" : ""}>
           <Link to="/players" className="nav-link">JOGADORES</Link>
         </li>
-        <li className="cursor-pointer hover:opacity-80">
+        <li className={location.pathname === "/clubs" ? "active" : ""}>
           <Link to="/clubs" className="nav-link">CLUBES</Link>
         </li>
-        {/* Esconde SCOUTERS se o ID_TIPO for 1 */}
         {userType !== "1" && (
-          <li className="cursor-pointer hover:opacity-80">
+          <li className={location.pathname === "/scouts" ? "active" : ""}>
             <Link to="/scouts" className="nav-link">SCOUTERS</Link>
           </li>
         )}
-        <li className="bg-gray-800 px-4 py-2 rounded">
+        <li className={location.pathname === "/events" ? "active" : ""}>
           <Link to="/events" className="nav-link">EVENTOS</Link>
         </li>
-        {/* Esconde RELATÓRIOS se o ID_TIPO for 1 */}
         {userType !== "1" && (
-          <li className="cursor-pointer hover:opacity-80">
+          <li className={location.pathname === "/reports" ? "active" : ""}>
             <Link to="/reports" className="nav-link">RELATÓRIOS</Link>
           </li>
         )}
