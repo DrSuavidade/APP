@@ -17,7 +17,7 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
       if (!selectedClub) return;
 
       try {
-        const response = await fetch(`http://localhost:3000/api/equipas/${selectedClub.id_clube}`);
+        const response = await fetch(`https://backendscout-cx6c.onrender.com/api/equipas/${selectedClub.id_clube}`);
         const data = await response.json();
         setTeams(data);
       } catch (error) {
@@ -52,7 +52,7 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         const { nome, abreviatura } = result.value;
-        axios.put(`http://localhost:3000/api/clube/edit/${selectedClub.id_clube}`, { NOME: nome, ABREVIATURA: abreviatura })
+        axios.put(`https://backendscout-cx6c.onrender.com/api/clube/edit/${selectedClub.id_clube}`, { NOME: nome, ABREVIATURA: abreviatura })
           .then(response => {
             Swal.fire('Sucesso!', 'Clube atualizado com sucesso.', 'success').then(() => {
               window.location.reload();
@@ -103,7 +103,7 @@ const TeamList = ({ selectedClub, favorites, toggleFavorite }) => {
       if (result.isConfirmed) {
         try {
           for (const teamId of selectedTeams) {
-            await axios.delete(`http://localhost:3000/api/equipa/delete-all/${teamId}`);
+            await axios.delete(`https://backendscout-cx6c.onrender.com/api/equipa/delete-all/${teamId}`);
           }
 
           setTeams(teams.filter((team) => !selectedTeams.includes(team.ID_EQUIPA)));

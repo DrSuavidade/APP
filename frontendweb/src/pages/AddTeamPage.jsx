@@ -27,7 +27,7 @@ const CreateTeamPage = () => {
     setMessage("");
 
     try {
-      const response = await axios.post("http://localhost:3000/api/equipa/add", {
+      const response = await axios.post("https://backendscout-cx6c.onrender.com/api/equipa/add", {
         NOME: nome,
         ESCALAO: escalao,
         ID_CLUBE: id_clube,

@@ -25,7 +25,7 @@ const ReportsPage = () => {
 
     const fetchRelatorios = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/relatorios-merged");
+        const response = await axios.get("https://backendscout-cx6c.onrender.com/api/relatorios-merged");
         if (response.data.length > 0) {
           setSelectedRelatorio(response.data[0].ID_RELATORIO);
         }

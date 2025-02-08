@@ -26,7 +26,7 @@ const ReportsHistory = () => {
 
     const fetchFirstRelatorio = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/player/reports/${ID_JOGADORES}`);
+        const response = await axios.get(`https://backendscout-cx6c.onrender.com/api/player/reports/${ID_JOGADORES}`);
         if (response.data.length > 0) {
           setSelectedRelatorio(response.data[0].ID_RELATORIO); // Pegando o primeiro relatório
         }

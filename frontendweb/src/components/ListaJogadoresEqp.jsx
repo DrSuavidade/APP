@@ -23,7 +23,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
 
         const fetchClubInfo = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/clube/${idClube}`);
+                const response = await axios.get(`https://backendscout-cx6c.onrender.com/api/clube/${idClube}`);
                 setClube(response.data);
             } catch (error) {
                 console.error("❌ Erro ao buscar informações do clube:", error);
@@ -42,7 +42,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
 
         const fetchTeams = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/equipas/${idClube}`);
+                const response = await axios.get(`https://backendscout-cx6c.onrender.com/api/equipas/${idClube}`);
                 setEquipas(response.data);
                 if (idEquipa) {
                     fetchPlayers(idEquipa);
@@ -60,7 +60,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
         if (!idEquipa) return;
 
         try {
-            const response = await axios.get(`http://localhost:3000/api/jogador/equipa/${idEquipa}`);
+            const response = await axios.get(`https://backendscout-cx6c.onrender.com/api/jogador/equipa/${idEquipa}`);
             setRegisteredPlayers(response.data || []);
         } catch (error) {
             console.error("❌ Erro ao buscar jogadores:", error);
@@ -77,7 +77,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
             });
 
             addedPlayers.forEach(player => {
-                axios.post("http://localhost:3000/api/jogadores", player)
+                axios.post("https://backendscout-cx6c.onrender.com/api/jogadores", player)
                     .catch(error => console.error("❌ Erro ao adicionar jogador:", error));
             });
         }
@@ -91,7 +91,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
         if (!selectedPlayer) return;
 
         try {
-            await axios.delete(`http://localhost:3000/api/relationship11/${selectedPlayer.ID_JOGADORES}`);
+            await axios.delete(`https://backendscout-cx6c.onrender.com/api/relationship11/${selectedPlayer.ID_JOGADORES}`);
 
             setRegisteredPlayers((prevPlayers) =>
                 prevPlayers.filter((p) => p.ID_JOGADORES !== selectedPlayer.ID_JOGADORES)
@@ -101,7 +101,6 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
             setSelectedPlayer(null);
 
             // Forçar recarregamento da página
-            window.location.href = window.location.href;
         } catch (error) {
             console.error("❌ Erro ao remover jogador da equipa:", error);
         }
@@ -127,7 +126,7 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 const { nome, escalao } = result.value;
-                axios.put(`http://localhost:3000/api/equipa/edit/${selectedEquipa}`, { NOME: nome, ESCALAO: escalao })
+                axios.put(`https://backendscout-cx6c.onrender.com/api/equipa/edit/${selectedEquipa}`, { NOME: nome, ESCALAO: escalao })
                     .then(response => {
                         Swal.fire('Sucesso!', 'Equipa atualizada com sucesso.', 'success').then(() => {
                             window.location.reload();

@@ -7,7 +7,7 @@ const EventCard = () => {
     const [evento, setEvento] = useState(null);
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/eventos/recentes")
+        axios.get("https://backendscout-cx6c.onrender.com/api/eventos/recentes")
             .then(response => setEvento(response.data[0]))
             .catch(error => console.error("Erro ao buscar evento:", error));
     }, []);

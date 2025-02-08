@@ -15,7 +15,7 @@ const ProximasPartidas = () => {
   useEffect(() => {
     const fetchProximasPartidas = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/eventos/escalao/${escalaoSelecionado}`);
+        const response = await axios.get(`https://backendscout-cx6c.onrender.com/api/eventos/escalao/${escalaoSelecionado}`);
         if (response.status === 200 && response.data.length > 0) {
           setEventos(response.data);
         } else {

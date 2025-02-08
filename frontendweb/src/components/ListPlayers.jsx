@@ -18,7 +18,7 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
     const fetchPlayers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/all-players"
+          "https://backendscout-cx6c.onrender.com/api/all-players"
         );
         console.log("📌 Jogadores recebidos:", response.data);
         setPlayers(response.data);
@@ -75,7 +75,7 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete("http://localhost:3000/api/players/delete", {
+          await axios.delete("https://backendscout-cx6c.onrender.com/api/players/delete", {
             data: { playersIds: selectedPlayers },
           });
 

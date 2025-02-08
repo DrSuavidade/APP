@@ -12,7 +12,7 @@ const RecentEvents = () => {
   useEffect(() => {
     const fetchRecentEvents = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/eventos/recentes');
+        const response = await fetch('https://backendscout-cx6c.onrender.com/api/eventos/recentes');
         const data = await response.json();
         setEvents(data);
       } catch (error) {

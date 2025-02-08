@@ -19,7 +19,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
   useEffect(() => {
     if (ID_RELATORIO) {
       axios
-        .get(`http://localhost:3000/api/relatorio/ficha/${ID_RELATORIO}`)
+        .get(`https://backendscout-cx6c.onrender.com/api/relatorio/ficha/${ID_RELATORIO}`)
         .then((response) => {
           const data = response.data;
           setRelatorio(data);
@@ -72,7 +72,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
 
   const handleUpdate = (novoStatus) => {
     axios
-      .put("http://localhost:3000/api/relatorio/update", {
+      .put("https://backendscout-cx6c.onrender.com/api/relatorio/update", {
         ID_RELATORIO,
         NOTA_ADM: notaADM,
         COMENTARIO_ADM: comentarioADM,

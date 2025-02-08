@@ -9,7 +9,7 @@ const DadosEvents = () => {
   useEffect(() => {
     const fetchEventos = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/evento/list");
+        const response = await axios.get("https://backendscout-cx6c.onrender.com/api/evento/list");
         setEventos(response.data);
       } catch (error) {
         console.error("Erro ao buscar eventos:", error);

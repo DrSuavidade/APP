@@ -14,7 +14,7 @@ const ProximasPartidasByScouter = ({ ID_USER }) => {
 
     const fetchPartidas = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/evento/list/${ID_USER}`); // Chama getGamesByUser
+        const response = await axios.get(`https://backendscout-cx6c.onrender.com/api/evento/list/${ID_USER}`); // Chama getGamesByUser
         setPartidas(response.data);
       } catch (err) {
         console.error("Erro ao buscar partidas:", err);

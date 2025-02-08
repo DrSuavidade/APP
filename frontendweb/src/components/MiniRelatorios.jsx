@@ -12,7 +12,7 @@ const MiniRelatorios = ({ ID_USER }) => {
 
     const fetchRelatorios = async () => {
       try {
-        const response = await api.get(`http://localhost:3000/api/relatorio/historico/${ID_USER}`);
+        const response = await api.get(`https://backendscout-cx6c.onrender.com/api/relatorio/historico/${ID_USER}`);
         setRelatorios(response.data);
         setLoading(false);
       } catch (err) {

@@ -7,7 +7,7 @@ const ClubsCards = ({ ID_USER, setSelectedClub, toggleFavorite }) => {
     const fetchFavoriteClubs = async () => {
       try {
         console.log(`Buscando clubes favoritos para ID_USER: ${ID_USER}`); // DEBUG
-        const response = await fetch(`http://localhost:3000/api/favorito/list/${ID_USER}`);
+        const response = await fetch(`https://backendscout-cx6c.onrender.com/api/favorito/list/${ID_USER}`);
         if (!response.ok) throw new Error("Erro ao buscar clubes favoritos");
 
         const favoriteClubs = await response.json(); // Lista de clubes favoritos com nome e abreviatura
@@ -30,7 +30,7 @@ const ClubsCards = ({ ID_USER, setSelectedClub, toggleFavorite }) => {
 
   const handleRemoveFavorite = async (ID_CLUBE) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/favorito/delete/${ID_CLUBE}/${ID_USER}`, {
+      const response = await fetch(`https://backendscout-cx6c.onrender.com/api/favorito/delete/${ID_CLUBE}/${ID_USER}`, {
         method: 'DELETE',
       });
 

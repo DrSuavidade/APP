@@ -16,7 +16,7 @@ const ListaEventos = () => {
   useEffect(() => {
     const fetchEventos = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/eventos/recentes");
+        const response = await axios.get("https://backendscout-cx6c.onrender.com/api/eventos/recentes");
         setEventos(response.data);
       } catch (error) {
         console.error("Erro ao buscar eventos:", error);
@@ -62,7 +62,7 @@ const ListaEventos = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete("http://localhost:3000/api/eventos/delete-multiple", {
+          await axios.delete("https://backendscout-cx6c.onrender.com/api/eventos/delete-multiple", {
             data: { eventosIds: selectedEventos },
           });
 

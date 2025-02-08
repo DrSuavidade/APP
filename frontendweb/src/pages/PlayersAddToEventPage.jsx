@@ -86,10 +86,10 @@ const PlayersAddToEventPage = () => {
             NOTA: 0
           };
 
-          await axios.post("http://localhost:3000/api/relatorio/add", relatorioData);
+          await axios.post("https://backendscout-cx6c.onrender.com/api/relatorio/add", relatorioData);
 
           try {
-            await axios.post("http://localhost:3000/api/r12/add", {
+            await axios.post("https://backendscout-cx6c.onrender.com/api/r12/add", {
               ID_JOGADORES: playerId,
               ID_EVENTOS: eventId
             });

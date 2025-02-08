@@ -62,6 +62,11 @@ class CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
+  String _formatDate(String isoDate) {
+    DateTime date = DateTime.parse(isoDate);
+    return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}";
+  }
+
   Widget _filterButton(String label, String? escalaoFilter) {
     bool isSelected = selectedEscalao == escalaoFilter;
 
@@ -105,7 +110,7 @@ class CalendarScreenState extends State<CalendarScreen> {
           ),
           const SizedBox(height: 4),
           Text(
-            "${evento['DATA']} às ${evento['HORA']} - ${evento['LOCAL']}",
+            "${_formatDate(evento['DATA'])} às ${evento['HORA']} - ${evento['LOCAL']}",
             style: const TextStyle(color: Colors.white70, fontSize: 12),
           ),
         ],

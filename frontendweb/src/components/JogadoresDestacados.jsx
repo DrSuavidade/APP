@@ -9,7 +9,7 @@ const JogadoresDestacados = ({ ID_USER }) => {
   useEffect(() => {
     const fetchJogadores = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/jogador/list/${ID_USER}`);
+        const response = await axios.get(`https://backendscout-cx6c.onrender.com/api/jogador/list/${ID_USER}`);
         setJogadores(response.data);
       } catch (error) {
         console.error("❌ Erro ao buscar jogadores destacados:", error);

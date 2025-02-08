@@ -17,7 +17,7 @@ const ReportsHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
     const fetchRelatorios = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/player/reports/${ID_JOGADORES}`
+          `https://backendscout-cx6c.onrender.com/api/player/reports/${ID_JOGADORES}`
         );
         console.log("📌 Relatórios recebidos:", response.data);
         setRelatorios(response.data);
@@ -69,7 +69,7 @@ const ReportsHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete("http://localhost:3000/api/relatorios/delete", {
+          await axios.delete("https://backendscout-cx6c.onrender.com/api/relatorios/delete", {
             data: { relatoriosIds: selectedRelatorios },
           });
 

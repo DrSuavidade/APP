@@ -15,7 +15,7 @@ const DropboxJogadores = ({ onRegisterPlayer }) => {
     useEffect(() => {
         const fetchAvailableYears = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/api/jogador/semEquipa/ano");
+                const response = await axios.get("https://backendscout-cx6c.onrender.com/api/jogador/semEquipa/ano");
                 console.log(`📌 Anos disponíveis:`, response.data);
                 setAvailableYears(response.data);
             } catch (error) {
@@ -36,7 +36,7 @@ const DropboxJogadores = ({ onRegisterPlayer }) => {
 
         const fetchPlayersByYear = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/jogador/ano/${selectedYear}`);
+                const response = await axios.get(`https://backendscout-cx6c.onrender.com/api/jogador/ano/${selectedYear}`);
                 console.log(`📌 Jogadores disponíveis do ano ${selectedYear}:`, response.data);
                 setPlayers(response.data);
             } catch (error) {
@@ -65,7 +65,7 @@ const DropboxJogadores = ({ onRegisterPlayer }) => {
 
         try {
             for (const player of selectedPlayers) {
-                const response = await axios.post("http://localhost:3000/api/jogador/adicionar", {
+                const response = await axios.post("https://backendscout-cx6c.onrender.com/api/jogador/adicionar", {
                     ID_JOGADORES: player.ID_JOGADORES,
                     ID_EQUIPA: idEquipa, // Usando o ID da equipa dinamicamente
                 });

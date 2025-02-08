@@ -18,7 +18,7 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
   useEffect(() => {
     if (ID_JOGADORES) {
       axios
-        .get(`http://localhost:3000/api/player/${ID_JOGADORES}`)
+        .get(`https://backendscout-cx6c.onrender.com/api/player/${ID_JOGADORES}`)
         .then((response) => {
           setPlayer(response.data);
         })
@@ -27,7 +27,7 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
         });
 
       axios
-        .get(`http://localhost:3000/api/jogador/details/${ID_JOGADORES}`)
+        .get(`https://backendscout-cx6c.onrender.com/api/jogador/details/${ID_JOGADORES}`)
         .then((response) => {
           console.log("🚀 Player Averages Fetched:", response.data); // ✅ Debugging
           setPlayerAverages(response.data);
@@ -47,7 +47,7 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
 
   const handleSave = () => {
     axios
-      .put(`http://localhost:3000/api/jogador/edit/${ID_JOGADORES}`, {
+      .put(`https://backendscout-cx6c.onrender.com/api/jogador/edit/${ID_JOGADORES}`, {
         NOME: player.NOME,
         DATA_NASC: player.DATA_NASC,
         GENERO: player.GENERO,
@@ -72,7 +72,7 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
 
   const handleActivatePlayer = async (ID_JOGADORES) => {
     try {
-      const response = await axios.put(`http://localhost:3000/api/player/activate/${ID_JOGADORES}`);
+      const response = await axios.put(`https://backendscout-cx6c.onrender.com/api/player/activate/${ID_JOGADORES}`);
       Swal.fire("Sucesso!", response.data.message, "success");
       setPlayer({ ...player, STATUS: "Active" });
     } catch (error) {
@@ -94,7 +94,7 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
 
     if (confirm.isConfirmed) {
       try {
-        const response = await axios.delete(`http://localhost:3000/api/player/reject/${ID_JOGADORES}`);
+        const response = await axios.delete(`https://backendscout-cx6c.onrender.com/api/player/reject/${ID_JOGADORES}`);
         Swal.fire("Sucesso!", response.data.message, "success");
         navigate("/players");
       } catch (error) {

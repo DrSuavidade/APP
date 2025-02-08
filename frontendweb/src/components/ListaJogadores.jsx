@@ -9,7 +9,7 @@ const ListaJogadores = ({ onSelectionChange }) => {
   useEffect(() => {
     const fetchJogadores = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/jogador/list");
+        const response = await axios.get("https://backendscout-cx6c.onrender.com/api/jogador/list");
         if (response.data && Array.isArray(response.data)) {
           setJogadores(response.data);
         }

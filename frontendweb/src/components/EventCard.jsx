@@ -10,7 +10,7 @@ const EventCard = ({ eventId }) => {
   useEffect(() => {
     const fetchEvento = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/evento/list`);
+        const response = await axios.get(`https://backendscout-cx6c.onrender.com/api/evento/list`);
         const eventoFiltrado = response.data.find(e => e.ID_EVENTOS.toString() === eventId);
         setEvento(eventoFiltrado);
       } catch (error) {

@@ -16,7 +16,7 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
     const fetchRelatorios = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/relatorios-merged"
+          "https://backendscout-cx6c.onrender.com/api/relatorios-merged"
         );
         console.log("📌 Relatórios recebidos:", response.data);
         setRelatorios(response.data);
@@ -68,7 +68,7 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete("http://localhost:3000/api/relatorios/delete", {
+          await axios.delete("https://backendscout-cx6c.onrender.com/api/relatorios/delete", {
             data: { relatoriosIds: selectedRelatorios },
           });
 
