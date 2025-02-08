@@ -46,6 +46,7 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
   };
 
   const handleSave = () => {
+    console.log("handleSave chamado"); // ✅ Adicionado para depuração
     axios
       .put(`https://backendscout-cx6c.onrender.com/api/jogador/edit/${ID_JOGADORES}`, {
         NOME: player.NOME,
@@ -54,7 +55,6 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
         NACIONALIDADE: player.NACIONALIDADE,
         LINK: player.LINK,
         DADOS_ENC: player.DADOS_ENC,
-        NOTA_ADM: player.NOTA_ADM,
         STATUS: player.STATUS,
       })
       .then((response) => {
@@ -240,4 +240,4 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
   );
 };
 
-export default FichaPlayer;
+export default FichaPlayer
