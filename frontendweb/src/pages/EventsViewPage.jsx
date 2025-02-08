@@ -17,7 +17,7 @@ const EventsViewPage = () => {
 
     // Verifica se o ID_TIPO das cookies é 1
     const ID_TIPO = Cookies.get("ID_TIPO");
-    if (ID_TIPO === "1") {
+    if (ID_TIPO === "3") {
       navigate('/erro401'); // Redireciona para a página de erro 401 se o ID_TIPO for 1
     }
   }, [navigate]);

@@ -200,17 +200,21 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
         )}
         {editMode && (
           <>
-            <button className="icon-btn cancel-btn" onClick={handleCancel}>
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
+            {userType !== "1" && (
+              <button className="icon-btn cancel-btn" onClick={handleCancel}>
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+            )}
             <button className="save-btn" onClick={handleSave}>
               Salvar
             </button>
           </>
         )}
-        <button className="icon-btn" onClick={() => navigate(`/reports/history/${ID_JOGADORES}`)}>
-          <FontAwesomeIcon icon={faHistory} />
-        </button>
+        {userType !== "1" && (
+          <button className="icon-btn" onClick={() => navigate(`/reports/history/${ID_JOGADORES}`)}>
+            <FontAwesomeIcon icon={faHistory} />
+          </button>
+        )}
       </div>
 
       {player.STATUS === "Inactive" && userType !== "1" && (

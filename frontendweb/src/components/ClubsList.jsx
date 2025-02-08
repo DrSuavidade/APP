@@ -51,7 +51,7 @@ const ClubsList = ({ setSelectedClub }) => {
 
     fetchClubes();
     fetchFavoriteClubes();
-  }, [userID]);
+  }, [userID, setSelectedClub]); // Adiciona setSelectedClub como dependência
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -154,18 +154,18 @@ const ClubsList = ({ setSelectedClub }) => {
         />
       </div>
 
-      {userType !== "1" && (
-        <div className="toolbar">
-          <button className="favorite-button" onClick={toggleFavoriteMode}>
-            {isFavoriteMode ? "✅ Favoritos" : "Favoritos"}
-          </button>
+      <div className="toolbar">
+        <button className="favorite-button" onClick={toggleFavoriteMode}>
+          {isFavoriteMode ? "✅ Favoritos" : "Favoritos"}
+        </button>
+        {userType !== "1" && (
           <div className="icons-container">
             <FaTrash className="icon trash" onClick={handleDelete} />
             <FaPlus className="icon add" onClick={() => navigate('/team/add-club')} />
             {showCheckboxes && <FaTimes className="icon cancel" onClick={handleCancelSelection} />}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       <div className="team-header">
         <span>{showCheckboxes ? <input type="checkbox" disabled /> : "ID Clube"}</span>
