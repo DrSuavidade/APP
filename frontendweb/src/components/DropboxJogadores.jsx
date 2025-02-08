@@ -131,16 +131,12 @@ const DropboxJogadores = ({ onRegisterPlayer }) => {
                                     onClick={() => handlePlayerClick(player)}
                                 >
                                     <div className="player-avatar">
-                                        <img
-                                            src={player.IMG_URL || "https://via.placeholder.com/60"}
-                                            alt="Jogador"
-                                            className="player-image"
-                                        />
+                                    <div className="profile-icon">👤</div> {/* Moved to the left */}
                                     </div>
                                     <div className="player-info">
-                                        <p className="player-name">{player.NOME}</p>
+                                        <p className="pplayer-name">{player.NOME}</p>
                                         <p className="player-age">
-                                            Nascimento: {new Date(player.DATA_NASC).toLocaleDateString()}
+                                             {new Date(player.DATA_NASC).toLocaleDateString()}
                                         </p>
                                         <p className="player-note">
                                             <strong>Nota:</strong> {player.NOTA_ADM || "N/A"}
