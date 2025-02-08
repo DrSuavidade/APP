@@ -219,11 +219,11 @@ const FichaPlayer = ({ ID_JOGADORES }) => {
 
       {player.STATUS === "Inactive" && userType !== "1" && (
         <div className="player-actions">
-          <button className="activate-btn" onClick={() => handleActivatePlayer(player.ID_JOGADORES)}>
-            Ativar Jogador
+                    <button className="reject-btn" onClick={() => handleRejectPlayer(player.ID_JOGADORES)}>
+                    Rejeitar
           </button>
-          <button className="reject-btn" onClick={() => handleRejectPlayer(player.ID_JOGADORES)}>
-            Rejeitar Jogador
+          <button className="activate-btn" onClick={() => handleActivatePlayer(player.ID_JOGADORES)}>
+            Ativar
           </button>
         </div>
       )}

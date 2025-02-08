@@ -128,14 +128,37 @@
     gap: 165px;
 }
 
+.activate-btn {
+  flex: 1; /* Ambos ocupam o mesmo espaço */
+  max-width: 150px; /* Define um tamanho máximo */
+  min-width: 120px; /* Mantém um tamanho fixo mínimo */
+  height: 40px; /* Garante que ambos tenham a mesma altura */
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.reject-btn {
+    flex: 1; /* Ambos ocupam o mesmo espaço */
+    max-width: 150px; /* Define um tamanho máximo */
+    min-width: 120px; /* Mantém um tamanho fixo mínimo */
+    height: 40px; /* Garante que ambos tenham a mesma altura */
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
 .confirm-btn, .reject-btn {
     flex: 1; /* Ambos ocupam o mesmo espaço */
-    max-width: 190px; /* Define um tamanho máximo */
+    max-width: 150px; /* Define um tamanho máximo */
     min-width: 150px; /* Mantém um tamanho fixo mínimo */
     height: 40px; /* Garante que ambos tenham a mesma altura */
     text-align: center;
     border: none;
     cursor: pointer;
+    border-radius: 20px;
 }
 
 .confirm-btn {
