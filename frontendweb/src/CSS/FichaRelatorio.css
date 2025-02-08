@@ -143,11 +143,11 @@
 }
 
 .reject-btn:hover {
-  background-color: darkred; /* Vermelho mais escuro no hover */
+  background-color: rgb(157, 1, 1); /* Vermelho mais escuro no hover */
 }
 
 .confirm-btn:hover {
-  background-color: rgb(9, 139, 0); /* Vermelho mais escuro no hover */
+  background-color: rgb(6, 94, 0); /* Vermelho mais escuro no hover */
 }
   
 .nota-circle {
@@ -219,6 +219,8 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
+  right: 2% /* Centraliza horizontalmente */;
+  transform: translateX(-250%); /* Garante que fique centralizado */
 }
 
 .edit-btn,
