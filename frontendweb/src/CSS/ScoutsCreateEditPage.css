@@ -159,6 +159,12 @@ button:hover {
 
 input[type="date"],
 input[type="time"] {
-    background-color: black !important; /* Fundo preto */
+    background-color: #3e3e3e !important; /* Fundo preto */
+    color: #b0b0b0 !important; /* Texto cinza */
+}
+
+input[type="email"],
+input[type="password"] {
+    background-color: #3e3e3e !important; /* Fundo preto */
     color: #b0b0b0 !important; /* Texto cinza */
 }

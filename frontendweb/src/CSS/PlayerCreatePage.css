@@ -79,24 +79,26 @@ html, body {
   color: #66ff66;
 }
 
-/* Estilo para a classificação de estrelas */
-.player-rating {
-  font-size: 20px;
-  color: #333; /* Cor escura para as estrelas cheias */
-}
-
-.player-rating .empty-star {
-  color: #555; /* Cor para as estrelas vazias */
-}
-
+input[type="text"],
+input[type="date"],
 input[type="url"],
 input[type="file"] {
-    background-color: black !important; /* Fundo preto */
+    background-color: rgb(62, 62, 62) !important; /* Fundo preto */
     color: #b0b0b0 !important; /* Texto cinza */
-    border: 1px solid #555;
+    border: 1px solid #5555;
     padding: 10px;
     border-radius: 5px;
 }
+
+select {
+  background-color: rgb(62, 62, 62) !important; /* Fundo escuro */
+  color: #b0b0b0 !important; /* Texto cinza */
+  border: 1px solid #5555;
+  padding: 10px;
+  border-radius: 5px;
+  appearance: none; /* Remove o estilo padrão */
+}
+
 
 .filled-star {
   color: gold; /* Regular filled stars */

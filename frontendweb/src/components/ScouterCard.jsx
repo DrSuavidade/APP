@@ -13,6 +13,7 @@ function ScouterCard({ onSelectScouter, onToggleUsers }) {
   const [hasAutoSelected, setHasAutoSelected] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("Scoutters"); 
   const navigate = useNavigate();
+  const [activeScouter, setActiveScouter] = useState(null);
 
   useEffect(() => {
     const fetchScouters = async () => {
@@ -43,15 +44,16 @@ function ScouterCard({ onSelectScouter, onToggleUsers }) {
 
   const handleSelectScouter = (scouterId, scouter) => {
     if (showCheckboxes) {
-      setSelectedScouters((prevSelected) =>
-        prevSelected.includes(scouterId)
-          ? prevSelected.filter((id) => id !== scouterId)
-          : [...prevSelected, scouterId]
-      );
+        setSelectedScouters((prevSelected) =>
+            prevSelected.includes(scouterId)
+                ? prevSelected.filter((id) => id !== scouterId)
+                : [...prevSelected, scouterId]
+        );
     } else {
-      onSelectScouter(scouter);
+        setActiveScouter(scouterId); // Define o scouter ativo
+        onSelectScouter(scouter);
     }
-  };
+};
 
   const handleDelete = async () => {
     if (!showCheckboxes) {
@@ -145,7 +147,7 @@ function ScouterCard({ onSelectScouter, onToggleUsers }) {
           .map((scouter) => (
             <div
               key={scouter.ID_USER}
-              className="scouter-card"
+              className={`scouter-card ${activeScouter === scouter.ID_USER ? "selected" : ""}`}
               onClick={() => handleSelectScouter(scouter.ID_USER, scouter)}
             >
               <div className="scouter-avatar"></div>
