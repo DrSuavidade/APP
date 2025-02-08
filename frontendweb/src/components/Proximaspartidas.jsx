@@ -3,7 +3,6 @@ import axios from 'axios';
 import "../CSS/eventsviewpage.css"; // Importa o CSS específico
 import { FaMapMarkerAlt } from "react-icons/fa";
 
-
 const ProximasPartidas = () => {
   const [escaloes] = useState([
     'Sub-10', 'Sub-11', 'Sub-12', 'Sub-13', 'Sub-14', 'Sub-15', 'Sub-16', 'Sub-23', 'Profissional'
@@ -40,6 +39,14 @@ const ProximasPartidas = () => {
     setEscalaoSelecionado(escalao);
   };
 
+  const formatarData = (dataISO) => {
+    const data = new Date(dataISO);
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa do zero
+    const ano = data.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+  };
+
   return (
     <div className="eventos-escalao-container">
       <h2 className="eventos-escalao-title">PRÓXIMAS PARTIDAS</h2>
@@ -71,7 +78,7 @@ const ProximasPartidas = () => {
                 <span className="eventos-escalao-equipa">{evento.VISITANTE}</span>
               </div>
               <div className="eventos-escalao-details">
-                <span className="eventos-escalao-data">{evento.DATA}</span>
+                <span className="eventos-escalao-data">{formatarData(evento.DATA)}</span>
                 <span className="eventos-escalao-hora">{evento.HORA}</span>
                 <span className="eventos-escalao-local">
                   <FaMapMarkerAlt className="location-icon" /> {evento.LOCAL}
