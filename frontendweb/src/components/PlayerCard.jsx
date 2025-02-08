@@ -10,7 +10,7 @@ const PlayerCard = ({ onSelectRelatorio }) => {
   useEffect(() => {
     const fetchPlayerCards = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/player-cards");
+        const response = await axios.get("https://backendscout-cx6c.onrender.com/api/player-cards");
         console.log("📌 Dados recebidos do backend:", response.data);
         setPlayerCards(response.data);
       } catch (error) {

@@ -8,7 +8,7 @@ const CardPlayersPendents = ({ setSelectedPlayerId }) => {
   useEffect(() => {
     const fetchPendents = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/player-pendents");
+        const response = await axios.get("https://backendscout-cx6c.onrender.com/api/player-pendents");
         console.log("📌 Dados recebidos dos jogadores inativos:", response.data);
         setPlayers(response.data);
       } catch (error) {

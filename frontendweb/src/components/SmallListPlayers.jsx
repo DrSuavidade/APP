@@ -23,7 +23,7 @@ const SmallListPlayers = () => {
 
   const fetchPlayers = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/all-players');
+      const response = await axios.get('https://backendscout-cx6c.onrender.com/api/all-players');
       setPlayers(response.data);
     } catch (error) {
       console.error('Erro ao buscar jogadores:', error);
@@ -65,7 +65,7 @@ const SmallListPlayers = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-            await axios.delete('http://localhost:3000/api/players/delete', { 
+            await axios.delete('https://backendscout-cx6c.onrender.com/api/players/delete', { 
                 data: { playersIds: selectedPlayers } // Corrigido para 'playersIds'
               });
           setPlayers(players.filter((player) => !selectedPlayers.includes(player.ID_JOGADORES)));

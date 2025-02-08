@@ -17,7 +17,7 @@ function ScouterCard({ onSelectScouter, onToggleUsers }) {
   useEffect(() => {
     const fetchScouters = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/users/tipo/3");
+        const response = await axios.get("https://backendscout-cx6c.onrender.com/api/users/tipo/3");
         const sortedUsers = response.data.sort((a, b) => (b.ID_TIPO === 3 ? 1 : -1));
         setScouters(sortedUsers);
 
@@ -76,7 +76,7 @@ function ScouterCard({ onSelectScouter, onToggleUsers }) {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete("http://localhost:3000/api/users/delete-multiple", {
+          await axios.delete("https://backendscout-cx6c.onrender.com/api/users/delete-multiple", {
             data: { userIds: selectedScouters }
           });
 

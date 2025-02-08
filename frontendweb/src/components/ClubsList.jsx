@@ -29,7 +29,7 @@ const ClubsList = ({ setSelectedClub }) => {
   useEffect(() => {
     const fetchClubes = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/clubes/com-equipas");
+        const response = await axios.get("https://backendscout-cx6c.onrender.com/api/clubes/com-equipas");
         setClubes(response.data);
         if (response.data.length > 0) {
           setSelectedClub(response.data[0]);
@@ -42,7 +42,7 @@ const ClubsList = ({ setSelectedClub }) => {
 
     const fetchFavoriteClubes = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/favorito/list/${userID}`);
+        const response = await axios.get(`https://backendscout-cx6c.onrender.com/api/favorito/list/${userID}`);
         setFavoriteClubes(response.data.map(fav => fav.ID_CLUBE));
       } catch (error) {
         console.error("Erro ao buscar favoritos:", error);
@@ -90,7 +90,7 @@ const ClubsList = ({ setSelectedClub }) => {
         try {
           for (const clubeId of selectedClubes) {
             // Chama a API para excluir o clube, as equipas e as relações
-            await axios.delete(`http://localhost:3000/api/clube/delete-all/${clubeId}`);
+            await axios.delete(`https://backendscout-cx6c.onrender.com/api/clube/delete-all/${clubeId}`);
           }
 
           // Atualiza a lista de clubes removendo os clubes excluídos
@@ -122,7 +122,7 @@ const ClubsList = ({ setSelectedClub }) => {
   const handleAddFavorito = async (clubeId) => {
     const ID_USER = userID; // Substitua pelo ID do usuário logado
     try {
-      await axios.post('http://localhost:3000/api/favorito/add', {
+      await axios.post('https://backendscout-cx6c.onrender.com/api/favorito/add', {
         ID_CLUBE: clubeId,
         ID_USER: ID_USER
       });

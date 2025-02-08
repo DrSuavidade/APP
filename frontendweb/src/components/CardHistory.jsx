@@ -10,7 +10,7 @@ const CardHistory = ({ ID_JOGADORES, onSelectRelatorio }) => {
 
     const fetchHistoryCards = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/player/history/${ID_JOGADORES}`);
+        const response = await axios.get(`https://backendscout-cx6c.onrender.com/api/player/history/${ID_JOGADORES}`);
         console.log("📌 Dados recebidos do backend (CardHistory):", response.data);
         setHistoryCards(response.data);
       } catch (error) {

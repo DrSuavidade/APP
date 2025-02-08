@@ -23,7 +23,7 @@ const SmallListUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/users');
+      const response = await axios.get('https://backendscout-cx6c.onrender.com/api/users');
       setUsers(response.data);
     } catch (error) {
       console.error('Erro ao buscar usuários:', error);
@@ -65,7 +65,7 @@ const SmallListUsers = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete('http://localhost:3000/api/users/delete-multiple', { data: { userIds: selectedUsers } });
+          await axios.delete('https://backendscout-cx6c.onrender.com/api/users/delete-multiple', { data: { userIds: selectedUsers } });
           setUsers(users.filter((user) => !selectedUsers.includes(user.ID_USER)));
           setSelectedUsers([]);
           setShowCheckboxes(false);
