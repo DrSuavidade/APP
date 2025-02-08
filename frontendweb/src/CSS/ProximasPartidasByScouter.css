@@ -20,7 +20,7 @@
 }
 
 .partida-item {
-    background-color: #777;
+    background: url('../img/botaojogos.png') no-repeat center;  
     padding: 10px;
     border-radius: 8px;
     margin: 8px 0;
@@ -50,3 +50,8 @@
     color: rgb(190, 190, 190);
     margin-top: 5px;
 }
+
+.location-icon {
+    margin-right: 5px;
+    color: rgb(255, 255, 255);
+  }

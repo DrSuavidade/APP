@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../CSS/ProximasPartidasByScouter.css";
+import { FaMapMarkerAlt } from "react-icons/fa";
+
 
 const ProximasPartidasByScouter = ({ ID_USER }) => {
   const [partidas, setPartidas] = useState([]);
@@ -48,7 +50,10 @@ const ProximasPartidasByScouter = ({ ID_USER }) => {
                 <span className="vs">VS</span>
                 <strong>{partida.VISITANTE}</strong>
               </div>
-              <p className="local">{partida.LOCAL}</p>
+              <p className="local">
+              <FaMapMarkerAlt className="location-icon" />
+              {partida.LOCAL}
+              </p>
             </div>
           ))
         ) : (
