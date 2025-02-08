@@ -131,9 +131,11 @@ body {
 }
 
 .add-player-button{
-background: #3e8e41;
+    background: #57e657;
+    color: #1a1a1a;
 }
 
 .add-player-button:hover{
-    background: #2e6830;
+    background: rgb(87, 230, 87);
+    color: #1a1a1a;
 }

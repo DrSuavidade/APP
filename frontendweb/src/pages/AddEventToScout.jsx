@@ -63,7 +63,12 @@ const MainPage = () => {
                     ) : (
                         <p className="text-center text-gray-300">Selecione um evento na lista.</p>
                     )}
-
+                    <button 
+                        className="add-player-button" 
+                        onClick={handleAddPlayer}
+                    >
+                        Adicionar Jogador
+                    </button>
                     {/* Exibir o Scouter Selecionado */}
                     {selectedScouter ? (
                         <>
@@ -78,12 +83,6 @@ const MainPage = () => {
                             {/* Jogadores Destacados do Scouter Selecionado */}
                             <JogadoresDestacados ID_USER={selectedScouter.ID_USER} />
 
-                            <button 
-                                className="add-player-button" 
-                                onClick={handleAddPlayer}
-                            >
-                                Adicionar Jogador
-                            </button>
                         </>
                     ) : (
                         <p className="text-center text-gray-300">Nenhum Scouter Selecionado</p>
