@@ -70,7 +70,6 @@ const ScoutsCreateEditPage = () => {
   return (
     <div className="container-wrapper">
       {/* Botão de Voltar no canto superior esquerdo */}
-      <div className="back-button">←</div>
 
       {/* Formulário */}
       <div className="form-container">
