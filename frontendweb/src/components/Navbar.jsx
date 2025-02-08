@@ -6,7 +6,6 @@ import { FaUser, FaSignOutAlt } from "react-icons/fa";
 import Swal from "sweetalert2"; // Importa o SweetAlert
 
 const Navbar = () => {
-  const [userID, setUserID] = useState(null);
   const [userName, setUserName] = useState("");
   const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
   const [showDropdown, setShowDropdown] = useState(false); // Estado para controlar o dropdown
@@ -14,10 +13,8 @@ const Navbar = () => {
 
   useEffect(() => {
     // Busca o ID, nome e tipo do usuário dos cookies
-    const storedID = Cookies.get("ID_USER");
-    const storedName = Cookies.get("user"); // Adicione o nome do usuário ao cookie no login
+    const storedName = Cookies.get("USER_NAME"); // Adicione o nome do usuário ao cookie no login
     const storedType = Cookies.get("ID_TIPO"); // Adicione o ID_TIPO ao cookie no login
-    setUserID(storedID);
     setUserName(storedName || "Usuário"); // Fallback para "Usuário" se o nome não estiver disponível
     setUserType(storedType); // Definindo o tipo de usuário
   }, []);

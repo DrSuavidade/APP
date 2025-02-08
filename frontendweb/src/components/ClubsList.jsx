@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { FaTrash, FaPlus, FaTimes } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import Cookies from "js-cookie";
+import { FaCheck } from 'react-icons/fa'; // Adicione essa importação no topo
+
 
 const ClubsList = ({ setSelectedClub }) => {
   const [clubes, setClubes] = useState([]);
@@ -155,9 +157,9 @@ const ClubsList = ({ setSelectedClub }) => {
       </div>
 
       <div className="toolbar">
-        <button className="favorite-button" onClick={toggleFavoriteMode}>
-          {isFavoriteMode ? "✅ Favoritos" : "Favoritos"}
-        </button>
+      <span className="favorite-button" onClick={toggleFavoriteMode}>
+  <FaCheck className={isFavoriteMode ? "active" : ""} />
+</span>
         {userType !== "1" && (
           <div className="icons-container">
             <FaTrash className="icon trash" onClick={handleDelete} />

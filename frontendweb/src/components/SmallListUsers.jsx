@@ -100,7 +100,6 @@ const SmallListUsers = () => {
           value={searchTerm}
           onChange={handleSearch}
         />
-        <button className="search-btn">Search</button>
       </div>
 
       {userType !== "1" && (

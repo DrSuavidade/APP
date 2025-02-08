@@ -160,11 +160,11 @@
 }
 
 .reject-btn:hover {
-  background-color: darkred; /* Vermelho mais escuro no hover */
+  background-color: rgb(157, 1, 1); /* Vermelho mais escuro no hover */
 }
 
 .confirm-btn:hover {
-  background-color: rgb(9, 139, 0); /* Vermelho mais escuro no hover */
+  background-color: rgb(6, 94, 0); /* Vermelho mais escuro no hover */
 }
   
 .nota-circle {
@@ -236,6 +236,8 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
+  right: 2% /* Centraliza horizontalmente */;
+  transform: translateX(-15%); /* Garante que fique centralizado */
 }
 
 .edit-btn,
@@ -398,4 +400,14 @@
 .players-page-container .ficha-relatorio-container {
   margin-top: 100px; /* Ajuste conforme necessário */
 }
+
+.activate-btn{
+  background-color: #099c00;
+  color:#fff
+}
+
+.activate-btn:hover{
+  background-color: #065e00;
+  color:#fff
+} 
 
