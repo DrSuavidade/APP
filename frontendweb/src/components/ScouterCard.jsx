@@ -120,13 +120,13 @@ function ScouterCard({ onSelectScouter, onToggleUsers }) {
             className={`filter-button ${selectedFilter === "Scoutters" ? "active" : ""}`}
             onClick={() => handleFilterChange("Scoutters")}
           >
-            ºScoutters
+            Scoutters
           </button>
           <button
             className={`filter-button ${selectedFilter === "Users" ? "active" : ""}`}
             onClick={() => handleFilterChange("Users")}
           >
-            ºUsers
+            Users
           </button>
         </div>
 

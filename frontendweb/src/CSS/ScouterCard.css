@@ -152,6 +152,11 @@
     padding: 5px 10px;
     border-radius: 5px;
   }
+
+  .filter-button:hover {
+    background-color: transparent;
+    color: #b6b6b6;
+  }
   
   .filter-button.active {
     color: white;
