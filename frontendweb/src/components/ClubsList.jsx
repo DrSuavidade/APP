@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FaTrash, FaPlus, FaTimes } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import Cookies from "js-cookie";
-import { FaCheck } from 'react-icons/fa'; // Adicione essa importação no topo
-
+import { FaCheck } from 'react-icons/fa';
 
 const ClubsList = ({ setSelectedClub }) => {
   const [clubes, setClubes] = useState([]);
@@ -15,7 +14,8 @@ const ClubsList = ({ setSelectedClub }) => {
   const [showCheckboxes, setShowCheckboxes] = useState(false);
   const [favoriteClubes, setFavoriteClubes] = useState([]);
   const [isFavoriteMode, setIsFavoriteMode] = useState(false);
-  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
+  const [userType, setUserType] = useState(null);
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "ascending" }); // Estado para ordenação
   const navigate = useNavigate();
 
   const [userID, setUserID] = useState(null);
@@ -53,7 +53,7 @@ const ClubsList = ({ setSelectedClub }) => {
 
     fetchClubes();
     fetchFavoriteClubes();
-  }, [userID, setSelectedClub]); // Adiciona setSelectedClub como dependência
+  }, [userID, setSelectedClub]);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -91,11 +91,9 @@ const ClubsList = ({ setSelectedClub }) => {
       if (result.isConfirmed) {
         try {
           for (const clubeId of selectedClubes) {
-            // Chama a API para excluir o clube, as equipas e as relações
             await axios.delete(`https://backendscout-cx6c.onrender.com/api/clube/delete-all/${clubeId}`);
           }
 
-          // Atualiza a lista de clubes removendo os clubes excluídos
           setClubes(clubes.filter((clube) => !selectedClubes.includes(clube.id_clube)));
           setSelectedClubes([]);
           setShowCheckboxes(false);
@@ -122,7 +120,7 @@ const ClubsList = ({ setSelectedClub }) => {
   };
 
   const handleAddFavorito = async (clubeId) => {
-    const ID_USER = userID; // Substitua pelo ID do usuário logado
+    const ID_USER = userID;
     try {
       await axios.post('https://backendscout-cx6c.onrender.com/api/favorito/add', {
         ID_CLUBE: clubeId,
@@ -141,6 +139,49 @@ const ClubsList = ({ setSelectedClub }) => {
     setIsFavoriteMode(!isFavoriteMode);
   };
 
+  const handleSort = (key) => {
+    console.log("handleSort chamado com a chave:", key); // Log para depuração
+
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+
+    console.log("Ordenando por:", key, "Direção:", direction); // Log para depuração
+
+    setClubes((prevClubes) => {
+      const sortedClubes = [...prevClubes].sort((a, b) => {
+        // Verifique se as chaves existem e são válidas
+        if (a[key] === undefined || b[key] === undefined) {
+          console.warn(`Chave "${key}" não encontrada ou inválida em algum objeto.`);
+          return 0;
+        }
+
+        // Tratamento especial para números
+        let valueA = a[key];
+        let valueB = b[key];
+
+        if (key === "totalEquipas") {
+          // Garante que as notas sejam números
+          valueA = Number(valueA);
+          valueB = Number(valueB);
+        }
+
+        if (valueA < valueB) {
+          return direction === "ascending" ? -1 : 1;
+        }
+        if (valueA > valueB) {
+          return direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      });
+
+      console.log("Clubes ordenados:", sortedClubes); // Log para depuração
+      return sortedClubes;
+    });
+  };
+
   const filteredClubes = clubes.filter((clube) =>
     clube.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -157,9 +198,9 @@ const ClubsList = ({ setSelectedClub }) => {
       </div>
 
       <div className="toolbar">
-      <span className="favorite-button" onClick={toggleFavoriteMode}>
-  <FaCheck className={isFavoriteMode ? "active" : ""} />
-</span>
+        <span className="favorite-button" onClick={toggleFavoriteMode}>
+          <FaCheck className={isFavoriteMode ? "active" : ""} />
+        </span>
         {userType !== "1" && (
           <div className="icons-container">
             <FaTrash className="icon trash" onClick={handleDelete} />
@@ -170,10 +211,10 @@ const ClubsList = ({ setSelectedClub }) => {
       </div>
 
       <div className="team-header">
-        <span>{showCheckboxes ? <input type="checkbox" disabled /> : "ID Clube"}</span>
-        <span>Nome Clube</span>
-        <span>Abreviatura</span>
-        <span>Nº Equipas</span>
+        <span onClick={() => handleSort("id_clube")}>ID Clube</span>
+        <span onClick={() => handleSort("nome")}>Nome Clube</span>
+        <span onClick={() => handleSort("abreviatura")}>Abreviatura</span>
+        <span onClick={() => handleSort("totalEquipas")}>Nº Equipas</span>
       </div>
       <ul className="team-list">
         {erro ? (

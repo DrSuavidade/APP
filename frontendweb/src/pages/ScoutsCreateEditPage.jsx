@@ -28,15 +28,15 @@ const ScoutsCreateEditPage = () => {
       }
     };
 
-   const token = Cookies.get('token');
-     if (!token) {
-       navigate('/login'); // Redireciona para a página de login se não houver token
-     }
+    const token = Cookies.get('token');
+    if (!token) {
+      navigate('/login'); // Redireciona para a página de login se não houver token
+    }
 
     const fetchUsers = async () => {
       try {
         const response = await api.get("/users/lastTen");
-        setUsers(response.data);
+        setUsers(response.data.slice(-10)); // Mostra apenas os 10 últimos utilizadores
       } catch (error) {
         console.error("Erro ao carregar os últimos utilizadores:", error);
       }
@@ -60,7 +60,7 @@ const ScoutsCreateEditPage = () => {
       const response = await api.post("/users/signup", formData);
       if (response.status === 201) {
         setSuccess("Utilizador criado com sucesso!");
-        setFormData({ NOME: "", EMAIL: "", PASSWORD: "", ID_TIPO: ""});
+        setFormData({ NOME: "", EMAIL: "", PASSWORD: "", ID_TIPO: "" });
       }
     } catch (error) {
       setError("Erro ao criar utilizador. Verifique os dados.");

@@ -11,7 +11,8 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectMode, setSelectMode] = useState(false);
   const [selectedPlayers, setSelectedPlayers] = useState([]);
-  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
+  const [userType, setUserType] = useState(null);
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "ascending" });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,7 +24,6 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
         console.log("📌 Jogadores recebidos:", response.data);
         setPlayers(response.data);
 
-        // Chama a função onPlayersLoaded apenas na primeira carga
         if (onPlayersLoaded && players.length === 0) {
           onPlayersLoaded(response.data);
         }
@@ -37,6 +37,10 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
     const ID_TIPO = Cookies.get("ID_TIPO");
     setUserType(ID_TIPO);
   }, [onPlayersLoaded, players.length]);
+
+  useEffect(() => {
+    console.log("Players atualizados:", players); // Log para depuração
+  }, [players]);
 
   const toggleSelectMode = () => {
     setSelectMode(!selectMode);
@@ -98,7 +102,6 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
     });
   };
 
-  // Função para gerar as estrelas com base na avaliação
   const getStars = (nota) => {
     return (
       <span className="stars">
@@ -107,11 +110,57 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
       </span>
     );
   };
-  
+
+  const handleSort = (key) => {
+    console.log("handleSort chamado com a chave:", key); // Log para depuração
+
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+
+    console.log("Ordenando por:", key, "Direção:", direction); // Log para depuração
+
+    setPlayers((prevPlayers) => {
+      const sortedPlayers = [...prevPlayers].sort((a, b) => {
+        // Verifique se as chaves existem e são válidas
+        if (a[key] === undefined || b[key] === undefined) {
+          console.warn(`Chave "${key}" não encontrada ou inválida em algum objeto.`);
+          return 0;
+        }
+
+        // Tratamento especial para datas e números
+        let valueA = a[key];
+        let valueB = b[key];
+
+        if (key === "DATA_NASC") {
+          // Converte datas para timestamps para comparação
+          valueA = new Date(valueA).getTime();
+          valueB = new Date(valueB).getTime();
+        } else if (key === "NOTA_ADM") {
+          // Garante que as notas sejam números
+          valueA = Number(valueA);
+          valueB = Number(valueB);
+        }
+
+        if (valueA < valueB) {
+          return direction === "ascending" ? -1 : 1;
+        }
+        if (valueA > valueB) {
+          return direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      });
+
+      console.log("Jogadores ordenados:", sortedPlayers); // Log para depuração
+      return sortedPlayers;
+    });
+  };
 
   return (
     <div className="list-players-container">
-      {/* Barra de pesquisa e botões */}
+      {console.log("Tabela re-renderizada")}
       <div className="lista-eventos-toolbar">
         <div className="lista-eventos-search-container">
           <input
@@ -146,20 +195,19 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
         )}
       </div>
 
-      {/* Tabela de jogadores */}
       <div className="lista-eventos-scroll-container">
         <table className="lista-eventos-table">
           <thead>
             <tr>
               {selectMode && <th></th>}
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Clube</th>
-              <th>Avaliação</th>
-              <th>Gênero</th>
-              <th>Ano Nasc.</th>
-              <th>Nacionalidade</th>
-              <th>Estado</th>
+              <th onClick={() => handleSort("ID_JOGADORES")}>ID</th>
+              <th onClick={() => handleSort("NOME")}>Nome</th>
+              <th onClick={() => handleSort("ABREVIATURA_CLUBE")}>Clube</th>
+              <th onClick={() => handleSort("NOTA_ADM")}>Avaliação</th>
+              <th onClick={() => handleSort("GENERO")}>Gênero</th>
+              <th onClick={() => handleSort("DATA_NASC")}>Ano Nasc.</th>
+              <th onClick={() => handleSort("NACIONALIDADE")}>Nacionalidade</th>
+              <th onClick={() => handleSort("STATUS")}>Estado</th>
             </tr>
           </thead>
           <tbody>
@@ -184,8 +232,7 @@ const ListPlayers = ({ onSelectPlayer, onPlayersLoaded }) => {
                   <td>{player.ID_JOGADORES}</td>
                   <td>{player.NOME}</td>
                   <td>{player.ABREVIATURA_CLUBE || "--"}</td>
-                  <td>{getStars(player.NOTA_ADM || 0)}</td>{" "}
-                  {/* Usando a função getStars */}
+                  <td>{getStars(player.NOTA_ADM || 0)}</td>
                   <td>{player.GENERO}</td>
                   <td>
                     {player.DATA_NASC

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import RegisterPage from "../pages/RegisterPage";
 import ConfirmRegisterPage from "../pages/ConfirmRegisterPage";
@@ -26,15 +26,14 @@ import ReportsHistory from "../pages/ReportsHistory";
 import Page401 from "../pages/Page401";
 import Microsite from "../pages/Microsite";
 import ProtectedRoute from "../components/ProtectedRoute";
-import Loader from "../components/Loader"; // Importando Loader
+import Loader from "../components/Loader";
+import Cookies from "js-cookie"; // Importar Cookies para verificar autenticação
 import "../CSS/ScrollBar.css";
 
 const AppRoutes = () => {
   return <RoutesWithNavbar />;
 };
 
-
-// Gerenciando transição entre páginas
 const RoutesWithNavbar = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
@@ -47,13 +46,30 @@ const RoutesWithNavbar = () => {
 
   const hideNavbarRoutes = ["/login", "/register", "/register/confirm", "/forgot-password", "/forgot-password-confirm", "/microsite", "/erro401"];
 
+  // Verifica se o usuário está autenticado
+  const isAuthenticated = () => {
+    const token = Cookies.get("token"); // Verifica se o token está presente
+    return !!token; // Retorna true se o token existir, caso contrário, false
+  };
+
   return (
     <div className="scroll-container">
       {loading && <Loader />} {/* Mostra o Loader ao mudar de rota */}
       {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
-      
+
       <div className={`page-container ${loading ? "fade-out" : "fade-in"}`}>
         <Routes>
+          {/* Rota raiz que redireciona para o login ou para a página inicial */}
+          <Route
+            path="/"
+            element={
+              isAuthenticated() ? (
+                <Navigate to="/home" replace />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/register/confirm" element={<ConfirmRegisterPage />} />

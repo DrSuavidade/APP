@@ -10,7 +10,8 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
   const [selectMode, setSelectMode] = useState(false);
   const [selectedRelatorios, setSelectedRelatorios] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
+  const [userType, setUserType] = useState(null);
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "ascending" }); // Estado para ordenação
 
   useEffect(() => {
     const fetchRelatorios = async () => {
@@ -30,6 +31,10 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
     const ID_TIPO = Cookies.get("ID_TIPO");
     setUserType(ID_TIPO);
   }, []);
+
+  useEffect(() => {
+    console.log("Relatórios atualizados:", relatorios); // Log para depuração
+  }, [relatorios]);
 
   const toggleSelectMode = () => {
     setSelectMode(!selectMode);
@@ -119,8 +124,56 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
     );
   };
 
+  const handleSort = (key) => {
+    console.log("handleSort chamado com a chave:", key); // Log para depuração
+
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+
+    console.log("Ordenando por:", key, "Direção:", direction); // Log para depuração
+
+    setRelatorios((prevRelatorios) => {
+      const sortedRelatorios = [...prevRelatorios].sort((a, b) => {
+        // Verifique se as chaves existem e são válidas
+        if (a[key] === undefined || b[key] === undefined) {
+          console.warn(`Chave "${key}" não encontrada ou inválida em algum objeto.`);
+          return 0;
+        }
+
+        // Tratamento especial para datas e números
+        let valueA = a[key];
+        let valueB = b[key];
+
+        if (key === "DATA") {
+          // Converte datas para timestamps para comparação
+          valueA = new Date(valueA).getTime();
+          valueB = new Date(valueB).getTime();
+        } else if (key === "NOTA_ADM") {
+          // Garante que as notas sejam números
+          valueA = Number(valueA);
+          valueB = Number(valueB);
+        }
+
+        if (valueA < valueB) {
+          return direction === "ascending" ? -1 : 1;
+        }
+        if (valueA > valueB) {
+          return direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      });
+
+      console.log("Relatórios ordenados:", sortedRelatorios); // Log para depuração
+      return sortedRelatorios;
+    });
+  };
+
   return (
     <div className="list-relatorios-container">
+      {console.log("Tabela re-renderizada")}
       <div className="lista-eventos-toolbar">
         <div className="lista-eventos-search-container">
           <input
@@ -154,12 +207,12 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
           <thead>
             <tr>
               {selectMode && <th></th>}
-              <th>ID</th>
-              <th>Jogador</th>
-              <th>Clube</th>
-              <th>Avaliação</th>
-              <th>Scouter</th>
-              <th>Data</th>
+              <th onClick={() => handleSort("ID_RELATORIO")}>ID</th>
+              <th onClick={() => handleSort("JOGADOR_NOME")}>Jogador</th>
+              <th onClick={() => handleSort("ABREVIATURA_CLUBE")}>Clube</th>
+              <th onClick={() => handleSort("NOTA_ADM")}>Avaliação</th>
+              <th onClick={() => handleSort("NOME_USER")}>Scouter</th>
+              <th onClick={() => handleSort("DATA")}>Data</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -194,9 +247,7 @@ const ListRelatorios = ({ onSelectRelatorio }) => {
                   <td>{report.JOGADOR_NOME}</td>
                   <td>{report.ABREVIATURA_CLUBE}</td>
                   <td>{getStars(report.NOTA_ADM)}</td>
-                  <td>
-                    {report.NOME_USER} (ID: {report.ID_USER})
-                  </td>
+                  <td>{report.NOME_USER} (ID: {report.ID_USER})</td>
                   <td>{new Date(report.DATA).toLocaleDateString()}</td>
                   <td>
                     <div

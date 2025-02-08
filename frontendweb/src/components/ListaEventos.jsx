@@ -10,7 +10,8 @@ const ListaEventos = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectMode, setSelectMode] = useState(false);
   const [selectedEventos, setSelectedEventos] = useState([]);
-  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
+  const [userType, setUserType] = useState(null);
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "ascending" }); // Estado para ordenação
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +29,10 @@ const ListaEventos = () => {
     const ID_TIPO = Cookies.get("ID_TIPO");
     setUserType(ID_TIPO);
   }, []);
+
+  useEffect(() => {
+    console.log("Eventos atualizados:", eventos); // Log para depuração
+  }, [eventos]);
 
   const toggleSelectMode = () => {
     setSelectMode(!selectMode);
@@ -79,15 +84,61 @@ const ListaEventos = () => {
     });
   };
 
-  // Função para formatar a data no formato dd/mm/yyyy
   const formatarData = (dataString) => {
     const data = new Date(dataString);
     return data.toLocaleDateString("pt-PT"); // Formata a data para dd/mm/yyyy
   };
 
+  const handleSort = (key) => {
+    console.log("handleSort chamado com a chave:", key); // Log para depuração
+
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+
+    console.log("Ordenando por:", key, "Direção:", direction); // Log para depuração
+
+    setEventos((prevEventos) => {
+      const sortedEventos = [...prevEventos].sort((a, b) => {
+        // Verifique se as chaves existem e são válidas
+        if (a[key] === undefined || b[key] === undefined) {
+          console.warn(`Chave "${key}" não encontrada ou inválida em algum objeto.`);
+          return 0;
+        }
+
+        // Tratamento especial para datas e números
+        let valueA = a[key];
+        let valueB = b[key];
+
+        if (key === "DATA") {
+          // Converte datas para timestamps para comparação
+          valueA = new Date(valueA).getTime();
+          valueB = new Date(valueB).getTime();
+        } else if (key === "HORA") {
+          // Converte horas para timestamps para comparação
+          valueA = new Date(`1970-01-01T${valueA}`).getTime();
+          valueB = new Date(`1970-01-01T${valueB}`).getTime();
+        }
+
+        if (valueA < valueB) {
+          return direction === "ascending" ? -1 : 1;
+        }
+        if (valueA > valueB) {
+          return direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      });
+
+      console.log("Eventos ordenados:", sortedEventos); // Log para depuração
+      return sortedEventos;
+    });
+  };
+
   return (
     <div className="lista-eventos-container">
-      {/* Barra de pesquisa e botões */}
+      {console.log("Tabela re-renderizada")}
       <div className="lista-eventos-toolbar">
         <div className="lista-eventos-search-container">
           <input
@@ -119,18 +170,17 @@ const ListaEventos = () => {
         )}
       </div>
 
-      {/* Tabela de eventos */}
       <div className="lista-eventos-scroll-container">
         <table className="lista-eventos-table">
           <thead>
             <tr>
               {selectMode && <th></th>}
-              <th>ID</th> {/* Nova coluna para o ID do evento */}
-              <th>Jogo</th>
-              <th>Scouter</th>
-              <th>Data</th>
-              <th>Hora</th>
-              <th>Local</th>
+              <th onClick={() => handleSort("ID_EVENTOS")}>ID</th>
+              <th onClick={() => handleSort("EQUIPA_CASA")}>Jogo</th>
+              <th onClick={() => handleSort("NOME_USER")}>Scouter</th>
+              <th onClick={() => handleSort("DATA")}>Data</th>
+              <th onClick={() => handleSort("HORA")}>Hora</th>
+              <th onClick={() => handleSort("LOCAL")}>Local</th>
             </tr>
           </thead>
           <tbody>
@@ -149,10 +199,10 @@ const ListaEventos = () => {
                       />
                     </td>
                   )}
-                  <td>{evento.ID_EVENTOS}</td> {/* Exibe o ID do evento */}
+                  <td>{evento.ID_EVENTOS}</td>
                   <td>{evento.EQUIPA_CASA} vs {evento.VISITANTE}</td>
                   <td>{evento.NOME_USER || "Sem Scout Associado"}</td>
-                  <td>{formatarData(evento.DATA)}</td> {/* Formata a data */}
+                  <td>{formatarData(evento.DATA)}</td>
                   <td>{evento.HORA}</td>
                   <td>{evento.LOCAL}</td>
                 </tr>
