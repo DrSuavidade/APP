@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 app.use('/api', require('./components/Routes/UserRoutes'));
 
 
-const PORT = process.env.PORT || "https://backendscout-cx6c.onrender.com";
+const PORT = process.env.PORT || 3000;
 
 // Conexão ao MongoDB
 mongoose.connect(process.env.MONGO_URI)
