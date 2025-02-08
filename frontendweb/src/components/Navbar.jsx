@@ -2,32 +2,46 @@ import React, { useEffect, useState } from "react";
 import "../CSS/Navbar.css";
 import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
-import { FaUser, FaSignOutAlt } from "react-icons/fa"; // Ícones do react-icons
+import { FaUser, FaSignOutAlt } from "react-icons/fa";
+import Swal from "sweetalert2"; // Importa o SweetAlert
 
 const Navbar = () => {
   const [userID, setUserID] = useState(null);
   const [userName, setUserName] = useState("");
+  const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
   const [showDropdown, setShowDropdown] = useState(false); // Estado para controlar o dropdown
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Busca o ID e o nome do usuário dos cookies
+    // Busca o ID, nome e tipo do usuário dos cookies
     const storedID = Cookies.get("ID_USER");
     const storedName = Cookies.get("USER_NAME"); // Adicione o nome do usuário ao cookie no login
+    const storedType = Cookies.get("ID_TIPO"); // Adicione o ID_TIPO ao cookie no login
+
     setUserID(storedID);
     setUserName(storedName || "Usuário"); // Fallback para "Usuário" se o nome não estiver disponível
+    setUserType(storedType); // Definindo o tipo de usuário
   }, []);
 
   const handleLogout = () => {
-    // Limpa os cookies
-    Cookies.remove("token");
-    Cookies.remove("ID_USER");
-    Cookies.remove("USER_NAME");
-    // Redireciona para a página de login
-    navigate("/login");
+    Swal.fire({
+      title: 'Tem certeza que deseja sair?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim, sair',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Limpa os cookies
+        Cookies.remove("token");
+        Cookies.remove("ID_USER");
+        Cookies.remove("USER_NAME");
+        Cookies.remove("ID_TIPO");
+        // Redireciona para a página de login
+        navigate("/login");
+      }
+    });
   };
-
- 
 
   return (
     <nav className="bg-black text-white flex items-center justify-between px-6 py-3">
@@ -50,15 +64,21 @@ const Navbar = () => {
             <span className="nav-link text-gray-400">CLUBES</span>
           )}
         </li>
-        <li className="cursor-pointer hover:opacity-80">
-          <Link to="/scouts" className="nav-link">SCOUTERS</Link>
-        </li>
+        {/* Esconde SCOUTERS se o ID_TIPO for 1 */}
+        {userType !== "1" && (
+          <li className="cursor-pointer hover:opacity-80">
+            <Link to="/scouts" className="nav-link">SCOUTERS</Link>
+          </li>
+        )}
         <li className="bg-gray-800 px-4 py-2 rounded">
           <Link to="/events" className="nav-link">EVENTOS</Link>
         </li>
-        <li className="cursor-pointer hover:opacity-80">
-          <Link to="/reports" className="nav-link">RELATÓRIOS</Link>
-        </li>
+        {/* Esconde RELATÓRIOS se o ID_TIPO for 1 */}
+        {userType !== "1" && (
+          <li className="cursor-pointer hover:opacity-80">
+            <Link to="/reports" className="nav-link">RELATÓRIOS</Link>
+          </li>
+        )}
         <li
           className="relative cursor-pointer hover:opacity-80"
           onMouseEnter={() => setShowDropdown(true)}
@@ -66,7 +86,7 @@ const Navbar = () => {
         >
           <div className="flex items-center space-x-2">
             <FaUser className="text-xl" />
-            <span> {userName}</span>
+            <span>{userName}</span>
           </div>
           {showDropdown && (
             <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg">

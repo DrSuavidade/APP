@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Adiciona useNavigate
 import axios from "axios";
+import Cookies from "js-cookie"; // Importar a biblioteca js-cookie
 import "../CSS/addClub.css";
 
 const CreateTeamPage = () => {
@@ -9,6 +10,13 @@ const CreateTeamPage = () => {
   const [escalao, setEscalao] = useState("Sub-13");
   const [message, setMessage] = useState("");
   const navigate = useNavigate(); // Use o hook useNavigate para navegação
+
+  useEffect(() => {
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    if (ID_TIPO === "1") {
+      navigate('/erro401'); // Redireciona para a página de erro 401 se o ID_TIPO for 1
+    }
+  }, [navigate]);
 
   const escaloes = [
     "Sub-13", "Sub-14", "Sub-15", "Sub-16", "Sub-18", "Sub-19", "Sub-23", "Profissional"

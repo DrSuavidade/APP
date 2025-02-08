@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './../CSS/TeamPage.css';
 import DropboxJogadores from './../components/DropboxJogadores';
 import ListaJogadoresEqp from './../components/ListaJogadoresEqp';
+import Cookies from 'js-cookie';
 
-const players = [
-    { name: "João Silva", age: 10, year: 2013, team: "AC Viseu Sub-10", stars: 4 },
-    { name: "Silva João ", age: 10, year: 2013, team: "AC Viseu Sub-10", stars: 2 },
-    { name: "Pedro Lima", age: 11, year: 2012, team: "AC Viseu Sub-11", stars: 5 },
-    { name: "David Moreira", age: 15, year: 2009, team: "AC Viseu Sub-19", stars: 3 },
-    { name: "Luís Gonçalves", age: 22, year: 2001, team: "AC Viseu Sub-23", stars: 4 },
-    { name: "André Costa", age: 27, year: 1996, team: "AC Viseu Profissional", stars: 5 },
-];
+const players = [];
 
 const TeamPage = () => {
     const [availablePlayers, setAvailablePlayers] = useState(players);
     const [registeredPlayers, setRegisteredPlayers] = useState([]);
     const [idEquipa] = useState(1); // 🔹 Definindo ID da equipa como 1
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Verifica se o ID_TIPO existe nos cookies
+        const ID_TIPO = Cookies.get("ID_TIPO");
+        if (ID_TIPO === "3") {
+            navigate('/erro401'); // Redireciona para a página de erro 401 se o ID_TIPO for 1
+        }
+    }, [navigate]);
 
     const handleRegisterPlayer = (player) => {
         setRegisteredPlayers([...registeredPlayers, player]);
@@ -38,7 +42,5 @@ const TeamPage = () => {
         </div>
     );
 };
-
-
 
 export default TeamPage;

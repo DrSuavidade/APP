@@ -7,17 +7,22 @@ import "../CSS/ReportsPage.css"; // Importe o CSS específico para a ReportsPage
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
-
 const ReportsPage = () => {
-const [selectedRelatorio, setSelectedRelatorio] = useState(null);
-const navigate = useNavigate();
+  const [selectedRelatorio, setSelectedRelatorio] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Verifica se o token existe nos cookies
-  const token = Cookies.get('token');
-  if (!token) {
-    navigate('/login'); // Redireciona para a página de login se não houver token
-  }
+    const token = Cookies.get('token');
+    if (!token) {
+      navigate('/login'); // Redireciona para a página de login se não houver token
+    }
+
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    if (ID_TIPO === "1") {
+      navigate('/erro401'); // Redireciona para a página de erro 401 se o ID_TIPO for 1
+    }
+
     const fetchRelatorios = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/relatorios-merged");
@@ -33,19 +38,18 @@ const navigate = useNavigate();
   }, [navigate]);
 
   return (
-      <div className="reports-page">
-        <div className="reports-left">
-          <div className="player-cards-container">
-            <PlayerCard onSelectRelatorio={setSelectedRelatorio} />
-          </div>
-          <ListRelatorios onSelectRelatorio={setSelectedRelatorio} />
+    <div className="reports-page">
+      <div className="reports-left">
+        <div className="player-cards-container">
+          <PlayerCard onSelectRelatorio={setSelectedRelatorio} />
         </div>
-        <div className="reports-right">
-          {selectedRelatorio && <FichaRelatorio ID_RELATORIO={selectedRelatorio} />}
-        </div>
+        <ListRelatorios onSelectRelatorio={setSelectedRelatorio} />
       </div>
-    );
-    
+      <div className="reports-right">
+        {selectedRelatorio && <FichaRelatorio ID_RELATORIO={selectedRelatorio} />}
+      </div>
+    </div>
+  );
 };
 
 export default ReportsPage;

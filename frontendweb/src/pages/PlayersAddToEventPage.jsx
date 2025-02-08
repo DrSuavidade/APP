@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../CSS/AddEventToScout.css";
 import EventCard from "../components/EventCard";
 import ListaJogadores from "../components/ListaJogadores";
 import JogadoresDestacados from "../components/JogadoresDestacados";
+import Cookies from "js-cookie";
 
 const PlayersAddToEventPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [selectedEventId, setSelectedEventId] = useState(null);
   const [selectedScouter, setSelectedScouter] = useState(null);
   const [selectedPlayers, setSelectedPlayers] = useState([]);
 
   useEffect(() => {
+    // Verifica se o ID_TIPO existe nos cookies
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    if (ID_TIPO === "1") {
+      navigate('/erro401'); // Redireciona para a página de erro 401 se o ID_TIPO for 1
+    }
+
     const updateSelectedData = () => {
       const storedEventId = localStorage.getItem("selectedEvent");
       setSelectedEventId(storedEventId);
@@ -32,7 +40,7 @@ const PlayersAddToEventPage = () => {
     return () => {
       window.removeEventListener("storage", updateSelectedData);
     };
-  }, [location.state]);
+  }, [location.state, navigate]);
 
   const handleSelectedPlayers = (players) => {
     setSelectedPlayers(players);

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Para redirecionamento
 import "../CSS/PlayerCreatePage.css";
 import api from "../api/axios";
+import Cookies from 'js-cookie'; // Importar a biblioteca js-cookie
 
 // Função para renderizar estrelas
 const renderStars = (rating) => {
@@ -17,6 +19,7 @@ const renderStars = (rating) => {
 };
 
 function PlayersCreatePage() {
+  const navigate = useNavigate(); // Para redirecionamento
   const [formData, setFormData] = useState({
     NOME: "",
     LINK: "",
@@ -30,8 +33,13 @@ function PlayersCreatePage() {
   const [success, setSuccess] = useState(false);
   const [players, setPlayers] = useState([]); // Estado para armazenar os jogadores
 
-  // Fetch dos 10 últimos jogadores
   useEffect(() => {
+    // Verifica se o ID_TIPO existe nos cookies
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    if (ID_TIPO === "1") {
+      navigate('/erro401'); // Redireciona para a página de erro 401 se o ID_TIPO for 1
+    }
+
     const fetchPlayers = async () => {
       try {
         const response = await api.get("/jogador/lastTen");
@@ -42,7 +50,7 @@ function PlayersCreatePage() {
     };
 
     fetchPlayers();
-  }, [success]); // Atualiza a lista quando um jogador é adicionado com sucesso
+  }, [success, navigate]); // Adiciona navigate para usar dentro do useEffect
 
   const handleChange = (e) => {
     const { id, value, files } = e.target;

@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import CardHistory from "../components/CardHistory";
 import ListHistory from "../components/ListHistory";
 import FichaRelatorio from "../components/FichaRelatorio";
 import axios from "axios";
 import "../CSS/ReportsPage.css"; // Importando o mesmo CSS da ReportsPage
+import Cookies from 'js-cookie';
 
 const ReportsHistory = () => {
   const { ID_JOGADORES } = useParams(); // Pegando o ID do jogador pela URL
   const [selectedRelatorio, setSelectedRelatorio] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // Verifica se o token existe nos cookies
+    const token = Cookies.get('token');
+    if (!token) {
+      navigate('/login'); // Redireciona para a página de login se não houver token
+    }
+
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    if (ID_TIPO === "1") {
+      navigate('/erro401'); // Redireciona para a página de erro 401 se o ID_TIPO for 1
+    }
+
     const fetchFirstRelatorio = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/api/player/reports/${ID_JOGADORES}`);
@@ -23,7 +36,7 @@ const ReportsHistory = () => {
     };
 
     fetchFirstRelatorio();
-  }, [ID_JOGADORES]); // Atualiza sempre que o ID do jogador mudar
+  }, [ID_JOGADORES, navigate]); // Atualiza sempre que o ID do jogador mudar
 
   return (
     <div className="reports-page"> 
