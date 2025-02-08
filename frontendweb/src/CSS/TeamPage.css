@@ -135,27 +135,40 @@ body {
     max-width: 250px;
 }
 
-.player-card.selected {
-    border: 3px solid #4CAF50; /* Adiciona borda verde */
-    box-shadow: 0 0 5px #4CAF50; /* Adiciona uma sombra para destacar */
-}
-
 .player-card:hover {
     transform: scale(1.05);
 }
 
-/* 🔹 Ajusta as informações */
-.profile-icon {
-    width: 55px;
-    height: 55px;
+/* 🔹 Avatar do jogador */
+.player-avatar {
+    width: 60px;
+    height: 60px;
+    background: gray;
     border-radius: 50%;
-    background-color: #ffffff;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    margin: auto;
+}
+
+.player-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* 🔹 Ajusta as informações */
+.player-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
     color: white;
-    font-size: 22px;
-  }
+    flex-grow: 1;
+}
 
 .player-name {
     font-size: 14px;
@@ -166,7 +179,6 @@ body {
 .player-note {
     font-size: 12px;
     color: #bbb;
-    padding: 3px;
 }
 
 
@@ -286,7 +298,6 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    
 }
 
 /* Estrelas alinhadas à direita */
