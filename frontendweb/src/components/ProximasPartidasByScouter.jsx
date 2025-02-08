@@ -51,7 +51,7 @@ const ProximasPartidasByScouter = ({ ID_USER }) => {
                 <strong>{partida.VISITANTE}</strong>
               </div>
               <p className="local">
-              <FaMapMarkerAlt className="location-icon" />
+              <FaMapMarkerAlt className="local-icon" />
               {partida.LOCAL}
               </p>
             </div>

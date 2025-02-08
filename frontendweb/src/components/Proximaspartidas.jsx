@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import "../CSS/eventsviewpage.css"; // Importa o CSS específico
+import { FaMapMarkerAlt } from "react-icons/fa";
+
 
 const ProximasPartidas = () => {
   const [escaloes] = useState([
@@ -71,7 +73,9 @@ const ProximasPartidas = () => {
               <div className="eventos-escalao-details">
                 <span className="eventos-escalao-data">{evento.DATA}</span>
                 <span className="eventos-escalao-hora">{evento.HORA}</span>
-                <span className="eventos-escalao-local">{evento.LOCAL}</span>
+                <span className="eventos-escalao-local">
+                  <FaMapMarkerAlt className="location-icon" /> {evento.LOCAL}
+                </span>
               </div>
             </div>
           ))

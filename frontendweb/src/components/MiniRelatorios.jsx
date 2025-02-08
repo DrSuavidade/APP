@@ -39,7 +39,12 @@ const MiniRelatorios = ({ ID_USER }) => {
   const getStars = (nota) => {
     const totalStars = 5;
     const fullStars = Math.floor(nota);
-    return "★".repeat(fullStars) + "☆".repeat(totalStars - fullStars);
+    return (
+      <span className="stars">
+        <span className="filled-star">{"★".repeat(fullStars)}</span>
+        <span className="gray-stars">{"★".repeat(totalStars - fullStars)}</span>
+      </span>
+    );
   };
 
   if (loading) {
@@ -52,7 +57,7 @@ const MiniRelatorios = ({ ID_USER }) => {
 
   return (
     <div className="mini-relatorios-container">
-      <h2>Histórico de Avaliações</h2><br />
+      <h2>HISTÓRICO DE AVALIAÇÕES</h2><br />
       {relatorios.length > 0 ? (
         relatorios.map((report) => (
           <div key={report.ID_RELATORIO} className="mini-relatorio-item">

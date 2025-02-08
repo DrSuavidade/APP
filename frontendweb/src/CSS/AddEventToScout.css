@@ -34,7 +34,7 @@ body {
 
 /* Right Section */
 .right-section {
-    display: flex;
+    display: center;
     flex-direction: column;
     gap: 20px;
     background-color: #1e1e1e;
@@ -69,6 +69,7 @@ body {
     border-radius: 10px;
     text-align: center;
     color: white;
+    margin: 20px;
 }
 
 .scouter-avatar {
@@ -127,4 +128,12 @@ body {
 
 .content-wrapper {
     padding-top: 20%; /* Ajuste o valor conforme necessário */
+}
+
+.add-player-button{
+background: #3e8e41;
+}
+
+.add-player-button:hover{
+    background: #2e6830;
 }

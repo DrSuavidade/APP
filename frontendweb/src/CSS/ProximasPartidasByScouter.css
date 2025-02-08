@@ -3,14 +3,14 @@
     padding: 15px;
     border-radius: 10px;
     color: white;
-    font-family: Arial, sans-serif;
 }
 
 .proximas-partidas-container h3 {
     text-align: center;
-    font-size: 14px;
+    font-size: 18px;
     padding: 5px;
     border-radius: 5px;
+    font-size: bold;
 }
 
 .partidas-list {
@@ -47,11 +47,11 @@
 
 .local {
     font-size: 12px;
-    color: rgb(190, 190, 190);
+    color: rgb(255, 255, 255);
     margin-top: 5px;
 }
 
-.location-icon {
+.local-icon {
     margin-right: 5px;
     color: rgb(255, 255, 255);
   }

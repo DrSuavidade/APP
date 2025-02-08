@@ -331,10 +331,12 @@
   display: center;
   flex-direction: column;
   background: url('../img/botaojogos.png') no-repeat center;  
+  border: 2px solid #1d540e;
   width: 300px;
   height: 120px;
   margin-bottom: 1px;
   padding: 2%;
+  border-radius: 5%;
 }
 
 .recent-events-container .event-scout {

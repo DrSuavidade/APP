@@ -282,7 +282,7 @@ body {
 }
 
 .eventos-escalao-item {
-  background-color: #3a3a3a; /* Fundo escuro para os itens */
+  background: url('../img/botaojogos.png') no-repeat center;  
   padding: 12px;
   border-radius: 8px;
   margin-bottom: 10px;
@@ -317,6 +317,7 @@ body {
 .eventos-escalao-local {
   display: block;
   margin: 4px 0;
+  color: #ffffff; /* Texto mais claro para detalhes */
 }
 
 .eventos-escalao-loading,

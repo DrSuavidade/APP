@@ -6,7 +6,6 @@
     padding: 20px;
     border-radius: 10px;
     color: white;
-    font-family: Arial, sans-serif;
 }
 
 /* Lista de relatórios */
@@ -14,15 +13,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #2a2a2a;
+    background: #8b8d8c;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 8px;
+    font-size: 13px;
     transition: background 0.3s ease-in-out;
 }
 
 .mini-relatorio-item:hover {
-    background: #333;
+    background: rgb(125, 125, 125);
 }
 
 /* Nome do jogador */
@@ -31,11 +31,6 @@
     text-align: left;
 }
 
-/* Estilização de estrelas */
-.estrelas {
-    color: gold;
-    font-size: 14px;
-}
 
 /* Indicador de status */
 .status-circle {
@@ -43,4 +38,18 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
+    right: -80px;
+}
+
+.stars {
+    color: gold;
+    display: flex;
+    justify-content: flex-end; /* Empurra as estrelas para a direita */
+    width: 100%; /* Garante que ocupe todo o espaço disponível */
+}
+
+.filled-star, .gray-stars {
+    color: rgb(31, 31, 31);
+    font-size: 14px; /* Tamanho das estrelas */
+    white-space: nowrap; /* Evita que as estrelas quebrem de linha */
 }

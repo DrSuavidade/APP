@@ -6,7 +6,7 @@
 }
 
 .event-card {
-    background-color: #a0a0a0;
+    background: url('../img/botaojogos.png') no-repeat center;  
     /* Cor de fundo igual à imagem */
     border-radius: 15px;
     /* Bordas arredondadas */
@@ -14,7 +14,7 @@
     width: 300px;
     /* Ajusta a largura do cartão */
     text-align: center;
-    border: 2px solid #929292;
+    border: 2px solid #1d540e;
     /* Borda azul */
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 }
@@ -22,6 +22,7 @@
 .event-date {
     font-size: 14px;
     font-weight: bold;
+    color: white;
 }
 
 .event-teams {
@@ -31,15 +32,18 @@
     font-size: 16px;
     font-weight: bold;
     margin: 10px 0;
+    color: white;
 }
 
 .event-time {
     font-size: 14px;
+    color: white;
 }
 
 .team-name {
     flex: 1;
     text-align: center;
+    color: white;
 }
 
 .event-location {
@@ -48,11 +52,12 @@
     justify-content: center;
     margin-top: 10px;
     font-size: 14px;
+    color: white;
 }
 
 .location-icon {
     margin-right: 5px;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 
 .error-message,
