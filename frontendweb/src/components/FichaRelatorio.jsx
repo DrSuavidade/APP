@@ -51,7 +51,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
     return [...Array(5)].map((_, index) => (
       <span
         key={index}
-        className={index < notaADM ? "star filled" : "star"}
+        className={index < notaADM ? "Star filled" : "Star"}
         onClick={() => {
           if (status === "Avaliado") setNotaADM(index + 1);
         }}
@@ -185,8 +185,8 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
         )}
       </div>
 
-      <h4>ALTURA: {relatorio.ALTURA}</h4>
-      <h4>MORFOLOGIA: {relatorio.MORFOLOGIA}</h4>
+      <h4>ALTURA:  <div className="titulo2"> {relatorio.ALTURA}</div></h4>
+      <h4>MORFOLOGIA: <div className="titulo2">{relatorio.MORFOLOGIA}</div></h4>
 
       <div className="comments">
         <h4>COMENTÁRIO SCOUTER</h4>
@@ -202,7 +202,7 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
 
       <div className="avaliacao-global">
       <h4>AVALIAÇÃO GLOBAL</h4>
-      <div className="stars">{getStars()}</div>
+      <div className="Stars">{getStars()}</div>
       </div>
 
       {status === "Avaliado" && userType !== "1" && (

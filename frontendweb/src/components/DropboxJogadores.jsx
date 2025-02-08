@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 
 const DropboxJogadores = ({ onRegisterPlayer }) => {
     const location = useLocation();
-    const navigate = useNavigate();
     const { idEquipa } = location.state || JSON.parse(localStorage.getItem("selectedTeam")) || {};  // Acessa o ID da equipa da navegação anterior ou do localStorage
     const [selectedYear, setSelectedYear] = useState('');
     const [players, setPlayers] = useState([]);
