@@ -145,8 +145,8 @@ body {
 
 .left-menu {
   flex-grow: 2;
-  width: 40vw;
-  max-width: 1100px;
+  width:55vw;
+  max-width: 1300px;
   background-color: #252525;
   padding: 5px; /* Reduzir o padding */
   border-radius: 10px;
@@ -492,9 +492,7 @@ body {
   margin-bottom: 10px; /* Reduzir o espaçamento */
 }
 
-.toolbar .favorite-button {
-  margin-left: 0;
-}
+
 
 .icons-container {
   display: flex;
