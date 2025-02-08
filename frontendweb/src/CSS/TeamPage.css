@@ -106,11 +106,9 @@ body {
    ========================== */
    .players-container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Alinha ao centro */
+    flex-direction: column;
     align-items: center;
     gap: 20px;
-    width: 100%;
     padding: 20px;
 }
 
@@ -125,19 +123,21 @@ body {
 
 /* 🔹 Ajusta o card para que fique corretamente dentro do container */
 .player-card {
-    background: #1e1e1e;
-    border-radius: 10px;
+    background-color: #1e1e1e;
+    color: white;
     padding: 15px;
+    border-radius: 10px;
     text-align: center;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-    transition: transform 0.2s;
-    width: 100%;
-    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
 }
 
 .player-card.selected {
-    border: 3px solid #4CAF50; /* Adiciona borda verde */
-    box-shadow: 0 0 5px #4CAF50; /* Adiciona uma sombra para destacar */
+    background-color: #333;
+    border: 2px solid #4CAF50;
 }
 
 .player-card:hover {
@@ -146,20 +146,19 @@ body {
 
 /* 🔹 Ajusta as informações */
 .profile-icon {
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    background-color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 22px;
+    background: url('../img/v219_657.png') no-repeat center;
+    background-size: contain;
+    margin-bottom: 0px;
+    background-color: #1e1e1e;
   }
 
-.player-name {
-    font-size: 14px;
-    font-weight: bold;
+.player-names {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .player-age,

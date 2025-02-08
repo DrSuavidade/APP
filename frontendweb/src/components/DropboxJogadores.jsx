@@ -131,10 +131,10 @@ const DropboxJogadores = ({ onRegisterPlayer }) => {
                                     onClick={() => handlePlayerClick(player)}
                                 >
                                     <div className="player-avatar">
-                                    <div className="profile-icon">👤</div> {/* Moved to the left */}
+                                    <div className="profile-icon"></div> {/* Moved to the left */}
                                     </div>
                                     <div className="player-info">
-                                        <p className="pplayer-name">{player.NOME}</p>
+                                        <p className="player-names">{player.NOME}</p>
                                         <p className="player-age">
                                              {new Date(player.DATA_NASC).toLocaleDateString()}
                                         </p>
