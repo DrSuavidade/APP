@@ -89,3 +89,9 @@ nav {
 .dropdown-item:hover {
   background-color: #f3f4f6;
 }
+
+nav ul li.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  padding: 5px 15px;
+}
