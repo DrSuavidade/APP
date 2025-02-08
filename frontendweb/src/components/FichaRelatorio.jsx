@@ -200,8 +200,10 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
         />
       </div>
 
+      <div className="avaliacao-global">
       <h4>AVALIAÇÃO GLOBAL</h4>
       <div className="stars">{getStars()}</div>
+      </div>
 
       {status === "Avaliado" && userType !== "1" && (
         <div className="buttons">

@@ -15,9 +15,8 @@ const Navbar = () => {
   useEffect(() => {
     // Busca o ID, nome e tipo do usuário dos cookies
     const storedID = Cookies.get("ID_USER");
-    const storedName = Cookies.get("USER_NAME"); // Adicione o nome do usuário ao cookie no login
+    const storedName = Cookies.get("user"); // Adicione o nome do usuário ao cookie no login
     const storedType = Cookies.get("ID_TIPO"); // Adicione o ID_TIPO ao cookie no login
-
     setUserID(storedID);
     setUserName(storedName || "Usuário"); // Fallback para "Usuário" se o nome não estiver disponível
     setUserType(storedType); // Definindo o tipo de usuário
@@ -35,7 +34,7 @@ const Navbar = () => {
         // Limpa os cookies
         Cookies.remove("token");
         Cookies.remove("ID_USER");
-        Cookies.remove("USER_NAME");
+        Cookies.remove("user");
         Cookies.remove("ID_TIPO");
         // Redireciona para a página de login
         navigate("/login");
@@ -58,11 +57,7 @@ const Navbar = () => {
           <Link to="/players" className="nav-link">JOGADORES</Link>
         </li>
         <li className="cursor-pointer hover:opacity-80">
-          {userID ? (
-            <Link to={`/clubs/${userID}`} className="nav-link">CLUBES</Link>
-          ) : (
-            <span className="nav-link text-gray-400">CLUBES</span>
-          )}
+          <Link to="/clubs" className="nav-link">CLUBES</Link>
         </li>
         {/* Esconde SCOUTERS se o ID_TIPO for 1 */}
         {userType !== "1" && (

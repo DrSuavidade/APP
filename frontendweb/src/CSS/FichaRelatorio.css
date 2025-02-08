@@ -75,10 +75,20 @@
     color: white;
   }
   
+  .avaliacao-global {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }  
+
   .stars .star {
     font-size: 24px;
     cursor: pointer;
     color: gray;
+    display: flex;
+    gap: 5px; /* Espaçamento entre as estrelas */
+    margin-top: 5px; /* Ajuste fino de espaçamento */
   }
   
   .stars .star.filled {

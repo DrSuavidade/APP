@@ -1,14 +1,15 @@
-import React from 'react';
-import './App.css';
-import AppRoutes from './routes/AppRoutes';
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom"; // Importa BrowserRouter
+import "./App.css";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
-    <div className="App">
-      <div className="page-container">
-        <AppRoutes /> {/* Mantemos apenas o AppRoutes */}
+    <Router> {/* Agora envolvemos tudo no Router */}
+      <div className="App">
+        <AppRoutes />
       </div>
-    </div>
+    </Router>
   );
 }
 
