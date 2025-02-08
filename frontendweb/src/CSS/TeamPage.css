@@ -135,6 +135,11 @@ body {
     max-width: 250px;
 }
 
+.player-card.selected {
+    border: 3px solid #4CAF50; /* Adiciona borda verde */
+    box-shadow: 0 0 5px #4CAF50; /* Adiciona uma sombra para destacar */
+}
+
 .player-card:hover {
     transform: scale(1.05);
 }
