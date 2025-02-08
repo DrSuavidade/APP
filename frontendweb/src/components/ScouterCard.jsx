@@ -5,11 +5,13 @@ import Swal from "sweetalert2";
 import { FaTrash, FaPlus, FaTimes } from "react-icons/fa";
 import "../CSS/ScouterCard.css";
 
-function ScouterCard({ onSelectScouter }) {
+function ScouterCard({ onSelectScouter, onToggleUsers }) {
   const [scouters, setScouters] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedScouters, setSelectedScouters] = useState([]);
   const [showCheckboxes, setShowCheckboxes] = useState(false);
+  const [hasAutoSelected, setHasAutoSelected] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("Scoutters"); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,13 +20,18 @@ function ScouterCard({ onSelectScouter }) {
         const response = await axios.get("http://localhost:3000/api/users/tipo/3");
         const sortedUsers = response.data.sort((a, b) => (b.ID_TIPO === 3 ? 1 : -1));
         setScouters(sortedUsers);
+
+        if (!hasAutoSelected && sortedUsers.length > 0) {
+          onSelectScouter(sortedUsers[0]);
+          setHasAutoSelected(true);
+        }
       } catch (error) {
         console.error("Erro ao buscar usuários:", error);
       }
     };
 
     fetchScouters();
-  }, []);
+  }, [onSelectScouter, hasAutoSelected]);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -36,21 +43,19 @@ function ScouterCard({ onSelectScouter }) {
 
   const handleSelectScouter = (scouterId, scouter) => {
     if (showCheckboxes) {
-      // Se showCheckboxes estiver ativo, permite selecionar ou desmarcar
       setSelectedScouters((prevSelected) =>
         prevSelected.includes(scouterId)
           ? prevSelected.filter((id) => id !== scouterId)
           : [...prevSelected, scouterId]
       );
     } else {
-      // Comportamento original: envia o ID do scouter
       onSelectScouter(scouter);
     }
   };
 
   const handleDelete = async () => {
     if (!showCheckboxes) {
-      setShowCheckboxes(true); // Ativa o modo de seleção
+      setShowCheckboxes(true);
       return;
     }
 
@@ -88,9 +93,18 @@ function ScouterCard({ onSelectScouter }) {
     });
   };
 
+  // Função para alternar entre "Scoutters" e "Users"
+  const handleFilterChange = (filter) => {
+    setSelectedFilter(filter);
+    onToggleUsers(filter === "Users"); // Define `true` se "Users" for selecionado
+  };
+
+  const filteredUsers = selectedFilter === "Scoutters"
+    ? scouters.filter((user) => user.ID_TIPO === 3)
+    : scouters.filter((user) => user.ID_TIPO !== 3);
+
   return (
     <div className="scouter-list-container">
-      {/* Barra de Pesquisa e Botões */}
       <div className="scouter-toolbar">
         <div className="scouter-search-container">
           <input
@@ -100,6 +114,22 @@ function ScouterCard({ onSelectScouter }) {
             onChange={handleSearch}
           />
         </div>
+
+        <div className="scouter-filter-buttons">
+          <button
+            className={`filter-button ${selectedFilter === "Scoutters" ? "active" : ""}`}
+            onClick={() => handleFilterChange("Scoutters")}
+          >
+            ºScoutters
+          </button>
+          <button
+            className={`filter-button ${selectedFilter === "Users" ? "active" : ""}`}
+            onClick={() => handleFilterChange("Users")}
+          >
+            ºUsers
+          </button>
+        </div>
+
         <div className="scouter-buttons-container">
           <div className="scouter-icons-container">
             <FaTrash className="icon trash" onClick={handleDelete} />
@@ -109,9 +139,8 @@ function ScouterCard({ onSelectScouter }) {
         </div>
       </div>
 
-      {/* Lista de Usuários */}
       <div className="scouter-list">
-        {scouters
+        {filteredUsers
           .filter((scouter) => scouter.NOME.toLowerCase().includes(searchTerm.toLowerCase()))
           .map((scouter) => (
             <div

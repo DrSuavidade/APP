@@ -136,3 +136,23 @@
         height: 80px;
     }
 }
+
+.scouter-filter-buttons {
+    display: flex;
+    gap: 10px;
+    margin-left: 20px;
+  }
+  
+  .filter-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #666;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .filter-button.active {
+    color: white;
+  }

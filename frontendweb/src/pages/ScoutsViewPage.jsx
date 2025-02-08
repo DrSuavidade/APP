@@ -9,18 +9,18 @@ import Cookies from 'js-cookie';
 
 function ScoutsViewPage() {
     const [selectedScouter, setSelectedScouter] = useState(null);
+    const [hideComponents, setHideComponents] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Verifica se o token existe nos cookies
         const token = Cookies.get('token');
         if (!token) {
-            navigate('/login'); // Redireciona para a página de login se não houver token
+            navigate('/login');
         }
 
         const ID_TIPO = Cookies.get("ID_TIPO");
         if (ID_TIPO === "1") {
-            navigate('/erro401'); // Redireciona para a página de erro 401 se o ID_TIPO for 1
+            navigate('/erro401');
         }
     }, [navigate]);
 
@@ -40,25 +40,30 @@ function ScoutsViewPage() {
         <div className="main-container">
             <div className="content-container">
                 <div className="left-container">
-                    <ScouterCard onSelectScouter={handleSelectScouter} />
+                    <ScouterCard 
+                        onSelectScouter={handleSelectScouter} 
+                        onToggleUsers={(hide) => setHideComponents(hide)} // Mantém a lógica de esconder
+                    />
                 </div>
 
-                <div className="right-container">
-                    <MiniRelatorios ID_USER={selectedScouter?.ID_USER} />
-                    <ProximasPartidasByScouter ID_USER={selectedScouter?.ID_USER} />
-                    <button 
-                        className={`assign-event-button ${!selectedScouter ? "disabled" : ""}`} 
-                        onClick={handleAssignEvent} 
-                        disabled={!selectedScouter}
-                    >
-                        Atribuir Evento
-                    </button>
-                    {selectedScouter ? (
-                        <JogadoresDestacados ID_USER={selectedScouter?.ID_USER} />
-                    ) : (
-                        <p>Selecione um Scouter para ver os detalhes.</p>
-                    )}
-                </div>
+                {!hideComponents && (
+                    <div className="right-container">
+                        <MiniRelatorios ID_USER={selectedScouter?.ID_USER} />
+                        <ProximasPartidasByScouter ID_USER={selectedScouter?.ID_USER} />
+                        <button 
+                            className={`assign-event-button ${!selectedScouter ? "disabled" : ""}`} 
+                            onClick={handleAssignEvent} 
+                            disabled={!selectedScouter}
+                        >
+                            Atribuir Evento
+                        </button>
+                        {selectedScouter ? (
+                            <JogadoresDestacados ID_USER={selectedScouter?.ID_USER} />
+                        ) : (
+                            <p>Selecione um Scouter para ver os detalhes.</p>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );
