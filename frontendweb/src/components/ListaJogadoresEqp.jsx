@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { FaCog } from 'react-icons/fa'; // Importe o ícone de roldana
-import Swal from 'sweetalert2'; // Para exibir alertas
-import Cookies from "js-cookie"; // Importar a biblioteca js-cookie
+import { FaCog } from 'react-icons/fa';
+import Swal from 'sweetalert2';
+import Cookies from "js-cookie";
 
 const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
     const location = useLocation();
-    const { idEquipa } = location.state || {};  // Acessa o ID da equipa da navegação anterior
+    const { idEquipa } = location.state || {};
     const idClube = location.state?.idClube;
     const [clube, setClube] = useState({ nome: "Carregando...", abreviatura: "" });
     const [equipas, setEquipas] = useState([]);
-    const [selectedEquipa,] = useState(idEquipa || ""); // Define a equipa automaticamente
+    const [selectedEquipa] = useState(idEquipa || "");
     const [registeredPlayers, setRegisteredPlayers] = useState([]);
-    const [selectedPlayers, setSelectedPlayers] = useState([]);
-    const [userType, setUserType] = useState(null); // Adicionado estado para armazenar ID_TIPO
+    const [selectedPlayer, setSelectedPlayer] = useState(null);
+    const [userType, setUserType] = useState(null);
 
-    // Lista de escalões disponíveis
     const escaloes = ["Sub-10", "Sub-11", "Sub-13", "Sub-15", "Sub-17", "Sub-19", "Profissional"];
 
-    // Buscar informações do clube
     useEffect(() => {
         if (!idClube) return;
 
@@ -39,7 +37,6 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
         setUserType(ID_TIPO);
     }, [idClube]);
 
-    // Buscar equipas do clube
     useEffect(() => {
         if (!idClube) return;
 
@@ -47,7 +44,6 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
             try {
                 const response = await axios.get(`http://localhost:3000/api/equipas/${idClube}`);
                 setEquipas(response.data);
-                // Se a equipa já foi recebida do estado, busca seus jogadores
                 if (idEquipa) {
                     fetchPlayers(idEquipa);
                 }
@@ -60,7 +56,6 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
         fetchTeams();
     }, [idClube, idEquipa]);
 
-    // Buscar jogadores da equipa selecionada
     const fetchPlayers = async (idEquipa) => {
         if (!idEquipa) return;
 
@@ -72,7 +67,6 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
         }
     };
 
-    // Adicionar jogadores manualmente à equipa
     useEffect(() => {
         if (addedPlayers && addedPlayers.length > 0) {
             setRegisteredPlayers(prevPlayers => {
@@ -89,35 +83,30 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
         }
     }, [addedPlayers]);
 
-    // Selecionar ou desselecionar jogadores
     const handlePlayerClick = (player) => {
-        setSelectedPlayers((prev) =>
-            prev.includes(player)
-                ? prev.filter((p) => p.ID_JOGADORES !== player.ID_JOGADORES)
-                : [...prev, player]
-        );
+        setSelectedPlayer(prev => prev && prev.ID_JOGADORES === player.ID_JOGADORES ? null : player);
     };
 
-    // Remover jogadores selecionados
-    const handleRemovePlayers = async () => {
-        try {
-            const playersIds = selectedPlayers.map((player) => player.ID_JOGADORES);
+    const handleRemovePlayer = async () => {
+        if (!selectedPlayer) return;
 
-            await axios.delete(`http://localhost:3000/api/relationship11/${playersIds.join(",")}`);
+        try {
+            await axios.delete(`http://localhost:3000/api/relationship11/${selectedPlayer.ID_JOGADORES}`);
 
             setRegisteredPlayers((prevPlayers) =>
-                prevPlayers.filter((p) => !selectedPlayers.some(sel => sel.ID_JOGADORES === p.ID_JOGADORES))
+                prevPlayers.filter((p) => p.ID_JOGADORES !== selectedPlayer.ID_JOGADORES)
             );
 
-            selectedPlayers.forEach(onPlayerRemoved);
-            setSelectedPlayers([]);
+            onPlayerRemoved(selectedPlayer);
+            setSelectedPlayer(null);
 
+            // Forçar recarregamento da página
+            window.location.href = window.location.href;
         } catch (error) {
-            console.error("❌ Erro ao remover jogadores da equipa:", error);
+            console.error("❌ Erro ao remover jogador da equipa:", error);
         }
     };
 
-    // Função para editar a equipa
     const handleEditEquipa = () => {
         const equipaAtual = equipas.find(equipa => equipa.ID_EQUIPA === selectedEquipa);
 
@@ -141,7 +130,6 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
                 axios.put(`http://localhost:3000/api/equipa/edit/${selectedEquipa}`, { NOME: nome, ESCALAO: escalao })
                     .then(response => {
                         Swal.fire('Sucesso!', 'Equipa atualizada com sucesso.', 'success').then(() => {
-                            // Recarrega a página para atualizar as informações
                             window.location.reload();
                         });
                     })
@@ -158,7 +146,6 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
             <h2 className="club-name">{clube.NOME || "Nome Indisponível"}</h2>
             <p className="club-abbreviation">{clube.ABREVIATURA || ""}</p>
 
-            {/* Exibição da equipa única com ícone de edição */}
             <div className="team-info">
                 <div>
                     <p className="team-name">
@@ -180,16 +167,16 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
                     registeredPlayers.map((player) => (
                         <div
                             key={player.ID_JOGADORES}
-                            className={`player-entry ${selectedPlayers.includes(player) ? "selected" : ""}`}
+                            className={`player-entry ${selectedPlayer && selectedPlayer.ID_JOGADORES === player.ID_JOGADORES ? "selected" : ""}`}
                             onClick={() => handlePlayerClick(player)}
                         >
                             <span className="player-name">{player.NOME}</span>
                             <span className="player-stars">
-  {`★`.repeat(player.NOTA_ADM || 0)}
-  <span className="empty-star">
-    {`★`.repeat(5 - (player.NOTA_ADM || 0))}
-  </span>
-</span>
+                                {`★`.repeat(player.NOTA_ADM || 0)}
+                                <span className="empty-star">
+                                    {`★`.repeat(5 - (player.NOTA_ADM || 0))}
+                                </span>
+                            </span>
                         </div>
                     ))
                 ) : (
@@ -197,9 +184,9 @@ const ListaJogadoresEqp = ({ addedPlayers, onPlayerRemoved }) => {
                 )}
             </div>
 
-            {selectedPlayers.length > 0 && userType !== "1" && (
-                <button className="remove-button" onClick={handleRemovePlayers}>
-                    Remover Jogadores ({selectedPlayers.length})
+            {selectedPlayer && userType !== "1" && (
+                <button className="remove-button" onClick={handleRemovePlayer}>
+                    Remover Jogador
                 </button>
             )}
         </div>
