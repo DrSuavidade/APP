@@ -16,7 +16,6 @@ function ScouterCard({ onSelectScouter }) {
     const fetchScouters = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/users/tipo/3");
-        // Ordenar para listar primeiro os usuários com ID_TIPO = 3 (Scouters)
         const sortedUsers = response.data.sort((a, b) => (b.ID_TIPO === 3 ? 1 : -1));
         setScouters(sortedUsers);
       } catch (error) {
@@ -32,12 +31,26 @@ function ScouterCard({ onSelectScouter }) {
   };
 
   const handleAddScouter = () => {
-    navigate("/scouts/new"); // Redireciona para a página de criação de scouter
+    navigate("/scouts/new");
+  };
+
+  const handleSelectScouter = (scouterId, scouter) => {
+    if (showCheckboxes) {
+      // Se showCheckboxes estiver ativo, permite selecionar ou desmarcar
+      setSelectedScouters((prevSelected) =>
+        prevSelected.includes(scouterId)
+          ? prevSelected.filter((id) => id !== scouterId)
+          : [...prevSelected, scouterId]
+      );
+    } else {
+      // Comportamento original: envia o ID do scouter
+      onSelectScouter(scouter);
+    }
   };
 
   const handleDelete = async () => {
     if (!showCheckboxes) {
-      setShowCheckboxes(true);
+      setShowCheckboxes(true); // Ativa o modo de seleção
       return;
     }
 
@@ -90,7 +103,7 @@ function ScouterCard({ onSelectScouter }) {
         <div className="scouter-buttons-container">
           <div className="scouter-icons-container">
             <FaTrash className="icon trash" onClick={handleDelete} />
-            <FaPlus className="icon add" onClick={handleAddScouter} /> {/* Redireciona para ScoutsCreateEditPage */}
+            <FaPlus className="icon add" onClick={handleAddScouter} />
             {showCheckboxes && <FaTimes className="icon cancel" onClick={() => setShowCheckboxes(false)} />}
           </div>
         </div>
@@ -104,13 +117,23 @@ function ScouterCard({ onSelectScouter }) {
             <div
               key={scouter.ID_USER}
               className="scouter-card"
-              onClick={() => onSelectScouter(scouter)}
+              onClick={() => handleSelectScouter(scouter.ID_USER, scouter)}
             >
               <div className="scouter-avatar"></div>
               <div className="scouter-info">
                 <span className="name">{scouter.NOME}</span>
-                <span className="role">{scouter.ID_TIPO === 3 ? "Scouter" : scouter.ID_TIPO === 2 ? "Admin" : "Viewer"}</span>
+                <span className="role">
+                  {scouter.ID_TIPO === 3 ? "Scouter" : scouter.ID_TIPO === 2 ? "Admin" : "Viewer"}
+                </span>
               </div>
+              {showCheckboxes && (
+                <input
+                  type="checkbox"
+                  checked={selectedScouters.includes(scouter.ID_USER)}
+                  onChange={() => handleSelectScouter(scouter.ID_USER, scouter)}
+                  className="scouter-checkbox"
+                />
+              )}
             </div>
           ))}
       </div>
