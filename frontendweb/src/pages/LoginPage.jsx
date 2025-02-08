@@ -4,6 +4,7 @@ import "../CSS/logineregistar.css";
 import api from "../api/axios";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
+import FloatingButton from "../components/FloatingButton"; 
 
 
 
@@ -85,6 +86,7 @@ const LoginPage = () => {
             Não tens conta? <a href="/register">Registrar</a>
           </p>
         </div>
+        <FloatingButton />
       </div>
     </div>
   );
