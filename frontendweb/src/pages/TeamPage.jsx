@@ -26,6 +26,11 @@ const TeamPage = () => {
         setAvailablePlayers(availablePlayers.filter(p => p.name !== player.name));
     };
 
+    const handlePlayerRemoved = (player) => {
+        // Aqui podemos adicionar lógica adicional se necessário
+        window.location.reload(); // Força o recarregamento da página
+    };
+
     return (
         <div className="team-page">
             <div className="main-container">
@@ -37,6 +42,7 @@ const TeamPage = () => {
                     selectedYear={""} 
                     addedPlayers={registeredPlayers} 
                     idEquipa={idEquipa} // 🔹 Passando ID da equipa para a ListaJogadoresEqp
+                    onPlayerRemoved={handlePlayerRemoved} // 🔹 Adicionando a função de remoção de jogador
                 />
             </div>
         </div>
