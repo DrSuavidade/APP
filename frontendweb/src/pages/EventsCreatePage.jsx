@@ -9,24 +9,14 @@ const EventsCreatePage = () => {
     EQUIPA_CASA: "",
     VISITANTE: "",
     LOCAL: "",
-    ID_USER: "",
+    ID_USER: "000", // Definindo ID_USER como "000" por padrão
   });
 
-  const [scouters, setScouters] = useState([]);
   const [equipas, setEquipas] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
-    const fetchScouters = async () => {
-      try {
-        const response = await axios.get("/users/tipo/3");
-        setScouters(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar scouters:", error);
-      }
-    };
-
     const fetchEquipas = async () => {
       try {
         const response = await axios.get("/equipa/list");
@@ -36,7 +26,6 @@ const EventsCreatePage = () => {
       }
     };
 
-    fetchScouters();
     fetchEquipas();
   }, []);
 
@@ -44,7 +33,7 @@ const EventsCreatePage = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
@@ -59,7 +48,7 @@ const EventsCreatePage = () => {
         EQUIPA_CASA: "",
         VISITANTE: "",
         LOCAL: "",
-        ID_USER: "",
+        ID_USER: "000", // Redefinindo ID_USER como "000" após o envio
       });
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "Erro ao adicionar evento.");
@@ -94,15 +83,6 @@ const EventsCreatePage = () => {
         <div className="form-group">
           <label>Localização</label>
           <input type="text" name="LOCAL" value={formData.LOCAL} onChange={handleChange} required />
-        </div>
-        <div className="form-group">
-          <label>Scouter</label>
-          <select name="ID_USER" value={formData.ID_USER} onChange={handleChange} required>
-            <option value="">Selecione o scouter</option>
-            {scouters.map((scouter) => (
-              <option key={scouter.ID_USER} value={scouter.ID_USER}>{scouter.NOME}</option>
-            ))}
-          </select>
         </div>
         <button type="submit" className="submit-button">Adicionar</button>
         {errorMessage && <p className="error-message">{errorMessage}</p>}

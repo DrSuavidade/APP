@@ -83,7 +83,7 @@ function PlayersCreatePage() {
           NOME: "",
           LINK: "",
           DATA_NASC: "",
-          GENERO: "male",
+          GENERO: "Masculino",
           NACIONALIDADE: "portuguese",
           DADOS_ENC: null,
         });
@@ -139,8 +139,8 @@ function PlayersCreatePage() {
             <div className="form-group">
               <label htmlFor="GENERO">Gênero</label>
               <select id="GENERO" value={formData.GENERO} onChange={handleChange}>
-                <option value="male">Masculino</option>
-                <option value="female">Feminino</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
                 <option value="other">Outro</option>
               </select>
             </div>
