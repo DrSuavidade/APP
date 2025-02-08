@@ -283,9 +283,9 @@ const Plantel = () => {
 
   const getPositionColor = (positionName) => {
     if (positionName.includes("GR")) return "blue";
-    if (positionName.includes("DF")) return "red";
+    if (positionName.includes("AV")) return "red";
     if (positionName.includes("MD")) return "yellow";
-    if (positionName.includes("AV")) return "green";
+    if (positionName.includes("DF")) return "green";
     return "gray";
   };
 

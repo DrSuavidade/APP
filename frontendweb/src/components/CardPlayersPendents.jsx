@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/PlayerCard.css";
 import axios from "axios";
+import profileImage from "../img/v219_657.png";
 
 const CardPlayersPendents = ({ setSelectedPlayerId }) => {
   const [players, setPlayers] = useState([]);
@@ -49,7 +50,9 @@ const CardPlayersPendents = ({ setSelectedPlayerId }) => {
                 className="player-card-new"
                 onClick={() => setSelectedPlayerId(player.ID_JOGADORES)}
               >
-                <div className="profile-icon">👤</div> {/* Ícone movido para a esquerda */}
+            <div className="profile-icon">
+             <img src={profileImage} alt="Player Profile" style={{ width: "100%", height: "100%", borderRadius: "50%" }} />
+            </div>
                 <div className="player-info">
                   <h3 className="player-name">{player.NOME || "Nome não disponível"}</h3>
                   <p className="player-age-year">{player.IDADE} anos • {player.ANO_NASCIMENTO}</p>

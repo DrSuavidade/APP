@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../CSS/PlayerCard.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import profileImage from "../img/v219_657.png";
 
 const PlayerCard = ({ onSelectRelatorio }) => {
   const [playerCards, setPlayerCards] = useState([]);
@@ -66,7 +67,9 @@ const PlayerCard = ({ onSelectRelatorio }) => {
             onClick={() => handleCardClick(report.ID_RELATORIO)}
             style={{ cursor: "pointer" }}
           >
-            <div className="profile-icon">👤</div>
+            <div className="profile-icon">
+             <img src={profileImage} alt="Player Profile" style={{ width: "100%", height: "100%", borderRadius: "50%" }} />
+            </div>
 
             <div className="player-info">
               <h3 className="player-name">{report.JOGADOR_NOME || "Nome não disponível"}</h3>
