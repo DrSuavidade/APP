@@ -185,8 +185,8 @@ const FichaRelatorio = ({ ID_RELATORIO }) => {
         )}
       </div>
 
-      <h4>ALTURA: {relatorio.ALTURA}</h4>
-      <h4>MORFOLOGIA: {relatorio.MORFOLOGIA}</h4>
+      <h4>ALTURA:  <div className="titulo2"> {relatorio.ALTURA}</div></h4>
+      <h4>MORFOLOGIA: <div className="titulo2">{relatorio.MORFOLOGIA}</div></h4>
 
       <div className="comments">
         <h4>COMENTÁRIO SCOUTER</h4>
