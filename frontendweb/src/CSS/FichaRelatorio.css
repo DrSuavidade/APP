@@ -90,6 +90,19 @@
     gap: 5px; /* Espaçamento entre as estrelas */
     margin-top: 5px; /* Ajuste fino de espaçamento */
   }
+
+  .Stars {
+    font-size: 24px;
+    cursor: pointer;
+    color: gray;
+    display: flex;
+    gap: 5px; /* Espaçamento entre as estrelas */
+    margin-top: 5px; /* Ajuste fino de espaçamento */
+  }
+
+  .Stars .Star.filled {
+    color: gold;
+  }
   
   .stars .star.filled {
     color: gold;
