@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 const PlayerCard = ({ onSelectRelatorio }) => {
   const [playerCards, setPlayerCards] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0); // Estado para controlar a página atual
+  const cardsPerPage = 3; // Número de cartões por página
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,19 +40,35 @@ const PlayerCard = ({ onSelectRelatorio }) => {
     }
   };
 
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+  };
+
+  const startIndex = currentPage * cardsPerPage;
+  const visibleCards = playerCards.slice(startIndex, startIndex + cardsPerPage);
+
   return (
-    <div className="player-cards-container">
-      {playerCards.length > 0 ? (
-        playerCards.map((report) => (
+    <div className="player-cards-navigation">
+      {currentPage > 0 && (
+        <button className="arrow-button" onClick={handlePrevPage}>
+          &#9664;
+        </button>
+      )}
+      <div className="player-cards-container">
+        {visibleCards.map((report) => (
           <div
             key={report.ID_RELATORIO}
-            className="player-card-new" // Changed to match CardPlayersPendents
+            className="player-card-new"
             onClick={() => handleCardClick(report.ID_RELATORIO)}
             style={{ cursor: "pointer" }}
           >
-            <div className="profile-icon">👤</div> {/* Moved to the left */}
-            
-            <div className="player-info"> {/* Group player information */}
+            <div className="profile-icon">👤</div>
+
+            <div className="player-info">
               <h3 className="player-name">{report.JOGADOR_NOME || "Nome não disponível"}</h3>
               <p className="player-age-year">
                 {report.DATA_NASC ? `${new Date().getFullYear() - new Date(report.DATA_NASC).getFullYear()} anos` : "Idade não informada"}{" "}
@@ -62,22 +80,18 @@ const PlayerCard = ({ onSelectRelatorio }) => {
               </p>
             </div>
 
-            <div
-              className="status-dot"
-              data-tooltip={report.STATUS || "Sem status"}
-            ></div> {/* Status dot in the top-right corner */}
+            <div className="status-dot" data-tooltip={report.STATUS || "Sem status"}></div>
 
-            {/* Exibição da NOTA no círculo */}
-            <div
-              className="nota-circle2"
-              style={{ backgroundColor: getNotaColor(report.NOTA) }}
-            >
+            <div className="nota-circle2" style={{ backgroundColor: getNotaColor(report.NOTA) }}>
               {report.NOTA}/4
             </div>
           </div>
-        ))
-      ) : (
-        <p>Carregando ou nenhum relatório encontrado.</p>
+        ))}
+      </div>
+      {startIndex + cardsPerPage < playerCards.length && (
+        <button className="arrow-button" onClick={handleNextPage}>
+          &#9654;
+        </button>
       )}
     </div>
   );

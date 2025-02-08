@@ -240,3 +240,23 @@ body {
 .players-page-container .report-section {
   margin-top: 80px; /* Ajuste conforme necessário */
 }
+
+
+.arrow-button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  margin: 0 1rem;
+  width: 50px;
+  height: 50px;
+}
+.arrow-button:hover {
+background-color:transparent;
+color: #555555;
+}
+
+.player-cards-navigation {
+  display: flex;
+  align-items: center;
+}
