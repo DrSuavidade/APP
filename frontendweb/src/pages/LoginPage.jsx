@@ -86,8 +86,9 @@ const LoginPage = () => {
             Não tens conta? <a href="/register">Registrar</a>
           </p>
         </div>
-        <FloatingButton />
+        
       </div>
+      <FloatingButton />
     </div>
   );
 };
