@@ -1,57 +1,4 @@
 .container {
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    z-index: 1; /* Garante que este contêiner esteja acima de outros elementos */
-  }
-  
-  .container::before {
-    content: '';
-    background-image: url('../img/MicroSite.png');
-    background-size:contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    position: absolute;
-    top: 0px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1; /* Coloca a imagem de fundo atrás do conteúdo */
-  }
-  
-  .content {
-    margin-top: 40%;
-    padding: 20px;
-    border-radius: 10px;
-    z-index: 2; /* Garante que o conteúdo esteja acima da imagem de fundo */
-  }
-  
-  .download-button {
-    background-color: #218838;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  .download-button:hover {
-    background-color: #1e7531;
-  }
-
-  /****** Remover Scrollbar da página MicroSite ******/
-
-  html, body {
-    overflow: hidden !important;
-}
-
-.contain {
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -64,16 +11,41 @@
   z-index: 1; /* Garante que este contêiner esteja acima de outros elementos */
 }
 
-.contain::before {
+.container::before {
   content: '';
-  background-image: url('../img/blockpage.png');
-  background-size:contain;
+  background-image: url('../img/MicroSite.png'); /* Alterado para usar imagem no mesmo diretório */
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   position: absolute;
-  top: 0px;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: -1; /* Coloca a imagem de fundo atrás do conteúdo */
+}
+
+.content {
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 2; /* Garante que o conteúdo esteja acima da imagem de fundo */
+}
+
+.download-button {
+  margin-top: 40%;
+  background-color: #218838;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.download-button:hover {
+  background-color: #1e7531;
+}
+
+/****** Remover Scrollbar da página MicroSite ******/
+html, body {
+  overflow: hidden !important;
 }

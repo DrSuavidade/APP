@@ -1,0 +1,10 @@
+npm install
+cd backend -> node server.js
+cd frontendAPP -> flutter run
+cd frontendweb -> npm start
+
+
+credenciais:
+
+john@example.com
+password123
