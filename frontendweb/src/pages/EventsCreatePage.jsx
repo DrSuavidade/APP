@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
 import "../CSS/ScoutsCreateEditPage.css";
+import { useNavigate } from "react-router-dom"; // Adiciona useNavigate
+import Cookies from "js-cookie"; // Importar a biblioteca js-cookie
 
 const EventsCreatePage = () => {
   const [formData, setFormData] = useState({
@@ -15,8 +17,14 @@ const EventsCreatePage = () => {
   const [equipas, setEquipas] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate(); // Use o hook useNavigate para navegação
 
   useEffect(() => {
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    if (ID_TIPO === "1") {
+      navigate('/erro401'); // Redireciona para a página de erro 401 se o ID_TIPO for 1
+    }
+
     const fetchEquipas = async () => {
       try {
         const response = await axios.get("/equipa/list");
@@ -27,7 +35,7 @@ const EventsCreatePage = () => {
     };
 
     fetchEquipas();
-  }, []);
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

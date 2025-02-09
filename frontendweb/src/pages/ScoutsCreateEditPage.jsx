@@ -19,6 +19,17 @@ const ScoutsCreateEditPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const token = Cookies.get('token');
+    if (!token) {
+      navigate('/login'); // Redireciona para a página de login se não houver token
+    }
+
+    // Verifica o ID_TIPO do usuário
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    if (ID_TIPO === "1") {
+      navigate('/erro401'); // Redireciona para a página de erro 401 se o ID_TIPO for 1
+    }
+
     const fetchTipoUtilizadores = async () => {
       try {
         const response = await api.get("/tipo/listTP");
@@ -27,11 +38,6 @@ const ScoutsCreateEditPage = () => {
         setError("Erro ao carregar os tipos de utilizadores.");
       }
     };
-
-    const token = Cookies.get('token');
-    if (!token) {
-      navigate('/login'); // Redireciona para a página de login se não houver token
-    }
 
     const fetchUsers = async () => {
       try {
