@@ -30,17 +30,6 @@ app.get('/', (req, res) => {
   res.send('API Backend está funcionando');
 });
 
-const path = require("path");
-
-// Serve React frontend
-app.use(express.static(path.join(__dirname, "../frontend/build"))); // Adjust if needed
-
-// Handle React routes (prevents 404 on refresh)
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build", "index.html")); // Adjust if needed
-});
-
-
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
