@@ -77,7 +77,6 @@ const PlayerCard = ({ onSelectRelatorio }) => {
                 {report.DATA_NASC ? `${new Date().getFullYear() - new Date(report.DATA_NASC).getFullYear()} anos` : "Idade não informada"}{" "}
                 {report.DATA_NASC ? new Date(report.DATA_NASC).getFullYear() : ""}
               </p>
-              <p className="player-nationality">{report.NACIONALIDADE || "Nacionalidade não informada"}</p>
               <p className="player-team">
                 {report.ABREVIATURA_CLUBE} - {report.NOME_EQUIPA}
               </p>

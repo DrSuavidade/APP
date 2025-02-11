@@ -16,6 +16,12 @@ const HomePage = () => {
     if (!token) {
       navigate('/login'); // Redireciona para a página de login se não houver token
     }
+
+    // Verifica o ID_TIPO do usuário
+    const ID_TIPO = Cookies.get("ID_TIPO");
+    if (ID_TIPO === "1") {
+      navigate('/team/shadow'); // Redireciona para /team/shadow se o ID_TIPO for 1
+    }
   }, [navigate]);
 
   return (
