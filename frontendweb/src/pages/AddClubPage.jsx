@@ -63,7 +63,7 @@ const AddClubPage = () => {
             <label>Abreviatura</label>
             <input
               type="text"
-              placeholder="Ex: SUB 10"
+              placeholder="Ex: ABC"
               value={abreviatura}
               onChange={(e) => setAbreviatura(e.target.value)}
               required

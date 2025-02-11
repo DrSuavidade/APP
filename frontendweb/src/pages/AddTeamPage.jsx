@@ -19,7 +19,7 @@ const CreateTeamPage = () => {
   }, [navigate]);
 
   const escaloes = [
-    "Sub-13", "Sub-14", "Sub-15", "Sub-16", "Sub-18", "Sub-19", "Sub-23", "Profissional"
+    "Sub-10","Sub-11","Sub-12","Sub-13", "Sub-14", "Sub-15", "Sub-16", "Sub-19", "Sub-23", "Profissional"
   ];
 
   const handleSubmit = async (e) => {
